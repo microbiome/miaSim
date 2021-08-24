@@ -1,3 +1,7 @@
+library(SummarizedExperiment)
+library(microsim)
+library(deSolve)
+
 setGeneric("glv",signature = c("x"),
            function(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
              standardGeneric("glv"))
@@ -25,13 +29,12 @@ setMethod("glv", signature = c(x="matrix"),
           }
 )
 
-setMethod("conversionSE", signature = c(x="SummarizedExperiment"),
+setMethod("conversionSE", signature = c(x="matrix"),
           function(x){
-            x <- SummarizedExperiment(assays = result)
+           SummarizedExperiment(assays = x)
           }
 )
 
 result <- glv(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
 
-final <- conversionSE()
-
+SE <- conversionSE(result)
