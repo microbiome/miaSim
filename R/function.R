@@ -29,12 +29,32 @@ setMethod("glv", signature = c(x="matrix"),
           }
 )
 
+
+row_data <- data.frame(Kingdom = "A",
+                       Phylum = rep(c("B1", "B2"), c(500, 500)),
+                       Class = rep(c("C1", "C2"), each = 500),
+                       ASV = paste0("D", 1:1000),
+                       row.names = rownames(paste0("species", seq_len(1000))),
+                       stringsAsFactors = FALSE)
+
+row_data <- t(row_data)
+
+col_data <- data.frame(sampleID = c(1:1000),
+                       time = as.Date(sample( as.numeric(as.Date('2000-01-01')): as.numeric(as.Date('2014-01-01')), 1000,
+                                              replace = T),
+                                      origin = '1970-01-01'),
+                       row.names = colnames(paste0("sample", 1:1000)),
+                       stringsAsFactors = FALSE)
+
 setMethod("conversionSE", signature = c(x="matrix"),
           function(x){
-           SummarizedExperiment(assays = x)
+           SummarizedExperiment(assays = x,
+                                rowData = row_data,
+                                colData = col_data)
           }
 )
 
 result <- glv(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
 
 SE <- conversionSE(result)
+
