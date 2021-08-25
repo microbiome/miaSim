@@ -1,10 +1,40 @@
-
+#'@title Simulate time series with the generalized Lotka-Volterra model and turn into SummarizedExperiment object
+#'
+#'@description Simulate a community time series using the generalized Lotka-Volterra model,
+#'defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
+#'A is the interaction matrix and growth_rates the vector of growth rates.
+#'
+#'The abundance matrix that is obtained from the generalized Lotka-Volterra model, is used to construct
+#'\code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}} object
+#'
+#'
+#'@param N species number
+#'@param A interaction matrix
+#'@param b growth rates
+#'@param x initial abundances
+#'@param tend timepoints
+#'@param norm return normalised abundances (proportions in each generation)
+#'@return a SummarizedExperiment object that has abundance matrix in assay,
+#'colData that includes sampleID and time, rowData that includes species name, ASV levels,
+#'and the taxonomic information:
+#'\itemize{
+#'  \item{Kingdom}
+#'  \item{Phylum}
+#'  \item{Class}
+#'
+#'
+#'@examples
+#'result <- glv(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
+#'SE <- conversionSE(result)
+#'
+#'@rdname conversionSE
+#'@export
 
 library(SummarizedExperiment)
 library(microsim)
 library(deSolve)
 
-setGeneric("glv",signature = "x",
+setGeneric("glv",signature = "N",
            function(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
              standardGeneric("glv"))
 
@@ -20,7 +50,7 @@ setGeneric("conversionSE",signature = "x",
   list(dx)
 }
 
-setMethod("glv", signature = c(x="matrix"),
+setMethod("glv", signature = c(N="matrix"),
           function(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE){
             parameters <- cbind(b, A)
             times <- seq(0, tend, by = 0.01)
@@ -61,14 +91,11 @@ col_data <- data.frame(sampleID = c(1:1000),
                        stringsAsFactors = FALSE)
 
 
-setMethod("conversionSE", signature = c(x="SummarizedExperiment"),
+setMethod("conversionSE", signature = c(x="matrix"),
           function(x){
            SummarizedExperiment(assays = x,
                                 rowData = row_data,
                                 colData = col_data)
           }
 )
-
-result <- glv(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
-SE <- conversionSE(result)
 
