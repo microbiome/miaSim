@@ -1,34 +1,36 @@
-#'@title Simulate time series with the generalized Lotka-Volterra model and turn into SummarizedExperiment object
+#' @name TimeSeriesSE
 #'
-#'@description Simulate a community time series using the generalized Lotka-Volterra model,
-#'defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
-#'A is the interaction matrix and growth_rates the vector of growth rates.
+#' @title Simulate time series with the generalized Lotka-Volterra model and turn into SummarizedExperiment object
 #'
-#'The abundance matrix that is obtained from the generalized Lotka-Volterra model, is used to construct
-#'\code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}} object
+#' @description Simulate a community time series using the generalized Lotka-Volterra model,
+#' defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
+#' A is the interaction matrix and growth_rates the vector of growth rates.
 #'
-#'
-#'@param N species number
-#'@param A interaction matrix
-#'@param b growth rates
-#'@param x initial abundances
-#'@param tend timepoints
-#'@param norm return normalised abundances (proportions in each generation)
-#'@return a SummarizedExperiment object that has abundance matrix in assay,
-#'colData that includes sampleID and time, rowData that includes species name, ASV levels,
-#'and the taxonomic information:
-#'\itemize{
-#'  \item{Kingdom}
-#'  \item{Phylum}
-#'  \item{Class}
+#' The abundance matrix that is obtained from the generalized Lotka-Volterra model, is used to construct
+#' \code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}} object
 #'
 #'
-#'@examples
-#'result <- glv(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
-#'SE <- conversionSE(result)
+#' @param N species number
+#' @param A interaction matrix
+#' @param b growth rates
+#' @param x initial abundances
+#' @param tend timepoints
+#' @param norm return normalised abundances (proportions in each generation)
+#' @return a SummarizedExperiment object that has abundance matrix in assay,
+#' colData that includes sampleID and time, rowData that includes species name, ASV levels,
+#' and the taxonomic information:
+#' \itemize{
+#'   \item{Kingdom}
+#'   \item{Phylum}
+#'   \item{Class}
 #'
-#'@rdname conversionSE
-#'@export
+#'
+#' @examples
+#' result <- glv(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
+#' SE <- conversionSE(result)
+ NULL
+
+#' @export
 
 
 setGeneric("glv",signature = "N",
@@ -39,7 +41,7 @@ setGeneric("conversionSE",signature = "x",
            function(x)
              standardGeneric("conversionSE"))
 
-.dxdt <- function(t, x, parameters){
+dxdt <- function(t, x, parameters){
   b <- parameters[,1]
   A <- parameters[,2:ncol(parameters)]
 
@@ -47,12 +49,15 @@ setGeneric("conversionSE",signature = "x",
   list(dx)
 }
 
-setMethod("glv", signature = c(N="matrix"),
+#' @importFrom deSolve ode
+#' @importFrom microsim powerlawA
+
+setMethod("glv", signature = c(N="numeric"),
           function(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE){
             parameters <- cbind(b, A)
             times <- seq(0, tend, by = 0.01)
 
-            .dxdt(t, x, parameters)
+            dxdt(t, x, parameters)
 
             out <- ode(
               y = x,
@@ -87,6 +92,7 @@ col_data <- data.frame(sampleID = c(1:1000),
                        row.names = colnames(paste0("sample", 1:1000)),
                        stringsAsFactors = FALSE)
 
+#' @importFrom SummarizedExperiment SummarizedExperiment
 
 setMethod("conversionSE", signature = c(x="matrix"),
           function(x){
