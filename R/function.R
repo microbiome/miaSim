@@ -1,19 +1,32 @@
+
+
 library(SummarizedExperiment)
 library(microsim)
 library(deSolve)
 
-setGeneric("glv",signature = c("x"),
+setGeneric("glv",signature = "x",
            function(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
              standardGeneric("glv"))
 
-setGeneric("conversionSE",signature = c("x"),
-           function(x, ...)
+setGeneric("conversionSE",signature = "x",
+           function(x)
              standardGeneric("conversionSE"))
+
+.dxdt <- function(t, x, parameters){
+  b <- parameters[,1]
+  A <- parameters[,2:ncol(parameters)]
+
+  dx <- x*(b+A %*% x)
+  list(dx)
+}
 
 setMethod("glv", signature = c(x="matrix"),
           function(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE){
             parameters <- cbind(b, A)
             times <- seq(0, tend, by = 0.01)
+
+            .dxdt(t, x, parameters)
+
             out <- ode(
               y = x,
               times = times,
@@ -28,6 +41,7 @@ setMethod("glv", signature = c(x="matrix"),
             return(spab)
           }
 )
+
 
 
 row_data <- data.frame(Kingdom = "A",
@@ -46,7 +60,8 @@ col_data <- data.frame(sampleID = c(1:1000),
                        row.names = colnames(paste0("sample", 1:1000)),
                        stringsAsFactors = FALSE)
 
-setMethod("conversionSE", signature = c(x="matrix"),
+
+setMethod("conversionSE", signature = c(x="SummarizedExperiment"),
           function(x){
            SummarizedExperiment(assays = x,
                                 rowData = row_data,
@@ -55,6 +70,5 @@ setMethod("conversionSE", signature = c(x="matrix"),
 )
 
 result <- glv(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
-
 SE <- conversionSE(result)
 
