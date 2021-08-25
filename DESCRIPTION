@@ -16,3 +16,4 @@ LazyData: false
 URL: https://github.com/microbiome/miaSim
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+
