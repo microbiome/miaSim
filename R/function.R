@@ -30,9 +30,6 @@
 #'@rdname conversionSE
 #'@export
 
-library(SummarizedExperiment)
-library(microsim)
-library(deSolve)
 
 setGeneric("glv",signature = "N",
            function(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
