@@ -22,10 +22,7 @@ simulateGLV(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
 (default: \code{norm = FALSE})}
 }
 \value{
-\code{glv} returns an abundance matrix that is created by the generalized
-Lotka-Volterra model defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
-A is the interaction matrix and growth_rates the vector of growth rates.
-\code{conversionSE} returns a SummarizedExperiment object that has abundance matrix in assay,
+\code{simulateGLV} returns a SummarizedExperiment object that has abundance matrix in assay,
 colData that includes sampleID and time, rowData that includes species name, ASV levels,
 and the taxonomic information:
 \itemize{
@@ -38,7 +35,7 @@ Simulates a community time series using the generalized Lotka-Volterra model,
 defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
 A is the interaction matrix and growth_rates the vector of growth rates.
 
-The abundance matrix that is obtained from the generalized Lotka-Volterra model,
+The abundance matrix that is obtained from the generalized Lotka-Volterra model
 is used to construct \code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}
 object
 }

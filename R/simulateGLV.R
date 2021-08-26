@@ -7,7 +7,7 @@
 #' defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
 #' A is the interaction matrix and growth_rates the vector of growth rates.
 #'
-#' The abundance matrix that is obtained from the generalized Lotka-Volterra model,
+#' The abundance matrix that is obtained from the generalized Lotka-Volterra model
 #' is used to construct \code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}
 #' object
 #'
@@ -20,10 +20,7 @@
 #'  (default: \code{norm = FALSE})
 #'
 #' @return
-#' \code{glv} returns an abundance matrix that is created by the generalized
-#'   Lotka-Volterra model defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
-#'   A is the interaction matrix and growth_rates the vector of growth rates.
-#' \code{conversionSE} returns a SummarizedExperiment object that has abundance matrix in assay,
+#' \code{simulateGLV} returns a SummarizedExperiment object that has abundance matrix in assay,
 #'   colData that includes sampleID and time, rowData that includes species name, ASV levels,
 #'   and the taxonomic information:
 #' \itemize{
@@ -91,8 +88,8 @@ setMethod("simulateGLV", signature = c(N="numeric"),
               }
               spab
               SE <- SummarizedExperiment(assays = spab,
-                                 rowData = row_data,
-                                 colData = col_data)
+                                         rowData = row_data,
+                                         colData = col_data)
 
             return(SE)
           }
