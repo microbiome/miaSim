@@ -1,4 +1,4 @@
-#' @name TimeSeriesSE
+#' @name simulateGLV
 #'
 #' @title Simulates time series with the generalized Lotka-Volterra model and forms a
 #'  SummarizedExperiment object.
@@ -32,56 +32,28 @@
 #'   \item{Class}
 #'
 #' @examples
-#' result <- glv(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
-#' SE <- conversionSE(result)
+#' result <- simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
  NULL
 
-#' @rdname TimeSeriesSE
+#' @rdname simulateGLV
+#'
+#' @importFrom deSolve ode
+#' @importFrom microsim powerlawA
+#' @importFrom SummarizedExperiment SummarizedExperiment
 #' @export
 
 
-setGeneric("glv",signature = "N",
+setGeneric("simulateGLV",signature = "N",
            function(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
-             standardGeneric("glv"))
+             standardGeneric("simulateGLV"))
 
-setGeneric("conversionSE",signature = "x",
-           function(x)
-             standardGeneric("conversionSE"))
-
-dxdt <- function(t, x, parameters){
+.dxdt <- function(t, x, parameters){
   b <- parameters[,1]
   A <- parameters[,2:ncol(parameters)]
 
   dx <- x*(b+A %*% x)
   list(dx)
 }
-
-#' @importFrom deSolve ode
-#' @importFrom microsim powerlawA
-
-setMethod("glv", signature = c(N="numeric"),
-          function(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE){
-            parameters <- cbind(b, A)
-            times <- seq(0, tend, by = 0.01)
-
-            dxdt(t, x, parameters)
-
-            out <- ode(
-              y = x,
-              times = times,
-              func = dxdt,
-              parms = parameters
-            )
-            spab <- t(out[,2:ncol(out)])
-            spab <- spab[,round(seq(1, tend*100, length.out = tend))]
-            if(norm){
-              spab <- t(t(spab)/colSums(spab))
-            }
-            return(spab)
-          }
-)
-
-
 
 row_data <- data.frame(Kingdom = "A",
                        Phylum = rep(c("B1", "B2"), c(500, 500)),
@@ -99,13 +71,29 @@ col_data <- data.frame(sampleID = c(1:1000),
                        row.names = colnames(paste0("sample", 1:1000)),
                        stringsAsFactors = FALSE)
 
-#' @importFrom SummarizedExperiment SummarizedExperiment
+setMethod("simulateGLV", signature = c(N="numeric"),
+          function(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE){
+            parameters <- cbind(b, A)
+            times <- seq(0, tend, by = 0.01)
 
-setMethod("conversionSE", signature = c(x="matrix"),
-          function(x){
-           SummarizedExperiment(assays = x,
-                                rowData = row_data,
-                                colData = col_data)
+            .dxdt(t, x, parameters)
+
+            out <- ode(
+              y = x,
+              times = times,
+              func = .dxdt,
+              parms = parameters
+            )
+            spab <- t(out[,2:ncol(out)])
+            spab <- spab[,round(seq(1, tend*100, length.out = tend))]
+            if(norm){
+              spab <- t(t(spab)/colSums(spab))
+              }
+              spab
+              SE <- SummarizedExperiment(assays = spab,
+                                 rowData = row_data,
+                                 colData = col_data)
+
+            return(SE)
           }
 )
-
