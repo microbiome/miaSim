@@ -1,35 +1,42 @@
 #' @name TimeSeriesSE
 #'
-#' @title Simulate time series with the generalized Lotka-Volterra model and turn into SummarizedExperiment object
+#' @title Simulates time series with the generalized Lotka-Volterra model and forms a
+#'  SummarizedExperiment object.
 #'
-#' @description Simulate a community time series using the generalized Lotka-Volterra model,
+#' @description Simulates a community time series using the generalized Lotka-Volterra model,
 #' defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
 #' A is the interaction matrix and growth_rates the vector of growth rates.
 #'
-#' The abundance matrix that is obtained from the generalized Lotka-Volterra model, is used to construct
-#' \code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}} object
-#'
+#' The abundance matrix that is obtained from the generalized Lotka-Volterra model,
+#' is used to construct \code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}
+#' object
 #'
 #' @param N species number
 #' @param A interaction matrix
 #' @param b growth rates
 #' @param x initial abundances
-#' @param tend timepoints
-#' @param norm return normalised abundances (proportions in each generation)
-#' @return a SummarizedExperiment object that has abundance matrix in assay,
-#' colData that includes sampleID and time, rowData that includes species name, ASV levels,
-#' and the taxonomic information:
+#' @param tend timepoints (default: \code{tend = 1000})
+#' @param norm \code{TRUE} or \code{FALSE} : return normalised abundances (proportions in each generation)
+#'  (default: \code{norm = FALSE})
+#'
+#' @return
+#' \code{glv} returns an abundance matrix that is created by the generalized
+#'   Lotka-Volterra model defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
+#'   A is the interaction matrix and growth_rates the vector of growth rates.
+#' \code{conversionSE} returns a SummarizedExperiment object that has abundance matrix in assay,
+#'   colData that includes sampleID and time, rowData that includes species name, ASV levels,
+#'   and the taxonomic information:
 #' \itemize{
 #'   \item{Kingdom}
 #'   \item{Phylum}
 #'   \item{Class}
-#'
 #'
 #' @examples
 #' result <- glv(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
 #' SE <- conversionSE(result)
  NULL
 
+#' @rdname TimeSeriesSE
 #' @export
 
 

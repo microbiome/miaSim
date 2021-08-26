@@ -2,7 +2,12 @@
 % Please edit documentation in R/function.R
 \name{TimeSeriesSE}
 \alias{TimeSeriesSE}
-\title{Simulate time series with the generalized Lotka-Volterra model and turn into SummarizedExperiment object}
+\alias{glv}
+\title{Simulates time series with the generalized Lotka-Volterra model and forms a
+SummarizedExperiment object.}
+\usage{
+glv(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
+}
 \arguments{
 \item{N}{species number}
 
@@ -12,12 +17,16 @@
 
 \item{x}{initial abundances}
 
-\item{tend}{timepoints}
+\item{tend}{timepoints (default: \code{tend = 1000})}
 
-\item{norm}{return normalised abundances (proportions in each generation)}
+\item{norm}{\code{TRUE} or \code{FALSE} : return normalised abundances (proportions in each generation)
+(default: \code{norm = FALSE})}
 }
 \value{
-a SummarizedExperiment object that has abundance matrix in assay,
+\code{glv} returns an abundance matrix that is created by the generalized
+Lotka-Volterra model defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
+A is the interaction matrix and growth_rates the vector of growth rates.
+\code{conversionSE} returns a SummarizedExperiment object that has abundance matrix in assay,
 colData that includes sampleID and time, rowData that includes species name, ASV levels,
 and the taxonomic information:
 \itemize{
@@ -26,12 +35,13 @@ and the taxonomic information:
 \item{Class}
 }
 \description{
-Simulate a community time series using the generalized Lotka-Volterra model,
+Simulates a community time series using the generalized Lotka-Volterra model,
 defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
 A is the interaction matrix and growth_rates the vector of growth rates.
 
-The abundance matrix that is obtained from the generalized Lotka-Volterra model, is used to construct
-\code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}} object
+The abundance matrix that is obtained from the generalized Lotka-Volterra model,
+is used to construct \code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}
+object
 }
 \examples{
 result <- glv(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
