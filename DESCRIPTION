@@ -2,8 +2,12 @@ Package: miaSim
 Type: Package
 Title: Simulate time series with the generalized Lotka-Volterra model and turn into SummarizedExperiment object 
 Version: 0.1.0
-Author: Yagmur Simsek and Leo Lahti
-Maintainer: Leo Lahti <leo.lahti@iki.fi>
+Authors@R:
+     c(person(given = "Leo", family = "Lahti", role = c("aut"),
+             email = "leo.lahti@iki.fi",
+             comment = c(ORCID = "0000-0001-5537-637X")),
+       person(given = "Yagmur", family = "Simsek", role = c("aut"),
+              email = "yagmur.simsek@utu.fi"))
 Description: 
     A community time series is observed by using the generalized Lotka-Volterra model
     and the obtained abundance matrix is implemented into SummarizedExperiment object as assay
