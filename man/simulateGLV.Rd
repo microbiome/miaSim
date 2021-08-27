@@ -2,43 +2,42 @@
 % Please edit documentation in R/simulateGLV.R
 \name{simulateGLV}
 \alias{simulateGLV}
-\title{Simulates time series with the generalized Lotka-Volterra model and forms a
-SummarizedExperiment object.}
+\title{simulateGLV}
 \usage{
 simulateGLV(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
 }
 \arguments{
-\item{N}{species number}
+\item{N}{Integer scalar specifying the number of species}
 
-\item{A}{interaction matrix}
+\item{A}{a interaction matrix}
 
-\item{b}{growth rates}
+\item{b}{Numeric scalar indicating growth rates}
 
-\item{x}{initial abundances}
+\item{x}{Numeric scalar indicating initial abundances}
 
-\item{tend}{timepoints (default: \code{tend = 1000})}
+\item{tend}{Integer scalar indicating timepoints
+(default: \code{tend = 1000})}
 
-\item{norm}{\code{TRUE} or \code{FALSE} : return normalised abundances (proportions in each generation)
+\item{norm}{Logical scalar \code{TRUE} or \code{FALSE},
+return normalised abundances (proportions in each generation)
 (default: \code{norm = FALSE})}
 }
 \value{
-\code{simulateGLV} returns a SummarizedExperiment object that has abundance matrix in assay,
-colData that includes sampleID and time, rowData that includes species name, ASV levels,
-and the taxonomic information:
-\itemize{
-\item{Kingdom}
-\item{Phylum}
-\item{Class}
+\code{simulateGLV} returns a \linkS4class{SummarizedExperiment} object
 }
 \description{
+Simulates time series with the generalized Lotka-Volterra model and forms a
+\linkS4class{SummarizedExperiment} object.
+}
+\details{
 Simulates a community time series using the generalized Lotka-Volterra model,
 defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
 A is the interaction matrix and growth_rates the vector of growth rates.
 
-The abundance matrix that is obtained from the generalized Lotka-Volterra model
-is used to construct \code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}
-object
+The resulting abundance matrix model is used to construct
+\linkS4class{SummarizedExperiment} object.
 }
 \examples{
-result <- simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
+simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
+
 }
