@@ -3,5 +3,4 @@
 export(simulateGLV)
 importFrom(SummarizedExperiment,SummarizedExperiment)
 importFrom(deSolve,ode)
-importFrom(microsim,methods)
 importFrom(stats,runif)

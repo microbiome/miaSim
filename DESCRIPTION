@@ -10,16 +10,20 @@ Authors@R:
 Title: Microbiome Data Simulation
 Description: 
     A community time series is observed by using the generalized Lotka-Volterra model
-    and the resulting abundance matrix is applied to the \code{\link{SummarizedExperiment}} 
+    and the resulting abundance matrix is applied to the \linkS4class{SummarizedExperiment} 
     object as an assay.
 License: Artistic-2.0 | file LICENSE
 Encoding: UTF-8
 Imports:
     SummarizedExperiment,
-    microsim,
     deSolve,
     stats
+Suggests:
+    rmarkdown,
+    knitr,
+    microsim
 LazyData: false
 URL: https://github.com/microbiome/miaSim
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+VignetteBuilder: knitr
