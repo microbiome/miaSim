@@ -3,9 +3,9 @@ Type: Package
 Title: Simulate time series with the generalized Lotka-Volterra model and turn into SummarizedExperiment object 
 Version: 0.1.0
 Authors@R:
-     c(person(given = "Leo", family = "Lahti", role = c("aut"),
-             email = "leo.lahti@iki.fi",
-             comment = c(ORCID = "0000-0001-5537-637X")),
+     c(person(given = "Leo", family = "Lahti", role = c("aut", "cre"),
+              email = "leo.lahti@iki.fi",
+              comment = c(ORCID = "0000-0001-5537-637X")),
        person(given = "Yagmur", family = "Simsek", role = c("aut"),
               email = "yagmur.simsek@utu.fi"))
 Description: 
