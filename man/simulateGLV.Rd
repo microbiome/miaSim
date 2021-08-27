@@ -23,12 +23,11 @@ return normalised abundances (proportions in each generation)
 (default: \code{norm = FALSE})}
 }
 \value{
-\code{simulateGLV} returns a \code{\link{SummarizedExperiment}} object
+\code{simulateGLV} returns a \linkS4class{SummarizedExperiment} object
 }
 \description{
 Simulates time series with the generalized Lotka-Volterra model and forms a
-\code{\link[SummarizedExperiment:SummarizedExperiment-class]
-{SummarizedExperiment}} object.
+\linkS4class{SummarizedExperiment} object.
 }
 \details{
 Simulates a community time series using the generalized Lotka-Volterra model,
@@ -36,10 +35,9 @@ defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
 A is the interaction matrix and growth_rates the vector of growth rates.
 
 The resulting abundance matrix model is used to construct
-\code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}
-object
+\linkS4class{SummarizedExperiment} object.
 }
 \examples{
-result <- simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
+simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
 
 }
