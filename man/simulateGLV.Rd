@@ -15,28 +15,30 @@ simulateGLV(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
 
 \item{x}{Numeric scalar indicating initial abundances}
 
-\item{tend}{Integer scalar indicating timepoints (default: \code{tend = 1000})}
+\item{tend}{Integer scalar indicating timepoints
+(default: \code{tend = 1000})}
 
-\item{norm}{Logical scalar \code{TRUE} or \code{FALSE}, return normalised abundances
-(proportions in each generation) (default: \code{norm = FALSE})}
+\item{norm}{Logical scalar \code{TRUE} or \code{FALSE},
+return normalised abundances (proportions in each generation)
+(default: \code{norm = FALSE})}
 }
 \value{
 \code{simulateGLV} returns a \code{\link{SummarizedExperiment}} object
 }
 \description{
 Simulates time series with the generalized Lotka-Volterra model and forms a
-\code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}
-object.
+\code{\link[SummarizedExperiment:SummarizedExperiment-class]
+{SummarizedExperiment}}  object.
 }
 \details{
 Simulates a community time series using the generalized Lotka-Volterra model,
 defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
 A is the interaction matrix and growth_rates the vector of growth rates.
 
-The abundance matrix that is obtained from the generalized Lotka-Volterra model
-is used to construct
-\code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}
-object
+The abundance matrix obtained from the generalized Lotka-Volterra
+model is used to construct
+\code{\link[SummarizedExperiment:SummarizedExperiment-class]
+{SummarizedExperiment}} object
 }
 \examples{
 result <- simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)

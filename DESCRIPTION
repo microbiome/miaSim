@@ -1,6 +1,5 @@
 Package: miaSim
 Type: Package
-Title: Simulate time series with the generalized Lotka-Volterra model and turn into SummarizedExperiment object 
 Version: 0.1.0
 Authors@R:
      c(person(given = "Leo", family = "Lahti", role = c("aut", "cre"),
@@ -10,7 +9,8 @@ Authors@R:
               email = "yagmur.simsek@utu.fi"))
 Description: 
     A community time series is observed by using the generalized Lotka-Volterra model
-    and the obtained abundance matrix is implemented into SummarizedExperiment object as assay
+    and the resulting abundance matrix is applied to the SummarizedExperiment object 
+    as an assay.
 License: Artistic-2.0 | file LICENSE
 Encoding: UTF-8
 Imports:
@@ -21,4 +21,3 @@ LazyData: false
 URL: https://github.com/microbiome/miaSim
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-
