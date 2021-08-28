@@ -56,7 +56,7 @@ setMethod("simulatePhyloseq", signature = c(V = "vector", M = "matrix"),
             colnames(merge) <- paste0("Sample", 1:ncol(merge))
 
             physeq = phyloseq(otu_table(merge, taxa_are_rows = TRUE))
-            tree <- phy_tree(pseq)
+            tree <- phy_tree(physeq)
             TreeSE <- TreeSummarizedExperiment(assays = list(counts = M),
                                                colData = ...,
                                                rowData = ...,
