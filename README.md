@@ -28,6 +28,7 @@ The package can be directly installed from R command line.
 ```{R}
 devtools::install_github("microbiome/miaSim")
 library(miaSim)
+```
 
 # Acknowledgements
 
