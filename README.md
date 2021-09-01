@@ -1,14 +1,5 @@
 ## miaSim - Microbiome data simulation package
 
-<!-- badges: start -->
-
-[![R-CMD-check-bioc-devel](https://github.com/microbiome/miaSim/workflows/R-CMD-check-bioc-devel/badge.svg)](https://github.com/microbiome/miaSim/actions)
-[![R-CMD-check-bioc](https://github.com/microbiome/miaSim/actions/workflows/check-bioc.yml/badge.svg)](https://github.com/microbiome/miaSim/actions/workflows/check-bioc.yml)
-[![Codecov test
-coverage](https://codecov.io/gh/microbiome/miaSim/branch/main/graph/badge.svg)](https://codecov.io/gh/microbiome/miaSim?branch=main)
-
-<!-- badges: end -->
-
 This package is aimed to provide simulations for analyses of microbiome data by using community models.
 The main class for working with microbiome data in this package is `SummarizedExperiment`.
 
@@ -29,6 +20,9 @@ The package can be directly installed from R command line.
 devtools::install_github("microbiome/miaSim")
 library(miaSim)
 ```
+# References
+G. (2020–2021). GitHub - gheysenemma/microsimR: A Simulator Package with a collection of basic community models 
+that outputs count data of microbial communities. GitHub. https://github.com/gheysenemma/microsimR
 
 # Acknowledgements
 
