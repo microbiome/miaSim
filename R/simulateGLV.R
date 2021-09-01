@@ -29,6 +29,7 @@
 #' @importFrom deSolve ode
 #' @importFrom stats runif
 #' @importFrom SummarizedExperiment SummarizedExperiment
+#' @importFrom microsim powerlawA
 #' @export
 
 setGeneric("simulateGLV",signature = "N",

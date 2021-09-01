@@ -19,11 +19,10 @@ Imports:
     SummarizedExperiment,
     deSolve,
     stats,
-    methods
+    microsim
 Suggests:
     rmarkdown,
-    knitr,
-    microsim
+    knitr
 LazyData: false
 URL: https://github.com/microbiome/miaSim
 Roxygen: list(markdown = TRUE)

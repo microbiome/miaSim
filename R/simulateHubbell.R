@@ -3,59 +3,65 @@
 #' Neutral species abundances simulation turned into
 #' \linkS4class{SummarizedExperiment} according to the Hubbell model.
 #'
-#' @param N Integer scalar indicating the amount of different species initially
+#' @param N Integer: the amount of different species initially
 #' in the local community
-#' @param M Integer scalar indicating the amount of different species in the
+#' @param M Integer: amount of different species in the
 #' metacommunity,including those of the local community
-#' @param I Integer scalar indicating the fixed amount of individuals in the
+#' @param I Integer: fixed amount of individuals in the
 #' local community (default: \code{I = 1000})
-#' @param d Integer scalar indicating fixed amount of deaths of local community
+#' @param d Integer: fixed amount of deaths of local community
 #' individuals in each generation (default: \code{d = 10})
-#' @param m Numeric scalar indicating immigration rate: the probability that a
+#' @param m Numeric: immigration rate: the probability that a
 #' death in the local community is replaced by a migrant of the metacommunity
 #' rather than by the birth of a local community member
 #' (default: \code{m = 0.02})
-#' @param tskip  Integer scalar indicating the number of generations that should
+#' @param tskip  Integer: number of generations that should
 #' not be included in the outputted species abundance matrix.
 #' (default: \code{tskip = 0})
-#' @param tend Integer scalar indicating the number of simulations
+#' @param tend Integer: number of simulations
 #' to be simulated
-#' @param norm Logical scalar to indicate whether the time series should
+#' @param norm Logical: whether the time series should
 #' be returned with the abundances as proportions (norm = TRUE) or the raw
 #' counts (norm = FALSE, default)
 #'
 #' @importFrom SummarizedExperiment SummarizedExperiment
 #'
-#' @examples HubbellSE(N = 8, M = 10, I = 1000, d = 50, m = 0.02, tend = 100)
-#' @return \code{HubbellSE} returns a \code{\link{SummarizedExperiment}} object
+#' @aliases simulateNeutral
+#'
+#' @examples
+#' col_data <- data.frame(sampleID = c(1:100),
+#'                         stringsAsFactors = FALSE)
+#'
+#' row_data <- data.frame(Kingdom = "A",
+#'                         Phylum = rep(c("B1", "B2"), c(50, 50)),
+#'                         Class = rep(c("C1", "C2"), each = 50),
+#'                         ASV1 = paste0("D", 1:100),
+#'                         ASV2 = paste0("E", 1:100),
+#'                         ASV3 = paste0("F", 1:100),
+#'                         ASV4 = paste0("G", 1:100),
+#'                         ASV5 = paste0("H", 1:100),
+#'                         ASV6 = paste0("J", 1:100),
+#'                         ASV7 = paste0("K", 1:100),
+#'                         row.names = rownames(paste0("species", seq_len(10))),
+#'                         stringsAsFactors = FALSE)
+#' row_data <- t(row_data)
+#'
+#' simulateHubbell(N = 8, M = 10, I = 1000, d = 50, m = 0.02, tend = 100)
+#'
+#' @return \code{simulateHubbell} returns a \code{\link{SummarizedExperiment}}
+#' object
 #'
 #' @references Rosindell, James et al. "The unified neutral theory of
 #' biodiversity and biogeography at age ten." Trends in ecology & evolution
 #' vol. 26,7 (2011).
 #' @export
 
-setGeneric("HubbellSE",signature = "N",
+setGeneric("simulateHubbell",signature = "N",
     function(N, M, I, d, m, tskip = 0, tend, norm = FALSE)
-        standardGeneric("HubbellSE"))
+        standardGeneric("simulateHubbell"))
 
-col_data <- data.frame(sampleID = c(1:100),
-                    stringsAsFactors = FALSE)
 
-row_data <- data.frame(Kingdom = "A",
-                        Phylum = rep(c("B1", "B2"), c(50, 50)),
-                        Class = rep(c("C1", "C2"), each = 50),
-                        ASV1 = paste0("D", 1:100),
-                        ASV2 = paste0("E", 1:100),
-                        ASV3 = paste0("F", 1:100),
-                        ASV4 = paste0("G", 1:100),
-                        ASV5 = paste0("H", 1:100),
-                        ASV6 = paste0("J", 1:100),
-                        ASV7 = paste0("K", 1:100),
-                        row.names = rownames(paste0("species", seq_len(10))),
-                        stringsAsFactors = FALSE)
-row_data <- t(row_data)
-
-setMethod("HubbellSE", signature = c(N="numeric"),
+setMethod("simulateHubbell", signature = c(N="numeric"),
     function(N, M, I, d, m, tskip = 0 , tend, norm = FALSE){
             # First setting the function arguments right
             pbirth <- runif(N, min = 0, max = 1)
@@ -113,10 +119,7 @@ setMethod("HubbellSE", signature = c(N="numeric"),
             }
 
             AbundanceM <- tseries[, (tskip +1):tend]
-            SE <- SummarizedExperiment(assays = list(counts = AbundanceM),
-                                                        colData = col_data,
-                                                        rowData = row_data )
+            SE <- SummarizedExperiment(assays = list(counts = AbundanceM))
 
             return(SE)
 })
-

@@ -43,7 +43,14 @@ library("miaSim")
 
 # Models for simulating microbiome data sets 
 
-The generalized Lotka-Volterra model fitted to time-series estimates
-microbial population dynamics and relative rates of interaction.The abundance 
-matrix stored in `assays` of SummarizedExperiment object is main task to find
-with this model.
+The generalized Lotka-Volterra simulation model fitted to time-series estimates
+microbial population dynamics and relative rates of interaction.
+
+The Hubbell Neutral simulation model explains the diversity and relative 
+abundance of species in ecological communities.
+
+The simulations result in abundance matrix which can be used to form 
+SummarizedExperiment object.
+
+
+
