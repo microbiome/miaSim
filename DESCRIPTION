@@ -18,11 +18,13 @@ Encoding: UTF-8
 Imports:
     SummarizedExperiment,
     deSolve,
-    stats
+    stats,
+    microsim
 Suggests:
     rmarkdown,
     knitr,
-    BiocStyle
+    BiocStyle,
+    devtools
 LazyData: false
 URL: https://github.com/microbiome/miaSim
 Roxygen: list(markdown = TRUE)

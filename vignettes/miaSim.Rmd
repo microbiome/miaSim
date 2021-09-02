@@ -32,6 +32,7 @@ To install `miaSim`, install `devtools` first, if it is not installed.
 Afterwards use the `install_github` function from `devtools`.
 
 ```{r}
+library(devtools)
 devtools::install_github("microbiome/miaSim")
 ```
 
@@ -48,6 +49,9 @@ microbial population dynamics and relative rates of interaction.
 
 The Hubbell Neutral simulation model explains the diversity and relative 
 abundance of species in ecological communities.
+
+The Self-Organised Instability (SOI) model generates time series for communities
+and accelerates stochastic simulation.
 
 The simulations result in abundance matrix which can be used to form 
 SummarizedExperiment object.

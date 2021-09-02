@@ -46,18 +46,18 @@ setGeneric("simulateGLV",signature = "N",
 row_data <- data.frame(Kingdom = "A",
         Phylum = rep(c("B1", "B2"), c(500, 500)),
         Class = rep(c("C1", "C2"), each = 500),
-        ASV = paste0("D", 1:1000),
+        ASV = paste0("D", seq_len(1000)),
         row.names = rownames(paste0("species", seq_len(1000))),
         stringsAsFactors = FALSE)
 
 row_data <- t(row_data)
 
-col_data <- data.frame(sampleID = c(1:1000),
+col_data <- data.frame(sampleID = seq_len(1000),
         time = as.Date(sample( as.numeric(as.Date('2000-01-01')):
         as.numeric(as.Date('2014-01-01')), 1000,
         replace = T),
         origin = '1970-01-01'),
-        row.names = colnames(paste0("sample", 1:1000)),
+        row.names = colnames(paste0("sample", seq_len(1000))),
         stringsAsFactors = FALSE)
 
 powerlawA <- function(
@@ -77,30 +77,30 @@ powerlawA <- function(
     # power law sample
     pl <- rplcon(n = n, xmin = 1, alpha = alpha)
     # Interaction strength heterogeneity H
-    H <- sapply(1:n, FUN = function(i){
+    H <- sapply(seq_len(n), FUN = function(i){
         1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
     })
     H <- diag(H)
 
     # Adjacency matrix G of power-law out-degree digraph ecological network
     d <- 0.1*n
-    h <- sapply(1:n, FUN = function(i){
+    h <- sapply(seq_len(n), FUN = function(i){
         min(
             ceiling(d*pl[i]/mean(pl)),
             n
         )
     })
     G <- matrix(0, nrow = n, ncol = n)
-    for(i in 1:n){
-        index <- sample(x = 1:n, size = h[i])
+    for(i in seq_len(i)){
+        index <- sample(x = seq_len(n), size = h[i])
         G[index, i] <- 1
     }
 
     A <- N %*% H * G
     A <- A*s/max(A)
     diag(A) <- -1
-    colnames(A) <- 1:n
-    rownames(A) <- 1:n
+    colnames(A) <- seq_len(n)
+    rownames(A) <- seq_len(n)
     return(A)
 }
 
