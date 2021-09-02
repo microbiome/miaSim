@@ -21,8 +21,10 @@ devtools::install_github("microbiome/miaSim")
 library(miaSim)
 ```
 ## References
+
 G. (2020–2021). GitHub - gheysenemma/microsimR: A Simulator Package with a collection of basic community models 
-that outputs count data of microbial communities. GitHub. https://github.com/gheysenemma/microsimR
+that outputs count data of microbial communities. GitHub.
+[github.com/gheysenemma/microsimR](https://github.com/gheysenemma/microsimR)
 
 ## Acknowledgements
 
