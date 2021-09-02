@@ -5,8 +5,9 @@ The main class for working with microbiome data in this package is `SummarizedEx
 
 The latest version of the package includes the following simulations :
 
-- The Hubbell Neutral Model community simulation: `miaSim::simulateHubbell()`
-- The generalized Lotka-Volterra model community time series simulation: `miaSim::simulateGLV()`
+- The Hubbell Neutral Model Community Simulation: `miaSim::simulateHubbell()`
+- The generalized Lotka-Volterra Model Community Time Series Simulation: `miaSim::simulateGLV()`
+- The Self-Organised Instability Model Community Simulation: `miaSim::simulateSOI()`
 
 ## Contribution
 
