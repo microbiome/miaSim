@@ -60,6 +60,50 @@ col_data <- data.frame(sampleID = c(1:1000),
         row.names = colnames(paste0("sample", 1:1000)),
         stringsAsFactors = FALSE)
 
+powerlawA <- function(
+    n, # number of species
+    alpha, # power-law distribution parameter
+    stdev = 1, # sd normal distribution
+    s = 0.1 # scaling parameter, default: 0.1/max(A)
+){
+    # Nominal Interspecific Interaction matrix N
+    N <- matrix(
+        data = rnorm(n^2, mean = 0, sd = stdev),
+        nrow = n,
+        ncol = n
+    )
+    #diag(N) <- 0
+
+    # power law sample
+    pl <- rplcon(n = n, xmin = 1, alpha = alpha)
+    # Interaction strength heterogeneity H
+    H <- sapply(1:n, FUN = function(i){
+        1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+    })
+    H <- diag(H)
+
+    # Adjacency matrix G of power-law out-degree digraph ecological network
+    d <- 0.1*n
+    h <- sapply(1:n, FUN = function(i){
+        min(
+            ceiling(d*pl[i]/mean(pl)),
+            n
+        )
+    })
+    G <- matrix(0, nrow = n, ncol = n)
+    for(i in 1:n){
+        index <- sample(x = 1:n, size = h[i])
+        G[index, i] <- 1
+    }
+
+    A <- N %*% H * G
+    A <- A*s/max(A)
+    diag(A) <- -1
+    colnames(A) <- 1:n
+    rownames(A) <- 1:n
+    return(A)
+}
+
 setMethod("simulateGLV", signature = c(N="numeric"),
     function(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE){
         parameters <- cbind(b, A)
