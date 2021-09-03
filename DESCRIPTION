@@ -15,16 +15,17 @@ Description:
 License: Artistic-2.0 | file LICENSE
 biocViews: Microbiome, Software
 Encoding: UTF-8
+Depends:
+    SummarizedExperiment
 Imports:
-    SummarizedExperiment,
     deSolve,
     stats,
+    poweRlaw
 Suggests:
     rmarkdown,
     knitr,
     BiocStyle,
-    devtools,
-    microsim
+    devtools
 LazyData: false
 URL: https://github.com/microbiome/miaSim
 Roxygen: list(markdown = TRUE)
