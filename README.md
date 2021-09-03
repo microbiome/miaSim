@@ -1,6 +1,6 @@
 # miaSim - Microbiome data simulation package
 
-This package is aimed to provide simulations for analyses of microbiome data by using community models.
+This R package is aimed to provide simulations for analyses of microbiome data by using community models.
 The main class for working with microbiome data in this package is `SummarizedExperiment`.
 
 The latest version of the package includes the following simulations :
