@@ -2,6 +2,7 @@
 
 export(powerlawA)
 export(simulateGLV)
+export(simulateHubbell)
 export(simulateSOI)
 importFrom(SummarizedExperiment,SummarizedExperiment)
 importFrom(deSolve,ode)
