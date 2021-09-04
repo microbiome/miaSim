@@ -13,16 +13,19 @@ Description:
     and the resulting abundance matrix is applied to the \linkS4class{SummarizedExperiment} 
     object as an assay.
 License: Artistic-2.0 | file LICENSE
-biocViews: Microbiome, Software, Simulation
+biocViews: Microbiome, Software
 Encoding: UTF-8
+Depends:
+    SummarizedExperiment
 Imports:
-    SummarizedExperiment,
     deSolve,
-    stats
+    stats,
+    poweRlaw
 Suggests:
     rmarkdown,
     knitr,
-    microsim
+    BiocStyle,
+    devtools
 LazyData: false
 URL: https://github.com/microbiome/miaSim
 Roxygen: list(markdown = TRUE)
