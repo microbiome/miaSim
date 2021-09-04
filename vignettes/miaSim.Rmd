@@ -31,7 +31,7 @@ knitr::opts_chunk$set(cache = FALSE,
 To install `miaSim`, install `devtools` first, if it is not installed.
 Afterwards use the `install_github` function from `devtools`.
 
-```{r}
+```{r, eval=FALSE}
 library(devtools)
 devtools::install_github("microbiome/miaSim")
 ```
