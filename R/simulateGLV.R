@@ -1,4 +1,4 @@
-#' simulateGLV
+#' Generalized Lotka-Volterra (gLV) simulation
 #'
 #' Simulates time series with the generalized Lotka-Volterra model and forms a
 #' \linkS4class{SummarizedExperiment} object.

@@ -1,4 +1,4 @@
-#' Self-Organised Instability Model Community Simulation
+#' Self-Organised Instability model (SOI) simulation
 #'
 #' Generate time-series with The Self-Organised Instability (SOI) model.
 #' Implements a K-leap method for accelerating stochastic simulation.

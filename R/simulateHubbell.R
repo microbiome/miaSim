@@ -1,4 +1,4 @@
-#' Hubbell community simulation
+#' Hubbell's neutral model simulation
 #'
 #' Neutral species abundances simulation turned into
 #' \linkS4class{SummarizedExperiment} according to the Hubbell model.
