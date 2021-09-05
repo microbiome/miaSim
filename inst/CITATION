@@ -1,0 +1,21 @@
+citHeader("Kindly cite the miaSim R package as follows:")
+
+
+note <- sprintf("Version %s", meta$Version)
+
+citEntry(entry="misc",
+         title = "miaSim R package",
+         author = personList(
+	   person(given = "Yagmur", family="Simsekk", email = "yagmur.simsek@utu.fi"),
+	   person(given = "Leo", family="Lahti")	   
+         ),
+	 url = "microbiome.github.io/miaSim",
+	 note = note, 
+         textVersion =
+         paste("(C) Yagmur Simsekk and Leo Lahti.",
+               "miaSim R package",
+	       note,
+	       "Package URL: microbiome.github.io/miaSim",
+               sep=" ")
+         )
+

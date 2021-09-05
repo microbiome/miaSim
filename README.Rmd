@@ -52,7 +52,7 @@ miaSim package converts to the SummarizedExperiment universe. This
 project is part of [miaverse](microbiome.github.io).
 
 **Kindly cite this work**. For citation details, see R command
-  `citation("miaSim")`.
+  `r citation("miaSim")`.
 
 
 # Code of conduct
