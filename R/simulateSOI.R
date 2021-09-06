@@ -20,6 +20,9 @@
 #' consisting of species abundance as rows and time points as columns
 #' @examples simulateSOI(N = 10, I = 1000, A = powerlawA(n = 10, alpha = 1.2),
 #'                     k=5, com = NULL, tend = 150, norm = TRUE)
+#'
+#' @importFrom stats rgamma
+#' @importFrom stats rnorm
 #' @export
 
 setGeneric("simulateSOI",signature = "N",
@@ -43,18 +46,18 @@ powerlawA <- function(
         # power law sample
         pl <- rplcon(n = n, xmin = 1, alpha = alpha)
         # Interaction strength heterogeneity H
-        H <- sapply(seq_len(n), FUN = function(i){
+        H <- vapply(seq_len(n), FUN = function(i){
             1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
-    })
+    }, 1 )
         H <- diag(H)
         # Adjacency matrix G of power-law out-degree digraph ecological network
         d <- 0.1*n
-        h <- sapply(seq_len(n), FUN = function(i){
+        h <- vapply(seq_len(n), FUN = function(i){
                                                 min(
                                                     ceiling(d*pl[i]/mean(pl)),
             n
         )
-})
+}, 1)
         G <- matrix(0, nrow = n, ncol = n)
         for(i in seq_len(n)){
             index <- sample(x = seq_len(n), size = h[i])
@@ -175,7 +178,6 @@ setMethod("simulateSOI", signature = c(N="numeric"),
             # INITIAL PROPENSITIES
             propensities <- updatePropensities(I, counts, death_rates,
                                 migr_rates,pos_inter_rates, neg_inter_rates)
-
             # K-LEAPS SIMULATION
             sys_t <- seq(from = 0, to = tend, length.out = tend)
             # time variables
@@ -206,8 +208,8 @@ setMethod("simulateSOI", signature = c(N="numeric"),
             # which reactions allowed?
             reactionsToFire <- as.vector(rmultinom(n= 1, size= k, prob = p))
             # update counts with allowed transitions (reactions)
-            counts <- sapply(counts + trans_mat%*%reactionsToFire,
-                                FUN = function(x){x = max(0,x)})
+            counts <- vapply(counts + trans_mat%*%reactionsToFire,
+                                FUN = function(x){x = max(0,x)}, 1)
             # update propensities with updated counts
             propensities <- updatePropensities(I, counts, death_rates,
                                 migr_rates, pos_inter_rates, neg_inter_rates)

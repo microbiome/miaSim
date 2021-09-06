@@ -55,3 +55,9 @@ and accelerates stochastic simulation.
 
 The simulations result in abundance matrix which can be used to form 
 SummarizedExperiment object.
+
+# Session info
+
+```{r}
+sessionInfo()
+```

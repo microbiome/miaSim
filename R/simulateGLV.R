@@ -24,35 +24,34 @@
 #' \code{simulateGLV} returns a \linkS4class{SummarizedExperiment} object
 #'
 #' @examples
-#' row_data <- data.frame(Kingdom = "A",
-#'                     Phylum = rep(c("B1", "B2"), c(500, 500)),
-#'                     Class = rep(c("C1", "C2"), each = 500),
-#'                     ASV = paste0("D", seq_len(1000)),
-#'                     row.names = rownames(paste0("species", seq_len(1000))),
-#'                     stringsAsFactors = FALSE)
-#'                     row_data <- t(row_data)
+#' row_data <- data.frame(Kingdom = "Animalia",
+#'                 Phylum = rep(c("Chordata", "Echinodermata"), c(500, 500)),
+#'                 Class = rep(c("Mammalia", "Asteroidea"), each = 500),
+#'                 ASV = paste0("X", seq_len(1000)),
+#'                 row.names = rownames(paste0("species", seq_len(1000))),
+#'                 stringsAsFactors = FALSE)
 #'
-#' col_data <- data.frame(sampleID = seq_len(1000),
-#'                     time = as.Date(sample(as.numeric(as.Date('2000-01-01')):
-#'                                 as.numeric(as.Date('2014-01-01')), 1000,
-#'                                             replace = TRUE),
-#'                                                     origin = '1970-01-01'),
-#'                     row.names = colnames(paste0("sample", seq_len(1000))),
-#'                     stringsAsFactors = FALSE)
+#' row_data <- t(row_data)
 #'
-#' simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
+#' col_data <- DataFrame(sampleID = seq_len(1000),
+#'                     time = as.Date(1000, origin = "2000-01-01"),
+#'                     row.names = colnames(paste0("sample", seq_len(1000))))
+#'
+#' SEobject <- simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
+#' rowData(SEobject) <- row_data
+#' colData(SEobject) <- col_data
 #'
 #' @importFrom deSolve ode
 #' @importFrom stats runif
 #' @importFrom SummarizedExperiment SummarizedExperiment
 #' @importFrom poweRlaw rplcon
+#' @importFrom methods setGeneric
 #'
 #' @export
 
-
 setGeneric("simulateGLV",signature = "N",
     function(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
-    standardGeneric("simulateGLV"))
+        standardGeneric("simulateGLV"))
 
 #' @export
 
@@ -71,18 +70,18 @@ powerlawA <- function(
         # power law sample
         pl <- rplcon(n = n, xmin = 1, alpha = alpha)
         # Interaction strength heterogeneity H
-        H <- sapply(seq_len(n), FUN = function(i){
+        H <- vapply(seq_len(n), FUN = function(i){
             1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
-    })
+    }, 1 )
         H <- diag(H)
         # Adjacency matrix G of power-law out-degree digraph ecological network
         d <- 0.1*n
-        h <- sapply(seq_len(n), FUN = function(i){
+        h <- vapply(seq_len(n), FUN = function(i){
                                                 min(
                                                     ceiling(d*pl[i]/mean(pl)),
             n
         )
-})
+}, 1)
         G <- matrix(0, nrow = n, ncol = n)
         for(i in seq_len(n)){
             index <- sample(x = seq_len(n), size = h[i])
@@ -122,9 +121,7 @@ setMethod("simulateGLV", signature = c(N="numeric"),
         spab <- t(t(spab)/colSums(spab))
             }
         spab
-        SE <- SummarizedExperiment(assays = list(counts=spab),
-                                            colData=col_data,
-                                            rowData=row_data)
+        SE <- SummarizedExperiment(assays = list(counts=spab))
         return(SE)
     }
 )

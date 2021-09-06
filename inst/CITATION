@@ -7,10 +7,10 @@ citEntry(entry="misc",
          title = "miaSim R package",
          author = personList(
 	   person(given = "Yagmur", family="Simsek", email = "Yagmur.Simsek@hsrw.org"),
-	   person(given = "Leo", family="Lahti")	   
+	   person(given = "Leo", family="Lahti")
          ),
 	 url = "microbiome.github.io/miaSim",
-	 note = note, 
+	 note = note,
          textVersion =
          paste("(C) Yagmur Simsek and Leo Lahti.",
                "miaSim R package",
@@ -18,4 +18,3 @@ citEntry(entry="misc",
 	       "Package URL: microbiome.github.io/miaSim",
                sep=" ")
          )
-

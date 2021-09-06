@@ -6,28 +6,32 @@ Authors@R:
               email = "leo.lahti@iki.fi",
               comment = c(ORCID = "0000-0001-5537-637X")),
        person(given = "Yagmur", family = "Simsek", role = c("aut"),
-              email = "yagmur.simsek@utu.fi"))
+              email = "Yagmur.Simsek@hsrw.org"))
 Title: Microbiome Data Simulation
 Description: 
-    A community time series is observed by using the generalized Lotka-Volterra model
-    and the resulting abundance matrix is applied to the \linkS4class{SummarizedExperiment} 
+    The time series simulation is observed by using generalized Lotka-Volterra model and 
+    Self-Organized Instability (SOI) model. Along with time series simulation models, Hubbell's Neutral model
+    is used to determine the abundance matrix. The resulting abundance matrix is applied to the \linkS4class{SummarizedExperiment} 
     object as an assay.
 License: Artistic-2.0 | file LICENSE
-biocViews: Microbiome, Software, Sequencing, DNASeq
+biocViews: Microbiome, Software, Sequencing, DNASeq, ATACSeq, Coverage
 Encoding: UTF-8
 Depends:
     SummarizedExperiment
 Imports:
     deSolve,
     stats,
-    poweRlaw
+    poweRlaw,
+    methods
 Suggests:
     rmarkdown,
     knitr,
     BiocStyle,
-    devtools
+    devtools,
+    testthat (>= 3.0.0)
 LazyData: false
 URL: https://github.com/microbiome/miaSim
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
+Config/testthat/edition: 3

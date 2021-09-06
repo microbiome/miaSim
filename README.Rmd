@@ -9,6 +9,7 @@
 
 
 
+[![R-CMD-check](https://github.com/microbiome/miaSim/workflows/R-CMD-check/badge.svg)](https://github.com/microbiome/miaSim/actions)
 <!-- badges: end -->
 
 This R package can be used to simulate (longitudinal) data for the

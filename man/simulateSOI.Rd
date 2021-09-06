@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulateSOI.R
 \name{simulateSOI}
 \alias{simulateSOI}
-\title{Self-Organised Instability Model Community Simulation}
+\title{Self-Organised Instability model (SOI) simulation}
 \usage{
 simulateSOI(N, I, A, k, com, tend, norm = FALSE)
 }
@@ -38,4 +38,5 @@ Implements a K-leap method for accelerating stochastic simulation.
 \examples{
 simulateSOI(N = 10, I = 1000, A = powerlawA(n = 10, alpha = 1.2),
                     k=5, com = NULL, tend = 150, norm = TRUE)
+
 }

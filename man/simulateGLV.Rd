@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulateGLV.R
 \name{simulateGLV}
 \alias{simulateGLV}
-\title{simulateGLV}
+\title{Generalized Lotka-Volterra (gLV) simulation}
 \usage{
 simulateGLV(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
 }
@@ -38,22 +38,21 @@ The resulting abundance matrix model is used to construct
 \linkS4class{SummarizedExperiment} object.
 }
 \examples{
-row_data <- data.frame(Kingdom = "A",
-                    Phylum = rep(c("B1", "B2"), c(500, 500)),
-                    Class = rep(c("C1", "C2"), each = 500),
-                    ASV = paste0("D", seq_len(1000)),
-                    row.names = rownames(paste0("species", seq_len(1000))),
-                    stringsAsFactors = FALSE)
-                    row_data <- t(row_data)
+row_data <- data.frame(Kingdom = "Animalia",
+                Phylum = rep(c("Chordata", "Echinodermata"), c(500, 500)),
+                Class = rep(c("Mammalia", "Asteroidea"), each = 500),
+                ASV = paste0("X", seq_len(1000)),
+                row.names = rownames(paste0("species", seq_len(1000))),
+                stringsAsFactors = FALSE)
 
-col_data <- data.frame(sampleID = seq_len(1000),
-                    time = as.Date(sample(as.numeric(as.Date('2000-01-01')):
-                                as.numeric(as.Date('2014-01-01')), 1000,
-                                            replace = TRUE),
-                                                    origin = '1970-01-01'),
-                    row.names = colnames(paste0("sample", seq_len(1000))),
-                    stringsAsFactors = FALSE)
+row_data <- t(row_data)
 
-simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
+col_data <- DataFrame(sampleID = seq_len(1000),
+                    time = as.Date(1000, origin = "2000-01-01"),
+                    row.names = colnames(paste0("sample", seq_len(1000))))
+
+SEobject <- simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
+rowData(SEobject) <- row_data
+colData(SEobject) <- col_data
 
 }
