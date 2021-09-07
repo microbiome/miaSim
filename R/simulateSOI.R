@@ -48,7 +48,7 @@ powerlawA <- function(
         # Interaction strength heterogeneity H
         H <- vapply(seq_len(n), FUN = function(i){
             1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
-    }, 1 )
+    }, as.matrix(1,n))
         H <- diag(H)
         # Adjacency matrix G of power-law out-degree digraph ecological network
         d <- 0.1*n

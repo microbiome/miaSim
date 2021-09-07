@@ -56,43 +56,43 @@ setGeneric("simulateGLV",signature = "N",
 #' @export
 
 powerlawA <- function(
-        n, # number of species
-        alpha, # power-law distribution parameter
-        stdev = 1, # sd normal distribution
-        s = 0.1 # scaling parameter, default: 0.1/max(A)
-    ){
-        # Nominal Interspecific Interaction matrix N
-        N <- matrix(
-                data = rnorm(n^2, mean = 0, sd = stdev),
-                nrow = n,
-                ncol = n
+    n, # number of species
+    alpha, # power-law distribution parameter
+    stdev = 1, # sd normal distribution
+    s = 0.1 # scaling parameter, default: 0.1/max(A)
+){
+    # Nominal Interspecific Interaction matrix N
+    N <- matrix(
+        data = rnorm(n^2, mean = 0, sd = stdev),
+        nrow = n,
+        ncol = n
     )
-        # power law sample
-        pl <- rplcon(n = n, xmin = 1, alpha = alpha)
-        # Interaction strength heterogeneity H
-        H <- vapply(seq_len(n), FUN = function(i){
-            1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
-    }, 1 )
-        H <- diag(H)
-        # Adjacency matrix G of power-law out-degree digraph ecological network
-        d <- 0.1*n
-        h <- vapply(seq_len(n), FUN = function(i){
-                                                min(
-                                                    ceiling(d*pl[i]/mean(pl)),
+    # power law sample
+    pl <- rplcon(n = n, xmin = 1, alpha = alpha)
+    # Interaction strength heterogeneity H
+    H <- vapply(seq_len(n), FUN = function(i){
+        1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+    }, as.matrix(1,n))
+    H <- diag(H)
+    # Adjacency matrix G of power-law out-degree digraph ecological network
+    d <- 0.1*n
+    h <- vapply(seq_len(n), FUN = function(i){
+        min(
+            ceiling(d*pl[i]/mean(pl)),
             n
         )
-}, 1)
-        G <- matrix(0, nrow = n, ncol = n)
-        for(i in seq_len(n)){
-            index <- sample(x = seq_len(n), size = h[i])
-            G[index, i] <- 1
+    }, 1)
+    G <- matrix(0, nrow = n, ncol = n)
+    for(i in seq_len(n)){
+        index <- sample(x = seq_len(n), size = h[i])
+        G[index, i] <- 1
     }
-        A <- N %*% H * G
-        A <- A*s/max(A)
-        diag(A) <- -1
-        colnames(A) <- seq_len(n)
-        rownames(A) <- seq_len(n)
-        return(A)
+    A <- N %*% H * G
+    A <- A*s/max(A)
+    diag(A) <- -1
+    colnames(A) <- seq_len(n)
+    rownames(A) <- seq_len(n)
+    return(A)
 }
 
 dxdt <- function(t, x, parameters){
