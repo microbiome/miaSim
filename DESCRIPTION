@@ -22,7 +22,8 @@ Imports:
     deSolve,
     stats,
     poweRlaw,
-    methods
+    methods,
+    usethis
 Suggests:
     rmarkdown,
     knitr,
