@@ -7,6 +7,4 @@ test_that("simulateHubbell", {
   expect_true(is.matrix(AbundanceM))
   expect_equal(dim(AbundanceM), c(10,100))
   expect_true(class(ExampleHubbell)== "SummarizedExperiment")
-
-
 })
