@@ -14,5 +14,5 @@ test_that("simulateSOI", {
   SOI_matrix <- assay(SOI)
   expect_true(is.matrix(SOI_matrix))
   expect_equal(dim(SOI_matrix), c(10,150))
-  expect_true(class(SOI)== "SummarizedExperiment")
+  expect_s4_class(SOI, "SummarizedExperiment")
 })

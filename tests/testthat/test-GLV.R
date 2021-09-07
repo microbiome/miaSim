@@ -12,11 +12,11 @@ test_that("simulateGLV", {
                 'argument "parameters" is missing')
 
     #check simulateGLV
-    SEobject <- simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
+    SEobject <- miaSim:::simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
     InterMatx <- assay(SEobject)
     expect_true(is.matrix(InterMatx))
     expect_equal(dim(InterMatx), c(4,1000))
-    expect_true(class(SEobject)== "SummarizedExperiment")
+    expect_s4_class(SEobject, "SummarizedExperiment")
 })
 
 
