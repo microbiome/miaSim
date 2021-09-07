@@ -18,6 +18,3 @@ test_that("simulateGLV", {
     expect_equal(dim(InterMatx), c(4,1000))
     expect_s4_class(SEobject, "SummarizedExperiment")
 })
-
-
-

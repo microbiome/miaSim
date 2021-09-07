@@ -6,7 +6,11 @@ test_that("simulateHubbell", {
   AbundanceM <- assay(ExampleHubbell)
   expect_true(is.matrix(AbundanceM))
   expect_equal(dim(AbundanceM), c(10,100))
+<<<<<<< HEAD
   expect_s4_class(ExampleHubbell, "SummarizedExperiment")
 
 
+=======
+  expect_true(class(ExampleHubbell)== "SummarizedExperiment")
+>>>>>>> aaf6f49c85378edc57fe0174245804b61a0dcdae
 })
