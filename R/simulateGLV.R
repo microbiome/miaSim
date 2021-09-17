@@ -48,13 +48,11 @@
 #' @importFrom methods setGeneric
 #'
 #' @export
-
 setGeneric("simulateGLV",signature = "N",
     function(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
         standardGeneric("simulateGLV"))
 
 #' @export
-
 powerlawA <- function(
     n, # number of species
     alpha, # power-law distribution parameter

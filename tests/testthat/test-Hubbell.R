@@ -1,4 +1,4 @@
-usethis::use_r("simulateHubbell")
+# usethis::use_r("simulateHubbell")
 test_that("simulateHubbell", {
   ExampleHubbell <- simulateHubbell(N = 8, M = 10, I = 1000, d = 50,
                                         m = 0.02, tend = 100)
