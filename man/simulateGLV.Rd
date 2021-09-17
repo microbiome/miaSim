@@ -2,43 +2,57 @@
 % Please edit documentation in R/simulateGLV.R
 \name{simulateGLV}
 \alias{simulateGLV}
-\title{Simulates time series with the generalized Lotka-Volterra model and forms a
-SummarizedExperiment object.}
+\title{Generalized Lotka-Volterra (gLV) simulation}
 \usage{
 simulateGLV(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
 }
 \arguments{
-\item{N}{species number}
+\item{N}{Integer scalar specifying the number of species}
 
-\item{A}{interaction matrix}
+\item{A}{a interaction matrix}
 
-\item{b}{growth rates}
+\item{b}{Numeric scalar indicating growth rates}
 
-\item{x}{initial abundances}
+\item{x}{Numeric scalar indicating initial abundances}
 
-\item{tend}{timepoints (default: \code{tend = 1000})}
+\item{tend}{Integer scalar indicating timepoints
+(default: \code{tend = 1000})}
 
-\item{norm}{\code{TRUE} or \code{FALSE} : return normalised abundances (proportions in each generation)
+\item{norm}{Logical scalar \code{TRUE} or \code{FALSE},
+return normalised abundances (proportions in each generation)
 (default: \code{norm = FALSE})}
 }
 \value{
-\code{simulateGLV} returns a SummarizedExperiment object that has abundance matrix in assay,
-colData that includes sampleID and time, rowData that includes species name, ASV levels,
-and the taxonomic information:
-\itemize{
-\item{Kingdom}
-\item{Phylum}
-\item{Class}
+\code{simulateGLV} returns a \linkS4class{SummarizedExperiment} object
 }
 \description{
+Simulates time series with the generalized Lotka-Volterra model and forms a
+\linkS4class{SummarizedExperiment} object.
+}
+\details{
 Simulates a community time series using the generalized Lotka-Volterra model,
 defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
 A is the interaction matrix and growth_rates the vector of growth rates.
 
-The abundance matrix that is obtained from the generalized Lotka-Volterra model
-is used to construct \code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}
-object
+The resulting abundance matrix model is used to construct
+\linkS4class{SummarizedExperiment} object.
 }
 \examples{
-result <- simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
+row_data <- data.frame(Kingdom = "Animalia",
+                Phylum = rep(c("Chordata", "Echinodermata"), c(500, 500)),
+                Class = rep(c("Mammalia", "Asteroidea"), each = 500),
+                ASV = paste0("X", seq_len(1000)),
+                row.names = rownames(paste0("species", seq_len(1000))),
+                stringsAsFactors = FALSE)
+
+row_data <- t(row_data)
+
+col_data <- DataFrame(sampleID = seq_len(1000),
+                    time = as.Date(1000, origin = "2000-01-01"),
+                    row.names = colnames(paste0("sample", seq_len(1000))))
+
+SEobject <- simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
+rowData(SEobject) <- row_data
+colData(SEobject) <- col_data
+
 }

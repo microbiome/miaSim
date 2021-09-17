@@ -1,0 +1,63 @@
+---
+title: "miaSim: Microbiome Data Simulation"
+date: "`r Sys.Date()`"
+package: 
+    miaSim
+output: 
+    BiocStyle::html_document:
+        fig_height: 7
+        fig_width: 10
+        toc: yes
+        toc_depth: 2
+        number_sections: true
+vignette: >
+    %\VignetteIndexEntry{miaSim}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(cache = FALSE,
+                        fig.width = 9,
+                        message = FALSE,
+                        warning = FALSE)
+```
+
+`miaSim` implements tools for microbiome data simulation based on the
+`SummarizedExperiment` [@SE], `microsim` .     
+
+# Installation
+
+To install `miaSim`, install `devtools` first, if it is not installed.
+Afterwards use the `install_github` function from `devtools`.
+
+```{r, eval=FALSE}
+library(devtools)
+devtools::install_github("microbiome/miaSim")
+```
+
+# Load *miaSim*
+
+```{r load-packages, message=FALSE, warning=FALSE}
+library("miaSim")
+```
+
+# Models for simulating microbiome data sets 
+
+The generalized Lotka-Volterra simulation model fitted to time-series estimates
+microbial population dynamics and relative rates of interaction.
+
+The Hubbell Neutral simulation model explains the diversity and relative 
+abundance of species in ecological communities.
+
+The Self-Organised Instability (SOI) model generates time series for communities
+and accelerates stochastic simulation.
+
+The simulations result in abundance matrix which can be used to form 
+SummarizedExperiment object.
+
+# Session info
+
+```{r}
+sessionInfo()
+```
