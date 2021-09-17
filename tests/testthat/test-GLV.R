@@ -1,4 +1,4 @@
-usethis::use_r("simulateGLV")
+#usethis::use_r("simulateGLV")
 test_that("simulateGLV", {
     # check powerlawA
     expect_error(miaSim:::powerlawA(),
