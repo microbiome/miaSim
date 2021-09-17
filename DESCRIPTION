@@ -16,13 +16,10 @@ Description:
 License: Artistic-2.0 | file LICENSE
 biocViews: Microbiome, Software, Sequencing, DNASeq, ATACSeq, Coverage
 Encoding: UTF-8
-<<<<<<< HEAD
 LazyData: true
 RoxygenNote: 7.1.1
-=======
 Depends:
     SummarizedExperiment
->>>>>>> 40af15c776ec02890d548ea64e571da3cd9b19fc
 Imports:
     deSolve,
     stats,
@@ -38,9 +35,5 @@ Suggests:
 LazyData: false
 URL: https://github.com/microbiome/miaSim
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
-<<<<<<< HEAD
-=======
 VignetteBuilder: knitr
-Config/testthat/edition: 3
->>>>>>> 40af15c776ec02890d548ea64e571da3cd9b19fc
+
