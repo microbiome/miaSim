@@ -40,7 +40,7 @@ library(miaSim)
 You can find us online from [Gitter](https://gitter.im/microbiome/miaverse).
 
 Contributions are very welcome through issues and pull requests at the
-[development site](https://github.com/microbiome/miaSim). We a git
+[development site](https://github.com/microbiome/miaSim). We follow a git
 flow kind of approach. Development version should be done against the
 `main` branch and then merged to `release` for release.
 (https://guides.github.com/introduction/flow/)
