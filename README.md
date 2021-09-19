@@ -27,14 +27,27 @@ model, and the self-organised instability model.
 
 
 ## Installation
- 
-The package can be directly installed from R command line.
 
-```{R}
-devtools::install_github("microbiome/miaSim")
-library(miaSim)
+### Bioc-release
+
+```{r, eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+    BiocManager::install("miaSim")
 ```
 
+### Bioc-devel
+
+```{r, eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+# The following initializes usage of Bioc devel
+BiocManager::install(version='devel')
+
+BiocManager::install("miaSim")
+```
 
 ### Contributions and acknowledgments
 

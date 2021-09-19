@@ -29,18 +29,25 @@ knitr::opts_chunk$set(cache = FALSE,
 
 # Installation
 
-To install `miaSim`, install `devtools` first, if it is not installed.
-Afterwards use the `install_github` function from `devtools`.
+### Bioc-release
 
 ```{r, eval=FALSE}
-library(devtools)
-devtools::install_github("microbiome/miaSim")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+    BiocManager::install("miaSim")
 ```
 
-# Load *miaSim*
+### Bioc-devel
 
-```{r load-packages, message=FALSE, warning=FALSE}
-library("miaSim")
+```{r, eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+# The following initializes usage of Bioc devel
+BiocManager::install(version='devel')
+
+BiocManager::install("miaSim")
 ```
 
 # Models for simulating microbiome data sets 

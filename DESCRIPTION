@@ -34,12 +34,12 @@ Depends:
 Imports:
     deSolve,
     stats,
-    poweRlaw,
     methods
 Suggests:
     rmarkdown,
     knitr,
     BiocStyle,
+    poweRlaw,
     devtools,
     testthat
 URL: https://github.com/microbiome/miaSim
