@@ -1,0 +1,512 @@
+# power law sample
+pl <- rplcon(n = n, xmin = 1, alpha = alpha)
+# Interaction strength heterogeneity H
+H1 <- sapply(seq_len(n), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+})
+H <- diag(H)
+# Adjacency matrix G of power-law out-degree digraph ecological network
+d <- 0.1*n
+h <- vapply(seq_len(n), FUN = function(i){
+min(
+ceiling(d*pl[i]/mean(pl)),
+n
+)
+}, numeric(1))
+G <- matrix(0, nrow = n, ncol = n)
+for(i in seq_len(n)){
+index <- sample(x = seq_len(n), size = h[i])
+G[index, i] <- 1
+}
+A <- N %*% H * G
+A <- A*s/max(A)
+diag(A) <- -1
+colnames(A) <- seq_len(n)
+rownames(A) <- seq_len(n)
+return(H1)
+}
+powerlawA(n = 4, alpha = 2)
+powerlawA <- function(
+n, # number of species
+alpha, # power-law distribution parameter
+stdev = 1, # sd normal distribution
+s = 0.1 # scaling parameter, default: 0.1/max(A)
+){
+# Nominal Interspecific Interaction matrix N
+N <- matrix(
+data = rnorm(n^2, mean = 0, sd = stdev),
+nrow = n,
+ncol = n
+)
+# power law sample
+pl <- rplcon(n = n, xmin = 1, alpha = alpha)
+# Interaction strength heterogeneity H
+H1 <- vapply(seq_len(n), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, numeric(1))
+H <- diag(H)
+# Adjacency matrix G of power-law out-degree digraph ecological network
+d <- 0.1*n
+h <- vapply(seq_len(n), FUN = function(i){
+min(
+ceiling(d*pl[i]/mean(pl)),
+n
+)
+}, numeric(1))
+G <- matrix(0, nrow = n, ncol = n)
+for(i in seq_len(n)){
+index <- sample(x = seq_len(n), size = h[i])
+G[index, i] <- 1
+}
+A <- N %*% H * G
+A <- A*s/max(A)
+diag(A) <- -1
+colnames(A) <- seq_len(n)
+rownames(A) <- seq_len(n)
+return(H1)
+}
+powerlawA(n = 4, alpha = 2)
+a <- powerlawA(n = 4, alpha = 2)
+class(a)
+powerlawA <- function(
+n, # number of species
+alpha, # power-law distribution parameter
+stdev = 1, # sd normal distribution
+s = 0.1 # scaling parameter, default: 0.1/max(A)
+){
+# Nominal Interspecific Interaction matrix N
+N <- matrix(
+data = rnorm(n^2, mean = 0, sd = stdev),
+nrow = n,
+ncol = n
+)
+# power law sample
+pl <- rplcon(n = n, xmin = 1, alpha = alpha)
+# Interaction strength heterogeneity H
+H1 <- vapply(seq_len(n), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, 1)
+H <- diag(H)
+# Adjacency matrix G of power-law out-degree digraph ecological network
+d <- 0.1*n
+h <- vapply(seq_len(n), FUN = function(i){
+min(
+ceiling(d*pl[i]/mean(pl)),
+n
+)
+}, numeric(1))
+G <- matrix(0, nrow = n, ncol = n)
+for(i in seq_len(n)){
+index <- sample(x = seq_len(n), size = h[i])
+G[index, i] <- 1
+}
+A <- N %*% H * G
+A <- A*s/max(A)
+diag(A) <- -1
+colnames(A) <- seq_len(n)
+rownames(A) <- seq_len(n)
+return(H1)
+}
+b <- powerlawA(n = 4, alpha = 2)
+powerlawA <- function(
+n, # number of species
+alpha, # power-law distribution parameter
+stdev = 1, # sd normal distribution
+s = 0.1 # scaling parameter, default: 0.1/max(A)
+){
+# Nominal Interspecific Interaction matrix N
+N <- matrix(
+data = rnorm(n^2, mean = 0, sd = stdev),
+nrow = n,
+ncol = n
+)
+# power law sample
+pl <- rplcon(n = n, xmin = 1, alpha = alpha)
+# Interaction strength heterogeneity H
+H1 <- sapply(seq_len(n), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+})
+H <- diag(H)
+# Adjacency matrix G of power-law out-degree digraph ecological network
+d <- 0.1*n
+h <- vapply(seq_len(n), FUN = function(i){
+min(
+ceiling(d*pl[i]/mean(pl)),
+n
+)
+}, numeric(1))
+G <- matrix(0, nrow = n, ncol = n)
+for(i in seq_len(n)){
+index <- sample(x = seq_len(n), size = h[i])
+G[index, i] <- 1
+}
+A <- N %*% H * G
+A <- A*s/max(A)
+diag(A) <- -1
+colnames(A) <- seq_len(n)
+rownames(A) <- seq_len(n)
+return(H1)
+}
+real <- powerlawA(n = 4, alpha = 2)
+?vapply
+H3 <- sapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+})
+pl <- rplcon(n = 4, xmin = 1, alpha = 2)
+H3 <- sapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+})
+H3 <- vapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, numeric(1))
+H4 <- vapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, numeric(1))
+H4 <- sapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+})
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+H3 <- sapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+})
+H5 <- vapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, as.matrix(1,n))
+H5 <- vapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, character(1))
+H6 <- vapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, integer(1))
+H6 <- vapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, integer(1))
+H6 <- vapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, logical(1))
+H6 <- vapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, numeric(1))
+H6 <- vapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, as.matrix(1,4))
+H6 <- vapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, as.matrix(1,n))
+h <- sapply(seq_len(4), FUN = function(i){
+min(
+ceiling(d*pl[i]/mean(pl)),
+4
+)  })
+H6 <- vapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, numeric(1))
+H <- vapply(seq_len(4), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, numeric(1))
+H <- diag(H)
+# Adjacency matrix G of power-law out-degree digraph ecological network
+d <- 0.1*n
+# Adjacency matrix G of power-law out-degree digraph ecological network
+d <- 0.1*4
+h <- sapply(seq_len(4), FUN = function(i){
+min(
+ceiling(d*pl[i]/mean(pl)),
+4
+)  })
+h <- vapply(seq_len(4), FUN = function(i){
+min(
+ceiling(d*pl[i]/mean(pl)),
+4
+) }, numeric(1))
+powerlawA <- function(
+n, # number of species
+alpha, # power-law distribution parameter
+stdev = 1, # sd normal distribution
+s = 0.1 # scaling parameter, default: 0.1/max(A)
+){
+# Nominal Interspecific Interaction matrix N
+N <- matrix(
+data = rnorm(n^2, mean = 0, sd = stdev),
+nrow = n,
+ncol = n
+)
+# power law sample
+pl <- rplcon(n = n, xmin = 1, alpha = alpha)
+# Interaction strength heterogeneity H
+H <- vapply(seq_len(n), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, numeric(1))
+H <- diag(H)
+# Adjacency matrix G of power-law out-degree digraph ecological network
+d <- 0.1*n
+h <- vapply(seq_len(n), FUN = function(i){
+min(
+ceiling(d*pl[i]/mean(pl)),
+n
+)
+}, numeric(1))
+G <- matrix(0, nrow = n, ncol = n)
+for(i in seq_len(n)){
+index <- sample(x = seq_len(n), size = h[i])
+G[index, i] <- 1
+}
+A <- N %*% H * G
+A <- A*s/max(A)
+diag(A) <- -1
+colnames(A) <- seq_len(n)
+rownames(A) <- seq_len(n)
+return(A)
+}
+A = powerlawA(n = 4, alpha = 2)
+View(A)
+powerlawA <- function(
+n, # number of species
+alpha, # power-law distribution parameter
+stdev = 1, # sd normal distribution
+s = 0.1 # scaling parameter, default: 0.1/max(A)
+){
+# Nominal Interspecific Interaction matrix N
+N <- matrix(
+data = rnorm(n^2, mean = 0, sd = stdev),
+nrow = n,
+ncol = n
+)
+# power law sample
+pl <- rplcon(n = n, xmin = 1, alpha = alpha)
+# Interaction strength heterogeneity H
+H <- sapply(seq_len(n), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+})
+H <- diag(H)
+# Adjacency matrix G of power-law out-degree digraph ecological network
+d <- 0.1*n
+h <- sapply(seq_len(n), FUN = function(i){
+min(
+ceiling(d*pl[i]/mean(pl)),
+n
+)
+})
+G <- matrix(0, nrow = n, ncol = n)
+for(i in seq_len(n)){
+index <- sample(x = seq_len(n), size = h[i])
+G[index, i] <- 1
+}
+A <- N %*% H * G
+A <- A*s/max(A)
+diag(A) <- -1
+colnames(A) <- seq_len(n)
+rownames(A) <- seq_len(n)
+return(A)
+}
+A = powerlawA(n = 4, alpha = 2)
+View(A)
+powerlawA <- function(
+n, # number of species
+alpha, # power-law distribution parameter
+stdev = 1, # sd normal distribution
+s = 0.1 # scaling parameter, default: 0.1/max(A)
+){
+# Nominal Interspecific Interaction matrix N
+N <- matrix(
+data = rnorm(n^2, mean = 0, sd = stdev),
+nrow = n,
+ncol = n
+)
+# power law sample
+pl <- rplcon(n = n, xmin = 1, alpha = alpha)
+# Interaction strength heterogeneity H
+H <- vapply(seq_len(n), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, numeric(1))
+H <- diag(H)
+# Adjacency matrix G of power-law out-degree digraph ecological network
+d <- 0.1*n
+h <- vapply(seq_len(n), FUN = function(i){
+min(
+ceiling(d*pl[i]/mean(pl)),
+n
+)
+}, numeric(1))
+G <- matrix(0, nrow = n, ncol = n)
+for(i in seq_len(n)){
+index <- sample(x = seq_len(n), size = h[i])
+G[index, i] <- 1
+}
+A <- N %*% H * G
+A <- A*s/max(A)
+diag(A) <- -1
+colnames(A) <- seq_len(n)
+rownames(A) <- seq_len(n)
+return(A)
+}
+B = powerlawA(n = 4, alpha = 2)
+View(B)
+View(A)
+class(B)
+powerlawA <- function(
+n, # number of species
+alpha, # power-law distribution parameter
+stdev = 1, # sd normal distribution
+s = 0.1 # scaling parameter, default: 0.1/max(A)
+){
+# Nominal Interspecific Interaction matrix N
+N <- matrix(
+data = rnorm(n^2, mean = 0, sd = stdev),
+nrow = n,
+ncol = n
+)
+# power law sample
+pl <- rplcon(n = n, xmin = 1, alpha = alpha)
+# Interaction strength heterogeneity H
+H <- vapply(seq_len(n), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, matrix(1,n))
+H <- diag(H)
+# Adjacency matrix G of power-law out-degree digraph ecological network
+d <- 0.1*n
+h <- vapply(seq_len(n), FUN = function(i){
+min(
+ceiling(d*pl[i]/mean(pl)),
+n
+)
+}, numeric(1))
+G <- matrix(0, nrow = n, ncol = n)
+for(i in seq_len(n)){
+index <- sample(x = seq_len(n), size = h[i])
+G[index, i] <- 1
+}
+A <- N %*% H * G
+A <- A*s/max(A)
+diag(A) <- -1
+colnames(A) <- seq_len(n)
+rownames(A) <- seq_len(n)
+return(A)
+}
+C = powerlawA(n = 4, alpha = 2)
+powerlawA <- function(
+n, # number of species
+alpha, # power-law distribution parameter
+stdev = 1, # sd normal distribution
+s = 0.1 # scaling parameter, default: 0.1/max(A)
+){
+# Nominal Interspecific Interaction matrix N
+N <- matrix(
+data = rnorm(n^2, mean = 0, sd = stdev),
+nrow = n,
+ncol = n
+)
+# power law sample
+pl <- rplcon(n = n, xmin = 1, alpha = alpha)
+# Interaction strength heterogeneity H
+H <- vapply(seq_len(n), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, as.matrix(1,n))
+H <- diag(H)
+# Adjacency matrix G of power-law out-degree digraph ecological network
+d <- 0.1*n
+h <- vapply(seq_len(n), FUN = function(i){
+min(
+ceiling(d*pl[i]/mean(pl)),
+n
+)
+}, numeric(1))
+G <- matrix(0, nrow = n, ncol = n)
+for(i in seq_len(n)){
+index <- sample(x = seq_len(n), size = h[i])
+G[index, i] <- 1
+}
+A <- N %*% H * G
+A <- A*s/max(A)
+diag(A) <- -1
+colnames(A) <- seq_len(n)
+rownames(A) <- seq_len(n)
+return(A)
+}
+C = powerlawA(n = 4, alpha = 2)
+powerlawA <- function(
+n, # number of species
+alpha, # power-law distribution parameter
+stdev = 1, # sd normal distribution
+s = 0.1 # scaling parameter, default: 0.1/max(A)
+){
+# Nominal Interspecific Interaction matrix N
+N <- matrix(
+data = rnorm(n^2, mean = 0, sd = stdev),
+nrow = n,
+ncol = n
+)
+# power law sample
+pl <- rplcon(n = n, xmin = 1, alpha = alpha)
+# Interaction strength heterogeneity H
+H <- vapply(seq_len(n), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+}, numeric(1))
+H <- diag(H)
+# Adjacency matrix G of power-law out-degree digraph ecological network
+d <- 0.1*n
+h <- vapply(seq_len(n), FUN = function(i){
+min(
+ceiling(d*pl[i]/mean(pl)),
+n
+)
+}, numeric(1))
+G <- matrix(0, nrow = n, ncol = n)
+for(i in seq_len(n)){
+index <- sample(x = seq_len(n), size = h[i])
+G[index, i] <- 1
+}
+A <- N %*% H * G
+A <- A*s/max(A)
+diag(A) <- -1
+colnames(A) <- seq_len(n)
+rownames(A) <- seq_len(n)
+return(A)
+}
+powerlawA <- function(
+n, # number of species
+alpha, # power-law distribution parameter
+stdev = 1, # sd normal distribution
+s = 0.1 # scaling parameter, default: 0.1/max(A)
+){
+# Nominal Interspecific Interaction matrix N
+N <- matrix(
+data = rnorm(n^2, mean = 0, sd = stdev),
+nrow = n,
+ncol = n
+)
+# power law sample
+pl <- rplcon(n = n, xmin = 1, alpha = alpha)
+# Interaction strength heterogeneity H
+H <- sapply(seq_len(n), FUN = function(i){
+1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
+})
+H <- diag(H)
+# Adjacency matrix G of power-law out-degree digraph ecological network
+d <- 0.1*n
+h <- sapply(seq_len(n), FUN = function(i){
+min(
+ceiling(d*pl[i]/mean(pl)),
+n
+)
+})
+G <- matrix(0, nrow = n, ncol = n)
+for(i in seq_len(n)){
+index <- sample(x = seq_len(n), size = h[i])
+G[index, i] <- 1
+}
+A <- N %*% H * G
+A <- A*s/max(A)
+diag(A) <- -1
+colnames(A) <- seq_len(n)
+rownames(A) <- seq_len(n)
+return(A)
+}
+A = powerlawA(n = 4, alpha = 2)
+A = powerlawA(n = 4, alpha = 2)
+A = powerlawA(n = 4, alpha = 2)
+A = powerlawA(n = 4, alpha = 2)
+A = powerlawA(n = 4, alpha = 2)
+A = powerlawA(n = 4, alpha = 2)
+BiocCheck::BiocCheckGitClone()
+BiocCheck::BiocCheckGitClone()
