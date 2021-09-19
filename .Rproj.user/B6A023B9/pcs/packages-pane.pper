@@ -1,7 +1,0 @@
-{
-    "installOptions": {
-        "installFromRepository": true,
-        "libraryPath": "C:/Users/Yagmur Simsek/Documents/R/win-library/4.1",
-        "installDependencies": true
-    }
-}
