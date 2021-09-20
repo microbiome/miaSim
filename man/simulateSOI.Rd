@@ -21,17 +21,17 @@ place during one leap. By default set to 5. Higher values reduce runtime,
 but also accuracy of the simulation.}
 
 \item{com}{a vector inditicating initial community abundances.
-If NULL (default), based on migration rates.}
+If (default: \code{com = NULL}), based on migration rates.}
 
 \item{tend}{Integer: number of timepoints to be returned in the time series
 (nr of generations)}
 
 \item{norm}{logical to indicate whether the time series should be returned
-with the abundances as proportions (norm = TRUE)
-or the raw counts (norm = FALSE, default)}
+with the abundances as proportions (\code{norm = TRUE})
+or the raw counts (default: \code{norm = FALSE})}
 }
 \value{
-\linkS4class{SummarizedExperiment} object with abundance matrix
+\linkS4class{SummarizedExperiment} object containing abundance matrix
 consisting of species abundance as rows and time points as columns
 }
 \description{

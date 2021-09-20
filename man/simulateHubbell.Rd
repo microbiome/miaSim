@@ -36,16 +36,16 @@ not be included in the outputted species abundance matrix.
 to be simulated}
 
 \item{norm}{Logical: whether the time series should
-be returned with the abundances as proportions (norm = TRUE) or the raw
-counts (norm = FALSE, default)}
+be returned with the abundances as proportions (\code{norm = TRUE}) or
+the raw counts (default: \code{norm = FALSE})}
 }
 \value{
-\code{simulateHubbell} returns a \code{\link{SummarizedExperiment}}
-object
+\code{simulateHubbell} returns a \linkS4class{SummarizedExperiment}
+object containing matrix with species abundance as rows and
+time points as columns
 }
 \description{
-Neutral species abundances simulation turned into
-\linkS4class{SummarizedExperiment} according to the Hubbell model.
+Neutral species abundances simulation according to the Hubbell model.
 }
 \examples{
 colData <- DataFrame(sampleID = c(seq_len(100)),

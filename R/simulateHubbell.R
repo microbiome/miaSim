@@ -1,7 +1,6 @@
 #' Hubbell's neutral model simulation
 #'
-#' Neutral species abundances simulation turned into
-#' \linkS4class{SummarizedExperiment} according to the Hubbell model.
+#' Neutral species abundances simulation according to the Hubbell model.
 #'
 #' @param N Integer: the amount of different species initially
 #' in the local community
@@ -21,18 +20,17 @@
 #' @param tend Integer: number of simulations
 #' to be simulated
 #' @param norm Logical: whether the time series should
-#' be returned with the abundances as proportions (norm = TRUE) or the raw
-#' counts (norm = FALSE, default)
+#' be returned with the abundances as proportions (\code{norm = TRUE}) or
+#' the raw counts (default: \code{norm = FALSE})
 #'
 #' @docType methods
 #' @aliases simulateHubbell-numeric
 #' @aliases simulateHubbell,numeric-method
+#' @aliases simulateNeutral
 #'
 #' @importFrom SummarizedExperiment SummarizedExperiment
 #' @importFrom stats rmultinom
 #' @importFrom stats rbinom
-#'
-#' @aliases simulateNeutral
 #'
 #' @examples
 #' colData <- DataFrame(sampleID = c(seq_len(100)),
@@ -58,8 +56,9 @@
 #' rowData(ExampleHubbell) <- rowData
 #' colData(ExampleHubbell) <- colData
 #'
-#' @return \code{simulateHubbell} returns a \code{\link{SummarizedExperiment}}
-#' object
+#' @return \code{simulateHubbell} returns a \linkS4class{SummarizedExperiment}
+#' object containing matrix with species abundance as rows and
+#' time points as columns
 #'
 #' @references Rosindell, James et al. "The unified neutral theory of
 #' biodiversity and biogeography at age ten." Trends in ecology & evolution

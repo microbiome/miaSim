@@ -17,15 +17,26 @@ vignette: >
     \usepackage[utf8]{inputenc}
 ---
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, eval = TRUE}
 knitr::opts_chunk$set(cache = FALSE,
                         fig.width = 9,
                         message = FALSE,
                         warning = FALSE)
 ```
 
+# Introduction
+
 `miaSim` implements tools for microbiome data simulation based on the
-`SummarizedExperiment` [@SE], `microsim` .     
+`SummarizedExperiment` [@SE], `microsim` .
+
+Microbiome time series simulation can be obtained by generalized 
+Lotka-Volterra model,`simulateGLV`, and  Self-Organized Instability 
+(SOI), `simulateSOI`. Hubbell's Neutral model, `simulateHubbell` is used 
+to determine the species abundance matrix. Function `powerlawA` gives
+interaction matrix of species which can be used in the simulation model
+examples. The resulting abundance matrix from these three simulation
+models is applied to \linkS4class{SummarizedExperiment} object or 
+\linkS4class{TreeSummarizedExperiment} object.
 
 # Installation
 
@@ -53,19 +64,20 @@ BiocManager::install("miaSim")
 # Models for simulating microbiome data sets 
 
 The generalized Lotka-Volterra simulation model fitted to time-series estimates
-microbial population dynamics and relative rates of interaction.
+microbial population dynamics and relative rates of interaction. The simulation
+function is stored in `simulateGLV`
 
-The Hubbell Neutral simulation model explains the diversity and relative 
-abundance of species in ecological communities.
+`simulateHubbell` includes the Hubbell Neutral simulation model which explains 
+the diversity and relative abundance of species in ecological communities.
 
-The Self-Organised Instability (SOI) model generates time series for communities
-and accelerates stochastic simulation.
+The Self-Organised Instability (SOI) model can be found in `simulateSOI` and it
+generates time series for communities and accelerates stochastic simulation.
 
 The simulations result in abundance matrix which can be used to form 
-SummarizedExperiment object.
+`SummarizedExperiment` [@SE] object.
 
 # Session info
 
-```{r}
+```{r, eval = TRUE}
 sessionInfo()
 ```

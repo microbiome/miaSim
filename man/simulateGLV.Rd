@@ -5,7 +5,6 @@
 \alias{simulateGLV}
 \alias{simulateGLV-numeric}
 \alias{simulateGLV,numeric-method}
-\alias{powerlawA}
 \title{Generalized Lotka-Volterra (gLV) simulation}
 \usage{
 simulateGLV(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)

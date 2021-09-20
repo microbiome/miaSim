@@ -7,16 +7,17 @@
 #' @param I Integer: community size, number of available sites (individuals)
 #' @param A a interaction matrix of dimension NxN
 #' @param com a vector inditicating initial community abundances.
-#' If NULL (default), based on migration rates.
+#' If (default: \code{com = NULL}), based on migration rates.
 #' @param tend Integer: number of timepoints to be returned in the time series
 #' (nr of generations)
 #' @param k Integer: the number of transition events that are allowed to take
 #' place during one leap. By default set to 5. Higher values reduce runtime,
 #' but also accuracy of the simulation.
 #' @param norm logical to indicate whether the time series should be returned
-#' with the abundances as proportions (norm = TRUE)
-#' or the raw counts (norm = FALSE, default)
-#' @return \linkS4class{SummarizedExperiment} object with abundance matrix
+#' with the abundances as proportions (\code{norm = TRUE})
+#' or the raw counts (default: \code{norm = FALSE})
+#'
+#' @return \linkS4class{SummarizedExperiment} object containing abundance matrix
 #' consisting of species abundance as rows and time points as columns
 #' @examples simulateSOI(N = 10, I = 1000, A = powerlawA(n = 10, alpha = 1.2),
 #'                     k=5, com = NULL, tend = 150, norm = TRUE)

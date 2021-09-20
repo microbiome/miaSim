@@ -1,11 +1,4 @@
 test_that("simulateGLV", {
-    # check powerlawA
-    expect_error(miaSim:::powerlawA(),
-               'argument "n" is missing')
-    expect_error(miaSim:::powerlawA(n = 5),
-               'argument "alpha" is missing')
-    expect_true(is.numeric(miaSim:::powerlawA(6,4)))
-
     #check dxdt
     expect_error(miaSim:::dxdt(x),
                 'argument "parameters" is missing')
