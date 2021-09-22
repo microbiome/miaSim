@@ -52,7 +52,7 @@
 #'
 #' @export
 setGeneric("simulateGLV",signature = "N",
-    function(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
+    function(N, A, x = runif(N), b = runif(N), tend = 1000, norm = FALSE)
         standardGeneric("simulateGLV"))
 
 dxdt <- function(t, x, parameters){
@@ -65,11 +65,10 @@ dxdt <- function(t, x, parameters){
 }
 
 setMethod("simulateGLV", signature = c(N="numeric"),
-    function(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE){
+    function(N, A, x = runif(N), b = runif(N), tend = 1000, norm = FALSE){
         parameters <- cbind(b, A)
         times <- seq(0, tend, by = 0.01)
 
-        dxdt(t, x, parameters)
         out <- ode(
                 y = x,
                 times = times,

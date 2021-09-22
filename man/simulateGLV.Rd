@@ -7,16 +7,16 @@
 \alias{simulateGLV,numeric-method}
 \title{Generalized Lotka-Volterra (gLV) simulation}
 \usage{
-simulateGLV(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
+simulateGLV(N, A, x = runif(N), b = runif(N), tend = 1000, norm = FALSE)
 }
 \arguments{
 \item{N}{Integer scalar specifying the number of species}
 
 \item{A}{a interaction matrix}
 
-\item{b}{Numeric scalar indicating growth rates}
-
 \item{x}{Numeric scalar indicating initial abundances}
+
+\item{b}{Numeric scalar indicating growth rates}
 
 \item{tend}{Integer scalar indicating timepoints
 (default: \code{tend = 1000})}

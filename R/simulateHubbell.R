@@ -72,7 +72,6 @@ setGeneric("simulateHubbell",signature = "N",
 
 setMethod("simulateHubbell", signature = c(N="numeric"),
     function(N, M, I, d, m, tskip = 0 , tend, norm = FALSE){
-            # First setting the function arguments right
             pbirth <- runif(N, min = 0, max = 1)
             pmigr <- runif(M, min = 0, max = 1)
             if(length(pbirth)!=N | length(pmigr)!=M){
@@ -90,33 +89,25 @@ setMethod("simulateHubbell", signature = c(N="numeric"),
                 ind <- sample(seq_len(M), size = sum(com)-I, prob = 1-pbirth)
                 com[ind] <- com[ind] -1
             }
-            # The simulation
             tseries <- matrix(0, nrow = M, ncol = tend)
             colnames(tseries) <- paste0("t", seq_len(tend))
             rownames(tseries) <- seq_len(M)
-
             com[which(com < 0)] <- 0
             tseries[,1] <- com
             for (t in 2:tend){
-            # Each iteration the probability of births is updated by the counts
                 pbirth <- com/sum(com)
                 pbirth[which(pbirth < 0)] <- 0
-            # Probability of births is used to pick the species that will die
-            # because species with count 0 will have probability 0 and species
-            #not present in the community can also not die
                 deaths <- rmultinom(n = 1, size = d, prob = pbirth)
-            while(sum(com-deaths <0) >0){
+            while(sum(com-deaths <0) >0){ #species with count 0 have probability
+            # 0 and species not present in the community can also not die
                 neg_sp <- which(com-deaths <0)
                 pbirth[neg_sp] <- 0
                 deaths <- rmultinom(n = 1, size = d, prob = pbirth)
             }
-
             event <- rbinom(d, 1, prob = m) # immigration rate m: probability
-            #death replaced by immigrant
-            #immigration 1, birth 0
+            #probability death replaced by immigrant; immigration 1, birth 0
             n_migrants <- sum(event)
             n_births <- length(event) - n_migrants
-
             births <- rmultinom(1, n_births, prob = pbirth)
             migr <- rmultinom(1, n_migrants, prob = pmigr)
             com <- com - deaths + births + migr
@@ -126,9 +117,7 @@ setMethod("simulateHubbell", signature = c(N="numeric"),
             if(norm){
                 tseries <- t(t(tseries)/colSums(tseries))
             }
-
             AbundanceM <- tseries[, (tskip +1):tend]
             SE <- SummarizedExperiment(assays = list(counts = AbundanceM))
-
             return(SE)
 })

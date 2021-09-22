@@ -19,6 +19,7 @@
 #'
 #' @return \linkS4class{SummarizedExperiment} object containing abundance matrix
 #' consisting of species abundance as rows and time points as columns
+#'
 #' @examples simulateSOI(N = 10, I = 1000, A = powerlawA(n = 10, alpha = 1.2),
 #'                     k=5, com = NULL, tend = 150, norm = TRUE)
 #'
@@ -118,10 +119,10 @@ setMethod("simulateSOI", signature = c(N="numeric"),
             for(stronger in seq_len(N)){
                 weaker <- which(A[stronger,] > A[,stronger] & A[,stronger] >= 0)
                     if(length(weaker) > 0){
-                        rate <- A[stronger, weaker] + A[weaker, stronger]
-                        pos_inter_rates[stronger,weaker] <- rate
-            }
-    }
+                    rate <- A[stronger, weaker] + A[weaker, stronger]
+                    pos_inter_rates[stronger,weaker] <- rate
+                    }
+                }
             # neg interaction: competition
             # AND sp_weaker interacts negatively with sp_stronger
             for(stronger in seq_len(N)){
@@ -129,14 +130,15 @@ setMethod("simulateSOI", signature = c(N="numeric"),
                 if(length(weaker_vec) > 0){
                 rate <- A[stronger, weaker_vec] - A[weaker_vec, stronger]
                 neg_inter_rates[stronger, weaker_vec] <- rate
-                    for(weaker in weaker_vec){
+                for(weaker in weaker_vec){
                     jump <- rep(0, times = N+1)
                     jump[stronger] <- 1
                     jump[weaker] <- -1
                     trans_mat <- cbind(trans_mat, jump)
+                }
+                }
             }
-        }
-    }
+
             # INITIAL PROPENSITIES
             propensities <- updatePropensities(I, counts, death_rates,
                                 migr_rates,pos_inter_rates, neg_inter_rates)

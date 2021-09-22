@@ -1,8 +1,7 @@
 ---
 title: "miaSim: Microbiome Data Simulation"
 date: "`r Sys.Date()`"
-package: 
-    miaSim
+package: miaSim
 output: 
     BiocStyle::html_document:
         fig_height: 7
@@ -17,7 +16,7 @@ vignette: >
     \usepackage[utf8]{inputenc}
 ---
 
-```{r, echo=FALSE, eval = TRUE}
+```{r, echo=FALSE}
 knitr::opts_chunk$set(cache = FALSE,
                         fig.width = 9,
                         message = FALSE,
@@ -35,31 +34,22 @@ Lotka-Volterra model,`simulateGLV`, and  Self-Organized Instability
 to determine the species abundance matrix. Function `powerlawA` gives
 interaction matrix of species which can be used in the simulation model
 examples. The resulting abundance matrix from these three simulation
-models is applied to \linkS4class{SummarizedExperiment} object or 
-\linkS4class{TreeSummarizedExperiment} object.
+models is applied to `SummarizedExperiment` object or 
+`TreeSummarizedExperiment` object.
 
 # Installation
 
 ### Bioc-release
 
-```{r, eval=FALSE}
+```{r install-bioc,eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
     BiocManager::install("miaSim")
 ```
 
-### Bioc-devel
-
-```{r, eval=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-# The following initializes usage of Bioc devel
-BiocManager::install(version='devel')
-
-BiocManager::install("miaSim")
-```
+### The development version of the package 
+[Github](https://github.com/microbiome/miaSim). 
 
 # Models for simulating microbiome data sets 
 
@@ -78,6 +68,6 @@ The simulations result in abundance matrix which can be used to form
 
 # Session info
 
-```{r, eval = TRUE}
+```{r}
 sessionInfo()
 ```
