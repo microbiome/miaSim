@@ -8,10 +8,10 @@
 \alias{simulateNeutral}
 \title{Hubbell's neutral model simulation}
 \usage{
-simulateHubbell(N, M, I, d, m, tskip = 0, tend, norm = FALSE)
+simulateHubbell(n.species, M, I, d, m, tskip = 0, tend, norm = FALSE)
 }
 \arguments{
-\item{N}{Integer: the amount of different species initially
+\item{n.species}{Integer: the amount of different species initially
 in the local community}
 
 \item{M}{Integer: amount of different species in the
@@ -66,7 +66,7 @@ rowData <- data.frame(Kingdom = "Animalia",
 
 rowData <- t(rowData)
 
-ExampleHubbell <- simulateHubbell(N = 8, M = 10, I = 1000, d = 50,
+ExampleHubbell <- simulateHubbell(n.species = 8, M = 10, I = 1000, d = 50,
                                                         m = 0.02, tend = 100)
 rowData(ExampleHubbell) <- rowData
 colData(ExampleHubbell) <- colData

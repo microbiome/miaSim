@@ -7,10 +7,17 @@
 \alias{simulateGLV,numeric-method}
 \title{Generalized Lotka-Volterra (gLV) simulation}
 \usage{
-simulateGLV(N, A, x = runif(N), b = runif(N), tend = 1000, norm = FALSE)
+simulateGLV(
+  n.species,
+  A,
+  x = runif(n.species),
+  b = runif(n.species),
+  tend = 1000,
+  norm = FALSE
+)
 }
 \arguments{
-\item{N}{Integer scalar specifying the number of species}
+\item{n.species}{Integer scalar specifying the number of species}
 
 \item{A}{a interaction matrix}
 
@@ -54,7 +61,8 @@ col_data <- DataFrame(sampleID = seq_len(1000),
                     time = as.Date(1000, origin = "2000-01-01"),
                     row.names = colnames(paste0("sample", seq_len(1000))))
 
-SEobject <- simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
+SEobject <- simulateGLV(n.species = 4, A = powerlawA(n.species = 4, alpha = 2),
+                        tend = 1000)
 rowData(SEobject) <- row_data
 colData(SEobject) <- col_data
 

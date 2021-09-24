@@ -2,7 +2,7 @@
 #'
 #' Neutral species abundances simulation according to the Hubbell model.
 #'
-#' @param N Integer: the amount of different species initially
+#' @param n.species Integer: the amount of different species initially
 #' in the local community
 #' @param M Integer: amount of different species in the
 #' metacommunity,including those of the local community
@@ -51,7 +51,7 @@
 #'
 #' rowData <- t(rowData)
 #'
-#' ExampleHubbell <- simulateHubbell(N = 8, M = 10, I = 1000, d = 50,
+#' ExampleHubbell <- simulateHubbell(n.species = 8, M = 10, I = 1000, d = 50,
 #'                                                         m = 0.02, tend = 100)
 #' rowData(ExampleHubbell) <- rowData
 #' colData(ExampleHubbell) <- colData
@@ -66,19 +66,19 @@
 #
 #' @export
 
-setGeneric("simulateHubbell",signature = "N",
-    function(N, M, I, d, m, tskip = 0, tend, norm = FALSE)
+setGeneric("simulateHubbell",signature = "n.species",
+    function(n.species, M, I, d, m, tskip = 0, tend, norm = FALSE)
         standardGeneric("simulateHubbell"))
 
-setMethod("simulateHubbell", signature = c(N="numeric"),
-    function(N, M, I, d, m, tskip = 0 , tend, norm = FALSE){
-            pbirth <- runif(N, min = 0, max = 1)
+setMethod("simulateHubbell", signature = c(n.species="numeric"),
+    function(n.species, M, I, d, m, tskip = 0, tend, norm = FALSE){
+            pbirth <- runif(n.species, min = 0, max = 1)
             pmigr <- runif(M, min = 0, max = 1)
-            if(length(pbirth)!=N | length(pmigr)!=M){
-                stop("Either length of pbirth vector does not match with N or
-                    length of pmigr vector does not match with M")
+            if(length(pbirth)!=n.species | length(pmigr)!=M){
+                stop("Either length of pbirth vector does not match with
+                n.species or length of pmigr vector does not match with M")
             }
-            pbirth <- c(pbirth, rep(0, times = (M-N)))
+            pbirth <- c(pbirth, rep(0, times = (M-n.species)))
             pbirth <- pbirth/sum(pbirth)
             pmigr <- pmigr/sum(pmigr)
             com <- ceiling(I*pbirth)

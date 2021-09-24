@@ -7,35 +7,38 @@
 \alias{powerlawA,numeric-method}
 \title{Interaction matrix with Power-Law network adjacency matrix}
 \usage{
-powerlawA(n, alpha, stdev, s)
+powerlawA(n.species, alpha, stdev, s, d)
 }
 \arguments{
-\item{n}{the number of species}
+\item{n.species}{integer: the number of species}
 
-\item{alpha}{the power-law distribution parameter. Should be > 1.
-Larger values will give lower interaction strength heterogeneity,
-whereas values closer to 1 give strong heterogeneity in interaction strengths
-between the species. In other words, values of alpha close to 1 will give
-Strongly Interacting Species (SIS).}
+\item{alpha}{numeric: the power-law distribution parameter. Should be > 1.
+(default: \code{alpha = 3.0}) Larger values will give lower interaction
+strength heterogeneity, whereas values closer to 1 give strong heterogeneity
+in interaction strengths between the species. In other words, values of alpha
+close to 1 will give Strongly Interacting Species (SIS).}
 
-\item{stdev}{the standard deviation parameter of the normal distribution
-with mean 0 from which the elements of the nominal interspecific
+\item{stdev}{numeric: the standard deviation parameter of the normal
+distribution with mean 0 from which the elements of the nominal interspecific
 interaction matrix N are drawn. (default: \code{stdev = 1})}
 
-\item{s}{scaling parameter with which the final global interaction matrix A
-is multiplied. Default set to NULL where s is set to 0.1\emph{max(A) after
-constructing the matrix A = NH}G. (default: \code{s = 0.1})}
+\item{s}{numeric: scaling parameter with which the final global
+interaction matrix A is multiplied. (default: \code{s = 0.1})}
+
+\item{d}{numeric: diagonal values, indicating self-interactions (use
+negative values for stability). (default: \code{s = 1.0})}
 }
 \value{
-The global interaction matrix A with n rows and n columns.
+The interaction matrix A with n rows and n columns.
 }
 \description{
-Generate an interaction matrix A that can be decomposed as NH.Gs .
-Where N is the Normal Interspecific Interaction matrix, H the interaction
-strength heterogeneity drawn from a power-law distribution with given
-parameter alpha, and G the adjacency matrix of power-law out-degree digraph
-ecological network, and s a scaling factor. Diagonal elements of A are
-subsequently set to -1.
+Where N is the an Interspecific Interaction matrix with values drawn from
+a normal distribution H the interaction strength heterogeneity drawn from
+a power-law distribution with the parameter alpha, and G the adjacency matrix
+of with out-degree that reflects the heterogeneity of the powerlaw.
+A scaling factor s may be used to constrain the values of the interaction
+matrix to be within a desired range. Diagonal elements of A are defined
+by the parameter d.
 }
 \examples{
 # Low interaction heterogeneity

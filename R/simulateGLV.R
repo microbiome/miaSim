@@ -10,7 +10,7 @@
 #' The resulting abundance matrix model is used to construct
 #'\linkS4class{SummarizedExperiment} object.
 #'
-#' @param N Integer scalar specifying the number of species
+#' @param n.species Integer scalar specifying the number of species
 #' @param A  a interaction matrix
 #' @param b Numeric scalar indicating growth rates
 #' @param x Numeric scalar indicating initial abundances
@@ -37,7 +37,8 @@
 #'                     time = as.Date(1000, origin = "2000-01-01"),
 #'                     row.names = colnames(paste0("sample", seq_len(1000))))
 #'
-#' SEobject <- simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
+#' SEobject <- simulateGLV(n.species = 4,
+#'                         A = powerlawA(n.species = 4, alpha = 2),tend = 1000)
 #' rowData(SEobject) <- row_data
 #' colData(SEobject) <- col_data
 #'
@@ -51,8 +52,9 @@
 #' @importFrom methods setGeneric
 #'
 #' @export
-setGeneric("simulateGLV",signature = "N",
-    function(N, A, x = runif(N), b = runif(N), tend = 1000, norm = FALSE)
+setGeneric("simulateGLV", signature = "n.species",
+    function(n.species, A, x = runif(n.species), b = runif(n.species),
+            tend = 1000, norm = FALSE)
         standardGeneric("simulateGLV"))
 
 dxdt <- function(t, x, parameters){
@@ -64,8 +66,9 @@ dxdt <- function(t, x, parameters){
     list(dx)
 }
 
-setMethod("simulateGLV", signature = c(N="numeric"),
-    function(N, A, x = runif(N), b = runif(N), tend = 1000, norm = FALSE){
+setMethod("simulateGLV", signature = c(n.species="numeric"),
+    function(n.species, A, x = runif(n.species), b = runif(n.species),
+            tend = 1000, norm = FALSE){
         parameters <- cbind(b, A)
         times <- seq(0, tend, by = 0.01)
 

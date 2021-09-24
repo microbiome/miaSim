@@ -7,14 +7,14 @@
 \alias{simulateSOI,numeric-method}
 \title{Self-Organised Instability model (SOI) simulation}
 \usage{
-simulateSOI(N, I, A, k, com, tend, norm = FALSE)
+simulateSOI(n.species, I, A, k, com, tend, norm = FALSE)
 }
 \arguments{
-\item{N}{Integer: number of species}
+\item{n.species}{Integer: number of species}
 
 \item{I}{Integer: community size, number of available sites (individuals)}
 
-\item{A}{a interaction matrix of dimension NxN}
+\item{A}{a interaction matrix of dimension n.speciesxn.species}
 
 \item{k}{Integer: the number of transition events that are allowed to take
 place during one leap. By default set to 5. Higher values reduce runtime,
@@ -39,7 +39,7 @@ Generate time-series with The Self-Organised Instability (SOI) model.
 Implements a K-leap method for accelerating stochastic simulation.
 }
 \examples{
-simulateSOI(N = 10, I = 1000, A = powerlawA(n = 10, alpha = 1.2),
-                    k=5, com = NULL, tend = 150, norm = TRUE)
+simulateSOI(n.species = 10, I = 1000, A = powerlawA(n.species = 10,
+    alpha = 1.2),k=5, com = NULL, tend = 150, norm = TRUE)
 
 }
