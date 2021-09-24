@@ -1,18 +1,17 @@
 #' Interaction matrix with Power-Law network adjacency matrix
 #'
-#' Generate an interaction matrix A that can be decomposed as NH.Gs .
-#' Where N is the Normal Interspecific Interaction matrix, H the interaction
-#' strength heterogeneity drawn from a power-law distribution with given
-#' parameter alpha, and G the adjacency matrix of power-law out-degree digraph
-#' ecological network, and s a scaling factor. Diagonal elements of A are
-#' subsequently set to -1.
+#' Where N is the an Interspecific Interaction matrix with values drawn from a normal distribution
+#' H the interaction strength heterogeneity drawn from a power-law distribution with the parameter alpha, 
+#' and G the adjacency matrix of with out-degree that reflects the heterogeneity of the powerlaw.
+#' A scaling factor s may be used to constrain the values of the interaction matrix to be within a desired range. 
+#' Diagonal elements of A are defined by the parameter d.
 #'
 #' @references Gibson TE, Bashan A, Cao HT, Weiss ST, Liu YY (2016)
 #' On the Origins and Control of Community Types in the Human Microbiome.
 #' PLOS Computational Biology 12(2): e1004688.
 #' https://doi.org/10.1371/journal.pcbi.1004688
 #'
-#' @param n the number of species
+#' @param n.species the number of species
 #' @param alpha the power-law distribution parameter. Should be > 1.
 #' Larger values will give lower interaction strength heterogeneity,
 #' whereas values closer to 1 give strong heterogeneity in interaction strengths
@@ -21,11 +20,10 @@
 #' @param stdev the standard deviation parameter of the normal distribution
 #' with mean 0 from which the elements of the nominal interspecific
 #' interaction matrix N are drawn. (default: \code{stdev = 1})
-#' @param s scaling parameter with which the final global interaction matrix A
-#' is multiplied. Default set to NULL where s is set to 0.1*max(A) after
-#' constructing the matrix A = NH*G. (default: \code{s = 0.1})
+#' @param scale scaling parameter with which the final global interaction matrix A
+#' is multiplied. (default: \code{s = 0.1})
 #'
-#' @return The global interaction matrix A with n rows and n columns.
+#' @return The interaction matrix A with n rows and n columns.
 #'
 #' @docType methods
 #' @aliases powerlawA-numeric
@@ -39,52 +37,41 @@
 #' A_strong <- powerlawA(n = 10, alpha = 1.01)
 #' @export
 
-setGeneric("powerlawA",signature = "n",
-            function(n, alpha, stdev, s)
+setGeneric("powerlawA",signature = "n.species",
+            function(n.species, alpha, stdev, scale)
                 standardGeneric("powerlawA"))
 
-setMethod("powerlawA", signature = c(n="numeric"),
-            function(n, alpha, stdev, s){
-                if (missing(stdev) || missing(s)) {
+setMethod("powerlawA", signature = c(n.species="numeric"),
+            function(n.species, alpha, stdev, scale){
+                if (missing(stdev) || missing(scale)) {
                 stdev <- 1
-                s <- 0.1
+                scale <- 0.1
             }
+            
             # Nominal Interspecific Interaction matrix N
             N <- matrix(
-                data = rnorm(n^2, mean = 0, sd = stdev),
-                nrow = n,
-                ncol = n
-            )
-            #diag(N) <- 0
-
+                data = rnorm(n.species^2, mean = 0, sd = stdev),
+                nrow = n.species,
+                ncol = n.species
+              )
+            
             # power law sample
-            pl <- rplcon(n = n, xmin = 1, alpha = alpha)
+            pl <- rplcon(n = n.species, xmin = 1, alpha = alpha)
+            
             # Interaction strength heterogeneity H
-            H <- vapply(seq_len(n), FUN = function(i){
-                1 + ((pl[i]-min(pl))/(max(pl)-min(pl)))
-            }, numeric(1))
-            H <- diag(H)
+            H <- diag(1 + (pl-min(pl))/(max(pl)-min(pl)))
 
             # Adjacency matrix G of power-law out-degree digraph ecological
             #network
-            d <- 0.1*n
-            h <- vapply(seq_len(n), FUN = function(i){
-                min(
-                    ceiling(d*pl[i]/mean(pl)),
-                n
-            )
-            },numeric(1))
-            G <- matrix(0, nrow = n, ncol = n)
-            for(i in seq_len(n)){
-                index <- sample(x = seq_len(n), size = h[i])
-                G[index, i] <- 1
-            }
+            deg <- 0.1*n.species
+            probs <- ceiling(de*pl/mean(pl))/n.species
+            G <- matrix(rbinom(n.species^2,1,p=probs),n.species, n.species)
 
             A <- N %*% H * G
             A <- A*s/max(A)
             diag(A) <- -1
-            colnames(A) <- seq_len(n)
-            rownames(A) <- seq_len(n)
+            colnames(A) <- seq_len(n.species)
+            rownames(A) <- seq_len(n.species)
             return(A)
     }
 )
