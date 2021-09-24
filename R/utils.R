@@ -21,3 +21,14 @@ tDyn <- function(t.start = 0, t.end = 1000, t.step = 0.1, t.keep = 100){
   return(list("t.sys" = t.sys, "t.index" = t.index))
 }
 
+#'Get the connectance of an interaction matrix. Defined as (link between species)/n.species^2
+#'@param A an interaction matrix
+#'@return numeric scalar indicating the matrix connectance
+#'@keywords internal
+#'@export
+getConnectance <- function(A){
+  n.species <- nrow(A)
+   
+  return ((length(A[A!=0])-n.species)/((n.species^2) - n.species))
+}
+
