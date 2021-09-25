@@ -61,6 +61,9 @@ setMethod("powerlawA", signature = c(n.species = "numeric"),
 
             # power law sample
             pl <- rplcon(n = n.species, xmin = 1, alpha = alpha)
+            pl[is.infinite(pl)] = 10^308
+            
+            
 
             # Interaction strength heterogeneity
             H <- diag(1 + (pl-min(pl))/(max(pl)-min(pl)))
@@ -69,7 +72,7 @@ setMethod("powerlawA", signature = c(n.species = "numeric"),
             #network
             deg <- 0.1*n.species
 
-            h <- pmin(deg*ceiling(pl/mean(pl)), n.species)
+            h <- pmin(ceiling(deg*pl/mean(pl)), n.species)
 
             G <- matrix(0, nrow = n.species, ncol = n.species)
             for(i in seq_len(n.species)){
