@@ -42,11 +42,11 @@
 #' @export
 
 setGeneric("powerlawA",signature = "n.species",
-            function(n.species, alpha, stdev = 1, s = 0.1, d = -1)
+            function(n.species, alpha = 3.0, stdev = 1, s = 0.1, d = -1)
                 standardGeneric("powerlawA"))
 
 setMethod("powerlawA", signature = c(n.species = "numeric"),
-            function(n.species, alpha, stdev = 1, s = 0.1, d = -1){
+            function(n.species, alpha = 3.0, stdev = 1, s = 0.1, d = -1){
             # Nominal Interspecific Interaction matrix N
             N <- matrix(
                 data = rnorm(n.species^2, mean = 0, sd = stdev),
@@ -66,12 +66,15 @@ setMethod("powerlawA", signature = c(n.species = "numeric"),
             deg <- 0.1*n.species
 
             h <- pmin(ceiling(deg*pl/mean(pl)), n.species)
+            
+            
 
             G <- matrix(0, nrow = n.species, ncol = n.species)
             for(i in seq_len(n.species)){
                 index <- sample(x = seq_len(n.species), size = h[i])
                 G[index, i] <- 1
             }
+         
             #G[t(G) == 1] <- 1
             A <- N %*% H * G
             A <- A*s/max(A)
