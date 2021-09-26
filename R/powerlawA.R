@@ -57,6 +57,11 @@ setMethod("powerlawA", signature = c(n.species = "numeric"),
             # power law sample
             pl <- rplcon(n = n.species, xmin = 1, alpha = alpha)
             pl[is.infinite(pl)] = 10^308
+<<<<<<< HEAD
+=======
+            
+            
+>>>>>>> e220ab5a825005bf8dcd8f7ccf505d4817fc2e61
 
             # Interaction strength heterogeneity
             H <- diag(1 + (pl-min(pl))/(max(pl)-min(pl)))
