@@ -14,7 +14,10 @@
 #' @param A interaction matrix
 #' @param b Numeric: growth rates
 #' @param x Numeric: initial abundances
-#' @param tend Integer: timepoints (default: \code{tend = 1000})
+#' @param t.start Numeric: time to start the simulation (default: \code{t.start = 0})
+#' @param t.end Numeric: time to end the simulation (default: \code{t.end = 1000})
+#' @param t.step Numeric time interval to update the state (integration steps) (default: \code{t.step = 0.1})
+#' @param t.store Integer: number of evenly spaced time steps to store (default:\code{t.store = 1000})
 #' @param norm Logical scalar: returns normalised abundances (proportions
 #' in each generation) (default: \code{norm = FALSE})
 #'
@@ -36,9 +39,9 @@
 #'                     time = as.Date(1000, origin = "2000-01-01"),
 #'                     row.names = colnames(paste0("sample", seq_len(1000))))
 #'
-#' A <- miaSim::powerlawA(4, alpha = 4)
+#' A <- miaSim::powerlawA(4, alpha = 1.01)
 #'
-#' SEobject <- simulateGLV(n.species = 4, A, tend = 1000)
+#' SEobject <- simulateGLV(n.species = 4, A, t.store = 1000)
 #' rowData(SEobject) <- row_data
 #' colData(SEobject) <- col_data
 #'
@@ -53,7 +56,7 @@
 #'
 #' @export
 setGeneric("simulateGLV", signature = "n.species",
-    function(n.species, A, tend = 1000, x = runif(n.species),
+    function(n.species, A, t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000, x = runif(n.species),
             b = runif(n.species), norm = FALSE)
         standardGeneric("simulateGLV"))
 
@@ -67,19 +70,21 @@ dxdt <- function(t, x, parameters){
 }
 
 setMethod("simulateGLV", signature = c(n.species="numeric"),
-    function(n.species, A, tend = 1000, x = runif(n.species),
+    function(n.species, A, t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000, x = runif(n.species),
                 b = runif(n.species), norm = FALSE){
         parameters <- cbind(b, A)
-        times <- seq(0, tend, by = 0.01)
+        source("utils.R")
+        t.dyn <- tDyn(t.start = t.start, t.end = t.end, t.step = t.step, t.store = t.store)
 
         out <- ode(
                 y = x,
-                times = times,
+                times = t.dyn$t.sys,
                 func = dxdt,
                 parms = parameters
         )
         spab <- t(out[,2:ncol(out)])
-        spab <- spab[,round(seq(1, tend*100, length.out = tend))]
+        spab <- spab[,t.dyn$t.index]
+        print(str(spab))
         if(norm){
         spab <- t(t(spab)/colSums(spab))
             }
