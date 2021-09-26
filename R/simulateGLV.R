@@ -4,7 +4,8 @@
 #' \linkS4class{SummarizedExperiment} object.
 #'
 #' Simulates a community time series using the generalized Lotka-Volterra model,
-#' defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
+#' defined as dx/dt = diag(x)(b+Ax), where x is the vector of species abundances,
+#' diag(x) is a diagonal matrix with the diagonal values set to x.
 #' A is the interaction matrix and b is the vector of growth rates.
 #'
 #' The resulting abundance matrix model is used to construct
@@ -39,7 +40,7 @@
 #'                     time = as.Date(1000, origin = "2000-01-01"),
 #'                     row.names = colnames(paste0("sample", seq_len(1000))))
 #'
-#' A <- miaSim::powerlawA(4, alpha = 1.01)
+#' A <- miaSim::powerlawA(n.species = 4, alpha = 1.01)
 #'
 #' SEobject <- simulateGLV(n.species = 4, A, t.store = 1000)
 #' rowData(SEobject) <- row_data
