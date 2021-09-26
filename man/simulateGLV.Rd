@@ -10,30 +10,29 @@
 simulateGLV(
   n.species,
   A,
+  tend = 1000,
   x = runif(n.species),
   b = runif(n.species),
-  tend = 1000,
   norm = FALSE
 )
 }
 \arguments{
-\item{n.species}{Integer scalar specifying the number of species}
+\item{n.species}{Integer: number of species}
 
-\item{A}{a interaction matrix}
+\item{A}{interaction matrix}
 
-\item{x}{Numeric scalar indicating initial abundances}
+\item{tend}{Integer: timepoints (default: \code{tend = 1000})}
 
-\item{b}{Numeric scalar indicating growth rates}
+\item{x}{Numeric: initial abundances}
 
-\item{tend}{Integer scalar indicating timepoints
-(default: \code{tend = 1000})}
+\item{b}{Numeric: growth rates}
 
-\item{norm}{Logical scalar \code{TRUE} or \code{FALSE},
-return normalised abundances (proportions in each generation)
-(default: \code{norm = FALSE})}
+\item{norm}{Logical scalar: returns normalised abundances (proportions
+in each generation) (default: \code{norm = FALSE})}
 }
 \value{
 \code{simulateGLV} returns a \linkS4class{SummarizedExperiment} object
+containing abundance matrix
 }
 \description{
 Simulates time series with the generalized Lotka-Volterra model and forms a
@@ -42,7 +41,7 @@ Simulates time series with the generalized Lotka-Volterra model and forms a
 \details{
 Simulates a community time series using the generalized Lotka-Volterra model,
 defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
-A is the interaction matrix and growth_rates the vector of growth rates.
+A is the interaction matrix and b is the vector of growth rates.
 
 The resulting abundance matrix model is used to construct
 \linkS4class{SummarizedExperiment} object.
@@ -61,8 +60,9 @@ col_data <- DataFrame(sampleID = seq_len(1000),
                     time = as.Date(1000, origin = "2000-01-01"),
                     row.names = colnames(paste0("sample", seq_len(1000))))
 
-SEobject <- simulateGLV(n.species = 4, A = powerlawA(n.species = 4, alpha = 2),
-                        tend = 1000)
+A <- miaSim::powerlawA(4, alpha = 4)
+
+SEobject <- simulateGLV(n.species = 4, A, tend = 1000)
 rowData(SEobject) <- row_data
 colData(SEobject) <- col_data
 

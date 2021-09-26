@@ -18,8 +18,7 @@
 #' low_inter_A <- randomA(10, connectance = 0.01)
 #'
 #' @return
-#' \code{randomA} returns a matrix A with n.species times rows and
-#' n.species times columns
+#' \code{randomA} returns a matrix A with dimensions (n.species x n.species)
 #'
 #' @docType methods
 #' @aliases randomA-numeric
@@ -27,18 +26,13 @@
 #' @export
 
 setGeneric("randomA", signature = "n.species",
-    function(n.species, d, min.strength, max.strength, connectance)
+    function(n.species, d = -0.5, min.strength = -0.5, max.strength = 0.5,
+            connectance = 0.02)
     standardGeneric("randomA"))
 
 setMethod("randomA", signature = c(n.species="numeric"),
-    function(n.species, d, min.strength, max.strength, connectance){
-        if (missing(d) || missing(min.strength) ||
-            missing(max.strength) || missing(connectance)) {
-            d <- -0.5
-            min.strength <- -0.5
-            max.strength <- 0.5
-            connectance <- 0.02
-        }
+    function(n.species, d = -0.5, min.strength = -0.5, max.strength = 0.5,
+            connectance = 0.02){
             A = runif(n.species^2, min = min.strength, max = max.strength)
 
             #an efficient approximation to reach the desired connectance

@@ -7,7 +7,7 @@
 \alias{powerlawA,numeric-method}
 \title{Interaction matrix with Power-Law network adjacency matrix}
 \usage{
-powerlawA(n.species, alpha, stdev, s, d)
+powerlawA(n.species, alpha, stdev = 1, s = 0.1, d = -1)
 }
 \arguments{
 \item{n.species}{integer: the number of species}
@@ -42,9 +42,9 @@ by the parameter d.
 }
 \examples{
 # Low interaction heterogeneity
-A_low <- powerlawA(n = 10, alpha = 3)
+A_low <- powerlawA(n.species = 10, alpha = 3)
 # Strong interaction heterogeneity
-A_strong <- powerlawA(n = 10, alpha = 1.01)
+A_strong <- powerlawA(n.species = 10, alpha = 1.01)
 }
 \references{
 Gibson TE, Bashan A, Cao HT, Weiss ST, Liu YY (2016)

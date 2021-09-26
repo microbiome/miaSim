@@ -31,8 +31,7 @@ randomA(
 (default: \code{connectance = 0.02})}
 }
 \value{
-\code{randomA} returns a matrix A with n.species times rows and
-n.species times columns
+\code{randomA} returns a matrix A with dimensions (n.species x n.species)
 }
 \description{
 Generate random simplified interaction matrix from a uniform distribution.
@@ -40,6 +39,6 @@ Generate random simplified interaction matrix from a uniform distribution.
 \examples{
 high_inter_A <- randomA(10, d = -0.4, min.strength = -0.8,
                                     max.strength = 0.8, connectance = 0.5)
-low_inter_A <- randomA(10, c = 0.01)
+low_inter_A <- randomA(10, connectance = 0.01)
 
 }

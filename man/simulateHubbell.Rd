@@ -8,7 +8,16 @@
 \alias{simulateNeutral}
 \title{Hubbell's neutral model simulation}
 \usage{
-simulateHubbell(n.species, M, I, d, m, tskip = 0, tend, norm = FALSE)
+simulateHubbell(
+  n.species,
+  M,
+  I = 1000,
+  d = 10,
+  m = 0.02,
+  tskip = 0,
+  tend,
+  norm = FALSE
+)
 }
 \arguments{
 \item{n.species}{Integer: the amount of different species initially

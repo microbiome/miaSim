@@ -14,19 +14,19 @@ simulateSOI(n.species, I, A, k, com, tend, norm = FALSE)
 
 \item{I}{Integer: community size, number of available sites (individuals)}
 
-\item{A}{a interaction matrix of dimension n.speciesxn.species}
+\item{A}{interaction matrix}
 
 \item{k}{Integer: the number of transition events that are allowed to take
-place during one leap. By default set to 5. Higher values reduce runtime,
+place during one leap. (default: \code{k = 5}). Higher values reduce runtime,
 but also accuracy of the simulation.}
 
-\item{com}{a vector inditicating initial community abundances.
-If (default: \code{com = NULL}), based on migration rates.}
+\item{com}{a vector: initial community abundances
+If (default: \code{com = NULL}), based on migration rates}
 
 \item{tend}{Integer: number of timepoints to be returned in the time series
-(nr of generations)}
+(number of generations)}
 
-\item{norm}{logical to indicate whether the time series should be returned
+\item{norm}{Logical: indicates whether the time series should be returned
 with the abundances as proportions (\code{norm = TRUE})
 or the raw counts (default: \code{norm = FALSE})}
 }
@@ -39,7 +39,8 @@ Generate time-series with The Self-Organised Instability (SOI) model.
 Implements a K-leap method for accelerating stochastic simulation.
 }
 \examples{
-simulateSOI(n.species = 10, I = 1000, A = powerlawA(n.species = 10,
-    alpha = 1.2),k=5, com = NULL, tend = 150, norm = TRUE)
+A <- miaSim::powerlawA(10, alpha = 1.2)
 
+ExampleSOI <- simulateSOI(n.species = 10, I = 1000, A, k=5, com = NULL,
+                                            tend = 150, norm = TRUE)
 }

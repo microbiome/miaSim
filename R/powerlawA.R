@@ -36,22 +36,17 @@
 #' @importFrom poweRlaw rplcon
 #' @examples
 #' # Low interaction heterogeneity
-#' A_low <- powerlawA(n = 10, alpha = 3)
+#' A_low <- powerlawA(n.species = 10, alpha = 3)
 #' # Strong interaction heterogeneity
-#' A_strong <- powerlawA(n = 10, alpha = 1.01)
+#' A_strong <- powerlawA(n.species = 10, alpha = 1.01)
 #' @export
 
 setGeneric("powerlawA",signature = "n.species",
-            function(n.species, alpha, stdev, s, d)
+            function(n.species, alpha, stdev = 1, s = 0.1, d = -1)
                 standardGeneric("powerlawA"))
 
 setMethod("powerlawA", signature = c(n.species = "numeric"),
-            function(n.species, alpha, stdev, s, d){
-            if (missing(stdev) || missing(s) || missing(d)) {
-                stdev <- 1
-                s <- 0.1
-                d <- -1
-            }
+            function(n.species, alpha, stdev = 1, s = 0.1, d = -1){
             # Nominal Interspecific Interaction matrix N
             N <- matrix(
                 data = rnorm(n.species^2, mean = 0, sd = stdev),
@@ -61,6 +56,7 @@ setMethod("powerlawA", signature = c(n.species = "numeric"),
 
             # power law sample
             pl <- rplcon(n = n.species, xmin = 1, alpha = alpha)
+            pl[is.infinite(pl)] = 10^308
 
             # Interaction strength heterogeneity
             H <- diag(1 + (pl-min(pl))/(max(pl)-min(pl)))
@@ -69,7 +65,7 @@ setMethod("powerlawA", signature = c(n.species = "numeric"),
             #network
             deg <- 0.1*n.species
 
-            h <- pmin(deg*ceiling(pl/mean(pl)), n.species)
+            h <- pmin(ceiling(deg*pl/mean(pl)), n.species)
 
             G <- matrix(0, nrow = n.species, ncol = n.species)
             for(i in seq_len(n.species)){
@@ -83,5 +79,5 @@ setMethod("powerlawA", signature = c(n.species = "numeric"),
             colnames(A) <- seq_len(n.species)
             rownames(A) <- seq_len(n.species)
             return(A)
-            }
-)
+})
+

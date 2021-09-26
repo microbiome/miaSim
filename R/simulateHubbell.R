@@ -28,10 +28,6 @@
 #' @aliases simulateHubbell,numeric-method
 #' @aliases simulateNeutral
 #'
-#' @importFrom SummarizedExperiment SummarizedExperiment
-#' @importFrom stats rmultinom
-#' @importFrom stats rbinom
-#'
 #' @examples
 #' colData <- DataFrame(sampleID = c(seq_len(100)),
 #'                         time = as.Date(100, origin = "2000-01-01"))
@@ -60,6 +56,9 @@
 #' object containing matrix with species abundance as rows and
 #' time points as columns
 #'
+#' @importFrom stats rbinom
+#' @importFrom stats rmultinom
+#'
 #' @references Rosindell, James et al. "The unified neutral theory of
 #' biodiversity and biogeography at age ten." Trends in ecology & evolution
 #' vol. 26,7 (2011).
@@ -67,28 +66,24 @@
 #' @export
 
 setGeneric("simulateHubbell",signature = "n.species",
-    function(n.species, M, I, d, m, tskip = 0, tend, norm = FALSE)
+    function(n.species, M, I = 1000, d = 10, m = 0.02, tskip = 0,
+            tend, norm = FALSE)
         standardGeneric("simulateHubbell"))
 
 setMethod("simulateHubbell", signature = c(n.species="numeric"),
-    function(n.species, M, I, d, m, tskip = 0, tend, norm = FALSE){
+    function(n.species, M, I = 1000, d = 10, m = 0.02, tskip = 0,
+            tend, norm = FALSE){
             pbirth <- runif(n.species, min = 0, max = 1)
             pmigr <- runif(M, min = 0, max = 1)
-            if(length(pbirth)!=n.species | length(pmigr)!=M){
-                stop("Either length of pbirth vector does not match with
-                n.species or length of pmigr vector does not match with M")
-            }
             pbirth <- c(pbirth, rep(0, times = (M-n.species)))
             pbirth <- pbirth/sum(pbirth)
             pmigr <- pmigr/sum(pmigr)
             com <- ceiling(I*pbirth)
-            if(sum(com)<I){
-                ind <- sample(seq_len(M), size = I-sum(com), prob = pbirth)
-                com[ind] <- com[ind] +1
-            } else if(sum(com)>I){
+            if(sum(com)>I){
                 ind <- sample(seq_len(M), size = sum(com)-I, prob = 1-pbirth)
                 com[ind] <- com[ind] -1
             }
+
             tseries <- matrix(0, nrow = M, ncol = tend)
             colnames(tseries) <- paste0("t", seq_len(tend))
             rownames(tseries) <- seq_len(M)
@@ -98,14 +93,14 @@ setMethod("simulateHubbell", signature = c(n.species="numeric"),
                 pbirth <- com/sum(com)
                 pbirth[which(pbirth < 0)] <- 0
                 deaths <- rmultinom(n = 1, size = d, prob = pbirth)
-            while(sum(com-deaths <0) >0){ #species with count 0 have probability
+            if(sum(com-deaths <0) >0){ #species with count 0 have probability
             # 0 and species not present in the community can also not die
                 neg_sp <- which(com-deaths <0)
                 pbirth[neg_sp] <- 0
                 deaths <- rmultinom(n = 1, size = d, prob = pbirth)
             }
             event <- rbinom(d, 1, prob = m) # immigration rate m: probability
-            #probability death replaced by immigrant; immigration 1, birth 0
+            # death replaced by immigrant; immigration 1, birth 0
             n_migrants <- sum(event)
             n_births <- length(event) - n_migrants
             births <- rmultinom(1, n_births, prob = pbirth)

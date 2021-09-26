@@ -5,30 +5,33 @@
 #'
 #' @param n.species Integer: number of species
 #' @param I Integer: community size, number of available sites (individuals)
-#' @param A a interaction matrix of dimension n.speciesxn.species
-#' @param com a vector inditicating initial community abundances.
-#' If (default: \code{com = NULL}), based on migration rates.
+#' @param A interaction matrix
+#' @param com a vector: initial community abundances
+#' If (default: \code{com = NULL}), based on migration rates
 #' @param tend Integer: number of timepoints to be returned in the time series
-#' (nr of generations)
+#' (number of generations)
 #' @param k Integer: the number of transition events that are allowed to take
-#' place during one leap. By default set to 5. Higher values reduce runtime,
+#' place during one leap. (default: \code{k = 5}). Higher values reduce runtime,
 #' but also accuracy of the simulation.
-#' @param norm logical to indicate whether the time series should be returned
+#' @param norm Logical: indicates whether the time series should be returned
 #' with the abundances as proportions (\code{norm = TRUE})
 #' or the raw counts (default: \code{norm = FALSE})
 #'
 #' @return \linkS4class{SummarizedExperiment} object containing abundance matrix
 #' consisting of species abundance as rows and time points as columns
 #'
-#' @examples simulateSOI(n.species = 10, I = 1000, A = powerlawA(n.species = 10,
-#'     alpha = 1.2),k=5, com = NULL, tend = 150, norm = TRUE)
+#' @examples
+#' A <- miaSim::powerlawA(10, alpha = 1.2)
 #'
+#' ExampleSOI <- simulateSOI(n.species = 10, I = 1000, A, k=5, com = NULL,
+#'                                             tend = 150, norm = TRUE)
 #' @docType methods
 #' @aliases simulateSOI-numeric
 #' @aliases simulateSOI,numeric-method
 #'
 #' @importFrom stats rgamma
 #' @importFrom stats rnorm
+#'
 #' @export
 
 setGeneric("simulateSOI",signature = "n.species",
@@ -99,7 +102,7 @@ setMethod("simulateSOI", signature = c(n.species="numeric"),
                 counts[n.species+1] <- counts[n.species+1] + (I-sum(counts))
     }
             # TRANSITION MATRIX & INTERACTION RATES
-            # Initialise trans_mat transition matrix reprenting the actual
+            # Initialise trans_mat transition matrix representing the actual
             # reactions
             # First n.species columns = migration: species_i counts go up with 1
             # empty sites go down with -1
@@ -113,8 +116,8 @@ setMethod("simulateSOI", signature = c(n.species="numeric"),
                         rep(1, times = n.species))
     )
             # Interaction:
-            # happens when happens when sp_stronger interacts more strongle
-            # with sp_weaker, than sp_weaker with sp_stronger
+            # happens when sp_stronger interacts stronger with sp_weaker,
+            # than sp_weaker with sp_stronger
             pos_inter_rates <- matrix(0, nrow = n.species, ncol = n.species)
             neg_inter_rates <- pos_inter_rates # copy to initialise
             # pos interaction and immigration
@@ -176,7 +179,7 @@ setMethod("simulateSOI", signature = c(n.species="numeric"),
             reactionsToFire <- as.vector(rmultinom(n= 1, size= k, prob = p))
             # update counts with allowed transitions (reactions)
             counts <- vapply(counts + trans_mat%*%reactionsToFire,
-                                FUN = function(x){x = max(0,x)}, 1)
+                                FUN = function(x){x = max(0,x)}, numeric(1))
             # update propensities with updated counts
             propensities <- updatePropensities(I, counts, death_rates,
                                 migr_rates, pos_inter_rates, neg_inter_rates)
