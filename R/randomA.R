@@ -50,6 +50,7 @@ setMethod("randomA", signature = c(n.species="numeric"),
             if(symmetric){
 
                 A[lower.tri(A)] <- t(A)[lower.tri(A)]
+
             }
             diag(A) <- d
             return(A)
