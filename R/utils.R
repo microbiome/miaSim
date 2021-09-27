@@ -1,5 +1,5 @@
-#' Generate simulation times and the indices
-#' of time points to return in sumulation functions.
+#' Generate simulation times and the indices of time points to return
+#' in simulation functions.
 #'
 #' @param t.start Numeric scalar indicating the initial time of the simulation.
 #' (default: \code{t.start = 0})
@@ -10,7 +10,7 @@
 #' @param t.store Integer scalar indicating the number of evenly distributed
 #' time points to keep (default: \code{t.store = 100})
 #'
-#' @return list containing simulation times (t.sys) and the indices to keep.
+#' @return lists containing simulation times (t.sys) and the indices to keep.
 #' @examples
 #' Time <- tDyn(t.start = 0, t.end = 100, t.step = 0.5, t.store = 100)
 #' DefaultTime <- tDyn(t.start = 0)

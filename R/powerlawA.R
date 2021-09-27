@@ -21,7 +21,7 @@
 #' interaction matrix A is multiplied. (default: \code{s = 0.1})
 #' @param d numeric: diagonal values, indicating self-interactions (use
 #' negative values for stability). (default: \code{s = 1.0})
-#' @param symmetric logical return a symmetric interaction matrix
+#' @param symmetric logical: return a symmetric interaction matrix
 #' (default: \code{symmetric=FALSE})
 #'
 #' @return The interaction matrix A with dimensions (n.species x n.species)
@@ -44,11 +44,13 @@
 #' @export
 
 setGeneric("powerlawA",signature = "n.species",
-            function(n.species, alpha = 3.0, stdev = 1, s = 0.1, d = -1, symmetric = FALSE)
+            function(n.species, alpha = 3.0, stdev = 1, s = 0.1, d = -1,
+                    symmetric = FALSE)
                 standardGeneric("powerlawA"))
 
 setMethod("powerlawA", signature = c(n.species = "numeric"),
-            function(n.species, alpha = 3.0, stdev = 1, s = 0.1, d = -1, symmetric = FALSE){
+            function(n.species, alpha = 3.0, stdev = 1, s = 0.1, d = -1,
+                    symmetric = FALSE){
 
             # Nominal Interspecific Interaction matrix N
             N <- matrix(
@@ -80,13 +82,10 @@ setMethod("powerlawA", signature = c(n.species = "numeric"),
             A <- N %*% H * G
             A <- A*s/max(A)
             if(symmetric){
-
-              A[lower.tri(A)] <- t(A)[lower.tri(A)]
-
+                A[lower.tri(A)] <- t(A)[lower.tri(A)]
             }
             diag(A) <- d
             colnames(A) <- seq_len(n.species)
             rownames(A) <- seq_len(n.species)
             return(A)
 })
-

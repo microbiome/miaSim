@@ -5,10 +5,10 @@
 \alias{tDyn}
 \alias{tDyn-numeric}
 \alias{tDyn,numeric-method}
-\title{Generate simulation times and the indices
-of time points to return in sumulation functions.}
+\title{Generate simulation times and the indices of time points to return
+in simulation functions.}
 \usage{
-tDyn(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 100)
+tDyn(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000)
 }
 \arguments{
 \item{t.start}{Numeric scalar indicating the initial time of the simulation.
@@ -24,11 +24,11 @@ tDyn(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 100)
 time points to keep (default: \code{t.store = 100})}
 }
 \value{
-list containing simulation times (t.sys) and the indices to keep.
+lists containing simulation times (t.sys) and the indices to keep.
 }
 \description{
-Generate simulation times and the indices
-of time points to return in sumulation functions.
+Generate simulation times and the indices of time points to return
+in simulation functions.
 }
 \examples{
 Time <- tDyn(t.start = 0, t.end = 100, t.step = 0.5, t.store = 100)

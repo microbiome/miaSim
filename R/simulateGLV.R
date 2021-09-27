@@ -17,6 +17,11 @@
 #' @param x Numeric: initial abundances
 #' @param norm Logical scalar: returns normalised abundances (proportions
 #' in each generation) (default: \code{norm = FALSE})
+#' @param t.start Numeric scalar indicating the initial time of the simulation.
+#' (default: \code{t.start = 0})
+#' @param t.store Integer scalar indicating the number of evenly distributed
+#' time points to keep (default: \code{t.store = 100})
+#'
 #' @param ... additional arguments that can be called from miaSim::tDyn
 #'
 #' @return

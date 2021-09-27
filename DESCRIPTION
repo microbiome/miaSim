@@ -1,6 +1,6 @@
 Package: miaSim
 Type: Package
-Version: 0.1.3
+Version: 0.1.4
 Authors@R:
      c(
        person(given = "Karoline", family = "Faust", role = c("aut"),
@@ -35,7 +35,8 @@ Imports:
     deSolve,
     stats,
     methods,
-    poweRlaw
+    poweRlaw,
+    utils
 Suggests:
     rmarkdown,
     knitr,
@@ -43,5 +44,6 @@ Suggests:
     devtools,
     testthat
 URL: https://github.com/microbiome/miaSim
+BugReports: https://github.com/microbiome/miaSim/issues
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr

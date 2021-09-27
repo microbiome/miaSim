@@ -12,13 +12,14 @@ randomA(
   d = -0.5,
   min.strength = -0.5,
   max.strength = 0.5,
-  connectance = 0.02
+  connectance = 0.02,
+  symmetric = FALSE
 )
 }
 \arguments{
 \item{n.species}{integer number of species}
 
-\item{d}{numeric diagonal values (should be negative)
+\item{d}{numeric diagonal values
 (default: \code{d = -0.5})}
 
 \item{min.strength}{numeric minimal off-diagonal interaction strength
@@ -29,6 +30,9 @@ randomA(
 
 \item{connectance}{numeric (interaction probability)
 (default: \code{connectance = 0.02})}
+
+\item{symmetric}{logical return a symmetric interaction matrix
+(default: \code{symmetric=FALSE})}
 }
 \value{
 \code{randomA} returns a matrix A with dimensions (n.species x n.species)

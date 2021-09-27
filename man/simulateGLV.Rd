@@ -13,6 +13,7 @@ simulateGLV(
   x = runif(n.species),
   b = runif(n.species),
   t.start = 0,
+  t.store,
   norm = FALSE,
   ...
 )
@@ -25,6 +26,12 @@ simulateGLV(
 \item{x}{Numeric: initial abundances}
 
 \item{b}{Numeric: growth rates}
+
+\item{t.start}{Numeric scalar indicating the initial time of the simulation.
+(default: \code{t.start = 0})}
+
+\item{t.store}{Integer scalar indicating the number of evenly distributed
+time points to keep (default: \code{t.store = 100})}
 
 \item{norm}{Logical scalar: returns normalised abundances (proportions
 in each generation) (default: \code{norm = FALSE})}

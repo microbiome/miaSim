@@ -93,7 +93,7 @@ setMethod("simulateHubbell", signature = c(n.species="numeric"),
                 pbirth <- com/sum(com)
                 pbirth[which(pbirth < 0)] <- 0
                 deaths <- rmultinom(n = 1, size = d, prob = pbirth)
-            if(sum(com-deaths <0) >0){ #species with count 0 have probability
+            while(sum(com-deaths <0) >0){ #species with count 0 have probability
             # 0 and species not present in the community can also not die
                 neg_sp <- which(com-deaths <0)
                 pbirth[neg_sp] <- 0
