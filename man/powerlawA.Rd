@@ -7,7 +7,7 @@
 \alias{powerlawA,numeric-method}
 \title{Interaction matrix with Power-Law network adjacency matrix}
 \usage{
-powerlawA(n.species, alpha, stdev = 1, s = 0.1, d = -1)
+powerlawA(n.species, alpha = 3, stdev = 1, s = 0.1, d = -1)
 }
 \arguments{
 \item{n.species}{integer: the number of species}
@@ -29,7 +29,7 @@ interaction matrix A is multiplied. (default: \code{s = 0.1})}
 negative values for stability). (default: \code{s = 1.0})}
 }
 \value{
-The interaction matrix A with n rows and n columns.
+The interaction matrix A with dimensions (n.species x n.species)
 }
 \description{
 Where N is the an Interspecific Interaction matrix with values drawn from

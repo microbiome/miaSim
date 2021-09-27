@@ -10,10 +10,11 @@
 simulateGLV(
   n.species,
   A,
-  tend = 1000,
   x = runif(n.species),
   b = runif(n.species),
-  norm = FALSE
+  t.start = 0,
+  norm = FALSE,
+  ...
 )
 }
 \arguments{
@@ -21,14 +22,14 @@ simulateGLV(
 
 \item{A}{interaction matrix}
 
-\item{tend}{Integer: timepoints (default: \code{tend = 1000})}
-
 \item{x}{Numeric: initial abundances}
 
 \item{b}{Numeric: growth rates}
 
 \item{norm}{Logical scalar: returns normalised abundances (proportions
 in each generation) (default: \code{norm = FALSE})}
+
+\item{...}{additional arguments that can be called from miaSim::tDyn}
 }
 \value{
 \code{simulateGLV} returns a \linkS4class{SummarizedExperiment} object
@@ -40,7 +41,8 @@ Simulates time series with the generalized Lotka-Volterra model and forms a
 }
 \details{
 Simulates a community time series using the generalized Lotka-Volterra model,
-defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
+defined as dx/dt = diag(x)(b+Ax), where x is the vector of species abundances
+,diag(x) is a diagonal matrix with the diagonal values set to x.
 A is the interaction matrix and b is the vector of growth rates.
 
 The resulting abundance matrix model is used to construct
@@ -60,9 +62,9 @@ col_data <- DataFrame(sampleID = seq_len(1000),
                     time = as.Date(1000, origin = "2000-01-01"),
                     row.names = colnames(paste0("sample", seq_len(1000))))
 
-A <- miaSim::powerlawA(4, alpha = 4)
+A <- miaSim::powerlawA(4, alpha = 1.01)
 
-SEobject <- simulateGLV(n.species = 4, A, tend = 1000)
+SEobject <- simulateGLV(n.species = 4, A, t.start = 0, t.store = 1000)
 rowData(SEobject) <- row_data
 colData(SEobject) <- col_data
 

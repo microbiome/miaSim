@@ -4,8 +4,8 @@
 #' \linkS4class{SummarizedExperiment} object.
 #'
 #' Simulates a community time series using the generalized Lotka-Volterra model,
-#' defined as dx/dt = diag(x)(b+Ax), where x is the vector of species abundances,
-#' diag(x) is a diagonal matrix with the diagonal values set to x.
+#' defined as dx/dt = diag(x)(b+Ax), where x is the vector of species abundances
+#' ,diag(x) is a diagonal matrix with the diagonal values set to x.
 #' A is the interaction matrix and b is the vector of growth rates.
 #'
 #' The resulting abundance matrix model is used to construct
@@ -15,12 +15,9 @@
 #' @param A interaction matrix
 #' @param b Numeric: growth rates
 #' @param x Numeric: initial abundances
-#' @param t.start Numeric: time to start the simulation (default: \code{t.start = 0})
-#' @param t.end Numeric: time to end the simulation (default: \code{t.end = 1000})
-#' @param t.step Numeric time interval to update the state (integration steps) (default: \code{t.step = 0.1})
-#' @param t.store Integer: number of evenly spaced time steps to store (default:\code{t.store = 1000})
 #' @param norm Logical scalar: returns normalised abundances (proportions
 #' in each generation) (default: \code{norm = FALSE})
+#' @param ... additional arguments that can be called from miaSim::tDyn
 #'
 #' @return
 #' \code{simulateGLV} returns a \linkS4class{SummarizedExperiment} object
@@ -40,9 +37,9 @@
 #'                     time = as.Date(1000, origin = "2000-01-01"),
 #'                     row.names = colnames(paste0("sample", seq_len(1000))))
 #'
-#' A <- miaSim::powerlawA(n.species = 4, alpha = 1.01)
+#' A <- miaSim::powerlawA(4, alpha = 1.01)
 #'
-#' SEobject <- simulateGLV(n.species = 4, A, t.store = 1000)
+#' SEobject <- simulateGLV(n.species = 4, A, t.start = 0, t.store = 1000)
 #' rowData(SEobject) <- row_data
 #' colData(SEobject) <- col_data
 #'
@@ -50,6 +47,7 @@
 #' @aliases simulateGLV-numeric
 #' @aliases simulateGLV,numeric-method
 #'
+#' @importFrom utils str
 #' @importFrom deSolve ode
 #' @importFrom stats runif
 #' @importFrom SummarizedExperiment SummarizedExperiment
@@ -57,8 +55,8 @@
 #'
 #' @export
 setGeneric("simulateGLV", signature = "n.species",
-    function(n.species, A, t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000, x = runif(n.species),
-            b = runif(n.species), norm = FALSE)
+    function(n.species, A, x = runif(n.species),
+            b = runif(n.species), t.start = 0, t.store, norm = FALSE, ...)
         standardGeneric("simulateGLV"))
 
 dxdt <- function(t, x, parameters){
@@ -71,11 +69,10 @@ dxdt <- function(t, x, parameters){
 }
 
 setMethod("simulateGLV", signature = c(n.species="numeric"),
-    function(n.species, A, t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000, x = runif(n.species),
-                b = runif(n.species), norm = FALSE){
+    function(n.species, A, x = runif(n.species),
+                b = runif(n.species), t.start = 0, t.store, norm = FALSE, ...){
         parameters <- cbind(b, A)
-        source("utils.R")
-        t.dyn <- tDyn(t.start = t.start, t.end = t.end, t.step = t.step, t.store = t.store)
+        t.dyn <- tDyn(t.start, ..., t.store)
 
         out <- ode(
                 y = x,

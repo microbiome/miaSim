@@ -3,3 +3,10 @@
 .RData
 .Ruserdata
 .Rbuildignore
+.renviron
+.rapp.history
+.directory
+.project
+.settings
+.ds_store
+.log

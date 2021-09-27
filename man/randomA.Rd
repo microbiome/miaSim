@@ -39,6 +39,7 @@ Generate random simplified interaction matrix from a uniform distribution.
 \examples{
 high_inter_A <- randomA(10, d = -0.4, min.strength = -0.8,
                                     max.strength = 0.8, connectance = 0.5)
+
 low_inter_A <- randomA(10, connectance = 0.01)
 
 }
