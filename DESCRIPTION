@@ -1,6 +1,6 @@
 Package: miaSim
 Type: Package
-Version: 0.1.4
+Version: 0.99.0
 Authors@R:
      c(
        person(given = "Karoline", family = "Faust", role = c("aut"),

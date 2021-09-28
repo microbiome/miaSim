@@ -36,3 +36,4 @@ setMethod("tDyn", signature = c(t.start="numeric"),
 
         return(list("t.sys" = t.sys, "t.index" = t.index))
 })
+
