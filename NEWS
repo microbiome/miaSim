@@ -1,2 +1,3 @@
-- First package version ready
-- Three simulation models are added
+Changes in version 0.99.0 (2021-09-28??)
++ Three simulation models and three functions are added
++ Submitted to Bioconductor

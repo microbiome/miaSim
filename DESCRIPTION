@@ -1,6 +1,6 @@
 Package: miaSim
 Type: Package
-Version: 0.1.1
+Version: 0.1.4
 Authors@R:
      c(
        person(given = "Karoline", family = "Faust", role = c("aut"),
@@ -12,7 +12,7 @@ Authors@R:
        person(given = "Daniel Rios", family = "Garza", role = c("aut"),
               email = "danielrios.garza@kuleuven.be"),
        person(given = "Yagmur", family = "Simsek", role = c("cre", "aut"),
-              email = "Yagmur.Simsek@hsrw.org"),
+              email = "yagmur.simsek@hsrw.org"),
        person(given = "Leo", family = "Lahti", role = c("aut"),
               email = "leo.lahti@iki.fi",
               comment = c(ORCID = "0000-0001-5537-637X"))
@@ -25,7 +25,7 @@ Description:
     is applied to \linkS4class{SummarizedExperiment} or
     \linkS4class{TreeSummarizedExperiment} object.
 License: Artistic-2.0 | file LICENSE
-biocViews: Microbiome, Software, Sequencing, DNASeq, ATACSeq, Coverage
+biocViews: Microbiome, Software, Sequencing, DNASeq, ATACSeq, Coverage, Network
 Encoding: UTF-8
 LazyData: false
 RoxygenNote: 7.1.2
@@ -34,14 +34,16 @@ Depends:
 Imports:
     deSolve,
     stats,
+    methods,
     poweRlaw,
-    methods
+    utils
 Suggests:
     rmarkdown,
     knitr,
     BiocStyle,
     devtools,
-    testthat (>= 3.0.0)
+    testthat
 URL: https://github.com/microbiome/miaSim
+BugReports: https://github.com/microbiome/miaSim/issues
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
