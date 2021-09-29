@@ -23,34 +23,31 @@ simulateHubbell(
 \item{n.species}{Integer: the amount of different species initially
 in the local community}
 
-\item{M}{Integer: amount of different species in the
-metacommunity,including those of the local community}
+\item{M}{Integer: amount of different species in the metacommunity,
+including those of the local community}
 
-\item{I}{Integer: fixed amount of individuals in the
-local community (default: \code{I = 1000})}
+\item{I}{Integer: fixed amount of individuals in the local community
+(default: \code{I = 1000})}
 
-\item{d}{Integer: fixed amount of deaths of local community
-individuals in each generation (default: \code{d = 10})}
+\item{d}{Integer: fixed amount of deaths of local community individuals
+in each generation (default: \code{d = 10})}
 
-\item{m}{Numeric: immigration rate: the probability that a
-death in the local community is replaced by a migrant of the metacommunity
-rather than by the birth of a local community member
-(default: \code{m = 0.02})}
+\item{m}{Numeric: immigration rate: the probability that a death in the local
+community is replaced by a migrant of the metacommunity rather than by
+the birth of a local community member (default: \code{m = 0.02})}
 
-\item{tskip}{Integer: number of generations that should
-not be included in the outputted species abundance matrix.
-(default: \code{tskip = 0})}
+\item{tskip}{Integer: number of generations that should not be included
+in the outputted species abundance matrix. (default: \code{tskip = 0})}
 
-\item{tend}{Integer: number of simulations
-to be simulated}
+\item{tend}{Integer: number of simulations to be simulated}
 
-\item{norm}{Logical: whether the time series should
-be returned with the abundances as proportions (\code{norm = TRUE}) or
+\item{norm}{Logical: whether the time series should be returned with
+the abundances as proportions (\code{norm = TRUE}) or
 the raw counts (default: \code{norm = FALSE})}
 }
 \value{
 \code{simulateHubbell} returns a \linkS4class{SummarizedExperiment}
-object containing matrix with species abundance as rows and
+class object containing matrix with species abundance as rows and
 time points as columns
 }
 \description{

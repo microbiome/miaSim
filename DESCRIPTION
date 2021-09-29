@@ -1,9 +1,8 @@
 Package: miaSim
 Type: Package
-Version: 0.1.4
+Version: 0.99.0
 Authors@R:
-     c(
-       person(given = "Karoline", family = "Faust", role = c("aut"),
+     c(person(given = "Karoline", family = "Faust", role = c("aut"),
               email = "karoline.faust@kuleuven.be"),
        person(given = "Yu", family = "Gao", role = c("aut"),
               email = "gaoyu19920914@gmail.com"),
@@ -15,15 +14,13 @@ Authors@R:
               email = "yagmur.simsek@hsrw.org"),
        person(given = "Leo", family = "Lahti", role = c("aut"),
               email = "leo.lahti@iki.fi",
-              comment = c(ORCID = "0000-0001-5537-637X"))
-	      )
+              comment = c(ORCID = "0000-0001-5537-637X")))
 Title: Microbiome Data Simulation
 Description: 
     Microbiome time series simulation with generalized Lotka-Volterra model, 
     Self-Organized Instability (SOI), and other models. Hubbell's Neutral model
     is used to determine the abundance matrix. The resulting abundance matrix
-    is applied to \linkS4class{SummarizedExperiment} or
-    \linkS4class{TreeSummarizedExperiment} object.
+    is applied to SummarizedExperiment or TreeSummarizedExperiment objects.
 License: Artistic-2.0 | file LICENSE
 biocViews: Microbiome, Software, Sequencing, DNASeq, ATACSeq, Coverage, Network
 Encoding: UTF-8

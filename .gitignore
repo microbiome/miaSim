@@ -1,12 +1,5 @@
+*.Rproj.user
+*.Rproj
+*.Rhistory
+*.Ruserdata
 .Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-.Rbuildignore
-.renviron
-.rapp.history
-.directory
-.project
-.settings
-.ds_store
-.log

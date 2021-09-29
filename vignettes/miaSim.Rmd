@@ -1,5 +1,18 @@
 ---
 title: "miaSim: Microbiome Data Simulation"
+author:
+- name: Daniel Rios Garza
+  email: danielrios.garza@kuleuven.be
+- name: Emma Gheysen
+  email: emma.gheysen@student.kuleuven.be
+- name: Karoline Faust
+  email: karoline.faust@kuleuven.be
+- name: Leo Lahti
+  email: leo.lahti@iki.fi
+- name: Yagmur Simsek
+  email: yagmur.simsek@hsrw.org
+- name: Yu Gao
+  email: gaoyu19920914@gmail.com
 date: "`r Sys.Date()`"
 package: miaSim
 output: 
@@ -42,6 +55,7 @@ These matrices can be used in the simulation model examples.
 `tDyn` generates lists of time series that can be specified as simulation time 
 and time points to keep in simulated time.
 
+
 # Installation
 
 ### Bioc-release
@@ -54,22 +68,76 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 ```
 
 ### The development version of the package 
+
 [Github](https://github.com/microbiome/miaSim). 
+
+Install the development version from Github.
+
+```{r install-devel, eval=FALSE}
+# install.packages("remotes")
+remotes::install_github("microbiome/miaSim")
+```
+
 
 # Models for simulating microbiome data sets 
 
-The generalized Lotka-Volterra simulation model fitted to time-series estimates
-microbial population dynamics and relative rates of interaction. The simulation
-function is stored in `simulateGLV`
+`simulateGLV` is the generalized Lotka-Volterra simulation model fitted to 
+time-series estimates microbial population dynamics and relative rates of 
+interaction. The model relies on interaction matrix that represents interaction
+heterogeneity between species. This interaction matrix can be generated 
+with `powerlawA` or `randomA` functions depending on the distribution method. 
+
+`powerlawA` uses normal distribution to create interaction matrix. 
+
+```{r}
+library(miaSim)
+A_normal <- powerlawA(n.species = 4, alpha = 3)
+```
+
+`randomA` uses uniform distribution to create interaction matrix. 
+
+```{r}
+A_uniform <- randomA(n.species = 10, d = -0.4, min.strength = -0.8,
+                        max.strength = 0.8, connectance = 0.5)
+```
+
+The number of species specified in the interaction matrix must be the same 
+amount as the species used in the `simulateGLV` and `simulateSOI` models.
+
+```{r}
+SEobject <- simulateGLV(n.species = 4, A_normal, t.start = 0, t.store = 1000)
+```
+
+Time series is added to `simulateGLV` with `tDyn` function where the time
+points can be kept and extracted from simulation time as a separate list.
+
+```{r}
+Time <- tDyn(t.start = 0, t.end = 100, t.step = 0.5, t.store = 100)
+Time$t.index 
+```
 
 `simulateHubbell` includes the Hubbell Neutral simulation model which explains 
 the diversity and relative abundance of species in ecological communities.
+This model is based on the community dynamics; migration, births and deaths.
+
+```{r}
+ExampleHubbell <- simulateHubbell(n.species = 8, M = 10, I = 1000, d = 50,
+                                    m = 0.02, tend = 100)
+
+```
 
 The Self-Organised Instability (SOI) model can be found in `simulateSOI` and it
 generates time series for communities and accelerates stochastic simulation.
 
-The simulations result in abundance matrix which can be used to form 
-`SummarizedExperiment` [@SE] object.
+```{r}
+ExampleSOI <- simulateSOI(n.species = 4, I = 1000, A_normal, k=5, com = NULL,
+                                            tend = 150, norm = TRUE)
+```
+
+The simulations result in the `SummarizedExperiment` [@SE] class object 
+containing the abundance matrix. Other fields, such as rowData containing 
+information about the samples, and colData, consisting of sample metadata 
+describing the samples, can be added to the `SummarizedExperiment` class object.
 
 # Session info
 
