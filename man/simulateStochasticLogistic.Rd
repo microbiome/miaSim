@@ -3,6 +3,8 @@
 \docType{methods}
 \name{simulateStochasticLogistic}
 \alias{simulateStochasticLogistic}
+\alias{simulateStochasticLogistic-numeric}
+\alias{simulateStochasticLogistic,numeric-method}
 \title{Stochastic Logistic simulation}
 \usage{
 simulateStochasticLogistic(
@@ -16,8 +18,7 @@ simulateStochasticLogistic(
   t.step = 0.01,
   t.store = 1000,
   partial = TRUE,
-  stochastic = TRUE,
-  ...
+  stochastic = TRUE
 )
 }
 \arguments{
@@ -54,13 +55,11 @@ time points to keep
 \item{stochastic}{Logical: whether the logistic model should be stochastic
 (controlled by multiplying the growth rate by a random number)
 (default: \code{stochastic = TRUE})}
-
-\item{...}{additional arguments that can be called from miaSim::tDyn}
 }
 \value{
-\code{simulateStochasticLogistic} returns a \linkS4class{SummarizedExperiment}
-class object containing matrix with species abundance as rows and
-time points as columns
+\code{simulateStochasticLogistic} returns a
+\linkS4class{SummarizedExperiment} class object containing matrix with
+species abundance as rows and time points as columns
 }
 \description{
 Simulates time series with the (stochastic) logistic model and forms a
@@ -69,8 +68,8 @@ Simulates time series with the (stochastic) logistic model and forms a
 \details{
 Simulates a community time series using the logistic model.
 The change rate of the species was defined as
-dx/dt = b\emph{x}(1-(x/k))\emph{rN - dr}x,
-where b is the vector of growth rates,
+dx/dt = b\emph{x}(1-(x/k))\emph{rN - dr}x, where
+b is the vector of growth rates,
 x is the vector of initial species abundances,
 k is the vector of maximum carrying capacities,
 rN is a random number ranged from 0 to 1 which changes in each time step,
@@ -84,14 +83,19 @@ The resulting abundance matrix model is used to construct
 }
 \examples{
 ## ATTENTION: Don't set a large value to t.step, otherwise the computer won't
-give a correct solution to the logistic ODE(ordinary differential equation).
-Keep t.step under 0.05 or 0.01 is a good practice.
+#give a correct solution to the logistic ODE(ordinary differential equation).
+#Keeping t.step under 0.05 or 0.01 is a good practice.
 
-while (!exists("ExampleLogistic"))  ExampleLogistic <- simulateStochasticLogistic(n.species = 5)
-# plot the calculated points
+#while (!exists("ExampleLogistic"))
+ExampleLogistic <- simulateStochasticLogistic(n.species = 5)
+#plot the calculated points
 matplot(t(ExampleLogistic@assays@data@listData[["counts"]]), type = "l")
 
-# calculation by setting initial parameters explicitly
-ExampleLogistic <- simulateStochasticLogistic(n.species = 2, b <- c(0.2, 0.1), k <- c(1000, 2000), dr <- c(0.001, 0.0015), x <- c(3, 0.1), t.start = 0, t.end = 1500, t.step = 0.01, t.store = 1200, partial = F, stochastic = F)
+#calculation by setting initial parameters explicitly
+ExampleLogistic <- simulateStochasticLogistic(
+n.species = 2,
+b <- c(0.2, 0.1), k <- c(1000, 2000), dr <- c(0.001, 0.0015), x <- c(3, 0.1),
+t.start = 0, t.end = 1500, t.step = 0.01,
+t.store = 1200, partial = FALSE, stochastic = FALSE)
 
 }

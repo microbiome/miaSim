@@ -12,20 +12,21 @@
 #'
 #' @return lists containing simulation times (t.sys) and the indices to keep.
 #' @examples
-#' Time <- tDyn(t.start = 0, t.end = 100, t.step = 0.5, t.store = 100)
-#' DefaultTime <- tDyn(t.start = 0)
+#' Time <- simulateTimeSeries(t.start = 0, t.end = 100, t.step = 0.5,
+#'     t.store = 100)
+#' DefaultTime <- simulateTimeSeries(t.start = 0)
 #'
 #' @docType methods
-#' @aliases tDyn-numeric
-#' @aliases tDyn,numeric-method
+#' @aliases simulateTimeSeries-numeric
+#' @aliases simulateTimeSeries,numeric-method
 #'
 #' @keywords internal
 #' @export
-setGeneric("tDyn", signature = c("t.start"),
+setGeneric("simulateTimeSeries", signature = c("t.start"),
         function(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000)
-            standardGeneric("tDyn"))
+            standardGeneric("simulateTimeSeries"))
 
-setMethod("tDyn", signature = c(t.start="numeric"),
+setMethod("simulateTimeSeries", signature = c(t.start="numeric"),
         function(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000){
 
         t.total <- t.end-t.start
@@ -36,4 +37,3 @@ setMethod("tDyn", signature = c(t.start="numeric"),
 
         return(list("t.sys" = t.sys, "t.index" = t.index))
 })
-

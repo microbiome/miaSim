@@ -77,7 +77,7 @@ setMethod("simulateGLV", signature = c(n.species="numeric"),
     function(n.species, A, x = runif(n.species),
                 b = runif(n.species), t.start = 0, t.store, norm = FALSE, ...){
         parameters <- cbind(b, A)
-        t.dyn <- tDyn(t.start, ..., t.store)
+        t.dyn <- simulateTimeSeries(t.start, ..., t.store)
 
         out <- ode(
                 y = x,
