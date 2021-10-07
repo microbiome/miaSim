@@ -134,7 +134,7 @@ setMethod("simulateStochasticLogistic", signature = c(n.species="numeric"),
                         logistic.model)
 
         # set the time points to simulate and to store
-        t.dyn <- simulateTimeSeries(t.start = t.start,
+        t.dyn <- SimulationTimes(t.start = t.start,
                         t.end = t.end,
                         t.step = t.step,
                         t.store = t.store)

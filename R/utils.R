@@ -12,21 +12,21 @@
 #'
 #' @return lists containing simulation times (t.sys) and the indices to keep.
 #' @examples
-#' Time <- simulateTimeSeries(t.start = 0, t.end = 100, t.step = 0.5,
+#' Time <- SimulationTimes(t.start = 0, t.end = 100, t.step = 0.5,
 #'     t.store = 100)
-#' DefaultTime <- simulateTimeSeries(t.start = 0)
+#' DefaultTime <- SimulationTimes(t.start = 0)
 #'
 #' @docType methods
-#' @aliases simulateTimeSeries-numeric
-#' @aliases simulateTimeSeries,numeric-method
+#' @aliases SimulationTimes-numeric
+#' @aliases SimulationTimes,numeric-method
 #'
 #' @keywords internal
 #' @export
-setGeneric("simulateTimeSeries", signature = c("t.start"),
+setGeneric("SimulationTimes", signature = c("t.start"),
         function(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000)
-            standardGeneric("simulateTimeSeries"))
+            standardGeneric("SimulationTimes"))
 
-setMethod("simulateTimeSeries", signature = c(t.start="numeric"),
+setMethod("SimulationTimes", signature = c(t.start="numeric"),
         function(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000){
 
         t.total <- t.end-t.start

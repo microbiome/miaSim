@@ -15,6 +15,7 @@ simulateGLV(
   t.start = 0,
   t.store,
   norm = FALSE,
+  arguments = TRUE,
   ...
 )
 }
@@ -35,6 +36,9 @@ time points to keep (default: \code{t.store = 100})}
 
 \item{norm}{Logical scalar: returns normalised abundances (proportions
 in each generation) (default: \code{norm = FALSE})}
+
+\item{arguments}{Logical: decides whether the generated matrix parameters
+are included in \linkS4class{SummarizedExperiment} object}
 
 \item{...}{additional arguments that can be called from miaSim::tDyn}
 }

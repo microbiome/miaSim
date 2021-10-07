@@ -21,7 +21,8 @@
 #' (default: \code{t.start = 0})
 #' @param t.store Integer scalar indicating the number of evenly distributed
 #' time points to keep (default: \code{t.store = 100})
-#'
+#' @param arguments Logical: decides whether the generated matrix parameters
+#' are included in \linkS4class{SummarizedExperiment} object
 #' @param ... additional arguments that can be called from miaSim::tDyn
 #'
 #' @return
@@ -55,13 +56,14 @@
 #' @importFrom utils str
 #' @importFrom deSolve ode
 #' @importFrom stats runif
-#' @importFrom SummarizedExperiment SummarizedExperiment
+#' @importFrom SummarizedExperiment metadata<-
 #' @importFrom methods setGeneric
 #'
 #' @export
 setGeneric("simulateGLV", signature = "n.species",
     function(n.species, A, x = runif(n.species),
-            b = runif(n.species), t.start = 0, t.store, norm = FALSE, ...)
+            b = runif(n.species), t.start = 0, t.store, norm = FALSE,
+            arguments = TRUE , ...)
         standardGeneric("simulateGLV"))
 
 dxdt <- function(t, x, parameters){
@@ -75,24 +77,31 @@ dxdt <- function(t, x, parameters){
 
 setMethod("simulateGLV", signature = c(n.species="numeric"),
     function(n.species, A, x = runif(n.species),
-                b = runif(n.species), t.start = 0, t.store, norm = FALSE, ...){
+            b = runif(n.species), t.start = 0, t.store, norm = FALSE,
+            arguments = TRUE, ...){
         parameters <- cbind(b, A)
-        t.dyn <- simulateTimeSeries(t.start, ..., t.store)
+        t.dyn <- SimulationTimes(t.start, ..., t.store)
 
         out <- ode(
                 y = x,
                 times = t.dyn$t.sys,
                 func = dxdt,
                 parms = parameters
-        )
+    )
         spab <- t(out[,2:ncol(out)])
         spab <- spab[,t.dyn$t.index]
         print(str(spab))
+
         if(norm){
         spab <- t(t(spab)/colSums(spab))
-            }
+    }
         spab
         SE <- SummarizedExperiment(assays = list(counts=spab))
+        if (arguments) {
+            metadata(SE) <- list(x  = x,
+                                A = A,
+                                b = b)
+    }
         return(SE)
     }
 )
