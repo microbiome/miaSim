@@ -89,7 +89,7 @@ The resulting abundance matrix model is used to construct
 #while (!exists("ExampleLogistic"))
 ExampleLogistic <- simulateStochasticLogistic(n.species = 5)
 #plot the calculated points
-matplot(t(ExampleLogistic@assays@data@listData[["counts"]]), type = "l")
+matplot(t(assays(ExampleLogistic)[["counts"]]), type = "l")
 
 #calculation by setting initial parameters explicitly
 ExampleLogistic <- simulateStochasticLogistic(
