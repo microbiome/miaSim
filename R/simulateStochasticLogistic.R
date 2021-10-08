@@ -56,7 +56,7 @@
 #' #calculation by setting initial parameters explicitly
 #' ExampleLogistic <- simulateStochasticLogistic(
 #' n.species = 2,
-#' b <- c(0.2, 0.1), k <- c(1000, 2000), dr <- c(0.001, 0.0015), x <- c(3, 0.1),
+#' b = c(0.2, 0.1), k = c(1000, 2000), dr = c(0.001, 0.0015), x = c(3, 0.1),
 #' t.start = 0, t.end = 1500, t.step = 0.01,
 #' t.store = 1200, partial = FALSE, stochastic = FALSE)
 #'
