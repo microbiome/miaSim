@@ -66,20 +66,7 @@ Simulates time series with the (stochastic) logistic model and forms a
 \linkS4class{SummarizedExperiment} object.
 }
 \details{
-Simulates a community time series using the logistic model.
-The change rate of the species was defined as
-dx/dt = b\emph{x}(1-(x/k))\emph{rN - dr}x, where
-b is the vector of growth rates,
-x is the vector of initial species abundances,
-k is the vector of maximum carrying capacities,
-rN is a random number ranged from 0 to 1 which changes in each time step,
-dr is the vector of constant death rates.
-Also, the vectors of initial dead species abundances can be set.
-The number of species will be set to 0 if the dead species abundances
-surpass the alive species abundances.
 
-The resulting abundance matrix model is used to construct
-\linkS4class{SummarizedExperiment} object.
 }
 \examples{
 ## ATTENTION: Don't set a large value to t.step, otherwise the computer won't

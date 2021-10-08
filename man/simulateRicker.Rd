@@ -28,9 +28,11 @@ simulateRicker(
 
 \item{K}{Numeric: carrying capacities}
 
-\item{sigma}{noise level, if set to a non-positive value, no noise is added (default: \code{sigma = 0.05})}
+\item{sigma}{noise level, if set to a non-positive value, no noise is added
+(default: \code{sigma = 0.05})}
 
-\item{explosion.bound}{boundary for explosion (default: \code{explosion.bound = 10^8})}
+\item{explosion.bound}{boundary for explosion
+(default: \code{explosion.bound = 10^8})}
 
 \item{tskip}{Integer: number of generations that should
 not be included in the outputted species abundance matrix.
@@ -43,11 +45,13 @@ in each generation) (default: \code{norm = FALSE})}
 }
 \value{
 \code{simulateRicker} returns a \linkS4class{SummarizedExperiment}
-class object containing matrix with species abundance as rows and time points as columns
+class object containing matrix with species abundance as rows and time
+points as columns
 }
 \description{
-The Ricker model is a discrete version of the generalized Lotka-Volterra model and
-is implemented here as proposed by Fisher and Mehta in PLoS ONE 2014. The function returns a
+The Ricker model is a discrete version of the generalized
+Lotka-Volterra model and is implemented here as proposed by Fisher and Mehta
+in PLoS ONE 2014. The function returns a
 \linkS4class{SummarizedExperiment} object.
 }
 \examples{
@@ -56,5 +60,7 @@ ExampleRicker <- simulateRicker(n.species=10,A,tend=100)
 
 }
 \references{
-Fisher & Mehta (2014). Identifying Keystone Species in the Human Gut Microbiome from Metagenomic Timeseries using Sparse Linear Regression. PLoS One 9:e102451
+Fisher & Mehta (2014). Identifying Keystone Species in the Human
+Gut Microbiome from Metagenomic Timeseries using Sparse Linear Regression.
+PLoS One 9:e102451
 }

@@ -5,7 +5,7 @@
 #'
 #' Simulates a community time series using the logistic model.
 #' The change rate of the species was defined as
-#' dx/dt = b*x*(1-(x/k))*rN - dr*x, where
+#' dx/dt = b\*x\*(1-(x/k))\*rN - dr\*x, where
 #' b is the vector of growth rates,
 #' x is the vector of initial species abundances,
 #' k is the vector of maximum carrying capacities,
@@ -76,89 +76,71 @@
 #' @export
 
 setGeneric("simulateStochasticLogistic",signature = "n.species",
-           function(n.species,
-                    b = runif(n = n.species, min = 0.1, max = 0.2),
-                    k = runif(n = n.species, min = 1000, max = 2000),
-                    dr = runif(n = n.species, min = 0.0005, max = 0.0025),
-                    x = runif(n = n.species, min = 0.1, max = 10),
-                    t.start = 0,
-                    t.end = 2000,
-                    t.step = 0.01,
-                    t.store = 1000,
-                    partial = TRUE,
-                    stochastic = TRUE)
-               standardGeneric("simulateStochasticLogistic"))
+    function(n.species,
+        b = runif(n = n.species, min = 0.1, max = 0.2),
+        k = runif(n = n.species, min = 1000, max = 2000),
+        dr = runif(n = n.species, min = 0.0005, max = 0.0025),
+        x = runif(n = n.species, min = 0.1, max = 10),
+        t.start = 0, t.end = 2000, t.step = 0.01, t.store = 1000,
+        partial = TRUE, stochastic = TRUE)
+        standardGeneric("simulateStochasticLogistic"))
 
 setMethod("simulateStochasticLogistic", signature = c(n.species="numeric"),
-          function(n.species,
-                   b =  runif(n = n.species, min = 0.1, max = 0.2),
-                   k = runif(n = n.species, min = 1000, max = 2000),
-                   dr = runif(n = n.species, min = 0.0005, max = 0.0025),
-                   x = runif(n = n.species, min = 0.1, max = 10),
-                   t.start = 0,
-                   t.end = 2000,
-                   t.step = 0.01,
-                   t.store = 1000,
-                   partial = TRUE,
-                   stochastic = TRUE){
-              # define the stochastic logistic model
-              stochasticLogisticModel <- function (t, state, params){
-                  live = state[1]
-                  dead = state[2]
-                  b <- params["b"]
-                  k <- params["k"]
-                  dr <- params["dr"]
-                  rN <- ifelse(stochastic, runif(1, min = 0.0, max = 1.0), 1)
-                  dlive <- b*live*(1-(live/(k)))*rN
-                  ddead <- dr*live
-                  dxdt <- c(dlive, ddead)
-                  list(dxdt)
-              }
+    function(n.species,
+        b =  runif(n = n.species, min = 0.1, max = 0.2),
+        k = runif(n = n.species, min = 1000, max = 2000),
+        dr = runif(n = n.species, min = 0.0005, max = 0.0025),
+        x = runif(n = n.species, min = 0.1, max = 10),
+        t.start = 0, t.end = 2000, t.step = 0.01, t.store = 1000,
+        partial = TRUE, stochastic = TRUE){
 
-              # check the input format
-              is.positiveinteger <-function(x, tol = .Machine$double.eps^0.5) {
-                  return (abs(x - round(x)) < tol && x > 0)
-              }
-              if(!is.positiveinteger(n.species)){
-                  stop("n.species must be integer.")
-              }
-              if(!all(vapply(list(b,k,dr,x), is.double, logical(1)),
-                      vapply(list(b,k,dr,x), length, integer(1)) == n.species)){
-                  stop("b,k,dr,x must be double and of the length of n.species.")
-              }
-              if(!all(vapply(list(partial, stochastic), is.logical, logical(1)))){
-                  stop("partial or stochastic should be boolean values.")
-              }
+        # define the stochastic logistic model
+        stochasticLogisticModel <- function (t, state, params){
+            live <- state[1]
+            dead <- state[2]
+            b <- params["b"]
+            k <- params["k"]
+            dr <- params["dr"]
+            rN <- ifelse(stochastic, runif(1, min = 0.0, max = 1.0), 1)
+            dlive <- b*live*(1-(live/(k)))*rN
+            ddead <- dr*live
+            dxdt <- c(dlive, ddead)
+            list(dxdt)
+        }
 
-              # set the time points to simulate and to store
-              t.dyn <- SimulationTimes(t.start = t.start,
-                                       t.end = t.end,
-                                       t.step = t.step,
-                                       t.store = t.store)
+        # check the input format
+        is.positiveinteger <-function(x, tol = .Machine$double.eps^0.5){
+            return (abs(x - round(x)) < tol && x > 0)}
+        if(!is.positiveinteger(n.species)){
+            stop("n.species must be integer.")}
+        if(!all(vapply(list(b,k,dr,x), is.double, logical(1)),
+                vapply(list(b,k,dr,x), length, integer(1)) == n.species)){
+            stop("b,k,dr,x must be double and of n.species length.")}
+        if(!all(vapply(list(partial,stochastic),is.logical, logical(1)))){
+            stop("partial or stochastic should be boolean values.")}
 
-              # function to generate time series
-              generateTimeSeries <- function(input.row) {
-                  b <- input.row$b
-                  k <- input.row$k
-                  dr <- input.row$dr
-                  x <- input.row$x
-                  out <- as.data.frame(
-                      ode(func=stochasticLogisticModel,
-                          y=c(live=x, dead=0),
-                          times=t.dyn$t.sys,
-                          parms=c(b=b, k=k, dr=dr, x=x))
-                  )
-                  pop <- out$live - out$dead
-                  pop[pop<0] <- 0
-                  return(pop)
-              }
-              input.df <- data.frame(b, k, dr, x)
-              out.matrix <- do.call(rbind, lapply(seq_len(n.species),
-                                                  function(x) generateTimeSeries(input.df[x,])))
+        # set the time points to simulate and to store
+        t.dyn <- SimulationTimes(t.start = t.start, t.end = t.end,
+            t.step = t.step, t.store = t.store)
 
-              if(partial) {
-                  out.matrix <- out.matrix[,t.dyn$t.index]
-              }
-              SE <- SummarizedExperiment(assays = list(counts = out.matrix))
-          }
+        # function to generate time series
+        generateTimeSeries <- function(input.row) {
+            b <- input.row$b
+            k <- input.row$k
+            dr <- input.row$dr
+            x <- input.row$x
+            out <- as.data.frame(
+                ode(func=stochasticLogisticModel, y=c(live=x, dead=0),
+                    times=t.dyn$t.sys, parms=c(b=b, k=k, dr=dr, x=x)))
+            pop <- out$live - out$dead
+            pop[pop<0] <- 0
+            return(pop)
+        }
+        input.df <- data.frame(b, k, dr, x)
+        out.matrix <- do.call(rbind, lapply(seq_len(n.species),
+            function(x) generateTimeSeries(input.df[x,])))
+
+        if(partial) out.matrix <- out.matrix[,t.dyn$t.index]
+        SE <- SummarizedExperiment(assays = list(counts = out.matrix))
+    }
 )
