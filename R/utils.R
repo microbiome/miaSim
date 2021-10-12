@@ -22,11 +22,11 @@
 #'
 #' @keywords internal
 #' @export
-setGeneric("SimulationTimes", signature = c("t.start"),
+setGeneric("SimulationTimes", signature = "t.end",
         function(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000)
             standardGeneric("SimulationTimes"))
 
-setMethod("SimulationTimes", signature = c(t.start="numeric"),
+setMethod("SimulationTimes", signature = c(t.end="numeric"),
         function(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000){
 
         t.total <- t.end-t.start
@@ -37,3 +37,18 @@ setMethod("SimulationTimes", signature = c(t.start="numeric"),
 
         return(list("t.sys" = t.sys, "t.index" = t.index))
 })
+
+eventTimes <- function(t.events=c(10,20,30), t.duration=rep(3,3), t.start=0, t.end=1000, t.step=0.1, t.store=1000){
+        tdyn <- SimulationTimes(t.start = t.start, t.end = t.end, t.step = t.step, t.store = t.store)
+        
+        t.result = c()
+        
+        for (i in seq(length(t.events))){
+                p1 <- tdyn$t.sys[(tdyn$t.sys>=t.events[i]) & (tdyn$t.sys<=(t.events[i]+t.duration[i]))]
+                t.result <- c(t.result, p1)        
+                
+        }
+        
+        
+        return(t.result)
+}

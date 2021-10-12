@@ -76,71 +76,151 @@
 #' @export
 
 setGeneric("simulateStochasticLogistic",signature = "n.species",
-    function(n.species,
-        b = runif(n = n.species, min = 0.1, max = 0.2),
-        k = runif(n = n.species, min = 1000, max = 2000),
-        dr = runif(n = n.species, min = 0.0005, max = 0.0025),
-        x = runif(n = n.species, min = 0.1, max = 10),
-        t.start = 0, t.end = 2000, t.step = 0.01, t.store = 1000,
-        partial = TRUE, stochastic = TRUE)
-        standardGeneric("simulateStochasticLogistic"))
+           function(n.species,
+                    b = runif(n = n.species, min = 0.1, max = 0.2),
+                    k = runif(n = n.species, min = 1000, max = 2000),
+                    dr = runif(n = n.species, min = 0.0005, max = 0.0025),
+                    x = runif(n = n.species, min = 0.1, max = 10),
+                    sigma.drift = 0.01,
+                    sigma.epoch = 0.3,
+                    sigma.external = 0.3,
+                    p.epoch = 0.01,
+                    t.external_events = c(12, 36, 48),
+                    t.external_durations = c(3, 10, 99), 
+                    t.start = 0, t.end = 2000, t.step = 0.1, t.store = 1000,
+                    partial = FALSE, stochastic = TRUE)
+               standardGeneric("simulateStochasticLogistic"))
 
 setMethod("simulateStochasticLogistic", signature = c(n.species="numeric"),
-    function(n.species,
-        b =  runif(n = n.species, min = 0.1, max = 0.2),
-        k = runif(n = n.species, min = 1000, max = 2000),
-        dr = runif(n = n.species, min = 0.0005, max = 0.0025),
-        x = runif(n = n.species, min = 0.1, max = 10),
-        t.start = 0, t.end = 2000, t.step = 0.01, t.store = 1000,
-        partial = TRUE, stochastic = TRUE){
-
-        # define the stochastic logistic model
-        stochasticLogisticModel <- function (t, state, params){
-            live <- state[1]
-            dead <- state[2]
-            b <- params["b"]
-            k <- params["k"]
-            dr <- params["dr"]
-            rN <- ifelse(stochastic, runif(1, min = 0.0, max = 1.0), 1)
-            dlive <- b*live*(1-(live/(k)))*rN
-            ddead <- dr*live
-            dxdt <- c(dlive, ddead)
-            list(dxdt)
-        }
-
-        # check the input format
-        is.positiveinteger <-function(x, tol = .Machine$double.eps^0.5){
-            return (abs(x - round(x)) < tol && x > 0)}
-        if(!is.positiveinteger(n.species)){
-            stop("n.species must be integer.")}
-        if(!all(vapply(list(b,k,dr,x), is.double, logical(1)),
-                vapply(list(b,k,dr,x), length, integer(1)) == n.species)){
-            stop("b,k,dr,x must be double and of n.species length.")}
-        if(!all(vapply(list(partial,stochastic),is.logical, logical(1)))){
-            stop("partial or stochastic should be boolean values.")}
-
-        # set the time points to simulate and to store
-        t.dyn <- SimulationTimes(t.start = t.start, t.end = t.end,
-            t.step = t.step, t.store = t.store)
-
-        # function to generate time series
-        generateTimeSeries <- function(input.row) {
-            b <- input.row$b
-            k <- input.row$k
-            dr <- input.row$dr
-            x <- input.row$x
-            out <- as.data.frame(
-                ode(func=stochasticLogisticModel, y=c(live=x, dead=0),
-                    times=t.dyn$t.sys, parms=c(b=b, k=k, dr=dr, x=x)))
-            pop <- out$live - out$dead
-            pop[pop<0] <- 0
-            return(pop)
-        }
-        input.df <- data.frame(b, k, dr, x)
-        out.matrix <- do.call(rbind, lapply(seq_len(n.species),
-            function(x) generateTimeSeries(input.df[x,])))
-
-        if(partial) out.matrix <- out.matrix[,t.dyn$t.index]
-        SE <- SummarizedExperiment(assays = list(counts = out.matrix))
-    }
+          function(n.species,
+                   b =  runif(n = n.species, min = 0.1, max = 0.2),
+                   k = runif(n = n.species, min = 1000, max = 2000),
+                   dr = runif(n = n.species, min = 0.0005, max = 0.0025),
+                   x = runif(n = n.species, min = 0.1, max = 10),
+                   sigma.drift = 0.01,
+                   sigma.epoch = 0.3,
+                   sigma.external = 0.3,
+                   p.epoch = 0.01,
+                   t.external_events = c(12, 36, 48),
+                   t.external_durations = c(3, 10, 99), 
+                   t.start = 0, t.end = 2000, t.step = 0.1, t.store = 1000,
+                   partial = FALSE, stochastic = TRUE){
+              
+              # define the stochastic logistic model
+              stochasticLogisticModel <- function (t, state, params){
+                  
+                  current <- pmax(0,state[names(state) == 'current'])
+                  
+                  live <- state[names(state) == 'live']
+                  
+                  dead <- state[names(state) == 'dead']
+                  
+                  b <- params$b
+                  
+                  k <- params$k
+                  
+                  dr <- params$dr
+                  
+                  
+                  dlive <- b*live*(1-(live/(k)))
+                  
+                  ddead <- dr*current
+                  dcurrent <- (dlive-ddead)
+                  
+                  dxdt <- list(c(dcurrent, dlive, ddead))
+                  
+                  return( dxdt )
+              }
+              
+              
+              # check the input format
+              is.positiveinteger <-function(x, tol = .Machine$double.eps^0.5){
+                  return (abs(x - round(x)) < tol && x > 0)}
+              if(!is.positiveinteger(n.species)){
+                  stop("n.species must be integer.")}
+              if(!all(vapply(list(b,k,dr,x), is.double, logical(1)),
+                      vapply(list(b,k,dr,x), length, integer(1)) == n.species)){
+                  stop("b,k,dr,x must be double and of n.species length.")}
+              if(!all(vapply(list(partial,stochastic),is.logical, logical(1)))){
+                  stop("partial or stochastic should be boolean values.")}
+              
+              # set the time points to simulate and to store
+              t.dyn <- SimulationTimes(t.start = t.start, t.end = t.end,
+                                       t.step = t.step, t.store = t.store)
+              
+              perturb <- function(t, y, parms){
+                  with(as.list(y),{
+                      
+                      #continuous or episodic perturbation
+                      
+                      epoch.rN <- 0
+                      external.rN <- 0
+                      
+                      if (rbinom(1,1, parms$p.epoch)){
+                          
+                          epoch.rN <- rnorm(parms$n.species, sd=parms$sigma.epoch)
+                          epoch.rN <- params$stochastic*epoch.rN
+                      }
+                      
+                      if (t %in% parms$tEvent){
+                          
+                          
+                          external.rN <- rnorm(parms$n.species, sd=parms$sigma.external)
+                          external.rN <- params$stochastic*external.rN
+                        
+                      }
+                      drift.rN <- rnorm(parms$n.species, sd=parms$sigma.drift)
+                      drift.rN <- params$stochastic*drift.rN
+                      
+                      
+                      #perturbation is applied to the current population
+                      
+                      current <- y[names(y)=='current'] * (1 + drift.rN)*(1 + epoch.rN)*(1 + external.rN)
+                      current <- pmax(current, 0)
+                      
+                      live <- y[names(y)=='live']
+                      dead <- y[names(y)=='dead']
+                      return(c(current, live, dead))
+                  })
+              }
+              
+              
+              tEvent = eventTimes(t.events = t.external_events, 
+                                  t.duration = t.external_durations, 
+                                  t.start = t.start, t.end = t.end, 
+                                  t.step = t.step, t.store = t.store)
+              
+              params <- list(b=b, k=k, dr=dr,n.species = n.species, sigma.drift = sigma.drift, 
+                             stochastic = stochastic, sigma.epoch = sigma.epoch, 
+                             p.epoch = p.epoch, sigma.external = sigma.external, 
+                             tEvent = tEvent)
+              
+              
+              yinit <- c(x, x, numeric(n.species))
+              
+              names(yinit) <- c(rep("current", n.species), rep("live", n.species), rep("dead", n.species))
+              
+              
+              cont.perturb <- 
+                  out <- as.data.frame(ode(func=stochasticLogisticModel, y=yinit,
+                                           times=t.dyn$t.sys, parms=params, 
+                                           events = list(func = perturb, time = t.dyn$t.sys)))
+              
+              
+              
+              
+              out.matrix <- out[names(out)=='current']
+              
+              names(out.matrix) <- seq(1:n.species)
+              
+              out.matrix <- out.matrix[t.dyn$t.index,]
+              out.matrix$t <- t.dyn$t.sys[t.dyn$t.index]
+              
+              return(out.matrix)
+              
+              
+              
+              
+              
+          }
 )
