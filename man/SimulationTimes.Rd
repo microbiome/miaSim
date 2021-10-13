@@ -33,7 +33,7 @@ in simulation functions.
 \examples{
 Time <- SimulationTimes(t.start = 0, t.end = 100, t.step = 0.5,
     t.store = 100)
-DefaultTime <- SimulationTimes(t.start = 0)
+DefaultTime <- SimulationTimes(t.end = 1000)
 
 }
 \keyword{internal}

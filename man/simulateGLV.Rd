@@ -13,7 +13,16 @@ simulateGLV(
   x = runif(n.species),
   b = runif(n.species),
   t.start = 0,
-  t.store,
+  t.end = 1000,
+  t.store = 1000,
+  t.step = 0.1,
+  sigma.drift = 0.01,
+  sigma.epoch = 0.3,
+  sigma.external = 0.3,
+  p.epoch = 0.01,
+  t.external_events = c(12, 36, 48),
+  t.external_durations = c(3, 10, 99),
+  stochastic = FALSE,
   norm = FALSE,
   arguments = TRUE,
   ...
@@ -31,8 +40,37 @@ simulateGLV(
 \item{t.start}{Numeric scalar indicating the initial time of the simulation.
 (default: \code{t.start = 0})}
 
+\item{t.end}{Numeric scalar indicating the final time of the dimulation
+(default: \code{t.end = 1000})}
+
 \item{t.store}{Integer scalar indicating the number of evenly distributed
 time points to keep (default: \code{t.store = 100})}
+
+\item{t.step}{Numeric scalar indicating the interval between simulation steps
+(default: \code{t.step = 0.01})}
+
+\item{sigma.drift}{Numeric: degree of drift (turnover of species) in each
+time step.
+(default: \code{sigma.drift = 0.01})}
+
+\item{sigma.epoch}{Numeric: degree of epoch change of community
+(default: \code{sigma.epoch = 0.3})}
+
+\item{sigma.external}{Numeric: degree of external events/disturbances
+(default: \code{sigma.external = 0.3})}
+
+\item{p.epoch}{Numeric: probability/frequency of inherit periodic changes of
+community
+(default: \code{p.epoch = 0.01})}
+
+\item{t.external_events}{Numeric: starting times of external events
+(default: \code{t.external_events = c(12, 36, 48)})}
+
+\item{t.external_durations}{Numeric: durations of external events
+(default: \code{t.external_durations = c(3, 10, 99)})}
+
+\item{stochastic}{Logical: whether the gLV model should be stochastic
+(default: \code{stochastic = FALSE})}
 
 \item{norm}{Logical scalar: returns normalised abundances (proportions
 in each generation) (default: \code{norm = FALSE})}

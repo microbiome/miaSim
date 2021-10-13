@@ -14,7 +14,7 @@
 #' @examples
 #' Time <- SimulationTimes(t.start = 0, t.end = 100, t.step = 0.5,
 #'     t.store = 100)
-#' DefaultTime <- SimulationTimes(t.start = 0)
+#' DefaultTime <- SimulationTimes(t.end = 1000)
 #'
 #' @docType methods
 #' @aliases SimulationTimes-numeric
@@ -22,34 +22,39 @@
 #'
 #' @keywords internal
 #' @export
+
 setGeneric("SimulationTimes", signature = "t.end",
-        function(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000)
-            standardGeneric("SimulationTimes"))
+    function(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000)
+    standardGeneric("SimulationTimes"))
 
 setMethod("SimulationTimes", signature = c(t.end="numeric"),
-        function(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000){
-
+    function(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000){
         t.total <- t.end-t.start
-        
-
         t.sys <- seq(t.start, t.end, by = t.step)
-
         t.index <- seq(1, length(t.sys)-1, by=round(length(t.sys)/t.store))
-
         return(list("t.sys" = t.sys, "t.index" = t.index))
 })
 
-eventTimes <- function(t.events=c(10,20,30), t.duration=rep(3,3), t.end=1000, ...){
+setGeneric("isPositiveInteger", signature = "x",
+    function(x, tol = .Machine$double.eps^0.5)
+        standardGeneric("isPositiveInteger"))
+setMethod("isPositiveInteger", signature = c(x="numeric"),
+    function(x, tol = .Machine$double.eps^0.5) {
+        return(abs(x - round(x)) < tol && x > 0)
+    }
+)
+
+setGeneric("eventTimes", signature = "t.events",
+    function(t.events=c(10,20,30), t.duration=rep(3,3), t.end=1000, ...)
+        standardGeneric("eventTimes"))
+setMethod("eventTimes", signature = c(t.events="numeric"),
+    function(t.events=c(10,20,30), t.duration=rep(3,3), t.end=1000, ...){
         tdyn <- SimulationTimes(t.end = t.end,...)
-        
         t.result = c()
-        
         for (i in seq(length(t.events))){
-                p1 <- tdyn$t.sys[(tdyn$t.sys>=t.events[i]) & (tdyn$t.sys<=(t.events[i]+t.duration[i]))]
-                t.result <- c(t.result, p1)        
-                
+            p1 <- tdyn$t.sys[(tdyn$t.sys >= t.events[i]) &
+                        (tdyn$t.sys <= (t.events[i]+t.duration[i]))]
+            t.result <- c(t.result, p1)
         }
-        
-        
         return(t.result)
-}
+    })
