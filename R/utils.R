@@ -30,6 +30,7 @@ setMethod("SimulationTimes", signature = c(t.end="numeric"),
         function(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000){
 
         t.total <- t.end-t.start
+        
 
         t.sys <- seq(t.start, t.end, by = t.step)
 
@@ -38,8 +39,8 @@ setMethod("SimulationTimes", signature = c(t.end="numeric"),
         return(list("t.sys" = t.sys, "t.index" = t.index))
 })
 
-eventTimes <- function(t.events=c(10,20,30), t.duration=rep(3,3), t.start=0, t.end=1000, t.step=0.1, t.store=1000){
-        tdyn <- SimulationTimes(t.start = t.start, t.end = t.end, t.step = t.step, t.store = t.store)
+eventTimes <- function(t.events=c(10,20,30), t.duration=rep(3,3), t.end=1000, ...){
+        tdyn <- SimulationTimes(t.end = t.end,...)
         
         t.result = c()
         

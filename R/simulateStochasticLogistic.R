@@ -86,14 +86,15 @@ setGeneric("simulateStochasticLogistic",signature = "n.species",
                     sigma.external = 0.3,
                     p.epoch = 0.01,
                     t.external_events = c(12, 36, 48),
-                    t.external_durations = c(3, 10, 99), 
-                    t.start = 0, t.end = 2000, t.step = 0.1, t.store = 1000,
-                    partial = FALSE, stochastic = TRUE)
+                    t.external_durations = c(3, 10, 99),
+                    partial = FALSE, 
+                    stochastic = TRUE,
+                    t.end = 1000,...)
                standardGeneric("simulateStochasticLogistic"))
 
 setMethod("simulateStochasticLogistic", signature = c(n.species="numeric"),
           function(n.species,
-                   b =  runif(n = n.species, min = 0.1, max = 0.2),
+                   b = runif(n = n.species, min = 0.1, max = 0.2),
                    k = runif(n = n.species, min = 1000, max = 2000),
                    dr = runif(n = n.species, min = 0.0005, max = 0.0025),
                    x = runif(n = n.species, min = 0.1, max = 10),
@@ -102,9 +103,10 @@ setMethod("simulateStochasticLogistic", signature = c(n.species="numeric"),
                    sigma.external = 0.3,
                    p.epoch = 0.01,
                    t.external_events = c(12, 36, 48),
-                   t.external_durations = c(3, 10, 99), 
-                   t.start = 0, t.end = 2000, t.step = 0.1, t.store = 1000,
-                   partial = FALSE, stochastic = TRUE){
+                   t.external_durations = c(3, 10, 99),
+                   partial = FALSE, 
+                   stochastic = TRUE,
+                   t.end = 1000,...){
               
               # define the stochastic logistic model
               stochasticLogisticModel <- function (t, state, params){
@@ -145,8 +147,7 @@ setMethod("simulateStochasticLogistic", signature = c(n.species="numeric"),
                   stop("partial or stochastic should be boolean values.")}
               
               # set the time points to simulate and to store
-              t.dyn <- SimulationTimes(t.start = t.start, t.end = t.end,
-                                       t.step = t.step, t.store = t.store)
+              t.dyn <- SimulationTimes(t.end = t.end,...)
               
               perturb <- function(t, y, parms){
                   with(as.list(y),{
@@ -187,8 +188,7 @@ setMethod("simulateStochasticLogistic", signature = c(n.species="numeric"),
               
               tEvent = eventTimes(t.events = t.external_events, 
                                   t.duration = t.external_durations, 
-                                  t.start = t.start, t.end = t.end, 
-                                  t.step = t.step, t.store = t.store)
+                                  t.end = t.end, ...)
               
               params <- list(b=b, k=k, dr=dr,n.species = n.species, sigma.drift = sigma.drift, 
                              stochastic = stochastic, sigma.epoch = sigma.epoch, 

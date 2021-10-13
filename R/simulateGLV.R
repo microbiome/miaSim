@@ -61,36 +61,107 @@
 #'
 #' @export
 setGeneric("simulateGLV", signature = "n.species",
-    function(n.species, A, x = runif(n.species),
-            b = runif(n.species), t.start = 0, t.store, norm = FALSE,
+    function(n.species, A, 
+             x = runif(n.species),
+             b = runif(n.species),
+             t.start = 0,
+             t.end = 1000, 
+             t.store = 1000,
+             t.step = 0.1,
+             sigma.drift = 0.01,
+             sigma.epoch = 0.3,
+             sigma.external = 0.3,
+             p.epoch = 0.01,
+             t.external_events = c(12, 36, 48),
+             t.external_durations = c(3, 10, 99),
+             stochastic = FALSE,
+             norm = FALSE,
             arguments = TRUE , ...)
         standardGeneric("simulateGLV"))
 
 dxdt <- function(t, x, parameters){
-    b <- parameters[,1]
-    A <- parameters[,2:ncol(parameters)]
+    b <- parameters$b
+    A <- parameters$A
     # rate of change
     dx <- x*(b+A %*% x)
     # return rate of change
     list(dx)
 }
 
-setMethod("simulateGLV", signature = c(n.species="numeric"),
-    function(n.species, A, x = runif(n.species),
-            b = runif(n.species), t.start = 0, t.store, norm = FALSE,
-            arguments = TRUE, ...){
-        parameters <- cbind(b, A)
-        t.dyn <- SimulationTimes(t.start, ..., t.store)
+perturb <- function(t, y, parameters){
+    with(as.list(y),{
+        
+        #continuous or episodic perturbation
+        
+        epoch.rN <- 0
+        external.rN <- 0
+        
+        if (rbinom(1,1, parameters$p.epoch)){
+            
+            epoch.rN <- rnorm(parameters$n.species, sd=parameters$sigma.epoch)
+            epoch.rN <- parameters$stochastic*epoch.rN
+        }
+        
+        if (t %in% parameters$tEvent){
+            
+            
+            external.rN <- rnorm(parameters$n.species, sd=parameters$sigma.external)
+            external.rN <- parameters$stochastic*external.rN
+            
+        }
+        drift.rN <- rnorm(parameters$n.species, sd=parameters$sigma.drift)
+        drift.rN <- parameters$stochastic*drift.rN
+        
+        
+        #perturbation is applied to the current population
+        
+        y <- y * (1 + drift.rN)*(1 + epoch.rN)*(1 + external.rN)
+        
+        return(y)
+    })
+}
 
+setMethod("simulateGLV", signature = c(n.species="numeric"),
+    function(n.species, A, 
+             x = runif(n.species),
+             b = runif(n.species), 
+             t.start = 0,
+             t.end = 1000, 
+             t.store = 1000,
+             t.step = 0.1,
+             sigma.drift = 0.01,
+             sigma.epoch = 0.3,
+             sigma.external = 0.3,
+             p.epoch = 0.01,
+             t.external_events = c(12, 36, 48),
+             t.external_durations = c(3, 10, 99),
+             stochastic = FALSE,
+             norm = FALSE,
+             arguments = TRUE, ...){
+        
+        
+        t.dyn <- SimulationTimes(t.start = t.start, t.end = t.end,
+                                 t.step = t.step, t.store = t.store)
+        
+        tEvent = eventTimes(t.events = t.external_events, 
+                            t.duration = t.external_durations, 
+                            t.start = t.start, t.end = t.end, 
+                            t.step = t.step, t.store = t.store)
+
+        parameters <- list(b=b, A = A, n.species = n.species, sigma.drift = sigma.drift, 
+                       stochastic = stochastic, sigma.epoch = sigma.epoch, 
+                       p.epoch = p.epoch, sigma.external = sigma.external, 
+                       tEvent = tEvent)
         out <- ode(
                 y = x,
                 times = t.dyn$t.sys,
                 func = dxdt,
-                parms = parameters
+                parms = parameters,
+                events = list(func = perturb, time = t.dyn$t.sys)
     )
         spab <- t(out[,2:ncol(out)])
         spab <- spab[,t.dyn$t.index]
-        print(str(spab))
+        
 
         if(norm){
         spab <- t(t(spab)/colSums(spab))
