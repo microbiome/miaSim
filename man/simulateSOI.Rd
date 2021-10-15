@@ -7,7 +7,7 @@
 \alias{simulateSOI,numeric-method}
 \title{Self-Organised Instability model (SOI) simulation}
 \usage{
-simulateSOI(n.species, I, A, k, com, tend, norm = FALSE)
+simulateSOI(n.species, I, A, k = 5, com = NULL, tend, norm = FALSE)
 }
 \arguments{
 \item{n.species}{Integer: number of species}

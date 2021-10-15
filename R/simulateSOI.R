@@ -33,49 +33,7 @@
 #' @importFrom stats rnorm
 #'
 #' @export
-
-setGeneric("simulateSOI",signature = "n.species",
-        function(n.species, I, A, k, com, tend, norm = FALSE)
-            standardGeneric("simulateSOI"))
-
-updatePropensities <- function(
-        I, #total nr of sites
-        counts, # species counts vector incl the empty sites
-        death_rates, # species-specific death rates
-        migr_rates, # species-specific migration rates
-        pos_inter_rates, # positive interaction rates matrix
-        neg_inter_rates # negative interaction rates matrix
-){
-        N <- length(counts)-1
-        # migration AND positive interaction
-        m_propensities <- counts[N+1]*migr_rates/N
-        for(stronger in seq_len(N)){
-            if(sum(pos_inter_rates[stronger,]!=0) >0){
-            weaker <- which(pos_inter_rates[stronger,]!=0)
-            inter_rate <- pos_inter_rates[stronger,weaker]
-            m_propensities[stronger] <- m_propensities[stronger] +
-            sum(counts[weaker] *
-                    inter_rate)/I*counts[stronger]/I*counts[N+1]
-    }
-}
-        # death / extinction
-        d_propensities <- (counts[seq_len(N)]*death_rates)
-        # competition / negative interaction
-        j_propensities <- c()
-        for(stronger in seq_len(N)){
-            if(sum(neg_inter_rates[stronger,]!=0) >0){
-            weaker <- which(neg_inter_rates[stronger,]!=0)
-            inter_rate <- neg_inter_rates[stronger, weaker]
-            j_propensities <- c(j_propensities,
-                                counts[stronger]*counts[weaker]*inter_rate/I)
-        }
-    }
-        propensities <- c(m_propensities, d_propensities, j_propensities)
-        return(propensities)
-}
-
-setMethod("simulateSOI", signature = c(n.species="numeric"),
-        function(n.species, I, A, k, com, tend, norm = FALSE){
+simulateSOI <- function(n.species, I, A, k = 5, com = NULL, tend, norm = FALSE){
             #species-specific immigration probabilities
             migr_rates <- runif(n.species, min = 0.1, max = 0.8)
             #species-specific extinction probabilities
@@ -190,4 +148,42 @@ setMethod("simulateSOI", signature = c(n.species="numeric"),
             series
             SOI <- SummarizedExperiment(assays = list(counts=series))
             return(SOI)
-    })
+    }
+
+
+
+updatePropensities <- function(
+    I, #total nr of sites
+    counts, # species counts vector incl the empty sites
+    death_rates, # species-specific death rates
+    migr_rates, # species-specific migration rates
+    pos_inter_rates, # positive interaction rates matrix
+    neg_inter_rates # negative interaction rates matrix
+){
+    N <- length(counts)-1
+    # migration AND positive interaction
+    m_propensities <- counts[N+1]*migr_rates/N
+    for(stronger in seq_len(N)){
+        if(sum(pos_inter_rates[stronger,]!=0) >0){
+            weaker <- which(pos_inter_rates[stronger,]!=0)
+            inter_rate <- pos_inter_rates[stronger,weaker]
+            m_propensities[stronger] <- m_propensities[stronger] +
+                sum(counts[weaker] *
+                        inter_rate)/I*counts[stronger]/I*counts[N+1]
+        }
+    }
+    # death / extinction
+    d_propensities <- (counts[seq_len(N)]*death_rates)
+    # competition / negative interaction
+    j_propensities <- c()
+    for(stronger in seq_len(N)){
+        if(sum(neg_inter_rates[stronger,]!=0) >0){
+            weaker <- which(neg_inter_rates[stronger,]!=0)
+            inter_rate <- neg_inter_rates[stronger, weaker]
+            j_propensities <- c(j_propensities,
+                                counts[stronger]*counts[weaker]*inter_rate/I)
+        }
+    }
+    propensities <- c(m_propensities, d_propensities, j_propensities)
+    return(propensities)
+}

@@ -42,14 +42,7 @@
 #' # Strong interaction heterogeneity
 #' A_strong <- powerlawA(n.species = 10, alpha = 1.01)
 #' @export
-
-setGeneric("powerlawA",signature = "n.species",
-            function(n.species, alpha = 3.0, stdev = 1, s = 0.1, d = -1,
-                    symmetric = FALSE)
-                standardGeneric("powerlawA"))
-
-setMethod("powerlawA", signature = c(n.species = "numeric"),
-            function(n.species, alpha = 3.0, stdev = 1, s = 0.1, d = -1,
+powerlawA <- function(n.species, alpha = 3.0, stdev = 1, s = 0.1, d = -1,
                     symmetric = FALSE){
 
             # Nominal Interspecific Interaction matrix N
@@ -88,4 +81,4 @@ setMethod("powerlawA", signature = c(n.species = "numeric"),
             colnames(A) <- seq_len(n.species)
             rownames(A) <- seq_len(n.species)
             return(A)
-})
+}

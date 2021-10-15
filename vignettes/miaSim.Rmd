@@ -67,18 +67,6 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
     BiocManager::install("miaSim")
 ```
 
-### The development version of the package 
-
-[Github](https://github.com/microbiome/miaSim). 
-
-Install the development version from Github.
-
-```{r install-devel, eval=FALSE}
-# install.packages("remotes")
-remotes::install_github("microbiome/miaSim")
-```
-
-
 # Models for simulating microbiome data sets 
 
 `simulateGLV` is the generalized Lotka-Volterra simulation model fitted to 

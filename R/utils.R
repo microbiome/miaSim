@@ -21,12 +21,7 @@
 #'
 #' @keywords internal
 #' @export
-setGeneric("tDyn", signature = c("t.start"),
-        function(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000)
-            standardGeneric("tDyn"))
-
-setMethod("tDyn", signature = c(t.start="numeric"),
-        function(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000){
+tDyn <- function(t.start = 0, t.end = 1000, t.step = 0.1, t.store = 1000){
 
         t.total <- t.end-t.start
 
@@ -35,5 +30,5 @@ setMethod("tDyn", signature = c(t.start="numeric"),
         t.index <- seq(1, length(t.sys)-1, by=round(length(t.sys)/t.store))
 
         return(list("t.sys" = t.sys, "t.index" = t.index))
-})
+}
 

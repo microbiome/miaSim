@@ -59,22 +59,7 @@
 #' @importFrom methods setGeneric
 #'
 #' @export
-setGeneric("simulateGLV", signature = "n.species",
-    function(n.species, A, x = runif(n.species),
-            b = runif(n.species), t.start = 0, t.store, norm = FALSE, ...)
-        standardGeneric("simulateGLV"))
-
-dxdt <- function(t, x, parameters){
-    b <- parameters[,1]
-    A <- parameters[,2:ncol(parameters)]
-    # rate of change
-    dx <- x*(b+A %*% x)
-    # return rate of change
-    list(dx)
-}
-
-setMethod("simulateGLV", signature = c(n.species="numeric"),
-    function(n.species, A, x = runif(n.species),
+simulateGLV <- function(n.species, A, x = runif(n.species),
                 b = runif(n.species), t.start = 0, t.store, norm = FALSE, ...){
         parameters <- cbind(b, A)
         t.dyn <- tDyn(t.start, ..., t.store)
@@ -95,4 +80,12 @@ setMethod("simulateGLV", signature = c(n.species="numeric"),
         SE <- SummarizedExperiment(assays = list(counts=spab))
         return(SE)
     }
-)
+
+dxdt <- function(t, x, parameters){
+    b <- parameters[,1]
+    A <- parameters[,2:ncol(parameters)]
+    # rate of change
+    dx <- x*(b+A %*% x)
+    # return rate of change
+    list(dx)
+}
