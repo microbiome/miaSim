@@ -50,7 +50,7 @@
 #' (controlled by multiplying the growth rate by a random number)
 #' (default: \code{stochastic = TRUE})
 #' @param ... additional parameters including 't.start', 't.step', and 't.store'
-#' see \code{\link{SimulationTimes}} for more information
+#' see \code{\link{simulationTimes}} for more information
 #'
 #' @docType methods
 #' @examples
@@ -86,26 +86,7 @@
 #' @importFrom methods setGeneric
 #'
 #' @export
-
-setGeneric("simulateStochasticLogistic",signature = "n.species",
-    function(n.species,
-        b = runif(n = n.species, min = 0.1, max = 0.2),
-        k = runif(n = n.species, min = 1000, max = 2000),
-        dr = runif(n = n.species, min = 0.0005, max = 0.0025),
-        x = runif(n = n.species, min = 0.1, max = 10),
-        sigma.drift = 0.001,
-        sigma.epoch = 0.1,
-        sigma.external = 0.3,
-        p.epoch = 0.001,
-        t.external_events = c(0, 240, 480),
-        t.external_durations = c(0, 1, 1),
-        return.matrix = FALSE,
-        stochastic = TRUE,
-        t.end = 1000,...)
-        standardGeneric("simulateStochasticLogistic"))
-
-setMethod("simulateStochasticLogistic", signature = c(n.species="numeric"),
-    function(n.species,
+simulateStochasticLogistic <- function(n.species,
         b = runif(n = n.species, min = 0.1, max = 0.2),
         k = runif(n = n.species, min = 1000, max = 2000),
         dr = runif(n = n.species, min = 0.0005, max = 0.0025),
@@ -146,7 +127,7 @@ setMethod("simulateStochasticLogistic", signature = c(n.species="numeric"),
             stop("return.matrix or stochastic should be boolean values.")}
 
         # select the time points to simulate and to store
-        t.dyn <- SimulationTimes(t.end = t.end,...)
+        t.dyn <- simulationTimes(t.end = t.end,...)
 
         #continuous or episodic perturbation
         perturb <- function(t, y, parms){with(as.list(y), {
@@ -197,4 +178,3 @@ setMethod("simulateStochasticLogistic", signature = c(n.species="numeric"),
             return(SE)
         }
     }
-)

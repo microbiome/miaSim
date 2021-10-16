@@ -40,14 +40,9 @@
 #' @importFrom methods setGeneric
 #'
 #' @export
-setGeneric("simulateRicker", signature = "n.species",
-    function(n.species, A, x = runif(n.species), K = runif(n.species),
-        sigma=0.05, explosion.bound=10^8, tskip = 0, tend, norm = FALSE)
-    standardGeneric("simulateRicker"))
-
-setMethod("simulateRicker", signature = c(n.species="numeric"),
-    function(n.species, A, x = runif(n.species), K = runif(n.species),
-        sigma=0.05, explosion.bound=10^8, tskip = 0, tend, norm = FALSE){
+simulateRicker <- function(n.species, A, x = runif(n.species),
+                        K = runif(n.species),sigma=0.05,
+                        explosion.bound=10^8, tskip = 0, tend, norm = FALSE){
         if(length(x) != n.species){
             stop("x needs to have n.species entries.")
         }
@@ -83,5 +78,4 @@ setMethod("simulateRicker", signature = c(n.species="numeric"),
         }
         SE <- SummarizedExperiment(assays = list(counts = tseries))
         return(SE)
-    }
-)
+}

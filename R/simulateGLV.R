@@ -41,13 +41,9 @@
 #' (default: \code{stochastic = FALSE})
 #' @param norm Logical scalar: returns normalised abundances (proportions
 #' in each generation) (default: \code{norm = FALSE})
-#' @param t.start Numeric scalar indicating the initial time of the simulation.
-#' (default: \code{t.start = 0})
-#' @param t.store Integer scalar indicating the number of evenly distributed
-#' time points to keep (default: \code{t.store = 100})
-#' @param arguments Logical: decides whether the generated matrix parameters
-#' are included in \linkS4class{SummarizedExperiment} object
-#' @param ... additional arguments that can be called from miaSim::tDyn
+#' @param t.end Numeric: simulation end time (default: \code{t.end = 1000})
+#' @param ... additional parameters including 't.start', 't.step', and 't.store'
+#' see \code{\link{simulationTimes}} for more information
 #'
 #' @return
 #' \code{simulateGLV} returns a \linkS4class{SummarizedExperiment} object
@@ -84,14 +80,9 @@
 #' @importFrom methods setGeneric
 #'
 #' @export
-setGeneric("simulateGLV", signature = "n.species",
-    function(n.species, A,
+simulateGLV <- function(n.species, A,
         x = runif(n.species),
         b = runif(n.species),
-        t.start = 0,
-        t.end = 1000,
-        t.store = 1000,
-        t.step = 0.1,
         sigma.drift = 0.01,
         sigma.epoch = 0.3,
         sigma.external = 0.3,
@@ -100,8 +91,42 @@ setGeneric("simulateGLV", signature = "n.species",
         t.external_durations = c(3, 10, 99),
         stochastic = FALSE,
         norm = FALSE,
-        arguments = TRUE , ...)
-        standardGeneric("simulateGLV"))
+        t.end = 1000, ...){
+
+
+        # input check
+        if(!isPositiveInteger(n.species)){
+            stop("n.species must be integer.")}
+        if(!all(vapply(list(A,x,b), is.double, logical(1)),
+                vapply(list(x,b), length, integer(1)) == n.species)){
+            stop("A,x,b must be matrix and the length must be equal to length
+                of n.species.")}
+
+        t.dyn <- simulationTimes(t.end = t.end, ...)
+        tEvent = eventTimes(
+            t.events = t.external_events,
+            t.duration = t.external_durations, t.end = t.end, ...)
+        parameters <- list(b=b, A = A, n.species = n.species,
+            sigma.drift = sigma.drift, stochastic = stochastic,
+            sigma.epoch = sigma.epoch, p.epoch = p.epoch,
+            sigma.external = sigma.external, tEvent = tEvent)
+        out <- ode(
+            y = x,
+            times = t.dyn$t.sys,
+            func = dxdt,
+            parms = parameters,
+            events = list(func = perturb, time = t.dyn$t.sys))
+        spab <- t(out[,2:ncol(out)])
+        spab <- spab[,t.dyn$t.index]
+
+        if(norm){
+            spab <- t(t(spab)/colSums(spab))
+        }
+        spab
+        SE <- SummarizedExperiment(assays = list(counts=spab))
+
+        return(SE)
+    }
 
 dxdt <- function(t, x, parameters){
     b <- parameters$b
@@ -123,7 +148,7 @@ perturb <- function(t, y, parameters){
         }
         if (t %in% parameters$tEvent){
             external.rN <- rnorm(parameters$n.species,
-                sd=parameters$sigma.external)
+                                    sd=parameters$sigma.external)
             external.rN <- parameters$stochastic*external.rN
         }
         drift.rN <- rnorm(parameters$n.species, sd=parameters$sigma.drift)
@@ -134,55 +159,3 @@ perturb <- function(t, y, parameters){
         return(y)
     })
 }
-
-setMethod("simulateGLV", signature = c(n.species="numeric"),
-    function(n.species, A,
-        x = runif(n.species),
-        b = runif(n.species),
-        t.start = 0,
-        t.end = 1000,
-        t.store = 1000,
-        t.step = 0.1,
-        sigma.drift = 0.01,
-        sigma.epoch = 0.3,
-        sigma.external = 0.3,
-        p.epoch = 0.01,
-        t.external_events = c(12, 36, 48),
-        t.external_durations = c(3, 10, 99),
-        stochastic = FALSE,
-        norm = FALSE,
-        arguments = TRUE, ...){
-        t.dyn <- SimulationTimes(t.start = t.start, t.end = t.end,
-            t.step = t.step, t.store = t.store)
-        tEvent = eventTimes(
-            t.events = t.external_events,
-            t.duration = t.external_durations,
-            t.start = t.start, t.end = t.end,
-            t.step = t.step, t.store = t.store)
-        parameters <- list(b=b, A = A, n.species = n.species,
-            sigma.drift = sigma.drift, stochastic = stochastic,
-            sigma.epoch = sigma.epoch, p.epoch = p.epoch,
-            sigma.external = sigma.external, tEvent = tEvent)
-        out <- ode(
-            y = x,
-            times = t.dyn$t.sys,
-            func = dxdt,
-            parms = parameters,
-            events = list(func = perturb, time = t.dyn$t.sys))
-        spab <- t(out[,2:ncol(out)])
-        spab <- spab[,t.dyn$t.index]
-
-        if(norm){
-            spab <- t(t(spab)/colSums(spab))
-        }
-        spab
-        SE <- SummarizedExperiment(assays = list(counts=spab))
-        if (arguments) {
-            metadata(SE) <- list(
-                x = x,
-                A = A,
-                b = b)
-        }
-        return(SE)
-    }
-)

@@ -12,10 +12,6 @@ simulateGLV(
   A,
   x = runif(n.species),
   b = runif(n.species),
-  t.start = 0,
-  t.end = 1000,
-  t.store = 1000,
-  t.step = 0.1,
   sigma.drift = 0.01,
   sigma.epoch = 0.3,
   sigma.external = 0.3,
@@ -24,7 +20,7 @@ simulateGLV(
   t.external_durations = c(3, 10, 99),
   stochastic = FALSE,
   norm = FALSE,
-  arguments = TRUE,
+  t.end = 1000,
   ...
 )
 }
@@ -36,18 +32,6 @@ simulateGLV(
 \item{x}{Numeric: initial abundances}
 
 \item{b}{Numeric: growth rates}
-
-\item{t.start}{Numeric scalar indicating the initial time of the simulation.
-(default: \code{t.start = 0})}
-
-\item{t.end}{Numeric scalar indicating the final time of the dimulation
-(default: \code{t.end = 1000})}
-
-\item{t.store}{Integer scalar indicating the number of evenly distributed
-time points to keep (default: \code{t.store = 100})}
-
-\item{t.step}{Numeric scalar indicating the interval between simulation steps
-(default: \code{t.step = 0.01})}
 
 \item{sigma.drift}{Numeric: degree of drift (turnover of species) in each
 time step.
@@ -75,10 +59,19 @@ community
 \item{norm}{Logical scalar: returns normalised abundances (proportions
 in each generation) (default: \code{norm = FALSE})}
 
-\item{arguments}{Logical: decides whether the generated matrix parameters
-are included in \linkS4class{SummarizedExperiment} object}
+\item{t.end}{Numeric: simulation end time (default: \code{t.end = 1000})}
 
-\item{...}{additional arguments that can be called from miaSim::tDyn}
+\item{...}{additional parameters including 't.start', 't.step', and 't.store'
+see \code{\link{simulationTimes}} for more information}
+
+\item{t.start}{Numeric scalar indicating the initial time of the simulation.
+(default: \code{t.start = 0})}
+
+\item{t.store}{Integer scalar indicating the number of evenly distributed
+time points to keep}
+
+\item{t.step}{Numeric scalar indicating the interval between simulation steps
+(default: \code{t.step = 0.01})}
 }
 \value{
 \code{simulateGLV} returns a \linkS4class{SummarizedExperiment} object

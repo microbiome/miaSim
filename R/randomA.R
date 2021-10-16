@@ -27,16 +27,17 @@
 #' @aliases randomA-numeric
 #' @aliases randomA,numeric-method
 #' @export
-
-setGeneric("randomA", signature = "n.species",
-    function(n.species, d = -0.5, min.strength = -0.5, max.strength = 0.5,
-            connectance = 0.02, symmetric = FALSE)
-    standardGeneric("randomA"))
-
-setMethod("randomA", signature = c(n.species="numeric"),
-    function(n.species, d = -0.5, min.strength = -0.5, max.strength = 0.5,
-            connectance = 0.02, symmetric = FALSE){
+randomA <- function(n.species, d = -0.5, min.strength = -0.5,
+                    max.strength = 0.5,connectance = 0.02, symmetric = FALSE){
             A = runif(n.species^2, min = min.strength, max = max.strength)
+
+            #input check
+            if(!isPositiveInteger(n.species)){
+                stop("n.species must be integer.")}
+            if(!all(vapply(list(d, min.strength, max.strength, connectance),
+                    is.numeric, logical(1)))){
+                stop("d, min.strength, max.strength and connectance values
+                    must be numeric.")}
 
             #an efficient approximation to reach the desired connectance
             setZeros = n.species^2*(1-connectance)
@@ -52,4 +53,4 @@ setMethod("randomA", signature = c(n.species="numeric"),
             }
             diag(A) <- d
             return(A)
-})
+}

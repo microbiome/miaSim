@@ -61,15 +61,14 @@
 #' vol. 26,7 (2011).
 #
 #' @export
-
-setGeneric("simulateHubbell",signature = "n.species",
-    function(n.species, M, I = 1000, d = 10, m = 0.02, tskip = 0,
-            tend, norm = FALSE)
-        standardGeneric("simulateHubbell"))
-
-setMethod("simulateHubbell", signature = c(n.species="numeric"),
-    function(n.species, M, I = 1000, d = 10, m = 0.02, tskip = 0,
+simulateHubbell <- function(n.species, M, I = 1000, d = 10, m = 0.02, tskip = 0,
             tend, norm = FALSE){
+
+            #input check
+            if(!all(vapply(list(n.species,M,I,d), isPositiveInteger,
+                    logical(1)))){
+                stop("n.species,M,I,d,tskip must be integer.")}
+
             pbirth <- runif(n.species, min = 0, max = 1)
             pmigr <- runif(M, min = 0, max = 1)
             pbirth <- c(pbirth, rep(0, times = (M-n.species)))
@@ -112,4 +111,4 @@ setMethod("simulateHubbell", signature = c(n.species="numeric"),
             AbundanceM <- tseries[, (tskip +1):tend]
             SE <- SummarizedExperiment(assays = list(counts = AbundanceM))
             return(SE)
-})
+}

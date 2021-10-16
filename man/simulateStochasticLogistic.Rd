@@ -72,7 +72,7 @@ in a matrix
 (default: \code{t.end = 2000})}
 
 \item{...}{additional parameters including 't.start', 't.step', and 't.store'
-see \code{\link{SimulationTimes}} for more information}
+see \code{\link{simulationTimes}} for more information}
 }
 \value{
 \code{simulateStochasticLogistic} returns a
@@ -113,7 +113,7 @@ matplot(t(assays(ExampleLogistic)[["counts"]]), type = "l")
 ExampleLogistic <- simulateStochasticLogistic(
 n.species = 2,
 b = c(0.2, 0.1), k = c(1000, 2000), dr = c(0.001, 0.0015), x = c(3, 0.1),
-sigma.drift = 0.001, sigma.epoch = 0.3, sigma.external = 0.5, p.epoch = 0.001,
+sigma.drift = 0.001, sigma.epoch = 0.3, sigma.external = 0.5,p.epoch = 0.001,
 t.external_events = c(100, 200, 300), t.external_durations = c(1, 2, 3),
 t.start = 0, t.end = 1500, t.step = 0.01,
 t.store = 1500, return.matrix = FALSE, stochastic = TRUE)
