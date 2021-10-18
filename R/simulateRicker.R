@@ -52,16 +52,18 @@ simulateRicker <- function(n.species, A, x = runif(n.species),
         if(length(K)!=n.species){
             stop("K needs to have n.species entries.")
         }
-        tseries=matrix(nrow=n.species, ncol=tend-tskip)
-        tseries[,1]=x
+        tseries <- matrix(nrow=n.species, ncol=tend-tskip)
+        tseries[,1] <- x
         # simulate difference equation
-        for(t in seq(from=2,to=tend)){
+        for(t in seq(2:tend)){
             if(sigma > 0){
                 b=rlnorm(n.species,meanlog=0,sdlog=sigma)
             }else{
                 b=rep(1,n.species)
             }
-            x<-b*x*exp(A%*%(x-K))
+
+            x <- b*x*exp(A%*%(x-K))
+
             if(max(x) > explosion.bound){
                 # report which species explodes
                 stop("Explosion for species ", which(x==max(x)))
@@ -70,7 +72,7 @@ simulateRicker <- function(n.species, A, x = runif(n.species),
                 stop("Species below 0!")
             }
             if(t > tskip){
-                tseries[,t-tskip]=x
+                tseries[,t-tskip] <- x
             }
         }
         if(norm){
