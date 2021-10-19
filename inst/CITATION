@@ -7,7 +7,9 @@ citEntry(entry="misc",
          title = "miaSim R package",
          author = personList(
 	   person(given = "Yagmur", family="Simsek", email = "Yagmur.Simsek@hsrw.org"),
-	   person(given = "Leo", family="Lahti")
+	   person(given = "Leo", family="Lahti"),
+	   person(given = "Daniel", family="Garza"),
+	   person(given = "Karoline", family="Faust")
          ),
 	 url = "microbiome.github.io/miaSim",
 	 note = note,

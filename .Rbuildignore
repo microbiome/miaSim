@@ -3,3 +3,6 @@
 .gitignore
 
 ^\.github$
+^docs$
+^codecov.yml$
+^README.Rmd$

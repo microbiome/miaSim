@@ -4,26 +4,35 @@
 \alias{simulateGLV}
 \title{Generalized Lotka-Volterra (gLV) simulation}
 \usage{
-simulateGLV(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
+simulateGLV(
+  n.species,
+  A,
+  x = runif(n.species),
+  b = runif(n.species),
+  t.end = 1000,
+  norm = FALSE,
+  ...
+)
 }
 \arguments{
-\item{N}{Integer scalar specifying the number of species}
+\item{n.species}{Integer: number of species}
 
-\item{A}{a interaction matrix}
+\item{A}{interaction matrix}
 
-\item{b}{Numeric scalar indicating growth rates}
+\item{x}{Numeric: initial abundances}
 
-\item{x}{Numeric scalar indicating initial abundances}
+\item{b}{Numeric: growth rates}
 
-\item{tend}{Integer scalar indicating timepoints
-(default: \code{tend = 1000})}
+\item{t.end}{Numeric: simulation end time (default: \code{t.end = 1000})}
 
-\item{norm}{Logical scalar \code{TRUE} or \code{FALSE},
-return normalised abundances (proportions in each generation)
-(default: \code{norm = FALSE})}
+\item{norm}{Logical scalar: returns normalised abundances (proportions
+in each generation) (default: \code{norm = FALSE})}
+
+\item{...}{additional arguments that can be called from miaSim::tDyn}
 }
 \value{
 \code{simulateGLV} returns a \linkS4class{SummarizedExperiment} object
+containing abundance matrix
 }
 \description{
 Simulates time series with the generalized Lotka-Volterra model and forms a
@@ -32,7 +41,8 @@ Simulates time series with the generalized Lotka-Volterra model and forms a
 \details{
 Simulates a community time series using the generalized Lotka-Volterra model,
 defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
-A is the interaction matrix and growth_rates the vector of growth rates.
+diag(x) is a diagonal matrix with the diagonal values set to x.
+A is the interaction matrix and b is the vector of growth rates.
 
 The resulting abundance matrix model is used to construct
 \linkS4class{SummarizedExperiment} object.
@@ -47,11 +57,13 @@ row_data <- data.frame(Kingdom = "Animalia",
 
 row_data <- t(row_data)
 
-col_data <- DataFrame(sampleID = seq_len(1000),
+col_data <- DataFrame(sampleID = seq_len(1001),
                     time = as.Date(1000, origin = "2000-01-01"),
-                    row.names = colnames(paste0("sample", seq_len(1000))))
+                    row.names = colnames(paste0("sample", seq_len(1001))))
 
-SEobject <- simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
+A <- miaSim::powerlawA(4, alpha = 1.01)
+
+SEobject <- simulateGLV(n.species = 4, A, t.end = 1000)
 rowData(SEobject) <- row_data
 colData(SEobject) <- col_data
 

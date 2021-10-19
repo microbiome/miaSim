@@ -4,31 +4,31 @@
 \alias{simulateSOI}
 \title{Self-Organised Instability model (SOI) simulation}
 \usage{
-simulateSOI(N, I, A, k, com, tend, norm = FALSE)
+simulateSOI(n.species, I, A, k = 5, com = NULL, tend, norm = FALSE)
 }
 \arguments{
-\item{N}{Integer: number of species}
+\item{n.species}{Integer: number of species}
 
 \item{I}{Integer: community size, number of available sites (individuals)}
 
-\item{A}{a interaction matrix of dimension NxN}
+\item{A}{interaction matrix}
 
 \item{k}{Integer: the number of transition events that are allowed to take
-place during one leap. By default set to 5. Higher values reduce runtime,
+place during one leap. (default: \code{k = 5}). Higher values reduce runtime,
 but also accuracy of the simulation.}
 
-\item{com}{a vector inditicating initial community abundances.
-If NULL (default), based on migration rates.}
+\item{com}{a vector: initial community abundances
+If (default: \code{com = NULL}), based on migration rates}
 
 \item{tend}{Integer: number of timepoints to be returned in the time series
-(nr of generations)}
+(number of generations)}
 
-\item{norm}{logical to indicate whether the time series should be returned
-with the abundances as proportions (norm = TRUE)
-or the raw counts (norm = FALSE, default)}
+\item{norm}{Logical: indicates whether the time series should be returned
+with the abundances as proportions (\code{norm = TRUE})
+or the raw counts (default: \code{norm = FALSE})}
 }
 \value{
-\linkS4class{SummarizedExperiment} object with abundance matrix
+\linkS4class{SummarizedExperiment} object containing abundance matrix
 consisting of species abundance as rows and time points as columns
 }
 \description{
@@ -36,7 +36,9 @@ Generate time-series with The Self-Organised Instability (SOI) model.
 Implements a K-leap method for accelerating stochastic simulation.
 }
 \examples{
-simulateSOI(N = 10, I = 1000, A = powerlawA(n = 10, alpha = 1.2),
-                    k=5, com = NULL, tend = 150, norm = TRUE)
+A <- miaSim::powerlawA(10, alpha = 1.2)
+
+ExampleSOI <- simulateSOI(n.species = 10, I = 1000, A, k=5,
+                                     com = NULL, tend = 150, norm = TRUE)
 
 }

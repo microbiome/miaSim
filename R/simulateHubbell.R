@@ -1,9 +1,8 @@
 #' Hubbell's neutral model simulation
 #'
-#' Neutral species abundances simulation turned into
-#' \linkS4class{SummarizedExperiment} according to the Hubbell model.
+#' Neutral species abundances simulation according to the Hubbell model.
 #'
-#' @param N Integer: the amount of different species initially
+#' @param n.species Integer: the amount of different species initially
 #' in the local community
 #' @param M Integer: amount of different species in the
 #' metacommunity,including those of the local community
@@ -21,12 +20,8 @@
 #' @param tend Integer: number of simulations
 #' to be simulated
 #' @param norm Logical: whether the time series should
-#' be returned with the abundances as proportions (norm = TRUE) or the raw
-#' counts (norm = FALSE, default)
-#'
-#' @importFrom SummarizedExperiment SummarizedExperiment
-#' @importFrom stats rmultinom
-#' @importFrom stats rbinom
+#' be returned with the abundances as proportions (\code{norm = TRUE}) or
+#' the raw counts (default: \code{norm = FALSE})
 #'
 #' @aliases simulateNeutral
 #'
@@ -49,71 +44,55 @@
 #'
 #' rowData <- t(rowData)
 #'
-#' ExampleHubbell <- simulateHubbell(N = 8, M = 10, I = 1000, d = 50,
+#' ExampleHubbell <- simulateHubbell(n.species = 8, M = 10, I = 1000, d = 50,
 #'                                                         m = 0.02, tend = 100)
 #' rowData(ExampleHubbell) <- rowData
 #' colData(ExampleHubbell) <- colData
 #'
-#' @return \code{simulateHubbell} returns a \code{\link{SummarizedExperiment}}
-#' object
+#' @return \code{simulateHubbell} returns a \linkS4class{SummarizedExperiment}
+#' class object containing matrix with species abundance as rows and
+#' time points as columns
+#'
+#' @importFrom stats rbinom
+#' @importFrom stats rmultinom
 #'
 #' @references Rosindell, James et al. "The unified neutral theory of
 #' biodiversity and biogeography at age ten." Trends in ecology & evolution
 #' vol. 26,7 (2011).
 #
 #' @export
-
-setGeneric("simulateHubbell",signature = "N",
-    function(N, M, I, d, m, tskip = 0, tend, norm = FALSE)
-        standardGeneric("simulateHubbell"))
-
-setMethod("simulateHubbell", signature = c(N="numeric"),
-    function(N, M, I, d, m, tskip = 0 , tend, norm = FALSE){
-            # First setting the function arguments right
-            pbirth <- runif(N, min = 0, max = 1)
+simulateHubbell <- function(n.species, M, I = 1000, d = 10, m = 0.02, tskip = 0,
+            tend, norm = FALSE){
+            pbirth <- runif(n.species, min = 0, max = 1)
             pmigr <- runif(M, min = 0, max = 1)
-            if(length(pbirth)!=N | length(pmigr)!=M){
-                stop("Either length of pbirth vector does not match with N or
-                    length of pmigr vector does not match with M")
-            }
-            pbirth <- c(pbirth, rep(0, times = (M-N)))
+            pbirth <- c(pbirth, rep(0, times = (M-n.species)))
             pbirth <- pbirth/sum(pbirth)
             pmigr <- pmigr/sum(pmigr)
             com <- ceiling(I*pbirth)
-            if(sum(com)<I){
-                ind <- sample(seq_len(M), size = I-sum(com), prob = pbirth)
-                com[ind] <- com[ind] +1
-            } else if(sum(com)>I){
+            if(sum(com)>I){
                 ind <- sample(seq_len(M), size = sum(com)-I, prob = 1-pbirth)
                 com[ind] <- com[ind] -1
             }
-            # The simulation
+
             tseries <- matrix(0, nrow = M, ncol = tend)
             colnames(tseries) <- paste0("t", seq_len(tend))
             rownames(tseries) <- seq_len(M)
-
             com[which(com < 0)] <- 0
             tseries[,1] <- com
             for (t in 2:tend){
-            # Each iteration the probability of births is updated by the counts
                 pbirth <- com/sum(com)
                 pbirth[which(pbirth < 0)] <- 0
-            # Probability of births is used to pick the species that will die
-            # because species with count 0 will have probability 0 and species
-            #not present in the community can also not die
                 deaths <- rmultinom(n = 1, size = d, prob = pbirth)
-            while(sum(com-deaths <0) >0){
+            while(sum(com-deaths <0) >0){ #species with count 0 have probability
+            # 0 and species not present in the community can also not die
                 neg_sp <- which(com-deaths <0)
                 pbirth[neg_sp] <- 0
                 deaths <- rmultinom(n = 1, size = d, prob = pbirth)
             }
-
             event <- rbinom(d, 1, prob = m) # immigration rate m: probability
-            #death replaced by immigrant
-            #immigration 1, birth 0
+            # death replaced by immigrant; immigration 1, birth 0
             n_migrants <- sum(event)
             n_births <- length(event) - n_migrants
-
             births <- rmultinom(1, n_births, prob = pbirth)
             migr <- rmultinom(1, n_migrants, prob = pmigr)
             com <- com - deaths + births + migr
@@ -123,9 +102,7 @@ setMethod("simulateHubbell", signature = c(N="numeric"),
             if(norm){
                 tseries <- t(t(tseries)/colSums(tseries))
             }
-
             AbundanceM <- tseries[, (tskip +1):tend]
             SE <- SummarizedExperiment(assays = list(counts = AbundanceM))
-
             return(SE)
-})
+}

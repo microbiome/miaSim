@@ -1,39 +1,43 @@
 Package: miaSim
 Type: Package
-Version: 0.1.0
+Version: 0.99.1
 Authors@R:
-     c(person(given = "Leo", family = "Lahti", role = c("aut", "cre"),
+     c(person(given = "Karoline", family = "Faust", role = c("aut"),
+              email = "karoline.faust@kuleuven.be"),
+       person(given = "Yu", family = "Gao", role = c("aut"),
+              email = "gaoyu19920914@gmail.com"),
+       person(given = "Emma", family = "Gheysen", role = c("aut"),
+              email = "emma.gheysen@student.kuleuven.be"),
+       person(given = "Daniel Rios", family = "Garza", role = c("aut"),
+              email = "danielrios.garza@kuleuven.be"),
+       person(given = "Yagmur", family = "Simsek", role = c("cre", "aut"),
+              email = "yagmur.simsek@hsrw.org"),
+       person(given = "Leo", family = "Lahti", role = c("aut"),
               email = "leo.lahti@iki.fi",
-              comment = c(ORCID = "0000-0001-5537-637X")),
-       person(given = "Yagmur", family = "Simsek", role = c("aut"),
-              email = "Yagmur.Simsek@hsrw.org"))
+              comment = c(ORCID = "0000-0001-5537-637X")))
 Title: Microbiome Data Simulation
-Description: 
-    The time series simulation is observed by using generalized Lotka-Volterra model and 
-    Self-Organized Instability (SOI) model. Along with time series simulation models, Hubbell's Neutral model
-    is used to determine the abundance matrix. The resulting abundance matrix is applied to the \linkS4class{SummarizedExperiment} 
-    object as an assay.
+Description:
+    Microbiome time series simulation with generalized Lotka-Volterra model,
+    Self-Organized Instability (SOI), and other models. Hubbell's Neutral model
+    is used to determine the abundance matrix. The resulting abundance matrix
+    is applied to SummarizedExperiment or TreeSummarizedExperiment objects.
 License: Artistic-2.0 | file LICENSE
-biocViews: Microbiome, Software, Sequencing, DNASeq, ATACSeq, Coverage
+biocViews: Microbiome, Software, Sequencing, DNASeq, ATACSeq, Coverage, Network
 Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.1.1
+LazyData: false
+RoxygenNote: 7.1.2
 Depends:
     SummarizedExperiment
 Imports:
     deSolve,
     stats,
-    poweRlaw,
-    methods,
-    usethis
+    poweRlaw
 Suggests:
     rmarkdown,
     knitr,
     BiocStyle,
-    devtools,
-    testthat (>= 3.0.0)
-LazyData: false
+    testthat
 URL: https://github.com/microbiome/miaSim
+BugReports: https://github.com/microbiome/miaSim/issues
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
-
