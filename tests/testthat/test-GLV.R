@@ -1,4 +1,5 @@
 test_that("simulateGLV", {
+
   #check dxdt
   expect_error(miaSim:::dxdt(x),
                'argument "parameters" is missing')
@@ -20,4 +21,5 @@ test_that("simulateGLV", {
   InterMatx2 <- assay(SEobject2)
   expect_type(InterMatx2, "double")
   expect_equal(dim(InterMatx2), c(4,1001))
+
 })

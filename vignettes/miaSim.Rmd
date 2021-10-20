@@ -1,5 +1,18 @@
 ---
 title: "miaSim: Microbiome Data Simulation"
+author:
+- name: Daniel Rios Garza
+  email: danielrios.garza@kuleuven.be
+- name: Emma Gheysen
+  email: emma.gheysen@student.kuleuven.be
+- name: Karoline Faust
+  email: karoline.faust@kuleuven.be
+- name: Leo Lahti
+  email: leo.lahti@iki.fi
+- name: Yagmur Simsek
+  email: yagmur.simsek@hsrw.org
+- name: Yu Gao
+  email: gaoyu19920914@gmail.com
 date: "`r Sys.Date()`"
 package: miaSim
 output: 
@@ -46,11 +59,11 @@ and time points to keep in simulated time.
 
 ### Bioc-release
 
+
 ```{r install-bioc,eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-    BiocManager::install("miaSim")
 ```
 
 # Models for simulating microbiome data sets 
@@ -63,12 +76,14 @@ with `powerlawA` or `randomA` functions depending on the distribution method.
 
 `powerlawA` uses normal distribution to create interaction matrix. 
 
+
 ```{r}
 library(miaSim)
 A_normal <- powerlawA(n.species = 4, alpha = 3)
 ```
 
 `randomA` uses uniform distribution to create interaction matrix. 
+
 
 ```{r}
 A_uniform <- randomA(n.species = 10, d = -0.4, min.strength = -0.8,
@@ -95,6 +110,32 @@ the diversity and relative abundance of species in ecological communities.
 This model is based on the community dynamics; migration, births and deaths.
 
 ```{r}
+
+A_uniform <- randomA(n.species = 10, d = -0.4, min.strength = -0.8,
+                        max.strength = 0.8, connectance = 0.5)
+```
+
+The number of species specified in the interaction matrix must be the same 
+amount as the species used in the `simulateGLV` and `simulateSOI` models.
+
+```{r}
+SEobject <- simulateGLV(n.species = 4, A_normal, t.start = 0, t.store = 1000)
+```
+
+Time series is added to `simulateGLV` with `tDyn` function where the time
+points can be kept and extracted from simulation time as a separate list.
+
+```{r}
+Time <- tDyn(t.start = 0, t.end = 100, t.step = 0.5, t.store = 100)
+Time$t.index 
+```
+
+`simulateHubbell` includes the Hubbell Neutral simulation model which explains 
+the diversity and relative abundance of species in ecological communities.
+This model is based on the community dynamics; migration, births and deaths.
+
+```{r}
+
 ExampleHubbell <- simulateHubbell(n.species = 8, M = 10, I = 1000, d = 50,
                                     m = 0.02, tend = 100)
 
