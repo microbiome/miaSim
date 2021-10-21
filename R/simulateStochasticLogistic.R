@@ -50,7 +50,6 @@
 #' (controlled by multiplying the growth rate by a random number)
 #' (default: \code{stochastic = TRUE})
 #' @param ... additional parameters including 't.start', 't.step', and 't.store'
-#' see \code{\link{simulationTimes}} for more information
 #'
 #' @docType methods
 #' @examples

@@ -25,9 +25,6 @@
 #'
 #' ExampleSOI <- simulateSOI(n.species = 10, I = 1000, A, k=5, com = NULL,
 #'                                             tend = 150, norm = TRUE)
-#' @docType methods
-#' @aliases simulateSOI-numeric
-#' @aliases simulateSOI,numeric-method
 #'
 #' @importFrom stats rgamma
 #' @importFrom stats rnorm

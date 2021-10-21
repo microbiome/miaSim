@@ -43,7 +43,6 @@
 #' in each generation) (default: \code{norm = FALSE})
 #' @param t.end Numeric: simulation end time (default: \code{t.end = 1000})
 #' @param ... additional parameters including 't.start', 't.step', and 't.store'
-#' see \code{\link{simulationTimes}} for more information
 #'
 #' @return
 #' \code{simulateGLV} returns a \linkS4class{SummarizedExperiment} object
@@ -65,19 +64,13 @@
 #'
 #' A <- miaSim::powerlawA(4, alpha = 1.01)
 #'
-#' SEobject <- simulateGLV(n.species = 4, A, t.start = 0, t.store = 1000)
+#' SEobject <- simulateGLV(n.species = 4, A, t.end = 1000)
 #' rowData(SEobject) <- row_data
 #' colData(SEobject) <- col_data
-#'
-#' @docType methods
-#' @aliases simulateGLV-numeric
-#' @aliases simulateGLV,numeric-method
 #'
 #' @importFrom utils str
 #' @importFrom deSolve ode
 #' @importFrom stats runif
-#' @importFrom SummarizedExperiment metadata<-
-#' @importFrom methods setGeneric
 #'
 #' @export
 simulateGLV <- function(n.species, A,

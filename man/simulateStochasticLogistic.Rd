@@ -71,8 +71,7 @@ in a matrix
 \item{t.end}{Numeric scalar indicating the final time of the dimulation
 (default: \code{t.end = 2000})}
 
-\item{...}{additional parameters including 't.start', 't.step', and 't.store'
-see \code{\link{simulationTimes}} for more information}
+\item{...}{additional parameters including 't.start', 't.step', and 't.store'}
 }
 \value{
 \code{simulateStochasticLogistic} returns a

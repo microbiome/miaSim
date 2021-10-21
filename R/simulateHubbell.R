@@ -20,11 +20,6 @@
 #' the abundances as proportions (\code{norm = TRUE}) or
 #' the raw counts (default: \code{norm = FALSE})
 #'
-#' @docType methods
-#' @aliases simulateHubbell-numeric
-#' @aliases simulateHubbell,numeric-method
-#' @aliases simulateNeutral
-#'
 #' @examples
 #' colData <- DataFrame(sampleID = c(seq_len(100)),
 #'                         time = as.Date(100, origin = "2000-01-01"))

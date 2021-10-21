@@ -31,10 +31,6 @@
 #' PLOS Computational Biology 12(2): e1004688.
 #' https://doi.org/10.1371/journal.pcbi.1004688
 #'
-#' @docType methods
-#' @aliases powerlawA-numeric
-#' @aliases powerlawA,numeric-method
-#'
 #' @importFrom poweRlaw rplcon
 #' @examples
 #' # Low interaction heterogeneity

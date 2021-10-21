@@ -23,9 +23,6 @@
 #' @return
 #' \code{randomA} returns a matrix A with dimensions (n.species x n.species)
 #'
-#' @docType methods
-#' @aliases randomA-numeric
-#' @aliases randomA,numeric-method
 #' @export
 randomA <- function(n.species, d = -0.5, min.strength = -0.5,
                     max.strength = 0.5,connectance = 0.02, symmetric = FALSE){

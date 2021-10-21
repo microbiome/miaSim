@@ -30,14 +30,9 @@
 #' A <- powerlawA(10, alpha = 1.01)
 #' ExampleRicker <- simulateRicker(n.species=10,A,tend=100)
 #'
-#' @docType methods
-#' @aliases simulateRicker-numeric
-#' @aliases simulateRicker,numeric-method
-#'
 #' @importFrom stats runif
 #' @importFrom stats rlnorm
 #' @importFrom SummarizedExperiment SummarizedExperiment
-#' @importFrom methods setGeneric
 #'
 #' @export
 simulateRicker <- function(n.species, A, x = runif(n.species),
