@@ -1,9 +1,10 @@
 # Microbiome data simulation with miaSim
 
 <!-- badges: start -->
-
+[![R-CMD-check](https://github.com/microbiome/miaSim/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/microbiome/miaSim/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check-bioc](https://github.com/microbiome/miaSim/actions/workflows/check-bioc.yml/badge.svg)](https://github.com/microbiome/miaSim/actions/workflows/check-bioc.yml)
+[![R-CMD-check-bioc-devel](https://github.com/microbiome/miaSim/actions/workflows/check-bioc-devel.yml/badge.svg)](https://github.com/microbiome/miaSim/actions/workflows/check-bioc-devel.yml)
 [![Codecov test coverage](https://codecov.io/gh/microbiome/miaSim/branch/master/graph/badge.svg)](https://codecov.io/gh/microbiome/miaSim?branch=master)
-
 [![Gitter](https://badges.gitter.im/microbiome/mia.svg)](https://gitter.im/microbiome/miaverse)
 
 [![Watch on GitHub][github-watch-badge]][github-watch]
