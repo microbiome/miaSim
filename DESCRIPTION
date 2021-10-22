@@ -31,8 +31,7 @@ Depends:
 Imports:
     deSolve,
     stats,
-    poweRlaw,
-    utils
+    poweRlaw
 Suggests:
     rmarkdown,
     knitr,

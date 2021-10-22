@@ -10,6 +10,9 @@
 #' @param t.store Integer scalar indicating the number of evenly distributed
 #' time points to keep (default: \code{t.store = 100})
 #'
+#' @examples
+#' SimulationTime <- tDyn(t.start = 0, t.end = 100, t.step = 1, t.store = 10)
+#'
 #' @return lists containing simulation times (t.sys) and the indices to keep.
 #' @keywords internal
 #'

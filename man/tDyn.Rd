@@ -27,4 +27,8 @@ lists containing simulation times (t.sys) and the indices to keep.
 Generate simulation times and the indices of time points to return
 in simulation functions.
 }
+\examples{
+SimulationTime <- tDyn(t.start = 0, t.end = 100, t.step = 1, t.store = 10)
+
+}
 \keyword{internal}
