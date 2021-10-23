@@ -30,7 +30,6 @@
 #' A <- powerlawA(10, alpha = 1.01)
 #' ExampleRicker <- simulateRicker(n.species=10,A,tend=100)
 #'
-#' @importFrom stats runif
 #' @importFrom stats rlnorm
 #' @importFrom SummarizedExperiment SummarizedExperiment
 #'

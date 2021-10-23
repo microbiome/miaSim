@@ -51,7 +51,6 @@
 #' (default: \code{stochastic = TRUE})
 #' @param ... additional parameters including 't.start', 't.step', and 't.store'
 #'
-#' @docType methods
 #' @examples
 #' ## ATTENTION: Don't set a large value to t.step, otherwise the computer won't
 #' #give a correct solution to the logistic ODE(ordinary differential equation).
@@ -74,15 +73,6 @@
 #' @return \code{simulateStochasticLogistic} returns a
 #' \linkS4class{SummarizedExperiment} class object containing matrix with
 #' species abundance as rows and time points as columns
-#'
-#' @docType methods
-#' @aliases simulateStochasticLogistic-numeric
-#' @aliases simulateStochasticLogistic,numeric-method
-#'
-#' @importFrom deSolve ode
-#' @importFrom stats runif
-#' @importFrom SummarizedExperiment SummarizedExperiment
-#' @importFrom methods setGeneric
 #'
 #' @export
 simulateStochasticLogistic <- function(n.species,

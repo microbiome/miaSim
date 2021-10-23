@@ -59,15 +59,6 @@ in each generation) (default: \code{norm = FALSE})}
 \item{t.end}{Numeric: simulation end time (default: \code{t.end = 1000})}
 
 \item{...}{additional parameters including 't.start', 't.step', and 't.store'}
-
-\item{t.start}{Numeric scalar indicating the initial time of the simulation.
-(default: \code{t.start = 0})}
-
-\item{t.store}{Integer scalar indicating the number of evenly distributed
-time points to keep}
-
-\item{t.step}{Numeric scalar indicating the interval between simulation steps
-(default: \code{t.step = 0.01})}
 }
 \value{
 \code{simulateGLV} returns a \linkS4class{SummarizedExperiment} object

@@ -32,13 +32,11 @@ Imports:
     deSolve,
     stats,
     poweRlaw,
-    utils,
     gtools
 Suggests:
     rmarkdown,
     knitr,
     BiocStyle,
-    devtools,
     testthat
 URL: https://github.com/microbiome/miaSim
 BugReports: https://github.com/microbiome/miaSim/issues

@@ -15,14 +15,6 @@
 #' @param A interaction matrix
 #' @param x Numeric: initial abundances
 #' @param b Numeric: growth rates
-#' @param t.start Numeric scalar indicating the initial time of the simulation.
-#' (default: \code{t.start = 0})
-#' @param t.end Numeric scalar indicating the final time of the dimulation
-#' (default: \code{t.end = 1000})
-#' @param t.store Integer scalar indicating the number of evenly distributed
-#' time points to keep
-#' @param t.step Numeric scalar indicating the interval between simulation steps
-#' (default: \code{t.step = 0.01})
 #' @param sigma.drift Numeric: degree of drift (turnover of species) in each
 #' time step.
 #' (default: \code{sigma.drift = 0.01})
@@ -68,7 +60,6 @@
 #' rowData(SEobject) <- row_data
 #' colData(SEobject) <- col_data
 #'
-#' @importFrom utils str
 #' @importFrom deSolve ode
 #' @importFrom stats runif
 #'
