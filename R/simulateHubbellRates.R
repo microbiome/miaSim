@@ -47,6 +47,8 @@ simulateHubbellRates <- function(community.initial,
                                 t.end=1000,...){
 
     t.dyn <- simulationTimes(t.end = t.end, ...)
+    
+    t.store <- length(t.dyn$t.index)
 
     n.species <- length(community.initial)
 
@@ -66,12 +68,16 @@ simulateHubbellRates <- function(community.initial,
     }
 
     out.matrix <- matrix(0, nrow=length(t.dyn$t.index), ncol = n.species)
+    
+    out.matrix[1,] = community.initial
+    
+    
 
-    current_t <- t.dyn$t.sys[1]
+    current_t <- t.dyn$t.sys[2]
 
-    current.sample.index <- t.dyn$t.index[1]
+    current.sample.index <- t.dyn$t.index[2]
 
-    next.sample.index <- t.dyn$t.index[2]
+    next.sample.index <- t.dyn$t.index[3]
 
     while(current_t <= t.end){
 
@@ -84,19 +90,25 @@ simulateHubbellRates <- function(community.initial,
         tau <- rgamma(n = 1, shape = tau.events, scale = 1/(sum(propensities)))
 
         current_t <- current_t + tau
-
-        if (current_t >= t.dyn$t.sys[next.sample.index]) {
-            limit.sample.index <-
-                max(seq(t.dyn$t.index)[t.dyn$t.sys[t.dyn$t.index]<=current_t])
-            out.matrix[current.sample.index:limit.sample.index,] = community
-            current.sample.index <- limit.sample.index
-            next.sample.index <- limit.sample.index + 1
-        }
-
+        
+        
+        
         # if reached end of simulation:
         if(current_t >= t.end){
             break
         }
+
+        if (current_t >= t.dyn$t.sys[next.sample.index]) {
+            
+            limit.sample.index <-
+                max(t.dyn$t.index[t.dyn$t.sys[t.dyn$t.index]<=current_t])
+            
+            out.matrix[seq(t.store)[t.dyn$t.index==current.sample.index]:seq(t.store)[t.dyn$t.index==limit.sample.index],] = community
+            current.sample.index <- limit.sample.index
+            next.sample.index <- limit.sample.index + 1
+        }
+
+        
 
         #k deaths
         community <- community -
