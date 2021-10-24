@@ -128,9 +128,11 @@ simulateHubbellRates <- function(community_initial,
     colnames(out_matrix) <- paste("s", colnames(out_matrix), sep = "_")
     rownames(out_matrix) <- t(t.dyn$t.sys[t.dyn$t.index])
 
+    col_data <- DataFrame(t(out_matrix))
+
     SE <- SummarizedExperiment(assays = list(counts = out_matrix),
+                               colData = col_data,
                 metadata = list(metacommunity_p = metacommunity_p,
-                                growth_rates = growth_rates,
-                                timepoint = t.dyn$t.sys[t.dyn$t.index]))
+                                growth_rates = growth_rates))
     return(SE)
 }
