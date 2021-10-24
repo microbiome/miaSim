@@ -5,31 +5,31 @@
 \title{Hubbell's neutral model simulation applied to time series}
 \usage{
 simulateHubbellRates(
-  community.initial,
-  migration.p = 0.01,
-  metacommunity.p = NULL,
-  k.events = 1,
-  growth.rates = NULL,
+  community_initial,
+  migration_p = 0.01,
+  metacommunity_p = NULL,
+  k_events = 1,
+  growth_rates = NULL,
   norm = FALSE,
   t.end = 1000,
   ...
 )
 }
 \arguments{
-\item{community.initial}{Numeric: a vector of integers, containing species
+\item{community_initial}{Numeric: a vector of integers, containing species
 counts greater or equal to zero.}
 
-\item{migration.p}{Numeric: immigration possibility. It defines the
+\item{migration_p}{Numeric: immigration possibility. It defines the
 probability of replacement in the community. The value can be equal
 be between 0 and 1. The sum of probability of migration and the probability
 birth has to be 1.}
 
-\item{metacommunity.p}{Numeric: the probability to find a species in the
+\item{metacommunity_p}{Numeric: the probability to find a species in the
 metacommunity is the weighted average of probabilities in communities.}
 
-\item{k.events}{Integer:}
+\item{k_events}{Integer:}
 
-\item{growth.rates}{Numeric: the rate of the change in the community size}
+\item{growth_rates}{Numeric: the rate of the change in the community size}
 
 \item{norm}{Logical: whether the time series should be returned with
 the abundances as proportions (\code{norm = TRUE}) or
@@ -40,9 +40,9 @@ the raw counts (default: \code{norm = FALSE})}
 \item{...}{additional parameters including 't.start', 't.step', and 't.store'}
 }
 \value{
-a list object containing the abundance matrix of each species,
-number of individuals of each species before and after the simulation and the
-metacommunity probability
+a \linkS4class{SummarizedExperiment} object containing the community
+abundance matrix and generated values: metacommunity probabilities, growth
+rates and time points
 }
 \description{
 Neutral species abundances simulation according to the Hubbell model.This
@@ -52,10 +52,9 @@ The specific time between the events of birth or migration is calculated and
 time effect is considered to determine the next event.
 }
 \examples{
-community.initial <- c(0, 5, 10)
-HubbellRates <- simulateHubbellRates(community.initial, migration.p = 0.01,
-             metacommunity.p = NULL, k.events = 1, growth.rates = NULL,
-             norm = FALSE, t.end=1000)
+HubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
+             migration_p = 0.01, metacommunity_p = NULL, k_events = 1,
+             growth_rates = NULL, norm = FALSE, t.end=1000)
 
 }
 \references{

@@ -6,16 +6,16 @@
 #' The specific time between the events of birth or migration is calculated and
 #' time effect is considered to determine the next event.
 #'
-#' @param community.initial Numeric: a vector of integers, containing species
+#' @param community_initial Numeric: a vector of integers, containing species
 #' counts greater or equal to zero.
-#' @param migration.p Numeric: immigration possibility. It defines the
+#' @param migration_p Numeric: immigration possibility. It defines the
 #' probability of replacement in the community. The value can be equal
 #' be between 0 and 1. The sum of probability of migration and the probability
 #' birth has to be 1.
-#' @param metacommunity.p Numeric: the probability to find a species in the
+#' @param metacommunity_p Numeric: the probability to find a species in the
 #' metacommunity is the weighted average of probabilities in communities.
-#' @param k.events Integer:
-#' @param growth.rates Numeric: the rate of the change in the community size
+#' @param k_events Integer:
+#' @param growth_rates Numeric: the rate of the change in the community size
 #' @param norm Logical: whether the time series should be returned with
 #' the abundances as proportions (\code{norm = TRUE}) or
 #' the raw counts (default: \code{norm = FALSE})
@@ -23,13 +23,13 @@
 #' @param ... additional parameters including 't.start', 't.step', and 't.store'
 #'
 #' @examples
-#' HubbellRates <- simulateHubbellRates(community.initial = c(0,5,10),
-#'              migration.p = 0.01, metacommunity.p = NULL, k.events = 1,
-#'              growth.rates = NULL, norm = FALSE, t.end=1000)
+#' HubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
+#'              migration_p = 0.01, metacommunity_p = NULL, k_events = 1,
+#'              growth_rates = NULL, norm = FALSE, t.end=1000)
 #'
-#' @return a list object containing the abundance matrix of each species,
-#' number of individuals of each species before and after the simulation and the
-#' metacommunity probability
+#' @return a \linkS4class{SummarizedExperiment} object containing the community
+#' abundance matrix and generated values: metacommunity probabilities, growth
+#' rates and time points
 #'
 #' @importFrom gtools rdirichlet
 #'
@@ -38,104 +38,99 @@
 #' vol. 26,7 (2011).
 #
 #' @export
-simulateHubbellRates <- function(community.initial,
-                                migration.p = 0.01,
-                                metacommunity.p = NULL,
-                                k.events = 1,
-                                growth.rates = NULL,
+simulateHubbellRates <- function(community_initial,
+                                migration_p = 0.01,
+                                metacommunity_p = NULL,
+                                k_events = 1,
+                                growth_rates = NULL,
                                 norm = FALSE,
                                 t.end=1000,...){
 
     t.dyn <- simulationTimes(t.end = t.end, ...)
-    
+
     t.store <- length(t.dyn$t.index)
 
-    n.species <- length(community.initial)
+    n.species <- length(community_initial)
 
-    birth.p <- 1 - migration.p
+    birth_p <- 1 - migration_p
 
-    community <- t(community.initial)
-    rownames(community) <- "community"
+    community <- community_initial
 
-    if (is.null(metacommunity.p)){
-        metacommunity.p <- rdirichlet(1, alpha = rep(1,n.species))
+    if (is.null(metacommunity_p)){
+        metacommunity_p <- rdirichlet(1, alpha = rep(1,n.species))
     }
 
-    metacommunity.p <- metacommunity.p/sum(metacommunity.p)
+    metacommunity_p <- metacommunity_p/sum(metacommunity_p)
 
-    if (is.null(growth.rates)){
-        growth.rates <- rep(1,n.species)
+    if (is.null(growth_rates)){
+        growth_rates <- rep(1,n.species)
     }
 
-    out.matrix <- matrix(0, nrow=length(t.dyn$t.index), ncol = n.species)
-    
-    out.matrix[1,] = community.initial
-    
-    
+    out_matrix <- matrix(0, nrow=length(t.dyn$t.index), ncol = n.species)
+
+    out_matrix[1,] = community_initial
 
     current_t <- t.dyn$t.sys[2]
 
-    current.sample.index <- t.dyn$t.index[2]
+    current_sample_index <- t.dyn$t.index[2]
 
-    next.sample.index <- t.dyn$t.index[3]
+    next_sample_index <- t.dyn$t.index[3]
 
     while(current_t <= t.end){
 
-        tau.events <- min(min(community[community>0]),k.events)
+        tau_events <- min(min(community[community>0]),k_events)
 
-        propensities <- growth.rates*community
+        propensities <- growth_rates*community
 
         probabilities <- propensities/(sum(propensities))
 
-        tau <- rgamma(n = 1, shape = tau.events, scale = 1/(sum(propensities)))
+        tau <- rgamma(n = 1, shape = tau_events, scale = 1/(sum(propensities)))
 
         current_t <- current_t + tau
-        
-        
-        
+
+
+
         # if reached end of simulation:
         if(current_t >= t.end){
             break
         }
 
-        if (current_t >= t.dyn$t.sys[next.sample.index]) {
-            
-            limit.sample.index <-
+        if (current_t >= t.dyn$t.sys[next_sample_index]) {
+
+            limit_sample_index <-
                 max(t.dyn$t.index[t.dyn$t.sys[t.dyn$t.index]<=current_t])
-            
-            out.matrix[seq(t.store)[t.dyn$t.index==current.sample.index]:seq(t.store)[t.dyn$t.index==limit.sample.index],] = community
-            current.sample.index <- limit.sample.index
-            next.sample.index <- limit.sample.index + 1
+
+            out_matrix[seq(t.store)[t.dyn$t.index==current_sample_index]:seq(t.store)[t.dyn$t.index==limit_sample_index],] = community
+            current_sample_index <- limit_sample_index
+            next_sample_index <- limit_sample_index + 1
         }
 
-        
+
 
         #k deaths
         community <- community -
-            t(rmultinom(n = 1, size = k.events, prob = probabilities))
+            t(rmultinom(n = 1, size = k_events, prob = probabilities))
 
-        n.births <- sum(rbinom(n=tau.events, size=1, prob = birth.p))
-        n.migration <- tau.events-n.births
+        n_births <- sum(rbinom(n=tau_events, size=1, prob = birth_p))
+        n_migration <- tau_events-n_births
 
         community <- community +
-            t(rmultinom(n = 1, size = n.births, prob = probabilities)) +
-            t(rmultinom(n = 1, size = n.migration, prob = metacommunity.p))
+            t(rmultinom(n = 1, size = n_births, prob = probabilities)) +
+            t(rmultinom(n = 1, size = n_migration, prob = metacommunity_p))
 
     }
 
     if(norm){
-        out.matrix <- out.matrix/rowSums(out.matrix)
+        out_matrix <- out_matrix/rowSums(out_matrix)
     }
 
+    colnames(out_matrix) <- seq_len(n.species)
+    colnames(out_matrix) <- paste("s", colnames(out_matrix), sep = "_")
+    rownames(out_matrix) <- t(t.dyn$t.sys[t.dyn$t.index])
 
-    colnames(out.matrix) <- seq_len(n.species)
-    colnames(out.matrix) <- paste("s", colnames(out.matrix), sep = "_")
-    rownames(out.matrix) <- t(t.dyn$t.sys[t.dyn$t.index])
-
-    SE <- SummarizedExperiment(assays = list(counts = out.matrix),
-        colData = list(initial.community = community.initial,
-                        after = t(community)),
-        metadata =
-            list(values = mget(names(formals()),sys.frame(sys.nframe()))))
+    SE <- SummarizedExperiment(assays = list(counts = out_matrix),
+                metadata = list(metacommunity_p = metacommunity_p,
+                                growth_rates = growth_rates,
+                                timepoint = t.dyn$t.sys[t.dyn$t.index]))
     return(SE)
 }

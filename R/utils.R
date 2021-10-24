@@ -24,3 +24,4 @@ eventTimes <- function(t.events=c(10,20,30),
         }
         return(t.result)
     }
+
