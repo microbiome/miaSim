@@ -66,9 +66,9 @@ simulateHubbellRates <- function(community_initial,
         growth_rates <- rep(1,n.species)
     }
 
-    out_matrix <- matrix(0, nrow=length(t.dyn$t.index), ncol = n.species)
+    out_matrix <- matrix(0, nrow = n.species, ncol = length(t.dyn$t.index))
 
-    out_matrix[1,] = community_initial
+    out_matrix[,1] = community_initial
 
     current_t <- t.dyn$t.sys[2]
 
@@ -100,7 +100,7 @@ simulateHubbellRates <- function(community_initial,
             limit_sample_index <-
                 max(t.dyn$t.index[t.dyn$t.sys[t.dyn$t.index]<=current_t])
 
-            out_matrix[seq(t.store)[t.dyn$t.index==current_sample_index]:seq(t.store)[t.dyn$t.index==limit_sample_index],] = community
+            out_matrix[,seq(t.store)[t.dyn$t.index==current_sample_index]:seq(t.store)[t.dyn$t.index==limit_sample_index]] = community
             current_sample_index <- limit_sample_index
             next_sample_index <- limit_sample_index + 1
         }
@@ -109,14 +109,14 @@ simulateHubbellRates <- function(community_initial,
 
         #k deaths
         community <- community -
-            t(rmultinom(n = 1, size = k_events, prob = probabilities))
+            (rmultinom(n = 1, size = k_events, prob = probabilities))
 
         n_births <- sum(rbinom(n=tau_events, size=1, prob = birth_p))
         n_migration <- tau_events-n_births
 
         community <- community +
-            t(rmultinom(n = 1, size = n_births, prob = probabilities)) +
-            t(rmultinom(n = 1, size = n_migration, prob = metacommunity_p))
+            (rmultinom(n = 1, size = n_births, prob = probabilities)) +
+            (rmultinom(n = 1, size = n_migration, prob = metacommunity_p))
 
     }
 
@@ -124,14 +124,20 @@ simulateHubbellRates <- function(community_initial,
         out_matrix <- out_matrix/rowSums(out_matrix)
     }
 
-    colnames(out_matrix) <- seq_len(n.species)
-    colnames(out_matrix) <- paste("s", colnames(out_matrix), sep = "_")
-    rownames(out_matrix) <- t(t.dyn$t.sys[t.dyn$t.index])
+    rownames(out_matrix) <- seq_len(n.species)
+    rownames(out_matrix) <- paste("s", rownames(out_matrix), sep = "_")
+    colnames(out_matrix) <- (t.dyn$t.sys[t.dyn$t.index])
 
-    col_data <- DataFrame(t(out_matrix))
+
+    timepoints <- c(t.dyn$t.sys[t.dyn$t.index])
+    time_int <- diff(timepoints)
+    time_int[t.end] <- NA
+
+    col_data <- DataFrame(time = timepoints,
+                          time_interval = time_int)
 
     SE <- SummarizedExperiment(assays = list(counts = out_matrix),
-                               colData = col_data,
+                              colData = col_data,
                 metadata = list(metacommunity_p = metacommunity_p,
                                 growth_rates = growth_rates))
     return(SE)
