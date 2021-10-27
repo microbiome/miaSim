@@ -9,13 +9,13 @@
 #' @param community_initial Numeric: a vector of integers, containing species
 #' counts greater or equal to zero.
 #' @param migration_p Numeric: immigration possibility. It defines the
-#' probability of replacement in the community. The value can be equal
-#' be between 0 and 1. The sum of probability of migration and the probability
-#' birth has to be 1.
-#' @param metacommunity_p Numeric: the probability to find a species in the
-#' metacommunity is the weighted average of probabilities in communities.
-#' @param k_events Integer:
-#' @param growth_rates Numeric: the rate of the change in the community size
+#' probability of migration when replacement is needed in the community.
+#' The value can be between 0 and 1. The sum of the probability of
+#' migration and the probability birth must be 1.
+#' @param metacommunity_p Numeric: the probability of a species being found in
+#' the metacommunity.
+#' @param k_events Integer: number of times the replacement happening
+#' @param growth_rates Numeric: the rate of change in community size.
 #' @param norm Logical: whether the time series should be returned with
 #' the abundances as proportions (\code{norm = TRUE}) or
 #' the raw counts (default: \code{norm = FALSE})
@@ -70,56 +70,46 @@ simulateHubbellRates <- function(community_initial,
 
     out_matrix[,1] = community_initial
 
-    current_t <- t.dyn$t.sys[2]
-
-    current_sample_index <- t.dyn$t.index[2]
-
-    next_sample_index <- t.dyn$t.index[3]
+    stored_time <- t.dyn$t.sys[t.dyn$t.index]
+    current_t <- stored_time[1]
+    last_stored_t <- stored_time[1]
 
     while(current_t <= t.end){
 
         tau_events <- min(min(community[community>0]),k_events)
 
-        propensities <- growth_rates*community
-
-        probabilities <- propensities/(sum(propensities))
+        propensities <- sum(community)*(c(migration_p, 1-migration_p))
+        event_probabilities <- propensities/(sum(propensities))
 
         tau <- rgamma(n = 1, shape = tau_events, scale = 1/(sum(propensities)))
 
         current_t <- current_t + tau
 
-
-
-        # if reached end of simulation:
-        if(current_t >= t.end){
-            break
-        }
-
-        if (current_t >= t.dyn$t.sys[next_sample_index]) {
-
-            limit_sample_index <-
-                max(t.dyn$t.index[t.dyn$t.sys[t.dyn$t.index]<=current_t])
-
-            out_matrix[,seq(t.store)[t.dyn$t.index==current_sample_index]:seq(t.store)[t.dyn$t.index==limit_sample_index]] = community
-            current_sample_index <- limit_sample_index
-            next_sample_index <- limit_sample_index + 1
-        }
-
-
+        composition_probabilities <- community/sum(community)
 
         #k deaths
-        community <- community -
-            (rmultinom(n = 1, size = k_events, prob = probabilities))
 
-        n_births <- sum(rbinom(n=tau_events, size=1, prob = birth_p))
+        community <- community -
+            (rmultinom(n = 1, size = tau_events, prob = composition_probabilities))
+
+        n_births <- rbinom(n=1, size=tau_events, prob = event_probabilities[2])
+
         n_migration <- tau_events-n_births
 
         community <- community +
-            (rmultinom(n = 1, size = n_births, prob = probabilities)) +
+            (rmultinom(n = 1, size = n_births, prob = composition_probabilities)) +
             (rmultinom(n = 1, size = n_migration, prob = metacommunity_p))
 
-    }
+        index <- ((current_t >= stored_time )  & (last_stored_t < stored_time))
 
+        if (sum(index)>0) {
+
+            out_matrix[,index] <-
+                t(matrix(rep(t(community),sum(index)), ncol = sum(index)))
+            last_stored_t <- stored_time[max(seq(t.store)[index])]
+
+        }
+    }
     if(norm){
         out_matrix <- out_matrix/rowSums(out_matrix)
     }
