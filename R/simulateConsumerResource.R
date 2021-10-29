@@ -26,13 +26,18 @@
 #' @param resources Numeric: vector of resources
 #' (default: \code{resources = runif(n = n.resources, min = 1, max = 100)})
 #' @param mumax Numeric: vector of maximum mu of species
-#' (default: \code{mumax = c(rep(1, n.species))})
-#' @param times Numeric: vector of simulation times
-#' (default: \code{times = seq(from = 0, to = 10, by = 0.01)})
+#' (default: \code{mumax = rep(1, n.species)})
 #' @param k.table matrix: matrix of K values in monod model
-#' (default: \code{k.table = matrix(rgamma(n=n.species*n.resources, shape = 50,
-#' rate = 0.25), nrow = n.species)})
+#' (default: \code{k.table = matrix(rgamma(n=n.species*n.resources,
+#' shape = 50, rate = 0.25), nrow = n.species)})
+#' @param return.matrix Logical: whether to export only the stored time points
+#' in a matrix
+#' (default: \code{return.matrix = FALSE})
+#' @param t.end Numeric scalar indicating the final time of the dimulation
+#' (default: \code{t.end = 1000})
+#' @param ... additional parameters including 't.start', 't.step', and 't.store'
 #'
+
 #' @examples
 #' # example1 users provide least parameters.
 #' ExampleConsumerResource <- simulateConsumerResource(n.species = 2,
@@ -49,10 +54,11 @@ simulateConsumerResource <- function(n.species, n.resources,
     eff = randomE(n.species, n.resources),
     consumers = runif(n = n.species, min = 0.1, max = 10),
     resources = runif(n = n.resources, min = 1, max = 100),
-    mumax = c(rep(1, n.species)),
-    times = seq(from = 0, to = 20, by = 0.01),
+    mumax = rep(1, n.species),
     k.table = matrix(rgamma(n=n.species*n.resources, shape = 50,
-        rate = 0.25), nrow = n.species)){
+        rate = 0.25), nrow = n.species),
+    return.matrix = FALSE,
+    t.end = 1000, ...){
 
     # define the consumer-resource model
     consumerResourceModel <- function(t, state, params){
@@ -80,8 +86,16 @@ simulateConsumerResource <- function(n.species, n.resources,
         paste0("resource", seq(length(resources))))
     parameters <- list(mumax = mumax, eff = eff, k.table = k.table)
 
-    out <- as.data.frame(ode(y = state.init, times = times,
+    t.dyn <- simulationTimes(t.end = t.end, ...)
+    out.matrix <- as.data.frame(ode(y = state.init, times = t.dyn$t.sys,
         func = consumerResourceModel, parms = parameters))
-    SE <- SummarizedExperiment(assays = list(counts = t(out[,2:ncol(out)])))
-    return (SE)
+    out.matrix <- out.matrix[t.dyn$t.index,]
+
+    if (return.matrix) {
+        return(as.matrix(out.matrix))
+    } else {
+        SE <- SummarizedExperiment(
+            assays = list(counts = t(out.matrix[,2:ncol(out.matrix)])))
+        return (SE)
+    }
 }

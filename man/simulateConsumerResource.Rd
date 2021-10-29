@@ -10,10 +10,12 @@ simulateConsumerResource(
   eff = randomE(n.species, n.resources),
   consumers = runif(n = n.species, min = 0.1, max = 10),
   resources = runif(n = n.resources, min = 1, max = 100),
-  mumax = c(rep(1, n.species)),
-  times = seq(from = 0, to = 20, by = 0.01),
+  mumax = rep(1, n.species),
   k.table = matrix(rgamma(n = n.species * n.resources, shape = 50, rate = 0.25), nrow =
-    n.species)
+    n.species),
+  return.matrix = FALSE,
+  t.end = 1000,
+  ...
 )
 }
 \arguments{
@@ -32,14 +34,20 @@ converted into biomass, negative values represent excreted resources
 (default: \code{resources = runif(n = n.resources, min = 1, max = 100)})}
 
 \item{mumax}{Numeric: vector of maximum mu of species
-(default: \code{mumax = c(rep(1, n.species))})}
-
-\item{times}{Numeric: vector of simulation times
-(default: \code{times = seq(from = 0, to = 10, by = 0.01)})}
+(default: \code{mumax = rep(1, n.species)})}
 
 \item{k.table}{matrix: matrix of K values in monod model
-(default: \code{k.table = matrix(rgamma(n=n.species*n.resources, shape = 50,
-rate = 0.25), nrow = n.species)})}
+(default: \code{k.table = matrix(rgamma(n=n.species*n.resources,
+shape = 50, rate = 0.25), nrow = n.species)})}
+
+\item{return.matrix}{Logical: whether to export only the stored time points
+in a matrix
+(default: \code{return.matrix = FALSE})}
+
+\item{t.end}{Numeric scalar indicating the final time of the dimulation
+(default: \code{t.end = 1000})}
+
+\item{...}{additional parameters including 't.start', 't.step', and 't.store'}
 }
 \value{
 \code{simulateConsumerResource} returns a

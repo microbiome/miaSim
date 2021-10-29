@@ -11,7 +11,7 @@ randomE(
   max.con = round(n.resources/3),
   min.prod = round(n.resources/6),
   max.prod = round(n.resources/4),
-  sd = 0.5
+  maintenance = 0.5
 )
 }
 \arguments{
@@ -27,22 +27,25 @@ randomE(
 
 \item{max.prod}{Integer: maximum number of resources produced by each species}
 
-\item{sd}{Numeric: standard deviation of the normal distribution}
+\item{maintenance}{Numeric: 0~1 the proportion of resources used to maintain
+the living of microorganisms. 0 means all the resources will be used for the
+reproduction of microorganisms, and 1 means all the resources would be used
+to maintain the living of organisms and no resources would be left for
+their growth(reproduction).}
 }
 \value{
 \code{randomE} returns a matrix E with dimensions (n.species x n.resources),
 and each row represents a species.
 }
 \description{
-Generate random efficiency matrix for consumer resource model from a normal
+Generate random efficiency matrix for consumer resource model from dirichlet
 distribution. Positive efficiencies indicate the consumption of resources,
 whilst negatives indicate that the species would produce the resource.
-Efficiencies larger than 1 would be replaced by 1.
 }
 \examples{
 # example with specific parameters
 ExampleEfficiencyMatrix <- randomE(n.species = 3, n.resources = 6,
-min.con = 3, max.con = 4, min.prod = 1, max.prod = 1, sd = 0.4)
+min.con = 3, max.con = 4, min.prod = 1, max.prod = 1, maintenance = 0.4)
 # example with minimum parameters
 ExampleEfficiencyMatrix2 <- randomE(n.species = 5, n.resources = 12)
 
