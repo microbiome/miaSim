@@ -2,6 +2,8 @@
 
 export(powerlawA)
 export(randomA)
+export(randomE)
+export(simulateConsumerResource)
 export(simulateGLV)
 export(simulateHubbell)
 export(simulateHubbellRates)

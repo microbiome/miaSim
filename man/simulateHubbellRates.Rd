@@ -20,16 +20,16 @@ simulateHubbellRates(
 counts greater or equal to zero.}
 
 \item{migration_p}{Numeric: immigration possibility. It defines the
-probability of replacement in the community. The value can be equal
-be between 0 and 1. The sum of probability of migration and the probability
-birth has to be 1.}
+probability of migration when replacement is needed in the community.
+The value can be between 0 and 1. The sum of the probability of
+migration and the probability birth must be 1.}
 
-\item{metacommunity_p}{Numeric: the probability to find a species in the
-metacommunity is the weighted average of probabilities in communities.}
+\item{metacommunity_p}{Numeric: the probability of a species being found in
+the metacommunity.}
 
-\item{k_events}{Integer:}
+\item{k_events}{Integer: number of times the replacement happening}
 
-\item{growth_rates}{Numeric: the rate of the change in the community size}
+\item{growth_rates}{Numeric: the rate of change in community size.}
 
 \item{norm}{Logical: whether the time series should be returned with
 the abundances as proportions (\code{norm = TRUE}) or
