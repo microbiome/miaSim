@@ -73,9 +73,9 @@ simulateConsumerResource <- function(n.species, n.resources,
             B <- matrix(rep(resources, length(consumers)),
                 ncol = length(resources), byrow = TRUE) + k.table
             growth <- ((eff*(eff>0)/B) %*% resources)*consumers
-            consumption <- (-consumers %*% (1/B))*resources
-            production <- (consumers %*% (eff*(eff>0)/B))*resources
-            dResources <- consumption + production
+            consumption <- (t(growth) %*% ((eff>0)/B))*resources
+            production <- -(t(growth) %*% (eff*(eff<0)/B))*resources
+            dResources <- - consumption + production
             dConsumers <- mumax*growth
             dxdt <- list(c(dConsumers, dResources))
             return(dxdt)
