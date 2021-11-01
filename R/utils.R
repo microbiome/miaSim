@@ -10,7 +10,11 @@ simulationTimes <- function(t.start = 0, t.end = 1000,
 
 isPositiveInteger <- function(x, tol = .Machine$double.eps^0.5) {
         return(abs(x - round(x)) < tol && x > 0)
-    }
+}
+
+isZeroOrPositiveInteger <- function(x, tol = .Machine$double.eps^0.5) {
+    return(abs(x - round(x)) < tol && x >= 0)
+}
 
 
 eventTimes <- function(t.events=c(10,20,30),

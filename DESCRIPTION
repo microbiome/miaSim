@@ -32,7 +32,8 @@ Imports:
     deSolve,
     stats,
     poweRlaw,
-    gtools
+    gtools,
+    S4Vectors
 Suggests:
     rmarkdown,
     knitr,

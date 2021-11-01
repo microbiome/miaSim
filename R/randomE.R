@@ -35,6 +35,11 @@ randomE <- function(n.species,
                     min.prod = round(n.resources/6),
                     max.prod = round(n.resources/4),
                     maintenance = 0.5){
+
+    if(!all(vapply(list(n.species, n.resources), isPositiveInteger,
+            logical(1)))){
+        stop("n.species and/or n.resources must be integer.")}
+
     if(min.con > max.con) {
         warning("min.con surpassed max.con, modified to max.con")
         min.con <- max.con
@@ -56,7 +61,8 @@ randomE <- function(n.species,
             size = sample(min.con:max.con))
         consumption[index.consumption] <- 1
         irow <- rdirichlet(1, consumption)[,]
-        index.production <- sample(seq(n.resources)[irow==0], size=sample(min.prod:max.prod))
+        index.production <-
+            sample(seq(n.resources)[irow==0], size=sample(min.prod:max.prod))
         production[index.production] <- 1
         prod <- (-1)*(1-maintenance)* rdirichlet(1, production)[,]
         irow[index.production] <- prod[index.production]

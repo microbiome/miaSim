@@ -6,7 +6,7 @@
 \usage{
 simulateHubbellRates(
   community_initial,
-  migration_p = 0.01,
+  migration_p = 0.1,
   metacommunity_p = NULL,
   k_events = 1,
   growth_rates = NULL,
@@ -27,7 +27,9 @@ migration and the probability birth must be 1.}
 \item{metacommunity_p}{Numeric: the probability of a species being found in
 the metacommunity.}
 
-\item{k_events}{Integer: number of times the replacement happening}
+\item{k_events}{Integer: the number of steps performed at a time point.
+It can be equal or more than 1. Bigger k_events increases speed while
+decreasing precision.}
 
 \item{growth_rates}{Numeric: the rate of change in community size.}
 

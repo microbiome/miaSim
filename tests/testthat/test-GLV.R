@@ -8,10 +8,15 @@ test_that("simulateGLV", {
     simulateGLV(n.species = 4, A, t.start = 0, t.store = 1000)
     SEobject <- simulateGLV(n.species = 4, A, t.start = 0,
                                      t.store = 1000)
+
     InterMatx <- assay(SEobject)
     expect_type(InterMatx, "double")
     expect_equal(dim(InterMatx), c(4,1000))
     expect_s4_class(SEobject, "SummarizedExperiment")
+
+    expect_error(Error1 <- simulateGLV(n.species = 0.5))
+    expect_error(Error2 <- simulateGLV(n.species = 5, A = 2, x = 2, b = 3))
+
 
     #check norm = TRUE
     SEobject2 <- miaSim:::simulateGLV(n.species = 4,

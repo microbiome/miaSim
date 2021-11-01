@@ -23,4 +23,5 @@ test_that("simulateRicker", {
         dr = c(0.001, 0.0015), x = c(3, 1)))
     expect_error(ErrorLogistic3 <- simulateStochasticLogistic(
         n.species = 4, partial = FALSE, stochastic = 1))
+
 })

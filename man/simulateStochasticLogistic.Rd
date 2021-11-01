@@ -65,8 +65,8 @@ in a matrix
 (controlled by multiplying the growth rate by a random number)
 (default: \code{stochastic = TRUE})}
 
-\item{t.end}{Numeric scalar indicating the final time of the dimulation
-(default: \code{t.end = 2000})}
+\item{t.end}{Numeric scalar indicating the final time of the simulation
+(default: \code{t.end = 1000})}
 
 \item{...}{additional parameters including 't.start', 't.step', and 't.store'}
 }

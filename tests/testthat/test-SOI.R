@@ -15,6 +15,7 @@ test_that("simulateSOI", {
   SOI3 <- simulateSOI(n.species = 10, I = 1000, A = powerlawA(n.species = 10,
           alpha = 1.2), k=5, com = c(1:10) , tend = 150, norm = TRUE)
 
+  expect_error(Error1 <- simulateSOI(n.species = 0.5, I = 0.6, k = 9.7, tend = 80))
 
   #check else
   expect_error(miaSim:::simulateSOI(n.species = 10, I = 1000,

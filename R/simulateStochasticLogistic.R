@@ -41,14 +41,14 @@
 #' (default: \code{t.external_events = c(0, 240, 480)})
 #' @param t.external_durations Numeric: durations of external events
 #' (default: \code{t.external_durations = c(0, 1, 1)})
-#' @param t.end Numeric scalar indicating the final time of the dimulation
-#' (default: \code{t.end = 2000})
 #' @param return.matrix Logical: whether to export only the stored time points
 #' in a matrix
 #' (default: \code{return.matrix = FALSE})
 #' @param stochastic Logical: whether the logistic model should be stochastic
 #' (controlled by multiplying the growth rate by a random number)
 #' (default: \code{stochastic = TRUE})
+#' @param t.end Numeric scalar indicating the final time of the simulation
+#' (default: \code{t.end = 1000})
 #' @param ... additional parameters including 't.start', 't.step', and 't.store'
 #'
 #' @examples
@@ -88,7 +88,7 @@ simulateStochasticLogistic <- function(n.species,
         t.external_durations = c(0, 1, 1),
         return.matrix = FALSE,
         stochastic = TRUE,
-        t.end = 1000,...){
+        t.end = 1000, ...){
 
         # define the stochastic logistic model
         stochasticLogisticModel <- function (t, state, params){
@@ -166,4 +166,4 @@ simulateStochasticLogistic <- function(n.species,
             SE <- SummarizedExperiment(assays = list(counts = t(out.matrix)))
             return(SE)
         }
-    }
+}

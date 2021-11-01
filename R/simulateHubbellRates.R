@@ -14,7 +14,9 @@
 #' migration and the probability birth must be 1.
 #' @param metacommunity_p Numeric: the probability of a species being found in
 #' the metacommunity.
-#' @param k_events Integer: number of times the replacement happening
+#' @param k_events Integer: the number of steps performed at a time point.
+#' It can be equal or more than 1. Bigger k_events increases speed while
+#' decreasing precision.
 #' @param growth_rates Numeric: the rate of change in community size.
 #' @param norm Logical: whether the time series should be returned with
 #' the abundances as proportions (\code{norm = TRUE}) or
@@ -32,6 +34,8 @@
 #' rates and time points
 #'
 #' @importFrom gtools rdirichlet
+#' @importFrom stats rgamma
+#' @importFrom S4Vectors DataFrame
 #'
 #' @references Rosindell, James et al. "The unified neutral theory of
 #' biodiversity and biogeography at age ten." Trends in ecology & evolution
@@ -39,12 +43,28 @@
 #
 #' @export
 simulateHubbellRates <- function(community_initial,
-                                migration_p = 0.01,
+                                migration_p = 0.1,
                                 metacommunity_p = NULL,
                                 k_events = 1,
                                 growth_rates = NULL,
                                 norm = FALSE,
                                 t.end=1000,...){
+
+    #input check
+    i <- seq_len(length(community_initial))
+    if(!all(vapply(community_initial[i],
+            FUN = isZeroOrPositiveInteger, logical(1)))){
+        stop("community size for each species must be equal to zero or greater
+            than zero.")}
+
+    if(!all(vapply(list(migration_p, k_events),
+            FUN = is.numeric, logical(1)))){
+        stop("migration possibility and k_events parameter must be positive
+            numeric values.")}
+
+    if(!is.logical(norm)){
+        stop("'norm' must be TRUE or FALSE.", call. = FALSE)
+    }
 
     t.dyn <- simulationTimes(t.end = t.end, ...)
 
@@ -90,15 +110,18 @@ simulateHubbellRates <- function(community_initial,
         #k deaths
 
         community <- community -
-            (rmultinom(n = 1, size = tau_events, prob = composition_probabilities))
+            (rmultinom(n = 1, size = tau_events,
+                prob = composition_probabilities))
 
         n_births <- rbinom(n=1, size=tau_events, prob = event_probabilities[2])
 
         n_migration <- tau_events-n_births
 
         community <- community +
-            (rmultinom(n = 1, size = n_births, prob = composition_probabilities)) +
-            (rmultinom(n = 1, size = n_migration, prob = metacommunity_p))
+            (rmultinom(n = 1, size = n_births,
+                prob = composition_probabilities)) +
+            (rmultinom(n = 1, size = n_migration,
+                prob = metacommunity_p))
 
         index <- ((current_t >= stored_time )  & (last_stored_t < stored_time))
 
@@ -123,11 +146,10 @@ simulateHubbellRates <- function(community_initial,
     time_int <- diff(timepoints)
     time_int[t.end] <- NA
 
-    col_data <- DataFrame(time = timepoints,
-                          time_interval = time_int)
+    col_data <- DataFrame(time = timepoints, time_interval = time_int)
 
     SE <- SummarizedExperiment(assays = list(counts = out_matrix),
-                              colData = col_data,
+                                colData = col_data,
                 metadata = list(metacommunity_p = metacommunity_p,
                                 growth_rates = growth_rates))
     return(SE)

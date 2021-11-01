@@ -55,8 +55,8 @@ simulateConsumerResource <- function(n.species, n.resources,
     consumers = runif(n = n.species, min = 0.1, max = 10),
     resources = runif(n = n.resources, min = 1, max = 100),
     mumax = rep(1, n.species),
-    k.table = matrix(rgamma(n=n.species*n.resources, shape = 50,
-        rate = 0.25), nrow = n.species),
+    k.table = matrix(rgamma(n=n.species*n.resources,
+        shape = 50,rate = 0.25), nrow = n.species),
     return.matrix = FALSE,
     t.end = 1000, ...){
 
