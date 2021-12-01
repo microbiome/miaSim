@@ -1,6 +1,6 @@
 #' Hubbell's neutral model simulation applied to time series
 #'
-#' Neutral species abundances simulation according to the Hubbell model.This
+#' Neutral species abundances simulation according to the Hubbell model. This
 #' model shows that losses in society can be replaced either by the birth of
 #' individuals or by immigration depending on their probabilities.
 #' The specific time between the events of birth or migration is calculated and
@@ -22,16 +22,17 @@
 #' the abundances as proportions (\code{norm = TRUE}) or
 #' the raw counts (default: \code{norm = FALSE})
 #' @param t.end Numeric: simulation end time (default: \code{t.end = 1000})
+#' @param list Logical : decides whether output is a list object or not
+#' (default: \code{norm = TRUE})
 #' @param ... additional parameters including 't.start', 't.step', and 't.store'
 #'
 #' @examples
-#' HubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
+#' ExampleHubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
 #'              migration_p = 0.01, metacommunity_p = NULL, k_events = 1,
 #'              growth_rates = NULL, norm = FALSE, t.end=1000)
 #'
-#' @return a \linkS4class{SummarizedExperiment} object containing the community
-#' abundance matrix and generated values: metacommunity probabilities, growth
-#' rates and time points
+#' @return a community abundance matrix or a list object that contains
+#' growth rates, time points and metacommunity probabilities
 #'
 #' @importFrom gtools rdirichlet
 #' @importFrom stats rgamma
@@ -48,7 +49,9 @@ simulateHubbellRates <- function(community_initial,
                                 k_events = 1,
                                 growth_rates = NULL,
                                 norm = FALSE,
-                                t.end=1000,...){
+                                t.end = 1000,
+                                list = TRUE,
+                                ...){
 
     #input check
     i <- seq_len(length(community_initial))
@@ -133,24 +136,24 @@ simulateHubbellRates <- function(community_initial,
 
         }
     }
-    if(norm){
-        out_matrix <- out_matrix/rowSums(out_matrix)
-    }
 
     rownames(out_matrix) <- seq_len(n.species)
     rownames(out_matrix) <- paste("s", rownames(out_matrix), sep = "_")
     colnames(out_matrix) <- (t.dyn$t.sys[t.dyn$t.index])
 
+    if(norm){
+        output <- out_matrix/rowSums(out_matrix)
+    }
+    if(list){
+        timepoints <- c(t.dyn$t.sys[t.dyn$t.index])
+        time_int <- diff(timepoints)
+        time_int[t.end] <- NA
 
-    timepoints <- c(t.dyn$t.sys[t.dyn$t.index])
-    time_int <- diff(timepoints)
-    time_int[t.end] <- NA
-
-    col_data <- DataFrame(time = timepoints, time_interval = time_int)
-
-    SE <- SummarizedExperiment(assays = list(counts = out_matrix),
-                                colData = col_data,
-                metadata = list(metacommunity_p = metacommunity_p,
-                                growth_rates = growth_rates))
-    return(SE)
+        col_data <- DataFrame(time = timepoints, time_interval = time_int)
+        meta_data <- list(metacommunity_p = metacommunity_p,
+                            growth_rates = growth_rates)
+        out_matrix<- list(abundancematrix = out_matrix, time = col_data,
+                            metadata = meta_data)
+    }
+    return(out_matrix)
 }

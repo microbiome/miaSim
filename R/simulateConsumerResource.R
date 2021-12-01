@@ -1,8 +1,5 @@
 #' Consumer-resource model simulation
 #'
-#' Simulates time series with the consumer-resource model and
-#' forms a \linkS4class{SummarizedExperiment} object.
-#'
 #' Simulates a community time series using the consumer-resource model.
 #' The change rate of each species was defined as
 #' `dx/dt = mumax*sum(monod)*X`, where
@@ -12,9 +9,6 @@
 #' X is the vector of abundances of species.
 #' The concentrations of resource will be set to 0 if they were calculated
 #' less than 0 during the iteration.
-#'
-#' The resulting abundance matrix model is used to construct
-#' \linkS4class{SummarizedExperiment} object.
 #'
 #' @param n.species Integer: number of species
 #' @param n.resources Interger: number of resources
@@ -30,24 +24,19 @@
 #' @param k.table matrix: matrix of K values in monod model
 #' (default: \code{k.table = matrix(rgamma(n=n.species*n.resources,
 #' shape = 50, rate = 0.25), nrow = n.species)})
-#' @param return.matrix Logical: whether to export only the stored time points
-#' in a matrix
-#' (default: \code{return.matrix = FALSE})
 #' @param t.end Numeric scalar indicating the final time of the dimulation
 #' (default: \code{t.end = 1000})
 #' @param ... additional parameters including 't.start', 't.step', and 't.store'
 #'
-
 #' @examples
 #' # example1 users provide least parameters.
 #' ExampleConsumerResource <- simulateConsumerResource(n.species = 2,
 #' n.resources = 4)
 #' # visualize the dynamics of the model
-#' matplot(t(assays(ExampleConsumerResource)[["counts"]]), type = "l")
+#' matplot(ExampleConsumerResource, type = "l")
 #'
-#' @return \code{simulateConsumerResource} returns a
-#' \linkS4class{SummarizedExperiment} class object containing matrix with
-#' species and resources abundance as rows and time points as columns
+#' @return an abundance matrix with species and resources abundance as rows and
+#' time points as columns
 #'
 #' @export
 simulateConsumerResource <- function(n.species, n.resources,
@@ -57,7 +46,6 @@ simulateConsumerResource <- function(n.species, n.resources,
     mumax = rep(1, n.species),
     k.table = matrix(rgamma(n=n.species*n.resources,
         shape = 50,rate = 0.25), nrow = n.species),
-    return.matrix = FALSE,
     t.end = 1000, ...){
 
     # define the consumer-resource model
@@ -91,11 +79,6 @@ simulateConsumerResource <- function(n.species, n.resources,
         func = consumerResourceModel, parms = parameters))
     out.matrix <- out.matrix[t.dyn$t.index,]
 
-    if (return.matrix) {
-        return(as.matrix(out.matrix))
-    } else {
-        SE <- SummarizedExperiment(
-            assays = list(counts = t(out.matrix[,2:ncol(out.matrix)])))
-        return (SE)
-    }
+    return(as.matrix(out.matrix[,2:ncol(out.matrix)]))
+
 }

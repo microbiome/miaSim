@@ -1,15 +1,11 @@
 #' Generalized Lotka-Volterra (gLV) simulation
 #'
-#' Simulates time series with the generalized Lotka-Volterra model and forms a
-#' \linkS4class{SummarizedExperiment} object.
+#' Simulates time series with the generalized Lotka-Volterra model.
 #'
 #' Simulates a community time series using the generalized Lotka-Volterra model,
 #' defined as dx/dt = diag(x)(b+Ax), where x is the vector of species abundances
 #' ,diag(x) is a diagonal matrix with the diagonal values set to x.
 #' A is the interaction matrix and b is the vector of growth rates.
-#'
-#' The resulting abundance matrix model is used to construct
-#'\linkS4class{SummarizedExperiment} object.
 #'
 #' @param n.species Integer: number of species
 #' @param A interaction matrix
@@ -37,28 +33,12 @@
 #' @param ... additional parameters including 't.start', 't.step', and 't.store'
 #'
 #' @return
-#' \code{simulateGLV} returns a \linkS4class{SummarizedExperiment} object
-#' containing abundance matrix
+#' \code{simulateGLV} returns an abundance matrix
 #'
 #' @examples
-#' row_data <- data.frame(Kingdom = "Animalia",
-#'                 Phylum = rep(c("Chordata", "Echinodermata"), c(500, 500)),
-#'                 Class = rep(c("Mammalia", "Asteroidea"), each = 500),
-#'                 ASV = paste0("X", seq_len(1000)),
-#'                 row.names = rownames(paste0("species", seq_len(1000))),
-#'                 stringsAsFactors = FALSE)
-#'
-#' row_data <- t(row_data)
-#'
-#' col_data <- DataFrame(sampleID = seq_len(1000),
-#'                     time = as.Date(1000, origin = "2000-01-01"),
-#'                     row.names = colnames(paste0("sample", seq_len(1000))))
-#'
 #' A <- miaSim::powerlawA(4, alpha = 1.01)
 #'
-#' SEobject <- simulateGLV(n.species = 4, A, t.end = 1000)
-#' rowData(SEobject) <- row_data
-#' colData(SEobject) <- col_data
+#' ExampleGLV <- simulateGLV(n.species = 4, A, t.end = 1000)
 #'
 #' @importFrom deSolve ode
 #' @importFrom stats runif
@@ -106,10 +86,7 @@ simulateGLV <- function(n.species, A,
         if(norm){
             spab <- t(t(spab)/colSums(spab))
         }
-        spab
-        SE <- SummarizedExperiment(assays = list(counts=spab))
-
-        return(SE)
+        return(spab)
     }
 
 dxdt <- function(t, x, parameters){

@@ -2,16 +2,14 @@ test_that("simulateRicker", {
     #check simulateRicker with 10 species interaction matrix (alpha = 1.01)
     A <- powerlawA(10, alpha = 1.01)
     ExampleRicker <- simulateRicker(n.species=10,A,tend=100)
-    expect_type(assay(ExampleRicker), "double")
-    expect_equal(dim(assay(ExampleRicker)), c(10, 100))
-    expect_s4_class(ExampleRicker, "SummarizedExperiment")
+    expect_type(ExampleRicker, "double")
+    expect_equal(dim(ExampleRicker), c(10, 100))
 
     #check simulateRicker with custom inputs
     ExampleRicker2<-simulateRicker(n.species=10,A,sigma=-0.05,tend=100,
         explosion.bound=10^4,norm=TRUE)
-    expect_type(assay(ExampleRicker2), "double")
-    expect_equal(dim(assay(ExampleRicker2)), c(10,100))
-    expect_s4_class(ExampleRicker2, "SummarizedExperiment")
+    expect_type(ExampleRicker2, "double")
+    expect_equal(dim(ExampleRicker), c(10, 100))
 
     #check simulateRicker with errors in inputs
     expect_error(ErrorRicker1<-simulateRicker(10,A,x=runif(9),tend=100))

@@ -9,10 +9,8 @@ test_that("simulateGLV", {
     SEobject <- simulateGLV(n.species = 4, A, t.start = 0,
                                      t.store = 1000)
 
-    InterMatx <- assay(SEobject)
-    expect_type(InterMatx, "double")
-    expect_equal(dim(InterMatx), c(4,1000))
-    expect_s4_class(SEobject, "SummarizedExperiment")
+    expect_type(SEobject, "double")
+    expect_equal(dim(SEobject), c(4,1000))
 
     expect_error(Error1 <- simulateGLV(n.species = 0.5))
     expect_error(Error2 <- simulateGLV(n.species = 5, A = 2, x = 2, b = 3))
@@ -22,7 +20,6 @@ test_that("simulateGLV", {
     SEobject2 <- miaSim:::simulateGLV(n.species = 4,
                 A = powerlawA(n.species = 4, alpha = 2), t.start = 0,
                 t.store = 1000, norm = TRUE)
-    InterMatx2 <- assay(SEobject2)
-    expect_type(InterMatx2, "double")
-    expect_equal(dim(InterMatx2), c(4,1000))
+    expect_type(SEobject2, "double")
+    expect_equal(dim(SEobject2), c(4,1000))
 })

@@ -2,10 +2,8 @@ test_that("simulateSOI", {
   SOI <- simulateSOI(n.species = 10, I = 1000, A = powerlawA(n.species = 10,
           alpha = 1.2), k=5, com = NULL, tend = 150, norm = TRUE)
 
-  SOI_matrix <- assay(SOI)
-  expect_type(SOI_matrix, "double")
-  expect_equal(dim(SOI_matrix), c(10,150))
-  expect_s4_class(SOI, "SummarizedExperiment")
+  expect_type(SOI, "double")
+  expect_equal(dim(SOI), c(10,150))
 
   #check if(length(com) == n.species+1)
   SOI2 <- simulateSOI(n.species = 10, I = 1000, A = powerlawA(n.species = 10,

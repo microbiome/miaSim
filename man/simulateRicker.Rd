@@ -41,15 +41,13 @@ not be included in the outputted species abundance matrix.
 in each generation) (default: \code{norm = FALSE})}
 }
 \value{
-\code{simulateRicker} returns a \linkS4class{SummarizedExperiment}
-class object containing matrix with species abundance as rows and time
-points as columns
+\code{simulateRicker} returns an abundance matrix with species abundance
+as rows and time points as columns
 }
 \description{
 The Ricker model is a discrete version of the generalized
 Lotka-Volterra model and is implemented here as proposed by Fisher and Mehta
-in PLoS ONE 2014. The function returns a
-\linkS4class{SummarizedExperiment} object.
+in PLoS ONE 2014.
 }
 \examples{
 A <- powerlawA(10, alpha = 1.01)

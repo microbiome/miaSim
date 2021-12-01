@@ -2,8 +2,7 @@
 #'
 #' @description The Ricker model is a discrete version of the generalized
 #' Lotka-Volterra model and is implemented here as proposed by Fisher and Mehta
-#' in PLoS ONE 2014. The function returns a
-#' \linkS4class{SummarizedExperiment} object.
+#' in PLoS ONE 2014.
 #'
 #' @param n.species Integer: number of species
 #' @param A interaction matrix
@@ -19,19 +18,20 @@
 #' not be included in the outputted species abundance matrix.
 #' (default: \code{tskip = 0})
 #' @param tend Integer: number of simulations to be simulated
+#'
 #' @return
-#' \code{simulateRicker} returns a \linkS4class{SummarizedExperiment}
-#' class object containing matrix with species abundance as rows and time
-#' points as columns
+#' \code{simulateRicker} returns an abundance matrix with species abundance
+#' as rows and time points as columns
+#'
 #' @references Fisher & Mehta (2014). Identifying Keystone Species in the Human
 #' Gut Microbiome from Metagenomic Timeseries using Sparse Linear Regression.
 #' PLoS One 9:e102451
+#'
 #' @examples
 #' A <- powerlawA(10, alpha = 1.01)
 #' ExampleRicker <- simulateRicker(n.species=10,A,tend=100)
 #'
 #' @importFrom stats rlnorm
-#' @importFrom SummarizedExperiment SummarizedExperiment
 #'
 #' @export
 simulateRicker <- function(n.species, A, x = runif(n.species),
@@ -72,6 +72,6 @@ simulateRicker <- function(n.species, A, x = runif(n.species),
         if(norm){
             tseries <- t(t(tseries)/colSums(tseries))
         }
-        SE <- SummarizedExperiment(assays = list(counts = tseries))
-        return(SE)
+
+        return(tseries)
 }

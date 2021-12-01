@@ -17,8 +17,8 @@
 #' with the abundances as proportions (\code{norm = TRUE})
 #' or the raw counts (default: \code{norm = FALSE})
 #'
-#' @return \linkS4class{SummarizedExperiment} object containing abundance matrix
-#' consisting of species abundance as rows and time points as columns
+#' @return abundance matrix consisting of species abundance as rows and
+#' time points as columns
 #'
 #' @examples
 #' A <- miaSim::powerlawA(10, alpha = 1.2)
@@ -148,9 +148,7 @@ simulateSOI <- function(n.species, I, A, k = 5, com = NULL, tend, norm = FALSE){
             if(norm){
                 series <- t(t(series)/colSums(series))
     }
-            series
-            SOI <- SummarizedExperiment(assays = list(counts=series))
-            return(SOI)
+            return(series)
 }
 
 updatePropensities <- function(

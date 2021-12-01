@@ -28,8 +28,8 @@ with the abundances as proportions (\code{norm = TRUE})
 or the raw counts (default: \code{norm = FALSE})}
 }
 \value{
-\linkS4class{SummarizedExperiment} object containing abundance matrix
-consisting of species abundance as rows and time points as columns
+abundance matrix consisting of species abundance as rows and
+time points as columns
 }
 \description{
 Generate time-series with The Self-Organised Instability (SOI) model.

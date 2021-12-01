@@ -1,8 +1,5 @@
 #' Stochastic Logistic simulation
 #'
-#' Simulates time series with the (stochastic) logistic model and
-#' forms a \linkS4class{SummarizedExperiment} object or a matrix.
-#'
 #' Simulates a community time series using the logistic model.
 #' The change rate of the species was defined as
 #' `dx/dt = b*x*(1-(x/k))*rN - dr*x`, where
@@ -14,9 +11,6 @@
 #' Also, the vectors of initial dead species abundances can be set.
 #' The number of species will be set to 0 if the dead species abundances
 #' surpass the alive species abundances.
-#'
-#' The resulting abundance matrix model is used to construct
-#' \linkS4class{SummarizedExperiment} object.
 #'
 #' @param n.species Integer: number of species
 #' @param b Numeric: growth rates
@@ -41,9 +35,6 @@
 #' (default: \code{t.external_events = c(0, 240, 480)})
 #' @param t.external_durations Numeric: durations of external events
 #' (default: \code{t.external_durations = c(0, 1, 1)})
-#' @param return.matrix Logical: whether to export only the stored time points
-#' in a matrix
-#' (default: \code{return.matrix = FALSE})
 #' @param stochastic Logical: whether the logistic model should be stochastic
 #' (controlled by multiplying the growth rate by a random number)
 #' (default: \code{stochastic = TRUE})
@@ -59,19 +50,17 @@
 #' #while (!exists("ExampleLogistic"))
 #' ExampleLogistic <- simulateStochasticLogistic(n.species = 5)
 #' #plot the calculated points
-#' matplot(t(assays(ExampleLogistic)[["counts"]]), type = "l")
+#' matplot(ExampleLogistic, type = "l")
 #'
 #' #calculation by setting initial parameters explicitly
-#' ExampleLogistic <- simulateStochasticLogistic(
-#' n.species = 2,
+#' ExampleLogistic2 <- simulateStochasticLogistic(n.species = 2,
 #' b = c(0.2, 0.1), k = c(1000, 2000), dr = c(0.001, 0.0015), x = c(3, 0.1),
 #' sigma.drift = 0.001, sigma.epoch = 0.3, sigma.external = 0.5,p.epoch = 0.001,
 #' t.external_events = c(100, 200, 300), t.external_durations = c(1, 2, 3),
 #' t.start = 0, t.end = 1500, t.step = 0.01,
-#' t.store = 1500, return.matrix = FALSE, stochastic = TRUE)
+#' t.store = 1500, stochastic = TRUE)
 #'
-#' @return \code{simulateStochasticLogistic} returns a
-#' \linkS4class{SummarizedExperiment} class object containing matrix with
+#' @return \code{simulateStochasticLogistic} returns an abundance matrix with
 #' species abundance as rows and time points as columns
 #'
 #' @export
@@ -86,7 +75,6 @@ simulateStochasticLogistic <- function(n.species,
         p.epoch = 0.001,
         t.external_events = c(0, 240, 480),
         t.external_durations = c(0, 1, 1),
-        return.matrix = FALSE,
         stochastic = TRUE,
         t.end = 1000, ...){
 
@@ -112,8 +100,8 @@ simulateStochasticLogistic <- function(n.species,
         if(!all(vapply(list(b,k,dr,x), is.double, logical(1)),
             vapply(list(b,k,dr,x), length, integer(1)) == n.species)){
             stop("b,k,dr,x must be double and of n.species length.")}
-        if(!all(vapply(list(return.matrix,stochastic),is.logical, logical(1)))){
-            stop("return.matrix or stochastic should be boolean values.")}
+        if(!is.logical(stochastic)){
+            stop("stochastic should be boolean values.")}
 
         # select the time points to simulate and to store
         t.dyn <- simulationTimes(t.end = t.end,...)
@@ -159,11 +147,8 @@ simulateStochasticLogistic <- function(n.species,
         out.matrix <- out[names(out)=='current']
         names(out.matrix) <- seq_len(n.species)
         out.matrix <- out.matrix[t.dyn$t.index,]
-        if (return.matrix) {
-            out.matrix$t <- t.dyn$t.sys[t.dyn$t.index]
-            return(as.matrix(out.matrix))
-        } else {
-            SE <- SummarizedExperiment(assays = list(counts = t(out.matrix)))
-            return(SE)
-        }
+
+        out.matrix$t <- t.dyn$t.sys[t.dyn$t.index]
+        return(as.matrix(out.matrix))
+
 }

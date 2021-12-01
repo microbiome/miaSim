@@ -12,6 +12,7 @@ simulateHubbellRates(
   growth_rates = NULL,
   norm = FALSE,
   t.end = 1000,
+  list = TRUE,
   ...
 )
 }
@@ -39,22 +40,24 @@ the raw counts (default: \code{norm = FALSE})}
 
 \item{t.end}{Numeric: simulation end time (default: \code{t.end = 1000})}
 
+\item{list}{Logical : decides whether output is a list object or not
+(default: \code{norm = TRUE})}
+
 \item{...}{additional parameters including 't.start', 't.step', and 't.store'}
 }
 \value{
-a \linkS4class{SummarizedExperiment} object containing the community
-abundance matrix and generated values: metacommunity probabilities, growth
-rates and time points
+a community abundance matrix or a list object that contains
+growth rates, time points and metacommunity probabilities
 }
 \description{
-Neutral species abundances simulation according to the Hubbell model.This
+Neutral species abundances simulation according to the Hubbell model. This
 model shows that losses in society can be replaced either by the birth of
 individuals or by immigration depending on their probabilities.
 The specific time between the events of birth or migration is calculated and
 time effect is considered to determine the next event.
 }
 \examples{
-HubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
+ExampleHubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
              migration_p = 0.01, metacommunity_p = NULL, k_events = 1,
              growth_rates = NULL, norm = FALSE, t.end=1000)
 

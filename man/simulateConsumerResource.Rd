@@ -13,7 +13,6 @@ simulateConsumerResource(
   mumax = rep(1, n.species),
   k.table = matrix(rgamma(n = n.species * n.resources, shape = 50, rate = 0.25), nrow =
     n.species),
-  return.matrix = FALSE,
   t.end = 1000,
   ...
 )
@@ -40,25 +39,16 @@ converted into biomass, negative values represent excreted resources
 (default: \code{k.table = matrix(rgamma(n=n.species*n.resources,
 shape = 50, rate = 0.25), nrow = n.species)})}
 
-\item{return.matrix}{Logical: whether to export only the stored time points
-in a matrix
-(default: \code{return.matrix = FALSE})}
-
 \item{t.end}{Numeric scalar indicating the final time of the dimulation
 (default: \code{t.end = 1000})}
 
 \item{...}{additional parameters including 't.start', 't.step', and 't.store'}
 }
 \value{
-\code{simulateConsumerResource} returns a
-\linkS4class{SummarizedExperiment} class object containing matrix with
-species and resources abundance as rows and time points as columns
+an abundance matrix with species and resources abundance as rows and
+time points as columns
 }
 \description{
-Simulates time series with the consumer-resource model and
-forms a \linkS4class{SummarizedExperiment} object.
-}
-\details{
 Simulates a community time series using the consumer-resource model.
 The change rate of each species was defined as
 \code{dx/dt = mumax*sum(monod)*X}, where
@@ -68,15 +58,12 @@ limiting resource, and Ks is the half-velocity constant for species X and S.
 X is the vector of abundances of species.
 The concentrations of resource will be set to 0 if they were calculated
 less than 0 during the iteration.
-
-The resulting abundance matrix model is used to construct
-\linkS4class{SummarizedExperiment} object.
 }
 \examples{
 # example1 users provide least parameters.
 ExampleConsumerResource <- simulateConsumerResource(n.species = 2,
 n.resources = 4)
 # visualize the dynamics of the model
-matplot(t(assays(ExampleConsumerResource)[["counts"]]), type = "l")
+matplot(ExampleConsumerResource, type = "l")
 
 }

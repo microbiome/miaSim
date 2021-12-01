@@ -16,7 +16,6 @@ simulateStochasticLogistic(
   p.epoch = 0.001,
   t.external_events = c(0, 240, 480),
   t.external_durations = c(0, 1, 1),
-  return.matrix = FALSE,
   stochastic = TRUE,
   t.end = 1000,
   ...
@@ -57,10 +56,6 @@ community
 \item{t.external_durations}{Numeric: durations of external events
 (default: \code{t.external_durations = c(0, 1, 1)})}
 
-\item{return.matrix}{Logical: whether to export only the stored time points
-in a matrix
-(default: \code{return.matrix = FALSE})}
-
 \item{stochastic}{Logical: whether the logistic model should be stochastic
 (controlled by multiplying the growth rate by a random number)
 (default: \code{stochastic = TRUE})}
@@ -71,15 +66,10 @@ in a matrix
 \item{...}{additional parameters including 't.start', 't.step', and 't.store'}
 }
 \value{
-\code{simulateStochasticLogistic} returns a
-\linkS4class{SummarizedExperiment} class object containing matrix with
+\code{simulateStochasticLogistic} returns an abundance matrix with
 species abundance as rows and time points as columns
 }
 \description{
-Simulates time series with the (stochastic) logistic model and
-forms a \linkS4class{SummarizedExperiment} object or a matrix.
-}
-\details{
 Simulates a community time series using the logistic model.
 The change rate of the species was defined as
 \code{dx/dt = b*x*(1-(x/k))*rN - dr*x}, where
@@ -91,9 +81,6 @@ dr is the vector of constant death rates.
 Also, the vectors of initial dead species abundances can be set.
 The number of species will be set to 0 if the dead species abundances
 surpass the alive species abundances.
-
-The resulting abundance matrix model is used to construct
-\linkS4class{SummarizedExperiment} object.
 }
 \examples{
 ## ATTENTION: Don't set a large value to t.step, otherwise the computer won't
@@ -103,15 +90,14 @@ The resulting abundance matrix model is used to construct
 #while (!exists("ExampleLogistic"))
 ExampleLogistic <- simulateStochasticLogistic(n.species = 5)
 #plot the calculated points
-matplot(t(assays(ExampleLogistic)[["counts"]]), type = "l")
+matplot(ExampleLogistic, type = "l")
 
 #calculation by setting initial parameters explicitly
-ExampleLogistic <- simulateStochasticLogistic(
-n.species = 2,
+ExampleLogistic2 <- simulateStochasticLogistic(n.species = 2,
 b = c(0.2, 0.1), k = c(1000, 2000), dr = c(0.001, 0.0015), x = c(3, 0.1),
 sigma.drift = 0.001, sigma.epoch = 0.3, sigma.external = 0.5,p.epoch = 0.001,
 t.external_events = c(100, 200, 300), t.external_durations = c(1, 2, 3),
 t.start = 0, t.end = 1500, t.step = 0.01,
-t.store = 1500, return.matrix = FALSE, stochastic = TRUE)
+t.store = 1500, stochastic = TRUE)
 
 }
