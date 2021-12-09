@@ -49,7 +49,7 @@ simulateRicker <- function(n.species, A, x = runif(n.species),
         tseries <- matrix(nrow=n.species, ncol=tend-tskip)
         tseries[,1] <- x
         # simulate difference equation
-        for(t in seq(2:tend)){
+        for(t in seq(from=2, to=tend)){
             if(sigma > 0){
                 b=rlnorm(n.species,meanlog=0,sdlog=sigma)
             }else{
