@@ -3,19 +3,22 @@
 #' Generate time-series with The Self-Organised Instability (SOI) model.
 #' Implements a K-leap method for accelerating stochastic simulation.
 #'
-#' @param n.species Integer: number of species
-#' @param I Integer: community size, number of available sites (individuals)
+#' @param n.species integer number of species
+#' @param I integer community size, number of available sites (individuals)
 #' @param A interaction matrix
-#' @param com a vector: initial community abundances
+#' @param com a vector of initial community abundances
 #' If (default: \code{com = NULL}), based on migration rates
-#' @param tend Integer: number of timepoints to be returned in the time series
+#' @param tend integer timepoints to be returned in the time series
 #' (number of generations)
-#' @param k Integer: the number of transition events that are allowed to take
+#' @param k integer number of transition events that are allowed to take
 #' place during one leap. (default: \code{k = 5}). Higher values reduce runtime,
 #' but also accuracy of the simulation.
-#' @param norm Logical: indicates whether the time series should be returned
-#' with the abundances as proportions (\code{norm = TRUE})
+#' @param norm logical scalar indicating whether the time series should be
+#' returned with the abundances as proportions (\code{norm = TRUE})
 #' or the raw counts (default: \code{norm = FALSE})
+#'
+#' @seealso
+#' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
 #' @return abundance matrix consisting of species abundance as rows and
 #' time points as columns
@@ -126,10 +129,10 @@ simulateSOI <- function(n.species, I, A, k = 5, com = NULL, tend, norm = FALSE){
                 current_t <- current_t + tau
                 # if reached end of simulation:
                 if(current_t >= tend){
-                series[,tend] <- counts
+                series[,tend] <- series
                 break
     }
-            # if current_t exceeds sample_t, update series with current counts
+            # if current_t exceeds sample_t, update series with current series
             if(current_t > sample_t){
                 series[,series_t] <- counts[seq_len(n.species)]
                 series_t <- series_t +1
@@ -148,7 +151,8 @@ simulateSOI <- function(n.species, I, A, k = 5, com = NULL, tend, norm = FALSE){
             if(norm){
                 series <- t(t(series)/colSums(series))
     }
-            return(series)
+            counts <- series
+            return(counts)
 }
 
 updatePropensities <- function(

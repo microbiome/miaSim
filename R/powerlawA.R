@@ -8,20 +8,20 @@
 #' matrix to be within a desired range. Diagonal elements of A are defined
 #' by the parameter d.
 #'
-#' @param n.species integer: the number of species
-#' @param alpha numeric: the power-law distribution parameter. Should be > 1.
+#' @param n.species integer number of species
+#' @param alpha numeric power-law distribution parameter. Should be > 1.
 #' (default: \code{alpha = 3.0}) Larger values will give lower interaction
 #' strength heterogeneity, whereas values closer to 1 give strong heterogeneity
 #' in interaction strengths between the species. In other words, values of alpha
 #' close to 1 will give Strongly Interacting Species (SIS).
-#' @param stdev numeric: the standard deviation parameter of the normal
+#' @param stdev numeric standard deviation parameter of the normal
 #' distribution with mean 0 from which the elements of the nominal interspecific
 #' interaction matrix N are drawn. (default: \code{stdev = 1})
-#' @param s numeric: scaling parameter with which the final global
+#' @param s numeric scaling parameter with which the final global
 #' interaction matrix A is multiplied. (default: \code{s = 0.1})
-#' @param d numeric: diagonal values, indicating self-interactions (use
+#' @param d numeric diagonal values, indicating self-interactions (use
 #' negative values for stability). (default: \code{s = 1.0})
-#' @param symmetric logical: return a symmetric interaction matrix
+#' @param symmetric logical scalar returning a symmetric interaction matrix
 #' (default: \code{symmetric=FALSE})
 #'
 #' @return The interaction matrix A with dimensions (n.species x n.species)
@@ -32,11 +32,13 @@
 #' https://doi.org/10.1371/journal.pcbi.1004688
 #'
 #' @importFrom poweRlaw rplcon
+#'
 #' @examples
 #' # Low interaction heterogeneity
 #' A_low <- powerlawA(n.species = 10, alpha = 3)
 #' # Strong interaction heterogeneity
 #' A_strong <- powerlawA(n.species = 10, alpha = 1.01)
+#'
 #' @export
 powerlawA <- function(n.species, alpha = 3.0, stdev = 1, s = 0.1, d = -1,
                     symmetric = FALSE){

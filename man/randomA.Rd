@@ -19,16 +19,16 @@ randomA(
 \item{d}{numeric diagonal values
 (default: \code{d = -0.5})}
 
-\item{min.strength}{numeric minimal off-diagonal interaction strength
-(default: \code{min.strength = -0.5})}
+\item{min.strength}{numeric value of minimal off-diagonal interaction
+strength (default: \code{min.strength = -0.5})}
 
-\item{max.strength}{numeric maximal off-diagonal interaction strength
-(default: \code{max.strength = 0.5})}
+\item{max.strength}{numeric value of maximal off-diagonal interaction
+strength (default: \code{max.strength = 0.5})}
 
-\item{connectance}{numeric (interaction probability)
+\item{connectance}{numeric interaction probability
 (default: \code{connectance = 0.02})}
 
-\item{symmetric}{logical return a symmetric interaction matrix
+\item{symmetric}{logical scalar returning a symmetric interaction matrix
 (default: \code{symmetric=FALSE})}
 }
 \value{

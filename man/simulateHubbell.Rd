@@ -16,29 +16,29 @@ simulateHubbell(
 )
 }
 \arguments{
-\item{n.species}{Integer: the amount of different species initially
+\item{n.species}{integer amount of different species initially
 in the local community}
 
-\item{M}{Integer: amount of different species in the metacommunity,
+\item{M}{integer amount of different species in the metacommunity,
 including those of the local community}
 
-\item{I}{Integer: fixed amount of individuals in the local community
+\item{I}{integer value of fixed amount of individuals in the local community
 (default: \code{I = 1000})}
 
-\item{d}{Integer: fixed amount of deaths of local community individuals
-in each generation (default: \code{d = 10})}
+\item{d}{integer value of fixed amount of deaths of local community
+individuals in each generation (default: \code{d = 10})}
 
-\item{m}{Numeric: immigration rate: the probability that a death in the local
+\item{m}{numeric immigration rate: the probability that a death in the local
 community is replaced by a migrant of the metacommunity rather than by
 the birth of a local community member (default: \code{m = 0.02})}
 
-\item{tskip}{Integer: number of generations that should not be included
+\item{tskip}{integer number of generations that should not be included
 in the outputted species abundance matrix. (default: \code{tskip = 0})}
 
-\item{tend}{Integer: number of simulations to be simulated}
+\item{tend}{integer number of simulations to be simulated}
 
-\item{norm}{Logical: whether the time series should be returned with
-the abundances as proportions (\code{norm = TRUE}) or
+\item{norm}{logical scalar choosing whether the time series should be
+returned with the abundances as proportions (\code{norm = TRUE}) or
 the raw counts (default: \code{norm = FALSE})}
 }
 \value{
@@ -57,4 +57,7 @@ ExampleHubbell <- simulateHubbell(n.species = 8, M = 10, I = 1000, d = 50,
 Rosindell, James et al. "The unified neutral theory of
 biodiversity and biogeography at age ten." Trends in ecology & evolution
 vol. 26,7 (2011).
+}
+\seealso{
+\code{\link[miaSim:convertToSE]{convertToSE}}
 }

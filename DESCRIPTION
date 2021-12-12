@@ -39,7 +39,9 @@ Suggests:
     rmarkdown,
     knitr,
     BiocStyle,
-    testthat
+    testthat,
+    miaViz,
+    mia
 URL: https://github.com/microbiome/miaSim
 BugReports: https://github.com/microbiome/miaSim/issues
 Roxygen: list(markdown = TRUE)

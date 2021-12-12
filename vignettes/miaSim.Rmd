@@ -77,14 +77,14 @@ interaction. The model relies on interaction matrix that represents interaction
 heterogeneity between species. This interaction matrix can be generated 
 with `powerlawA` or `randomA` functions depending on the distribution method. 
 
-`powerlawA` uses normal distribution to create interaction matrix. 
+The function `powerlawA` uses normal distribution to create interaction matrix. 
 
 ```{r}
 library(miaSim)
 A_normal <- powerlawA(n.species = 4, alpha = 3)
 ```
 
-`randomA` uses uniform distribution to create interaction matrix. 
+The function `randomA` uses uniform distribution to create interaction matrix. 
 
 ```{r}
 A_uniform <- randomA(n.species = 10, d = -0.4, min.strength = -0.8,
@@ -97,7 +97,9 @@ amount as the species used in the `simulateGLV` and `simulateSOI` models.
 Lotka-Volterra model.
 
 ```{r}
-SEobject <- simulateGLV(n.species = 4, A_normal, t.start = 0, 
+A_normal <- powerlawA(n.species = 4, alpha = 3)
+
+ExampleGLV <- simulateGLV(n.species = 4, A_normal, t.start = 0, 
     t.store = 1000, stochastic = FALSE, norm = FALSE)
 ExampleRicker <- simulateRicker(n.species=4, A_normal, tend=100, norm = FALSE)
 ```
@@ -125,7 +127,7 @@ growth rates. The time between events is the determinant of replacement.
 ExampleHubbell <- simulateHubbell(n.species = 8, M = 10, I = 1000, d = 50,
                                     m = 0.02, tend = 100)
 
-RatesHubbell <- simulateHubbellRates(community_initial = c(0,5,10),
+ExampleHubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
     migration_p = 0.1, metacommunity_p = NULL, k_events = 1, 
     growth_rates = NULL, norm = FALSE, t.end=1000)
 ```
@@ -156,19 +158,63 @@ ExampleConsumerResource <- simulateConsumerResource(n.species = 2,
 ```
 
 The community simulations result in abundance matrix that can be stored in
-`SummarizedExperiment` [@SE]  class object containing the abundance matrix. 
-Other fields, such as rowData containing information about the samples, 
-and colData, consisting of sample metadata describing the samples, can be 
-added to the `SummarizedExperiment` class object. 
+`SummarizedExperiment` [@SE]  class object. Other fields, such as rowData 
+containing information about the samples, and colData, consisting of sample 
+metadata describing the samples, can be added to the `SummarizedExperiment` 
+class object. This can be done by conversion function `convertToSE`.
+
+```{r}
+ExampleHubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
+    migration_p = 0.1, metacommunity_p = NULL, k_events = 1, 
+    growth_rates = NULL, norm = FALSE, t.end=1000)
+
+HubbellSE <- convertToSE(matrix = ExampleHubbellRates$counts,
+                        colData = ExampleHubbellRates$time,
+                        metadata = ExampleHubbellRates$metadata)
+```
 
 Also, the `TreeSummarizedExperiment` class object can be created using 
 the required hierarchical information in addition to the `SummarizedExperiment`
-class object. For further details :
+class object. It can also be reached through `convertToSE`. 
+
+For further details:
 
 ```{r}
 library(TreeSummarizedExperiment)
 help("TreeSummarizedExperiment-constructor", package = TreeSummarizedExperiment)
 ```
+
+After converting to `SummarizedExperiment` the models can be used with
+various visualization functions under `miaViz` and many analysis tools that are
+available under `mia`. 
+
+`miaViz` installation
+```{r eval=FALSE, include=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("miaViz")
+```
+
+`mia` installation
+```{r eval=FALSE, include=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("mia")
+```
+
+
+`HubbellSE` population density can be plotted with `plotAbundanceDensity` 
+function from `miaViz`.
+```{r}
+library(miaViz)
+
+HubbellDensityPlot <- plotAbundanceDensity(HubbellSE, abund_values = "counts")
+```
+
+More examples on `SummarizedExperiment` object manipulation and analysis can be 
+found at https://microbiome.github.io/OMA/ . 
 
 # Session info
 

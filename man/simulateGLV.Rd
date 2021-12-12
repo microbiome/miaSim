@@ -22,41 +22,41 @@ simulateGLV(
 )
 }
 \arguments{
-\item{n.species}{Integer: number of species}
+\item{n.species}{integer number of species}
 
 \item{A}{interaction matrix}
 
-\item{x}{Numeric: initial abundances}
+\item{x}{numeric initial abundances}
 
-\item{b}{Numeric: growth rates}
+\item{b}{numeric growth rates}
 
-\item{sigma.drift}{Numeric: degree of drift (turnover of species) in each
-time step.
+\item{sigma.drift}{numeric degree of drift
+(turnover of species) in each time step.
 (default: \code{sigma.drift = 0.01})}
 
-\item{sigma.epoch}{Numeric: degree of epoch change of community
+\item{sigma.epoch}{numeric degree of epoch change of community
 (default: \code{sigma.epoch = 0.3})}
 
-\item{sigma.external}{Numeric: degree of external events/disturbances
+\item{sigma.external}{numeric degree of the external events/disturbances
 (default: \code{sigma.external = 0.3})}
 
-\item{p.epoch}{Numeric: probability/frequency of inherit periodic changes of
-community
-(default: \code{p.epoch = 0.01})}
+\item{p.epoch}{numeric value of the probability/frequency of inherit periodic
+changes of community (default: \code{p.epoch = 0.01})}
 
-\item{t.external_events}{Numeric: starting times of external events
+\item{t.external_events}{numeric value of starting times of external events
 (default: \code{t.external_events = c(12, 36, 48)})}
 
-\item{t.external_durations}{Numeric: durations of external events
+\item{t.external_durations}{numeric durations of external events
 (default: \code{t.external_durations = c(3, 10, 99)})}
 
-\item{stochastic}{Logical: whether the gLV model should be stochastic
-(default: \code{stochastic = FALSE})}
+\item{stochastic}{logical scalar choosing whether the gLV model should be
+stochastic (default: \code{stochastic = FALSE})}
 
-\item{norm}{Logical scalar: returns normalised abundances (proportions
+\item{norm}{logical scalar returning normalised abundances (proportions
 in each generation) (default: \code{norm = FALSE})}
 
-\item{t.end}{Numeric: simulation end time (default: \code{t.end = 1000})}
+\item{t.end}{numeric value of simulation end time
+(default: \code{t.end = 1000})}
 
 \item{...}{additional parameters including 't.start', 't.step', and 't.store'}
 }
@@ -77,4 +77,7 @@ A <- miaSim::powerlawA(4, alpha = 1.01)
 
 ExampleGLV <- simulateGLV(n.species = 4, A, t.end = 1000)
 
+}
+\seealso{
+\code{\link[miaSim:convertToSE]{convertToSE}}
 }

@@ -1,23 +1,25 @@
-#' @title Generate time series with the Ricker model
+#' Generate time series with the Ricker model
 #'
-#' @description The Ricker model is a discrete version of the generalized
+#' The Ricker model is a discrete version of the generalized
 #' Lotka-Volterra model and is implemented here as proposed by Fisher and Mehta
 #' in PLoS ONE 2014.
 #'
-#' @param n.species Integer: number of species
+#' @param n.species integer number of species
 #' @param A interaction matrix
-#' @param K Numeric: carrying capacities
-#' @param x Numeric: initial abundances
-#' @param sigma noise level, if set to a non-positive value, no noise is added
-#' (default: \code{sigma = 0.05})
-#' @param explosion.bound boundary for explosion
+#' @param K numeric carrying capacities
+#' @param x numeric initial abundances
+#' @param sigma numeric value of noise level, if set to a non-positive value,
+#' no noise is added (default: \code{sigma = 0.05})
+#' @param explosion.bound numeric value of boundary for explosion
 #' (default: \code{explosion.bound = 10^8})
-#' @param norm Logical scalar: returns normalised abundances (proportions
+#' @param tskip integer number of generations that should not be included in the
+#' outputted species abundance matrix (default: \code{tskip = 0})
+#' @param tend integer number of simulations to be simulated
+#' @param norm logical scalar returning normalised abundances (proportions
 #' in each generation) (default: \code{norm = FALSE})
-#' @param tskip  Integer: number of generations that should
-#' not be included in the outputted species abundance matrix.
-#' (default: \code{tskip = 0})
-#' @param tend Integer: number of simulations to be simulated
+#'
+#' @seealso
+#' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
 #' @return
 #' \code{simulateRicker} returns an abundance matrix with species abundance
@@ -46,10 +48,10 @@ simulateRicker <- function(n.species, A, x = runif(n.species),
         if(length(K)!=n.species){
             stop("K needs to have n.species entries.")
         }
-        tseries <- matrix(nrow=n.species, ncol=tend-tskip)
-        tseries[,1] <- x
+        counts <- matrix(nrow=n.species, ncol=tend-tskip)
+        counts[,1] <- x
         # simulate difference equation
-        for(t in seq(2:tend)){
+        for(t in seq(from=2, to=tend)){
             if(sigma > 0){
                 b=rlnorm(n.species,meanlog=0,sdlog=sigma)
             }else{
@@ -66,12 +68,12 @@ simulateRicker <- function(n.species, A, x = runif(n.species),
                 stop("Species below 0!")
             }
             if(t > tskip){
-                tseries[,t-tskip] <- x
+                counts[,t-tskip] <- x
             }
         }
         if(norm){
-            tseries <- t(t(tseries)/colSums(tseries))
+            counts <- t(t(counts)/colSums(counts))
         }
 
-        return(tseries)
+        return(counts)
 }

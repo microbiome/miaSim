@@ -10,23 +10,26 @@
 #' The concentrations of resource will be set to 0 if they were calculated
 #' less than 0 during the iteration.
 #'
-#' @param n.species Integer: number of species
-#' @param n.resources Interger: number of resources
-#' @param eff matrix: matrix of efficiency. How efficient are resources
+#' @param n.species integer number of species
+#' @param n.resources interger number of resources
+#' @param eff a matrix of efficiency. How efficient are resources
 #' converted into biomass, negative values represent excreted resources
 #' (default: \code{eff = randomE(n.species, n.resources)})
-#' @param consumers Numeric: vector of species
+#' @param consumers numeric vector of species
 #' (default: \code{consumers = runif(n = n.species, min = 0.1, max = 10)})
-#' @param resources Numeric: vector of resources
+#' @param resources numeric vector of resources
 #' (default: \code{resources = runif(n = n.resources, min = 1, max = 100)})
-#' @param mumax Numeric: vector of maximum mu of species
+#' @param mumax numeric vector of maximum mu of species
 #' (default: \code{mumax = rep(1, n.species)})
-#' @param k.table matrix: matrix of K values in monod model
+#' @param k.table a matrix of K values in monod model
 #' (default: \code{k.table = matrix(rgamma(n=n.species*n.resources,
 #' shape = 50, rate = 0.25), nrow = n.species)})
-#' @param t.end Numeric scalar indicating the final time of the dimulation
+#' @param t.end numeric scalar indicating the final time of the simulation
 #' (default: \code{t.end = 1000})
 #' @param ... additional parameters including 't.start', 't.step', and 't.store'
+#'
+#' @seealso
+#' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
 #' @examples
 #' # example1 users provide least parameters.
@@ -44,9 +47,8 @@ simulateConsumerResource <- function(n.species, n.resources,
     consumers = runif(n = n.species, min = 0.1, max = 10),
     resources = runif(n = n.resources, min = 1, max = 100),
     mumax = rep(1, n.species),
-    k.table = matrix(rgamma(n=n.species*n.resources,
-        shape = 50,rate = 0.25), nrow = n.species),
-    t.end = 1000, ...){
+    k.table = matrix(rgamma(n=n.species*n.resources, shape = 50,rate = 0.25),
+                        nrow = n.species), t.end = 1000, ...){
 
     # define the consumer-resource model
     consumerResourceModel <- function(t, state, params){
@@ -78,7 +80,8 @@ simulateConsumerResource <- function(n.species, n.resources,
     out.matrix <- as.data.frame(ode(y = state.init, times = t.dyn$t.sys,
         func = consumerResourceModel, parms = parameters))
     out.matrix <- out.matrix[t.dyn$t.index,]
+    counts <- as.matrix(out.matrix[,2:ncol(out.matrix)])
 
-    return(as.matrix(out.matrix[,2:ncol(out.matrix)]))
+    return(counts)
 
 }

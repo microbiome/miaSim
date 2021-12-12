@@ -12,35 +12,37 @@
 #' The number of species will be set to 0 if the dead species abundances
 #' surpass the alive species abundances.
 #'
-#' @param n.species Integer: number of species
-#' @param b Numeric: growth rates
+#' @param n.species integer number of species
+#' @param b numeric growth rates
 #' (default: \code{b = runif(n = n.species, min = 0.1, max = 0.2)})
-#' @param k Numeric: carrying capacities
+#' @param k numeric value of carrying capacities
 #' (default: \code{k = runif(n = n.species, min = 1000, max = 2000)})
-#' @param dr Numeric: death rates
+#' @param dr numeric value of death rates
 #' (default: \code{dr = runif(n = n.species, min = 0.0005, max = 0.0025)})
-#' @param x Numeric: initial abundances
+#' @param x numeric initial abundances
 #' (default: \code{x = runif(n = n.species, min = 0.1, max = 10)})
-#' @param sigma.drift Numeric: degree of drift (turnover of species) in each
+#' @param sigma.drift numeric degree of drift (turnover of species) in each
 #' time step.
 #' (default: \code{sigma.drift = 0.001})
-#' @param sigma.epoch Numeric: degree of epoch change of community
+#' @param sigma.epoch numeric degree of epoch change of community
 #' (default: \code{sigma.epoch = 0.1})
-#' @param sigma.external Numeric: degree of external events/disturbances
+#' @param sigma.external numeric degree of external events/disturbances
 #' (default: \code{sigma.external = 0.3})
-#' @param p.epoch Numeric: probability/frequency of inherit periodic changes of
-#' community
-#' (default: \code{p.epoch = 0.001})
-#' @param t.external_events Numeric: starting times of external events
+#' @param p.epoch numeric value of probability/frequency of inherit periodic
+#' changes of community (default: \code{p.epoch = 0.001})
+#' @param t.external_events numeric value of starting times of external events
 #' (default: \code{t.external_events = c(0, 240, 480)})
-#' @param t.external_durations Numeric: durations of external events
+#' @param t.external_durations numeric value of durations of external events
 #' (default: \code{t.external_durations = c(0, 1, 1)})
-#' @param stochastic Logical: whether the logistic model should be stochastic
-#' (controlled by multiplying the growth rate by a random number)
+#' @param stochastic logical scalar choosing whether the logistic model should
+#' be stochastic (controlled by multiplying the growth rate by a random number)
 #' (default: \code{stochastic = TRUE})
-#' @param t.end Numeric scalar indicating the final time of the simulation
+#' @param t.end numeric final time of the simulation
 #' (default: \code{t.end = 1000})
 #' @param ... additional parameters including 't.start', 't.step', and 't.store'
+#'
+#' @seealso
+#' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
 #' @examples
 #' ## ATTENTION: Don't set a large value to t.step, otherwise the computer won't
@@ -149,6 +151,7 @@ simulateStochasticLogistic <- function(n.species,
         out.matrix <- out.matrix[t.dyn$t.index,]
 
         out.matrix$t <- t.dyn$t.sys[t.dyn$t.index]
-        return(as.matrix(out.matrix))
+        counts <- as.matrix(out.matrix)
+        return(counts)
 
 }

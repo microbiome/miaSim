@@ -2,23 +2,26 @@
 #'
 #' Neutral species abundances simulation according to the Hubbell model.
 #'
-#' @param n.species Integer: the amount of different species initially
+#' @param n.species integer amount of different species initially
 #' in the local community
-#' @param M Integer: amount of different species in the metacommunity,
+#' @param M integer amount of different species in the metacommunity,
 #' including those of the local community
-#' @param I Integer: fixed amount of individuals in the local community
+#' @param I integer value of fixed amount of individuals in the local community
 #' (default: \code{I = 1000})
-#' @param d Integer: fixed amount of deaths of local community individuals
-#' in each generation (default: \code{d = 10})
-#' @param m Numeric: immigration rate: the probability that a death in the local
+#' @param d integer value of fixed amount of deaths of local community
+#' individuals in each generation (default: \code{d = 10})
+#' @param m numeric immigration rate: the probability that a death in the local
 #' community is replaced by a migrant of the metacommunity rather than by
 #' the birth of a local community member (default: \code{m = 0.02})
-#' @param tskip  Integer: number of generations that should not be included
+#' @param tskip integer number of generations that should not be included
 #' in the outputted species abundance matrix. (default: \code{tskip = 0})
-#' @param tend Integer: number of simulations to be simulated
-#' @param norm Logical: whether the time series should be returned with
-#' the abundances as proportions (\code{norm = TRUE}) or
+#' @param tend integer number of simulations to be simulated
+#' @param norm logical scalar choosing whether the time series should be
+#' returned with the abundances as proportions (\code{norm = TRUE}) or
 #' the raw counts (default: \code{norm = FALSE})
+#'
+#' @seealso
+#' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
 #' @examples
 #' ExampleHubbell <- simulateHubbell(n.species = 8, M = 10, I = 1000, d = 50,
@@ -82,6 +85,6 @@ simulateHubbell <- function(n.species, M, I = 1000, d = 10, m = 0.02, tskip = 0,
             if(norm){
                 tseries <- t(t(tseries)/colSums(tseries))
             }
-            AbundanceM <- tseries[, (tskip +1):tend]
-            return(AbundanceM)
+            counts <- tseries[, (tskip +1):tend]
+            return(counts)
 }

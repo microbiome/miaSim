@@ -17,30 +17,31 @@ simulateHubbellRates(
 )
 }
 \arguments{
-\item{community_initial}{Numeric: a vector of integers, containing species
-counts greater or equal to zero.}
+\item{community_initial}{numeric value a vector of integers,
+containing species counts greater or equal to zero.}
 
-\item{migration_p}{Numeric: immigration possibility. It defines the
+\item{migration_p}{numeric immigration possibility. It defines the
 probability of migration when replacement is needed in the community.
 The value can be between 0 and 1. The sum of the probability of
 migration and the probability birth must be 1.}
 
-\item{metacommunity_p}{Numeric: the probability of a species being found in
-the metacommunity.}
+\item{metacommunity_p}{numeric value the probability of a species being
+found in the metacommunity.}
 
-\item{k_events}{Integer: the number of steps performed at a time point.
+\item{k_events}{integer number of steps performed at a time point.
 It can be equal or more than 1. Bigger k_events increases speed while
 decreasing precision.}
 
-\item{growth_rates}{Numeric: the rate of change in community size.}
+\item{growth_rates}{numeric rate of change in community size.}
 
-\item{norm}{Logical: whether the time series should be returned with
-the abundances as proportions (\code{norm = TRUE}) or
+\item{norm}{logical scalar choosing whether the time series should be
+returned with the abundances as proportions (\code{norm = TRUE}) or
 the raw counts (default: \code{norm = FALSE})}
 
-\item{t.end}{Numeric: simulation end time (default: \code{t.end = 1000})}
+\item{t.end}{numeric value of simulation end time
+(default: \code{t.end = 1000})}
 
-\item{list}{Logical : decides whether output is a list object or not
+\item{list}{logical scalar deciding whether output is a list object or not
 (default: \code{norm = TRUE})}
 
 \item{...}{additional parameters including 't.start', 't.step', and 't.store'}
@@ -66,4 +67,7 @@ ExampleHubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
 Rosindell, James et al. "The unified neutral theory of
 biodiversity and biogeography at age ten." Trends in ecology & evolution
 vol. 26,7 (2011).
+}
+\seealso{
+\code{\link[miaSim:convertToSE]{convertToSE}}
 }

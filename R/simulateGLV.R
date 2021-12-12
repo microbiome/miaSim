@@ -7,30 +7,33 @@
 #' ,diag(x) is a diagonal matrix with the diagonal values set to x.
 #' A is the interaction matrix and b is the vector of growth rates.
 #'
-#' @param n.species Integer: number of species
+#' @param n.species integer number of species
 #' @param A interaction matrix
-#' @param x Numeric: initial abundances
-#' @param b Numeric: growth rates
-#' @param sigma.drift Numeric: degree of drift (turnover of species) in each
-#' time step.
+#' @param x numeric initial abundances
+#' @param b numeric growth rates
+#' @param sigma.drift numeric degree of drift
+#' (turnover of species) in each time step.
 #' (default: \code{sigma.drift = 0.01})
-#' @param sigma.epoch Numeric: degree of epoch change of community
+#' @param sigma.epoch numeric degree of epoch change of community
 #' (default: \code{sigma.epoch = 0.3})
-#' @param sigma.external Numeric: degree of external events/disturbances
+#' @param sigma.external numeric degree of the external events/disturbances
 #' (default: \code{sigma.external = 0.3})
-#' @param p.epoch Numeric: probability/frequency of inherit periodic changes of
-#' community
-#' (default: \code{p.epoch = 0.01})
-#' @param t.external_events Numeric: starting times of external events
+#' @param p.epoch numeric value of the probability/frequency of inherit periodic
+#' changes of community (default: \code{p.epoch = 0.01})
+#' @param t.external_events numeric value of starting times of external events
 #' (default: \code{t.external_events = c(12, 36, 48)})
-#' @param t.external_durations Numeric: durations of external events
+#' @param t.external_durations numeric durations of external events
 #' (default: \code{t.external_durations = c(3, 10, 99)})
-#' @param stochastic Logical: whether the gLV model should be stochastic
-#' (default: \code{stochastic = FALSE})
-#' @param norm Logical scalar: returns normalised abundances (proportions
+#' @param stochastic logical scalar choosing whether the gLV model should be
+#' stochastic (default: \code{stochastic = FALSE})
+#' @param norm logical scalar returning normalised abundances (proportions
 #' in each generation) (default: \code{norm = FALSE})
-#' @param t.end Numeric: simulation end time (default: \code{t.end = 1000})
+#' @param t.end numeric value of simulation end time
+#' (default: \code{t.end = 1000})
 #' @param ... additional parameters including 't.start', 't.step', and 't.store'
+#'
+#' @seealso
+#' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
 #' @return
 #' \code{simulateGLV} returns an abundance matrix
@@ -67,7 +70,7 @@ simulateGLV <- function(n.species, A,
                 of n.species.")}
 
         t.dyn <- simulationTimes(t.end = t.end, ...)
-        tEvent = eventTimes(
+        tEvent <- eventTimes(
             t.events = t.external_events,
             t.duration = t.external_durations, t.end = t.end, ...)
         parameters <- list(b=b, A = A, n.species = n.species,
@@ -80,13 +83,13 @@ simulateGLV <- function(n.species, A,
             func = dxdt,
             parms = parameters,
             events = list(func = perturb, time = t.dyn$t.sys))
-        spab <- t(out[,2:ncol(out)])
-        spab <- spab[,t.dyn$t.index]
+        counts <- t(out[,2:ncol(out)])
+        counts <- counts[,t.dyn$t.index]
 
         if(norm){
-            spab <- t(t(spab)/colSums(spab))
+            counts <- t(t(counts)/colSums(counts))
         }
-        return(spab)
+        return(counts)
     }
 
 dxdt <- function(t, x, parameters){

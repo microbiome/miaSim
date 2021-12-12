@@ -7,25 +7,25 @@
 powerlawA(n.species, alpha = 3, stdev = 1, s = 0.1, d = -1, symmetric = FALSE)
 }
 \arguments{
-\item{n.species}{integer: the number of species}
+\item{n.species}{integer number of species}
 
-\item{alpha}{numeric: the power-law distribution parameter. Should be > 1.
+\item{alpha}{numeric power-law distribution parameter. Should be > 1.
 (default: \code{alpha = 3.0}) Larger values will give lower interaction
 strength heterogeneity, whereas values closer to 1 give strong heterogeneity
 in interaction strengths between the species. In other words, values of alpha
 close to 1 will give Strongly Interacting Species (SIS).}
 
-\item{stdev}{numeric: the standard deviation parameter of the normal
+\item{stdev}{numeric standard deviation parameter of the normal
 distribution with mean 0 from which the elements of the nominal interspecific
 interaction matrix N are drawn. (default: \code{stdev = 1})}
 
-\item{s}{numeric: scaling parameter with which the final global
+\item{s}{numeric scaling parameter with which the final global
 interaction matrix A is multiplied. (default: \code{s = 0.1})}
 
-\item{d}{numeric: diagonal values, indicating self-interactions (use
+\item{d}{numeric diagonal values, indicating self-interactions (use
 negative values for stability). (default: \code{s = 1.0})}
 
-\item{symmetric}{logical: return a symmetric interaction matrix
+\item{symmetric}{logical scalar returning a symmetric interaction matrix
 (default: \code{symmetric=FALSE})}
 }
 \value{
@@ -45,6 +45,7 @@ by the parameter d.
 A_low <- powerlawA(n.species = 10, alpha = 3)
 # Strong interaction heterogeneity
 A_strong <- powerlawA(n.species = 10, alpha = 1.01)
+
 }
 \references{
 Gibson TE, Bashan A, Cao HT, Weiss ST, Liu YY (2016)

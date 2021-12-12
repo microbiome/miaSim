@@ -6,25 +6,29 @@
 #' The specific time between the events of birth or migration is calculated and
 #' time effect is considered to determine the next event.
 #'
-#' @param community_initial Numeric: a vector of integers, containing species
-#' counts greater or equal to zero.
-#' @param migration_p Numeric: immigration possibility. It defines the
+#' @param community_initial numeric value a vector of integers,
+#' containing species counts greater or equal to zero.
+#' @param migration_p numeric immigration possibility. It defines the
 #' probability of migration when replacement is needed in the community.
 #' The value can be between 0 and 1. The sum of the probability of
 #' migration and the probability birth must be 1.
-#' @param metacommunity_p Numeric: the probability of a species being found in
-#' the metacommunity.
-#' @param k_events Integer: the number of steps performed at a time point.
+#' @param metacommunity_p numeric value the probability of a species being
+#' found in the metacommunity.
+#' @param k_events integer number of steps performed at a time point.
 #' It can be equal or more than 1. Bigger k_events increases speed while
 #' decreasing precision.
-#' @param growth_rates Numeric: the rate of change in community size.
-#' @param norm Logical: whether the time series should be returned with
-#' the abundances as proportions (\code{norm = TRUE}) or
+#' @param growth_rates numeric rate of change in community size.
+#' @param norm logical scalar choosing whether the time series should be
+#' returned with the abundances as proportions (\code{norm = TRUE}) or
 #' the raw counts (default: \code{norm = FALSE})
-#' @param t.end Numeric: simulation end time (default: \code{t.end = 1000})
-#' @param list Logical : decides whether output is a list object or not
+#' @param t.end numeric value of simulation end time
+#' (default: \code{t.end = 1000})
+#' @param list logical scalar deciding whether output is a list object or not
 #' (default: \code{norm = TRUE})
 #' @param ... additional parameters including 't.start', 't.step', and 't.store'
+#'
+#' @seealso
+#' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
 #' @examples
 #' ExampleHubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
@@ -89,9 +93,9 @@ simulateHubbellRates <- function(community_initial,
         growth_rates <- rep(1,n.species)
     }
 
-    out_matrix <- matrix(0, nrow = n.species, ncol = length(t.dyn$t.index))
+    counts <- matrix(0, nrow = n.species, ncol = length(t.dyn$t.index))
 
-    out_matrix[,1] = community_initial
+    counts[,1] = community_initial
 
     stored_time <- t.dyn$t.sys[t.dyn$t.index]
     current_t <- stored_time[1]
@@ -130,19 +134,19 @@ simulateHubbellRates <- function(community_initial,
 
         if (sum(index)>0) {
 
-            out_matrix[,index] <-
+            counts[,index] <-
                 t(matrix(rep(t(community),sum(index)), ncol = sum(index)))
             last_stored_t <- stored_time[max(seq(t.store)[index])]
 
         }
     }
 
-    rownames(out_matrix) <- seq_len(n.species)
-    rownames(out_matrix) <- paste("s", rownames(out_matrix), sep = "_")
-    colnames(out_matrix) <- (t.dyn$t.sys[t.dyn$t.index])
+    rownames(counts) <- seq_len(n.species)
+    rownames(counts) <- paste("s", rownames(counts), sep = "_")
+    colnames(counts) <- (t.dyn$t.sys[t.dyn$t.index])
 
     if(norm){
-        output <- out_matrix/rowSums(out_matrix)
+        output <- counts/rowSums(counts)
     }
     if(list){
         timepoints <- c(t.dyn$t.sys[t.dyn$t.index])
@@ -152,8 +156,8 @@ simulateHubbellRates <- function(community_initial,
         col_data <- DataFrame(time = timepoints, time_interval = time_int)
         meta_data <- list(metacommunity_p = metacommunity_p,
                             growth_rates = growth_rates)
-        out_matrix<- list(abundancematrix = out_matrix, time = col_data,
+        counts<- list(counts = counts, time = col_data,
                             metadata = meta_data)
     }
-    return(out_matrix)
+    return(counts)
 }

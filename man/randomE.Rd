@@ -15,30 +15,30 @@ randomE(
 )
 }
 \arguments{
-\item{n.species}{Integer: number of species}
+\item{n.species}{integer number of species}
 
-\item{n.resources}{Integer: number of resources}
+\item{n.resources}{integer number of resources}
 
-\item{min.con}{Integer: minimum number of resources consumed by each species}
+\item{min.con}{integer minimum number of resources consumed by each species}
 
-\item{max.con}{Integer: maximum number of resources consumed by each species}
+\item{max.con}{integer maximum number of resources consumed by each species}
 
-\item{min.prod}{Integer: minimum number of resources produced by each species}
+\item{min.prod}{integer minimum number of resources produced by each species}
 
-\item{max.prod}{Integer: maximum number of resources produced by each species}
+\item{max.prod}{integer maximum number of resources produced by each species}
 
-\item{maintenance}{Numeric: 0~1 the proportion of resources used to maintain
-the living of microorganisms. 0 means all the resources will be used for the
-reproduction of microorganisms, and 1 means all the resources would be used
-to maintain the living of organisms and no resources would be left for
-their growth(reproduction).}
+\item{maintenance}{numeric value between 0~1 the proportion of resources used
+to maintain the living of microorganisms. 0 means all the resources will be
+used for the reproduction of microorganisms, and 1 means all the resources
+would be used to maintain the living of organisms and no resources would be
+left for their growth(reproduction).}
 }
 \value{
 \code{randomE} returns a matrix E with dimensions (n.species x n.resources),
 and each row represents a species.
 }
 \description{
-Generate random efficiency matrix for consumer resource model from dirichlet
+Generate random efficiency matrix for consumer resource model from Dirichlet
 distribution. Positive efficiencies indicate the consumption of resources,
 whilst negatives indicate that the species would produce the resource.
 }

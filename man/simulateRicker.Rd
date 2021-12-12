@@ -17,27 +17,26 @@ simulateRicker(
 )
 }
 \arguments{
-\item{n.species}{Integer: number of species}
+\item{n.species}{integer number of species}
 
 \item{A}{interaction matrix}
 
-\item{x}{Numeric: initial abundances}
+\item{x}{numeric initial abundances}
 
-\item{K}{Numeric: carrying capacities}
+\item{K}{numeric carrying capacities}
 
-\item{sigma}{noise level, if set to a non-positive value, no noise is added
-(default: \code{sigma = 0.05})}
+\item{sigma}{numeric value of noise level, if set to a non-positive value,
+no noise is added (default: \code{sigma = 0.05})}
 
-\item{explosion.bound}{boundary for explosion
+\item{explosion.bound}{numeric value of boundary for explosion
 (default: \code{explosion.bound = 10^8})}
 
-\item{tskip}{Integer: number of generations that should
-not be included in the outputted species abundance matrix.
-(default: \code{tskip = 0})}
+\item{tskip}{integer number of generations that should not be included in the
+outputted species abundance matrix (default: \code{tskip = 0})}
 
-\item{tend}{Integer: number of simulations to be simulated}
+\item{tend}{integer number of simulations to be simulated}
 
-\item{norm}{Logical scalar: returns normalised abundances (proportions
+\item{norm}{logical scalar returning normalised abundances (proportions
 in each generation) (default: \code{norm = FALSE})}
 }
 \value{
@@ -58,4 +57,7 @@ ExampleRicker <- simulateRicker(n.species=10,A,tend=100)
 Fisher & Mehta (2014). Identifying Keystone Species in the Human
 Gut Microbiome from Metagenomic Timeseries using Sparse Linear Regression.
 PLoS One 9:e102451
+}
+\seealso{
+\code{\link[miaSim:convertToSE]{convertToSE}}
 }

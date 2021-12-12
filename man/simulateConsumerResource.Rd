@@ -18,28 +18,28 @@ simulateConsumerResource(
 )
 }
 \arguments{
-\item{n.species}{Integer: number of species}
+\item{n.species}{integer number of species}
 
-\item{n.resources}{Interger: number of resources}
+\item{n.resources}{interger number of resources}
 
-\item{eff}{matrix: matrix of efficiency. How efficient are resources
+\item{eff}{a matrix of efficiency. How efficient are resources
 converted into biomass, negative values represent excreted resources
 (default: \code{eff = randomE(n.species, n.resources)})}
 
-\item{consumers}{Numeric: vector of species
+\item{consumers}{numeric vector of species
 (default: \code{consumers = runif(n = n.species, min = 0.1, max = 10)})}
 
-\item{resources}{Numeric: vector of resources
+\item{resources}{numeric vector of resources
 (default: \code{resources = runif(n = n.resources, min = 1, max = 100)})}
 
-\item{mumax}{Numeric: vector of maximum mu of species
+\item{mumax}{numeric vector of maximum mu of species
 (default: \code{mumax = rep(1, n.species)})}
 
-\item{k.table}{matrix: matrix of K values in monod model
+\item{k.table}{a matrix of K values in monod model
 (default: \code{k.table = matrix(rgamma(n=n.species*n.resources,
 shape = 50, rate = 0.25), nrow = n.species)})}
 
-\item{t.end}{Numeric scalar indicating the final time of the dimulation
+\item{t.end}{numeric scalar indicating the final time of the simulation
 (default: \code{t.end = 1000})}
 
 \item{...}{additional parameters including 't.start', 't.step', and 't.store'}
@@ -66,4 +66,7 @@ n.resources = 4)
 # visualize the dynamics of the model
 matplot(ExampleConsumerResource, type = "l")
 
+}
+\seealso{
+\code{\link[miaSim:convertToSE]{convertToSE}}
 }

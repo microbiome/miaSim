@@ -22,45 +22,44 @@ simulateStochasticLogistic(
 )
 }
 \arguments{
-\item{n.species}{Integer: number of species}
+\item{n.species}{integer number of species}
 
-\item{b}{Numeric: growth rates
+\item{b}{numeric growth rates
 (default: \code{b = runif(n = n.species, min = 0.1, max = 0.2)})}
 
-\item{k}{Numeric: carrying capacities
+\item{k}{numeric value of carrying capacities
 (default: \code{k = runif(n = n.species, min = 1000, max = 2000)})}
 
-\item{dr}{Numeric: death rates
+\item{dr}{numeric value of death rates
 (default: \code{dr = runif(n = n.species, min = 0.0005, max = 0.0025)})}
 
-\item{x}{Numeric: initial abundances
+\item{x}{numeric initial abundances
 (default: \code{x = runif(n = n.species, min = 0.1, max = 10)})}
 
-\item{sigma.drift}{Numeric: degree of drift (turnover of species) in each
+\item{sigma.drift}{numeric degree of drift (turnover of species) in each
 time step.
 (default: \code{sigma.drift = 0.001})}
 
-\item{sigma.epoch}{Numeric: degree of epoch change of community
+\item{sigma.epoch}{numeric degree of epoch change of community
 (default: \code{sigma.epoch = 0.1})}
 
-\item{sigma.external}{Numeric: degree of external events/disturbances
+\item{sigma.external}{numeric degree of external events/disturbances
 (default: \code{sigma.external = 0.3})}
 
-\item{p.epoch}{Numeric: probability/frequency of inherit periodic changes of
-community
-(default: \code{p.epoch = 0.001})}
+\item{p.epoch}{numeric value of probability/frequency of inherit periodic
+changes of community (default: \code{p.epoch = 0.001})}
 
-\item{t.external_events}{Numeric: starting times of external events
+\item{t.external_events}{numeric value of starting times of external events
 (default: \code{t.external_events = c(0, 240, 480)})}
 
-\item{t.external_durations}{Numeric: durations of external events
+\item{t.external_durations}{numeric value of durations of external events
 (default: \code{t.external_durations = c(0, 1, 1)})}
 
-\item{stochastic}{Logical: whether the logistic model should be stochastic
-(controlled by multiplying the growth rate by a random number)
+\item{stochastic}{logical scalar choosing whether the logistic model should
+be stochastic (controlled by multiplying the growth rate by a random number)
 (default: \code{stochastic = TRUE})}
 
-\item{t.end}{Numeric scalar indicating the final time of the simulation
+\item{t.end}{numeric final time of the simulation
 (default: \code{t.end = 1000})}
 
 \item{...}{additional parameters including 't.start', 't.step', and 't.store'}
@@ -100,4 +99,7 @@ t.external_events = c(100, 200, 300), t.external_durations = c(1, 2, 3),
 t.start = 0, t.end = 1500, t.step = 0.01,
 t.store = 1500, stochastic = TRUE)
 
+}
+\seealso{
+\code{\link[miaSim:convertToSE]{convertToSE}}
 }

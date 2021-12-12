@@ -1,20 +1,20 @@
 #' Generate random efficiency matrix
 #'
-#' Generate random efficiency matrix for consumer resource model from dirichlet
+#' Generate random efficiency matrix for consumer resource model from Dirichlet
 #' distribution. Positive efficiencies indicate the consumption of resources,
 #' whilst negatives indicate that the species would produce the resource.
 #'
-#' @param n.species Integer: number of species
-#' @param n.resources Integer: number of resources
-#' @param min.con Integer: minimum number of resources consumed by each species
-#' @param max.con Integer: maximum number of resources consumed by each species
-#' @param min.prod Integer: minimum number of resources produced by each species
-#' @param max.prod Integer: maximum number of resources produced by each species
-#' @param maintenance Numeric: 0~1 the proportion of resources used to maintain
-#' the living of microorganisms. 0 means all the resources will be used for the
-#' reproduction of microorganisms, and 1 means all the resources would be used
-#' to maintain the living of organisms and no resources would be left for
-#' their growth(reproduction).
+#' @param n.species integer number of species
+#' @param n.resources integer number of resources
+#' @param min.con integer minimum number of resources consumed by each species
+#' @param max.con integer maximum number of resources consumed by each species
+#' @param min.prod integer minimum number of resources produced by each species
+#' @param max.prod integer maximum number of resources produced by each species
+#' @param maintenance numeric value between 0~1 the proportion of resources used
+#' to maintain the living of microorganisms. 0 means all the resources will be
+#' used for the reproduction of microorganisms, and 1 means all the resources
+#' would be used to maintain the living of organisms and no resources would be
+#' left for their growth(reproduction).
 #'
 #' @examples
 #' # example with specific parameters
@@ -67,7 +67,8 @@ randomE <- function(n.species,
         prod <- (-1)*(1-maintenance)* rdirichlet(1, production)[,]
         irow[index.production] <- prod[index.production]
         efficiency.matrix[i,] <- irow
+        E <- efficiency.matrix
     }
 
-    return(efficiency.matrix)
+    return(E)
 }

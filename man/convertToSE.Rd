@@ -2,38 +2,50 @@
 % Please edit documentation in R/convertToSE.R
 \name{convertToSE}
 \alias{convertToSE}
-\title{It helps to store any matrix in \linkS4class{SummarizedExperiment}
-object class data container(\code{SE}). The resulting abundance matrix from the
-simulation functions used in \code{miaSim} can be used.}
+\title{\linkS4class{SummarizedExperiment}(\code{SE}) or
+\code{TreeSE} construction function}
 \usage{
-convertToSE(matrix, tse = FALSE, ...)
+convertToSE(matrix, output, ...)
 }
 \arguments{
-\item{matrix}{: A matrix-like or list of matrix-like objects.
-Rows: genes, genomic coordinates, etc. Columns: samples, cells, etc.}
+\item{matrix}{is a matrix-like or list of matrix-like object.
+Rows refer to taxa and columns refer to samples.}
 
-\item{tse}{: Logical, decides if the object is stored in
-\linkS4class{TreeSummarizedExperiment} or \linkS4class{SummarizedExperiment}}
+\item{output}{character value for storing the matrix in either
+\linkS4class{TreeSummarizedExperiment} (\code{output = TSE}) or
+\linkS4class{SummarizedExperiment} (default: \code{output = SE})}
 
-\item{...}{: additional objects that can be implemented in the \code{SE} object.}
+\item{...}{: additional parameters that can be implemented in
+the \code{SE} object.}
 }
 \value{
 \linkS4class{SummarizedExperiment} an object containing abundance
 matrix
 }
 \description{
-It helps to store any matrix in \linkS4class{SummarizedExperiment}
-object class data container(\code{SE}). The resulting abundance matrix from the
-simulation functions used in \code{miaSim} can be used.
+Storing the data in \linkS4class{SummarizedExperiment} enables access to
+various tools for further analysis of data. A large number of Bioconductor
+packages contain extension of \linkS4class{SummarizedExperiment} class.
+\linkS4class{SummarizedExperiment} class offers data and metadata
+synchronization, while still accommodating specialized data structures for
+particular scientific applications.
+}
+\details{
+Further examples for \code{SE} object manipulation and analysis can be found at
+https://microbiome.github.io/OMA/
+
+The resulting abundance matrix from the simulation functions used
+in \code{miaSim} can be easily converted to \linkS4class{SummarizedExperiment}
+class object.
 }
 \examples{
-ExampleHubbellRates <- miaSim::simulateHubbellRates(
+ExampleHubbellRates <- simulateHubbellRates(
     community_initial = c(0,5,10), migration_p = 0.01,
     metacommunity_p = NULL, k_events = 1, growth_rates = NULL, norm = FALSE,
     t.end=1000)
 
-HubbellSE <- convertToSE(matrix = ExampleHubbellRates$abundancematrix,
-                         colData = ExampleHubbellRates$time,
-                         metadata = ExampleHubbellRates$metadata)
+HubbellSE <- convertToSE(matrix = ExampleHubbellRates$counts,
+                        colData = ExampleHubbellRates$time,
+                        metadata = ExampleHubbellRates$metadata)
 
 }

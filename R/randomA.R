@@ -5,13 +5,13 @@
 #' @param n.species integer number of species
 #' @param d numeric diagonal values
 #' (default: \code{d = -0.5})
-#' @param min.strength numeric minimal off-diagonal interaction strength
-#' (default: \code{min.strength = -0.5})
-#' @param max.strength numeric maximal off-diagonal interaction strength
-#' (default: \code{max.strength = 0.5})
-#' @param connectance numeric (interaction probability)
+#' @param min.strength numeric value of minimal off-diagonal interaction
+#' strength (default: \code{min.strength = -0.5})
+#' @param max.strength numeric value of maximal off-diagonal interaction
+#' strength (default: \code{max.strength = 0.5})
+#' @param connectance numeric interaction probability
 #' (default: \code{connectance = 0.02})
-#' @param symmetric logical return a symmetric interaction matrix
+#' @param symmetric logical scalar returning a symmetric interaction matrix
 #' (default: \code{symmetric=FALSE})
 #'
 #' @examples
