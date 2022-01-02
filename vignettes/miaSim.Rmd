@@ -101,6 +101,7 @@ A_normal <- powerlawA(n.species = 4, alpha = 3)
 
 ExampleGLV <- simulateGLV(n.species = 4, A_normal, t.start = 0, 
     t.store = 1000, stochastic = FALSE, norm = FALSE)
+
 ExampleRicker <- simulateRicker(n.species=4, A_normal, tend=100, norm = FALSE)
 ```
 
@@ -155,6 +156,9 @@ matrix is used as a determination of resource consumption efficiency.
 ```{r}
 ExampleConsumerResource <- simulateConsumerResource(n.species = 2,
     n.resources = 4, eff = randomE(n.species = 2, n.resources = 4))
+
+# visualize the dynamics of the model
+Consumer_plot <- matplot(ExampleConsumerResource, type = "l")
 ```
 
 The community simulations result in abundance matrix that can be stored in
@@ -184,9 +188,10 @@ library(TreeSummarizedExperiment)
 help("TreeSummarizedExperiment-constructor", package = TreeSummarizedExperiment)
 ```
 
-After converting to `SummarizedExperiment` the models can be used with
-various visualization functions under `miaViz` and many analysis tools that are
-available under `mia`. 
+After converting to `SummarizedExperiment` or `TreeSummarizedExperiment` the models can be used with:
+various visualization functions under `miaViz`, 
+many analysis tools that are available under `mia` and
+time series analysis tools under `miaTime`.
 
 `miaViz` installation
 ```{r eval=FALSE, include=FALSE}
@@ -204,6 +209,10 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install("mia")
 ```
 
+`miaTime` installation
+```{r eval=FALSE, include=FALSE}
+devtools::install_github("microbiome/miaTime")
+```
 
 `HubbellSE` population density can be plotted with `plotAbundanceDensity` 
 function from `miaViz`.
@@ -213,7 +222,33 @@ library(miaViz)
 HubbellDensityPlot <- plotAbundanceDensity(HubbellSE, abund_values = "counts")
 ```
 
-More examples on `SummarizedExperiment` object manipulation and analysis can be 
+With the `getTimeDivergence` function of `miaTime`, the beta diversity within the subject can be calculated in n time steps.
+```{r}
+A_normal <- powerlawA(n.species = 4, alpha = 3)
+
+ExampleGLV <- simulateGLV(n.species = 4, A_normal, t.start = 0, 
+    t.store = 1000, stochastic = FALSE, norm = FALSE)
+
+rownames(ExampleGLV) <- c(paste("Species", rownames(ExampleGLV), sep = "_"))
+colnames(ExampleGLV) <- c(paste("Sample", seq_len(ncol(ExampleGLV)), sep = "_"))
+
+df <- DataFrame(sampleID = colnames(ExampleGLV),
+            Time = seq(1, 1000, 1),
+            SubjectID = rep(1:4, 250),
+            row.names = colnames(ExampleGLV))
+
+SE_GLV <- convertToSE(matrix = ExampleGLV,
+                      colData = df)
+
+library(miaTime)
+
+SE_GLV_divergence <- getTimeDivergence(SE_GLV,
+                                       field = "SubjectID",
+                                       time_field = "Time",
+                                       time_interval = 1)
+```
+
+More examples on `SummarizedExperiment` object manipulation and analysis can be
 found at https://microbiome.github.io/OMA/ . 
 
 # Session info

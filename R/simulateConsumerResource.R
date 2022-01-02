@@ -35,8 +35,6 @@
 #' # example1 users provide least parameters.
 #' ExampleConsumerResource <- simulateConsumerResource(n.species = 2,
 #' n.resources = 4)
-#' # visualize the dynamics of the model
-#' matplot(ExampleConsumerResource, type = "l")
 #'
 #' @return an abundance matrix with species and resources abundance as rows and
 #' time points as columns

@@ -63,8 +63,6 @@ less than 0 during the iteration.
 # example1 users provide least parameters.
 ExampleConsumerResource <- simulateConsumerResource(n.species = 2,
 n.resources = 4)
-# visualize the dynamics of the model
-matplot(ExampleConsumerResource, type = "l")
 
 }
 \seealso{
