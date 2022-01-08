@@ -7,30 +7,30 @@
 #' ,diag(x) is a diagonal matrix with the diagonal values set to x.
 #' A is the interaction matrix and b is the vector of growth rates.
 #'
-#' @param n.species integer number of species
+#' @param n_species integer number of species
 #' @param A interaction matrix
 #' @param x numeric initial abundances
 #' @param b numeric growth rates
-#' @param sigma.drift numeric degree of drift
+#' @param sigma_drift numeric degree of drift
 #' (turnover of species) in each time step.
-#' (default: \code{sigma.drift = 0.01})
-#' @param sigma.epoch numeric degree of epoch change of community
-#' (default: \code{sigma.epoch = 0.3})
-#' @param sigma.external numeric degree of the external events/disturbances
-#' (default: \code{sigma.external = 0.3})
-#' @param p.epoch numeric value of the probability/frequency of inherit periodic
-#' changes of community (default: \code{p.epoch = 0.01})
-#' @param t.external_events numeric value of starting times of external events
-#' (default: \code{t.external_events = c(12, 36, 48)})
-#' @param t.external_durations numeric durations of external events
-#' (default: \code{t.external_durations = c(3, 10, 99)})
+#' (default: \code{sigma_drift = 0.01})
+#' @param sigma_epoch numeric degree of epoch change of community
+#' (default: \code{sigma_epoch = 0.3})
+#' @param sigma_external numeric degree of the external events/disturbances
+#' (default: \code{sigma_external = 0.3})
+#' @param p_epoch numeric value of the probability/frequency of inherit periodic
+#' changes of community (default: \code{p_epoch  = 0.01})
+#' @param t_external_events numeric value of starting times of external events
+#' (default: \code{t_external_events = c(12, 36, 48)})
+#' @param t_external_durations numeric durations of external events
+#' (default: \code{t_external_durations = c(3, 10, 99)})
 #' @param stochastic logical scalar choosing whether the gLV model should be
 #' stochastic (default: \code{stochastic = FALSE})
 #' @param norm logical scalar returning normalised abundances (proportions
 #' in each generation) (default: \code{norm = FALSE})
-#' @param t.end numeric value of simulation end time
-#' (default: \code{t.end = 1000})
-#' @param ... additional parameters including 't.start', 't.step', and 't.store'
+#' @param t_end numeric value of simulation end time
+#' (default: \code{t_end = 1000})
+#' @param ... additional parameters including 't_start', 't_step', and 't_store'
 #'
 #' @seealso
 #' \code{\link[miaSim:convertToSE]{convertToSE}}
@@ -41,53 +41,54 @@
 #' @examples
 #' A <- miaSim::powerlawA(4, alpha = 1.01)
 #'
-#' ExampleGLV <- simulateGLV(n.species = 4, A, t.end = 1000)
+#' ExampleGLV <- simulateGLV(n_species = 4, A, t_end = 1000)
 #'
+#' @importFrom MatrixGenerics colSums2
 #' @importFrom deSolve ode
 #' @importFrom stats runif
 #'
 #' @export
-simulateGLV <- function(n.species, A,
-        x = runif(n.species),
-        b = runif(n.species),
-        sigma.drift = 0.01,
-        sigma.epoch = 0.3,
-        sigma.external = 0.3,
-        p.epoch = 0.01,
-        t.external_events = c(12, 36, 48),
-        t.external_durations = c(3, 10, 99),
+simulateGLV <- function(n_species, A,
+        x = runif(n_species),
+        b = runif(n_species),
+        sigma_drift = 0.01,
+        sigma_epoch = 0.3,
+        sigma_external = 0.3,
+        p_epoch  = 0.01,
+        t_external_events = c(12, 36, 48),
+        t_external_durations = c(3, 10, 99),
         stochastic = FALSE,
         norm = FALSE,
-        t.end = 1000, ...){
+        t_end = 1000, ...){
 
 
         # input check
-        if(!isPositiveInteger(n.species)){
-            stop("n.species must be integer.")}
+        if(!isPositiveInteger(n_species)){
+            stop("n_species must be integer.")}
         if(!all(vapply(list(A,x,b), is.double, logical(1)),
-                vapply(list(x,b), length, integer(1)) == n.species)){
+                vapply(list(x,b), length, integer(1)) == n_species)){
             stop("A,x,b must be matrix and the length must be equal to length
-                of n.species.")}
+                of n_species.")}
 
-        t.dyn <- simulationTimes(t.end = t.end, ...)
+        t_dyn <- simulationTimes(t_end = t_end, ...)
         tEvent <- eventTimes(
-            t.events = t.external_events,
-            t.duration = t.external_durations, t.end = t.end, ...)
-        parameters <- list(b=b, A = A, n.species = n.species,
-            sigma.drift = sigma.drift, stochastic = stochastic,
-            sigma.epoch = sigma.epoch, p.epoch = p.epoch,
-            sigma.external = sigma.external, tEvent = tEvent)
+            t_events = t_external_events,
+            t_duration = t_external_durations, t_end = t_end, ...)
+        parameters <- list(b=b, A = A, n_species = n_species,
+            sigma_drift = sigma_drift, stochastic = stochastic,
+            sigma_epoch = sigma_epoch, p_epoch  = p_epoch ,
+            sigma_external = sigma_external, tEvent = tEvent)
         out <- ode(
             y = x,
-            times = t.dyn$t.sys,
+            times = t_dyn$t_sys,
             func = dxdt,
             parms = parameters,
-            events = list(func = perturb, time = t.dyn$t.sys))
+            events = list(func = perturb, time = t_dyn$t_sys))
         counts <- t(out[,2:ncol(out)])
-        counts <- counts[,t.dyn$t.index]
+        counts <- counts[,t_dyn$t_index]
 
         if(norm){
-            counts <- t(t(counts)/colSums(counts))
+            counts <- t(t(counts)/colSums2(counts))
         }
         return(counts)
     }
@@ -104,22 +105,22 @@ dxdt <- function(t, x, parameters){
 perturb <- function(t, y, parameters){
     with(as.list(y),{
         #continuous or episodic perturbation
-        epoch.rN <- 0
-        external.rN <- 0
-        if (rbinom(1,1, parameters$p.epoch)){
-            epoch.rN <- rnorm(parameters$n.species, sd=parameters$sigma.epoch)
-            epoch.rN <- parameters$stochastic*epoch.rN
+        epoch_rN <- 0
+        external_rN <- 0
+        if (rbinom(1,1, parameters$p_epoch )){
+            epoch_rN <- rnorm(parameters$n_species, sd=parameters$sigma_epoch)
+            epoch_rN <- parameters$stochastic*epoch_rN
         }
         if (t %in% parameters$tEvent){
-            external.rN <- rnorm(parameters$n.species,
-                                    sd=parameters$sigma.external)
-            external.rN <- parameters$stochastic*external.rN
+            external_rN <- rnorm(parameters$n_species,
+                                    sd=parameters$sigma_external)
+            external_rN <- parameters$stochastic*external_rN
         }
-        drift.rN <- rnorm(parameters$n.species, sd=parameters$sigma.drift)
-        drift.rN <- parameters$stochastic*drift.rN
+        drift_rN <- rnorm(parameters$n_species, sd=parameters$sigma_drift)
+        drift_rN <- parameters$stochastic*drift_rN
 
         #perturbation is applied to the current population
-        y <- y * (1 + drift.rN)*(1 + epoch.rN)*(1 + external.rN)
+        y <- y * (1 + drift_rN)*(1 + epoch_rN)*(1 + external_rN)
         return(y)
     })
 }

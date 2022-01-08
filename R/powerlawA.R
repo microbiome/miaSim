@@ -8,7 +8,7 @@
 #' matrix to be within a desired range. Diagonal elements of A are defined
 #' by the parameter d.
 #'
-#' @param n.species integer number of species
+#' @param n_species integer number of species
 #' @param alpha numeric power-law distribution parameter. Should be > 1.
 #' (default: \code{alpha = 3.0}) Larger values will give lower interaction
 #' strength heterogeneity, whereas values closer to 1 give strong heterogeneity
@@ -24,7 +24,7 @@
 #' @param symmetric logical scalar returning a symmetric interaction matrix
 #' (default: \code{symmetric=FALSE})
 #'
-#' @return The interaction matrix A with dimensions (n.species x n.species)
+#' @return The interaction matrix A with dimensions (n_species x n_species)
 #'
 #' @references Gibson TE, Bashan A, Cao HT, Weiss ST, Liu YY (2016)
 #' On the Origins and Control of Community Types in the Human Microbiome.
@@ -35,30 +35,30 @@
 #'
 #' @examples
 #' # Low interaction heterogeneity
-#' A_low <- powerlawA(n.species = 10, alpha = 3)
+#' A_low <- powerlawA(n_species = 10, alpha = 3)
 #' # Strong interaction heterogeneity
-#' A_strong <- powerlawA(n.species = 10, alpha = 1.01)
+#' A_strong <- powerlawA(n_species = 10, alpha = 1.01)
 #'
 #' @export
-powerlawA <- function(n.species, alpha = 3.0, stdev = 1, s = 0.1, d = -1,
+powerlawA <- function(n_species, alpha = 3.0, stdev = 1, s = 0.1, d = -1,
                     symmetric = FALSE){
 
             #input check
-            if(!isPositiveInteger(n.species)){
-                stop("n.species must be integer.")}
+            if(!isPositiveInteger(n_species)){
+                stop("n_species must be integer.")}
             if(!all(vapply(list(alpha, stdev, s, d),
                     is.numeric, logical(1)))){
                 stop("alpha, stdev, s and d values must be numeric.")}
 
             # Nominal Interspecific Interaction matrix N
             N <- matrix(
-                data = rnorm(n.species^2, mean = 0, sd = stdev),
-                nrow = n.species,
-                ncol = n.species
+                data = rnorm(n_species^2, mean = 0, sd = stdev),
+                nrow = n_species,
+                ncol = n_species
             )
 
             # power law sample
-            pl <- rplcon(n = n.species, xmin = 1, alpha = alpha)
+            pl <- rplcon(n = n_species, xmin = 1, alpha = alpha)
             pl[is.infinite(pl)] = 10^308
 
             # Interaction strength heterogeneity
@@ -66,13 +66,13 @@ powerlawA <- function(n.species, alpha = 3.0, stdev = 1, s = 0.1, d = -1,
 
             # Adjacency matrix G of power-law out-degree digraph ecological
             #network
-            deg <- 0.1*n.species
+            deg <- 0.1*n_species
 
-            h <- pmin(ceiling(deg*pl/mean(pl)), n.species)
+            h <- pmin(ceiling(deg*pl/mean(pl)), n_species)
 
-            G <- matrix(0, nrow = n.species, ncol = n.species)
-            for(i in seq_len(n.species)){
-                index <- sample(x = seq_len(n.species), size = h[i])
+            G <- matrix(0, nrow = n_species, ncol = n_species)
+            for(i in seq_len(n_species)){
+                index <- sample(x = seq_len(n_species), size = h[i])
                 G[index, i] <- 1
             }
 
@@ -83,7 +83,7 @@ powerlawA <- function(n.species, alpha = 3.0, stdev = 1, s = 0.1, d = -1,
                 A[lower.tri(A)] <- t(A)[lower.tri(A)]
             }
             diag(A) <- d
-            colnames(A) <- seq_len(n.species)
-            rownames(A) <- seq_len(n.species)
+            colnames(A) <- seq_len(n_species)
+            rownames(A) <- seq_len(n_species)
             return(A)
 }

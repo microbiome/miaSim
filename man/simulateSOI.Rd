@@ -4,10 +4,10 @@
 \alias{simulateSOI}
 \title{Self-Organised Instability model (SOI) simulation}
 \usage{
-simulateSOI(n.species, I, A, k = 5, com = NULL, tend, norm = FALSE)
+simulateSOI(n_species, I, A, k = 5, com = NULL, tend, norm = FALSE)
 }
 \arguments{
-\item{n.species}{integer number of species}
+\item{n_species}{integer number of species}
 
 \item{I}{integer community size, number of available sites (individuals)}
 
@@ -38,7 +38,7 @@ Implements a K-leap method for accelerating stochastic simulation.
 \examples{
 A <- miaSim::powerlawA(10, alpha = 1.2)
 
-ExampleSOI <- simulateSOI(n.species = 10, I = 1000, A, k=5, com = NULL,
+ExampleSOI <- simulateSOI(n_species = 10, I = 1000, A, k=5, com = NULL,
                                             tend = 150, norm = TRUE)
 
 }

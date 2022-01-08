@@ -4,12 +4,12 @@
 #' distribution. Positive efficiencies indicate the consumption of resources,
 #' whilst negatives indicate that the species would produce the resource.
 #'
-#' @param n.species integer number of species
-#' @param n.resources integer number of resources
-#' @param min.con integer minimum number of resources consumed by each species
-#' @param max.con integer maximum number of resources consumed by each species
-#' @param min.prod integer minimum number of resources produced by each species
-#' @param max.prod integer maximum number of resources produced by each species
+#' @param n_species integer number of species
+#' @param n_resources integer number of resources
+#' @param min_con integer minimum number of resources consumed by each species
+#' @param max_con integer maximum number of resources consumed by each species
+#' @param min_prod integer minimum number of resources produced by each species
+#' @param max_prod integer maximum number of resources produced by each species
 #' @param maintenance numeric value between 0~1 the proportion of resources used
 #' to maintain the living of microorganisms. 0 means all the resources will be
 #' used for the reproduction of microorganisms, and 1 means all the resources
@@ -18,56 +18,56 @@
 #'
 #' @examples
 #' # example with specific parameters
-#' ExampleEfficiencyMatrix <- randomE(n.species = 3, n.resources = 6,
-#' min.con = 3, max.con = 4, min.prod = 1, max.prod = 1, maintenance = 0.4)
+#' ExampleEfficiencyMatrix <- randomE(n_species = 3, n_resources = 6,
+#' min_con = 3, max_con = 4, min_prod = 1, max_prod = 1, maintenance = 0.4)
 #' # example with minimum parameters
-#' ExampleEfficiencyMatrix2 <- randomE(n.species = 5, n.resources = 12)
+#' ExampleEfficiencyMatrix2 <- randomE(n_species = 5, n_resources = 12)
 #'
 #' @return
-#' \code{randomE} returns a matrix E with dimensions (n.species x n.resources),
+#' \code{randomE} returns a matrix E with dimensions (n_species x n_resources),
 #' and each row represents a species.
 #'
 #' @export
-randomE <- function(n.species,
-                    n.resources,
-                    min.con = round(n.resources/4),
-                    max.con = round(n.resources/3),
-                    min.prod = round(n.resources/6),
-                    max.prod = round(n.resources/4),
+randomE <- function(n_species,
+                    n_resources,
+                    min_con = round(n_resources/4),
+                    max_con = round(n_resources/3),
+                    min_prod = round(n_resources/6),
+                    max_prod = round(n_resources/4),
                     maintenance = 0.5){
 
-    if(!all(vapply(list(n.species, n.resources), isPositiveInteger,
+    if(!all(vapply(list(n_species, n_resources), isPositiveInteger,
             logical(1)))){
-        stop("n.species and/or n.resources must be integer.")}
+        stop("n_species and/or n_resources must be integer.")}
 
-    if(min.con > max.con) {
-        warning("min.con surpassed max.con, modified to max.con")
-        min.con <- max.con
+    if(min_con > max_con) {
+        warning("min_con surpassed max_con, modified to max_con")
+        min_con <- max_con
     }
-    if(min.prod > max.prod) {
-        warning("min.prod surpassed max.prod, modified to max.prod")
-        min.prod <- max.prod
+    if(min_prod > max_prod) {
+        warning("min_prod surpassed max_prod, modified to max_prod")
+        min_prod <- max_prod
     }
-    if(min.con + min.prod > n.resources) {
-        stop("min.con + min.prod surpassed n.resources.")
+    if(min_con + min_prod > n_resources) {
+        stop("min_con + min_prod surpassed n_resources.")
     }
-    efficiency.matrix <- matrix(0, nrow = n.species, ncol = n.resources)
+    efficiency_matrix <- matrix(0, nrow = n_species, ncol = n_resources)
 
-    for (i in seq(n.species)){
-        irow <- efficiency.matrix[i,]
+    for (i in seq(n_species)){
+        irow <- efficiency_matrix[i,]
         consumption <- irow
         production <- irow
-        index.consumption <- sample(seq(n.resources),
-            size = sample(min.con:max.con))
-        consumption[index.consumption] <- 1
+        index_consumption <- sample(seq(n_resources),
+            size = sample(min_con:max_con))
+        consumption[index_consumption] <- 1
         irow <- rdirichlet(1, consumption)[,]
-        index.production <-
-            sample(seq(n.resources)[irow==0], size=sample(min.prod:max.prod))
-        production[index.production] <- 1
+        index_production <-
+            sample(seq(n_resources)[irow==0], size=sample(min_prod:max_prod))
+        production[index_production] <- 1
         prod <- (-1)*(1-maintenance)* rdirichlet(1, production)[,]
-        irow[index.production] <- prod[index.production]
-        efficiency.matrix[i,] <- irow
-        E <- efficiency.matrix
+        irow[index_production] <- prod[index_production]
+        efficiency_matrix[i,] <- irow
+        E <- efficiency_matrix
     }
 
     return(E)

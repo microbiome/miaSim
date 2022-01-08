@@ -2,7 +2,7 @@
 #'
 #' Neutral species abundances simulation according to the Hubbell model.
 #'
-#' @param n.species integer amount of different species initially
+#' @param n_species integer amount of different species initially
 #' in the local community
 #' @param M integer amount of different species in the metacommunity,
 #' including those of the local community
@@ -24,7 +24,7 @@
 #' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
 #' @examples
-#' ExampleHubbell <- simulateHubbell(n.species = 8, M = 10, I = 1000, d = 50,
+#' ExampleHubbell <- simulateHubbell(n_species = 8, M = 10, I = 1000, d = 50,
 #'                                                         m = 0.02, tend = 100)
 #'
 #' @return \code{simulateHubbell} returns an abundance matrix with
@@ -38,17 +38,17 @@
 #' vol. 26,7 (2011).
 #
 #' @export
-simulateHubbell <- function(n.species, M, I = 1000, d = 10, m = 0.02, tskip = 0,
+simulateHubbell <- function(n_species, M, I = 1000, d = 10, m = 0.02, tskip = 0,
             tend, norm = FALSE){
 
             #input check
-            if(!all(vapply(list(n.species,M,I,d), isPositiveInteger,
+            if(!all(vapply(list(n_species,M,I,d), isPositiveInteger,
                     logical(1)))){
-                stop("n.species,M,I,d,tskip must be integer.")}
+                stop("n_species,M,I,d,tskip must be integer.")}
 
-            pbirth <- runif(n.species, min = 0, max = 1)
+            pbirth <- runif(n_species, min = 0, max = 1)
             pmigr <- runif(M, min = 0, max = 1)
-            pbirth <- c(pbirth, rep(0, times = (M-n.species)))
+            pbirth <- c(pbirth, rep(0, times = (M-n_species)))
             pbirth <- pbirth/sum(pbirth)
             pmigr <- pmigr/sum(pmigr)
             com <- ceiling(I*pbirth)
@@ -83,7 +83,7 @@ simulateHubbell <- function(n.species, M, I = 1000, d = 10, m = 0.02, tskip = 0,
             tseries[,t] <- com
             }
             if(norm){
-                tseries <- t(t(tseries)/colSums(tseries))
+                tseries <- t(t(tseries)/colSums2(tseries))
             }
             counts <- tseries[, (tskip +1):tend]
             return(counts)

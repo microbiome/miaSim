@@ -3,7 +3,7 @@
 #' Generate time-series with The Self-Organised Instability (SOI) model.
 #' Implements a K-leap method for accelerating stochastic simulation.
 #'
-#' @param n.species integer number of species
+#' @param n_species integer number of species
 #' @param I integer community size, number of available sites (individuals)
 #' @param A interaction matrix
 #' @param com a vector of initial community abundances
@@ -26,33 +26,33 @@
 #' @examples
 #' A <- miaSim::powerlawA(10, alpha = 1.2)
 #'
-#' ExampleSOI <- simulateSOI(n.species = 10, I = 1000, A, k=5, com = NULL,
+#' ExampleSOI <- simulateSOI(n_species = 10, I = 1000, A, k=5, com = NULL,
 #'                                             tend = 150, norm = TRUE)
 #'
 #' @importFrom stats rgamma
 #' @importFrom stats rnorm
 #'
 #' @export
-simulateSOI <- function(n.species, I, A, k = 5, com = NULL, tend, norm = FALSE){
+simulateSOI <- function(n_species, I, A, k = 5, com = NULL, tend, norm = FALSE){
             #species-specific immigration probabilities
-            migr_rates <- runif(n.species, min = 0.1, max = 0.8)
+            migr_rates <- runif(n_species, min = 0.1, max = 0.8)
             #species-specific extinction probabilities
-            death_rates <- runif(n.species, min = 0.01, max = 0.08)
+            death_rates <- runif(n_species, min = 0.01, max = 0.08)
             # COUNTS VECTOR
             # initial counts vector based on migration rates of the species
             # additional draw from the uniform distribution for the empty sites
 
             #input check
-            if(!all(vapply(list(n.species,I,k), isPositiveInteger,
+            if(!all(vapply(list(n_species,I,k), isPositiveInteger,
                     logical(1)))){
-                stop("n.species,I and k values must be integer.")}
+                stop("n_species,I and k values must be integer.")}
 
             if(is.null(com)){
                     counts <- c(migr_rates, runif(1))
                     counts <- round((counts/sum(counts))*I)
-    }       else if(length(com) == n.species+1){
+    }       else if(length(com) == n_species+1){
                 counts <- com
-    }       else if(length(com) == n.species){
+    }       else if(length(com) == n_species){
                 empty_count <- I - sum(com)
                 counts <- c(com, empty_count)
     }       else {
@@ -63,30 +63,30 @@ simulateSOI <- function(n.species, I, A, k = 5, com = NULL, tend, norm = FALSE){
             # (if not, the difference is added or subtracted from the empty
             # sites to get a total of I)
             if(sum(counts)!=I){
-                counts[n.species+1] <- counts[n.species+1] + (I-sum(counts))
+                counts[n_species+1] <- counts[n_species+1] + (I-sum(counts))
     }
             # TRANSITION MATRIX & INTERACTION RATES
             # Initialise trans_mat transition matrix representing the actual
             # reactions
-            # First n.species columns = migration: species_i counts go up with 1
+            # First n_species columns = migration: species_i counts go up with 1
             # empty sites go down with -1
-            # Next n.species columns = death: species_i counts go down with -1,
+            # Next n_species columns = death: species_i counts go down with -1,
             # empty sites go up with +1
             # Last columns: the competition / negative interaction jumps:
             trans_mat <- cbind(
-                rbind(diag(1, ncol = n.species, nrow = n.species),
-                        rep(-1, times = n.species)),
-                rbind(diag(-1, ncol = n.species, nrow = n.species),
-                        rep(1, times = n.species))
+                rbind(diag(1, ncol = n_species, nrow = n_species),
+                        rep(-1, times = n_species)),
+                rbind(diag(-1, ncol = n_species, nrow = n_species),
+                        rep(1, times = n_species))
     )
             # Interaction:
             # happens when sp_stronger interacts stronger with sp_weaker,
             # than sp_weaker with sp_stronger
-            pos_inter_rates <- matrix(0, nrow = n.species, ncol = n.species)
+            pos_inter_rates <- matrix(0, nrow = n_species, ncol = n_species)
             neg_inter_rates <- pos_inter_rates # copy to initialise
             # pos interaction and immigration
             # AND sp_stronger interacts positively with sp_weaker
-            for(stronger in seq_len(n.species)){
+            for(stronger in seq_len(n_species)){
                 weaker <- which(A[stronger,] > A[,stronger] & A[,stronger] >= 0)
                     if(length(weaker) > 0){
                     rate <- A[stronger, weaker] + A[weaker, stronger]
@@ -95,13 +95,13 @@ simulateSOI <- function(n.species, I, A, k = 5, com = NULL, tend, norm = FALSE){
                 }
             # neg interaction: competition
             # AND sp_weaker interacts negatively with sp_stronger
-            for(stronger in seq_len(n.species)){
+            for(stronger in seq_len(n_species)){
             weaker_vec <- which(A[stronger,] > A[,stronger] & A[,stronger] < 0)
                 if(length(weaker_vec) > 0){
                 rate <- A[stronger, weaker_vec] - A[weaker_vec, stronger]
                 neg_inter_rates[stronger, weaker_vec] <- rate
                 for(weaker in weaker_vec){
-                    jump <- rep(0, times = n.species+1)
+                    jump <- rep(0, times = n_species+1)
                     jump[stronger] <- 1
                     jump[weaker] <- -1
                     trans_mat <- cbind(trans_mat, jump)
@@ -119,9 +119,9 @@ simulateSOI <- function(n.species, I, A, k = 5, com = NULL, tend, norm = FALSE){
             sample_t <- sys_t[1]  # sampled time
             series_t <- 1 # column to be filled with counts in series matrix
             #(next generation)
-            series <- matrix(0, nrow = n.species, ncol = tend)
+            series <- matrix(0, nrow = n_species, ncol = tend)
             colnames(series) <- paste0("t", seq_len(tend))
-            rownames(series) <- paste0("sp_", seq_len(n.species))
+            rownames(series) <- paste0("sp_", seq_len(n_species))
             while(series_t <= tend){
                 c <- sum(propensities)
                 p <- propensities/c
@@ -134,7 +134,7 @@ simulateSOI <- function(n.species, I, A, k = 5, com = NULL, tend, norm = FALSE){
     }
             # if current_t exceeds sample_t, update series with current series
             if(current_t > sample_t){
-                series[,series_t] <- counts[seq_len(n.species)]
+                series[,series_t] <- counts[seq_len(n_species)]
                 series_t <- series_t +1
                 index <- which(sys_t >= sample_t & sys_t < current_t)
                 sample_t <- sys_t[index][length(index)]
@@ -149,7 +149,7 @@ simulateSOI <- function(n.species, I, A, k = 5, com = NULL, tend, norm = FALSE){
                                 migr_rates, pos_inter_rates, neg_inter_rates)
     }
             if(norm){
-                series <- t(t(series)/colSums(series))
+                series <- t(t(series)/colSums2(series))
     }
             counts <- series
             return(counts)

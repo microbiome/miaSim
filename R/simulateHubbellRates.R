@@ -21,11 +21,11 @@
 #' @param norm logical scalar choosing whether the time series should be
 #' returned with the abundances as proportions (\code{norm = TRUE}) or
 #' the raw counts (default: \code{norm = FALSE})
-#' @param t.end numeric value of simulation end time
-#' (default: \code{t.end = 1000})
+#' @param t_end numeric value of simulation end time
+#' (default: \code{t_end = 1000})
 #' @param list logical scalar deciding whether output is a list object or not
 #' (default: \code{norm = TRUE})
-#' @param ... additional parameters including 't.start', 't.step', and 't.store'
+#' @param ... additional parameters including 't_start', 't_step', and 't_store'
 #'
 #' @seealso
 #' \code{\link[miaSim:convertToSE]{convertToSE}}
@@ -33,19 +33,21 @@
 #' @examples
 #' ExampleHubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
 #'              migration_p = 0.01, metacommunity_p = NULL, k_events = 1,
-#'              growth_rates = NULL, norm = FALSE, t.end=1000)
+#'              growth_rates = NULL, norm = FALSE, t_end=1000)
 #'
 #' @return a community abundance matrix or a list object that contains
 #' growth rates, time points and metacommunity probabilities
 #'
+#' @importFrom MatrixGenerics rowSums2
 #' @importFrom gtools rdirichlet
 #' @importFrom stats rgamma
 #' @importFrom S4Vectors DataFrame
 #'
-#' @references Rosindell, James et al. "The unified neutral theory of
-#' biodiversity and biogeography at age ten." Trends in ecology & evolution
-#' vol. 26,7 (2011).
-#
+#' @references Rosindell J, Hubbell SP, Etienne RS. The unified neutral theory
+#' of biodiversity and biogeography at age ten. Trends Ecol Evol.
+#' 2011 Jul;26(7):340-8. doi: 10.1016/j.tree.2011.03.024.
+#' Epub 2011 May 10. PMID: 21561679.
+#'
 #' @export
 simulateHubbellRates <- function(community_initial,
                                 migration_p = 0.1,
@@ -53,7 +55,7 @@ simulateHubbellRates <- function(community_initial,
                                 k_events = 1,
                                 growth_rates = NULL,
                                 norm = FALSE,
-                                t.end = 1000,
+                                t_end = 1000,
                                 list = TRUE,
                                 ...){
 
@@ -73,35 +75,35 @@ simulateHubbellRates <- function(community_initial,
         stop("'norm' must be TRUE or FALSE.", call. = FALSE)
     }
 
-    t.dyn <- simulationTimes(t.end = t.end, ...)
+    t_dyn <- simulationTimes(t_end = t_end, ...)
 
-    t.store <- length(t.dyn$t.index)
+    t_store <- length(t_dyn$t_index)
 
-    n.species <- length(community_initial)
+    n_species <- length(community_initial)
 
     birth_p <- 1 - migration_p
 
     community <- community_initial
 
     if (is.null(metacommunity_p)){
-        metacommunity_p <- rdirichlet(1, alpha = rep(1,n.species))
+        metacommunity_p <- rdirichlet(1, alpha = rep(1,n_species))
     }
 
     metacommunity_p <- metacommunity_p/sum(metacommunity_p)
 
     if (is.null(growth_rates)){
-        growth_rates <- rep(1,n.species)
+        growth_rates <- rep(1,n_species)
     }
 
-    counts <- matrix(0, nrow = n.species, ncol = length(t.dyn$t.index))
+    counts <- matrix(0, nrow = n_species, ncol = length(t_dyn$t_index))
 
     counts[,1] = community_initial
 
-    stored_time <- t.dyn$t.sys[t.dyn$t.index]
+    stored_time <- t_dyn$t_sys[t_dyn$t_index]
     current_t <- stored_time[1]
     last_stored_t <- stored_time[1]
 
-    while(current_t <= t.end){
+    while(current_t <= t_end){
 
         tau_events <- min(min(community[community>0]),k_events)
 
@@ -136,22 +138,22 @@ simulateHubbellRates <- function(community_initial,
 
             counts[,index] <-
                 t(matrix(rep(t(community),sum(index)), ncol = sum(index)))
-            last_stored_t <- stored_time[max(seq(t.store)[index])]
+            last_stored_t <- stored_time[max(seq(t_store)[index])]
 
         }
     }
 
-    rownames(counts) <- seq_len(n.species)
+    rownames(counts) <- seq_len(n_species)
     rownames(counts) <- paste("s", rownames(counts), sep = "_")
-    colnames(counts) <- (t.dyn$t.sys[t.dyn$t.index])
+    colnames(counts) <- (t_dyn$t_sys[t_dyn$t_index])
 
     if(norm){
-        output <- counts/rowSums(counts)
+        output <- counts/rowSums2(counts)
     }
     if(list){
-        timepoints <- c(t.dyn$t.sys[t.dyn$t.index])
+        timepoints <- c(t_dyn$t_sys[t_dyn$t_index])
         time_int <- diff(timepoints)
-        time_int[t.end] <- NA
+        time_int[t_end] <- NA
 
         col_data <- DataFrame(time = timepoints, time_interval = time_int)
         meta_data <- list(metacommunity_p = metacommunity_p,

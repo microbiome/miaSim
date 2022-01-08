@@ -5,24 +5,24 @@
 \title{Generalized Lotka-Volterra (gLV) simulation}
 \usage{
 simulateGLV(
-  n.species,
+  n_species,
   A,
-  x = runif(n.species),
-  b = runif(n.species),
-  sigma.drift = 0.01,
-  sigma.epoch = 0.3,
-  sigma.external = 0.3,
-  p.epoch = 0.01,
-  t.external_events = c(12, 36, 48),
-  t.external_durations = c(3, 10, 99),
+  x = runif(n_species),
+  b = runif(n_species),
+  sigma_drift = 0.01,
+  sigma_epoch = 0.3,
+  sigma_external = 0.3,
+  p_epoch = 0.01,
+  t_external_events = c(12, 36, 48),
+  t_external_durations = c(3, 10, 99),
   stochastic = FALSE,
   norm = FALSE,
-  t.end = 1000,
+  t_end = 1000,
   ...
 )
 }
 \arguments{
-\item{n.species}{integer number of species}
+\item{n_species}{integer number of species}
 
 \item{A}{interaction matrix}
 
@@ -30,24 +30,24 @@ simulateGLV(
 
 \item{b}{numeric growth rates}
 
-\item{sigma.drift}{numeric degree of drift
+\item{sigma_drift}{numeric degree of drift
 (turnover of species) in each time step.
-(default: \code{sigma.drift = 0.01})}
+(default: \code{sigma_drift = 0.01})}
 
-\item{sigma.epoch}{numeric degree of epoch change of community
-(default: \code{sigma.epoch = 0.3})}
+\item{sigma_epoch}{numeric degree of epoch change of community
+(default: \code{sigma_epoch = 0.3})}
 
-\item{sigma.external}{numeric degree of the external events/disturbances
-(default: \code{sigma.external = 0.3})}
+\item{sigma_external}{numeric degree of the external events/disturbances
+(default: \code{sigma_external = 0.3})}
 
-\item{p.epoch}{numeric value of the probability/frequency of inherit periodic
-changes of community (default: \code{p.epoch = 0.01})}
+\item{p_epoch}{numeric value of the probability/frequency of inherit periodic
+changes of community (default: \code{p_epoch  = 0.01})}
 
-\item{t.external_events}{numeric value of starting times of external events
-(default: \code{t.external_events = c(12, 36, 48)})}
+\item{t_external_events}{numeric value of starting times of external events
+(default: \code{t_external_events = c(12, 36, 48)})}
 
-\item{t.external_durations}{numeric durations of external events
-(default: \code{t.external_durations = c(3, 10, 99)})}
+\item{t_external_durations}{numeric durations of external events
+(default: \code{t_external_durations = c(3, 10, 99)})}
 
 \item{stochastic}{logical scalar choosing whether the gLV model should be
 stochastic (default: \code{stochastic = FALSE})}
@@ -55,10 +55,10 @@ stochastic (default: \code{stochastic = FALSE})}
 \item{norm}{logical scalar returning normalised abundances (proportions
 in each generation) (default: \code{norm = FALSE})}
 
-\item{t.end}{numeric value of simulation end time
-(default: \code{t.end = 1000})}
+\item{t_end}{numeric value of simulation end time
+(default: \code{t_end = 1000})}
 
-\item{...}{additional parameters including 't.start', 't.step', and 't.store'}
+\item{...}{additional parameters including 't_start', 't_step', and 't_store'}
 }
 \value{
 \code{simulateGLV} returns an abundance matrix
@@ -75,7 +75,7 @@ A is the interaction matrix and b is the vector of growth rates.
 \examples{
 A <- miaSim::powerlawA(4, alpha = 1.01)
 
-ExampleGLV <- simulateGLV(n.species = 4, A, t.end = 1000)
+ExampleGLV <- simulateGLV(n_species = 4, A, t_end = 1000)
 
 }
 \seealso{

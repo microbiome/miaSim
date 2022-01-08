@@ -5,7 +5,7 @@
 \title{Hubbell's neutral model simulation}
 \usage{
 simulateHubbell(
-  n.species,
+  n_species,
   M,
   I = 1000,
   d = 10,
@@ -16,7 +16,7 @@ simulateHubbell(
 )
 }
 \arguments{
-\item{n.species}{integer amount of different species initially
+\item{n_species}{integer amount of different species initially
 in the local community}
 
 \item{M}{integer amount of different species in the metacommunity,
@@ -49,7 +49,7 @@ species abundance as rows and time points as columns
 Neutral species abundances simulation according to the Hubbell model.
 }
 \examples{
-ExampleHubbell <- simulateHubbell(n.species = 8, M = 10, I = 1000, d = 50,
+ExampleHubbell <- simulateHubbell(n_species = 8, M = 10, I = 1000, d = 50,
                                                         m = 0.02, tend = 100)
 
 }

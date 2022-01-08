@@ -5,44 +5,44 @@
 \title{Consumer-resource model simulation}
 \usage{
 simulateConsumerResource(
-  n.species,
-  n.resources,
-  eff = randomE(n.species, n.resources),
-  consumers = runif(n = n.species, min = 0.1, max = 10),
-  resources = runif(n = n.resources, min = 1, max = 100),
-  mumax = rep(1, n.species),
-  k.table = matrix(rgamma(n = n.species * n.resources, shape = 50, rate = 0.25), nrow =
-    n.species),
-  t.end = 1000,
+  n_species,
+  n_resources,
+  eff = randomE(n_species, n_resources),
+  consumers = runif(n = n_species, min = 0.1, max = 10),
+  resources = runif(n = n_resources, min = 1, max = 100),
+  mumax = rep(1, n_species),
+  k_table = matrix(rgamma(n = n_species * n_resources, shape = 50, rate = 0.25), nrow =
+    n_species),
+  t_end = 1000,
   ...
 )
 }
 \arguments{
-\item{n.species}{integer number of species}
+\item{n_species}{integer number of species}
 
-\item{n.resources}{interger number of resources}
+\item{n_resources}{interger number of resources}
 
 \item{eff}{a matrix of efficiency. How efficient are resources
 converted into biomass, negative values represent excreted resources
-(default: \code{eff = randomE(n.species, n.resources)})}
+(default: \code{eff = randomE(n_species, n_resources)})}
 
 \item{consumers}{numeric vector of species
-(default: \code{consumers = runif(n = n.species, min = 0.1, max = 10)})}
+(default: \code{consumers = runif(n = n_species, min = 0.1, max = 10)})}
 
 \item{resources}{numeric vector of resources
-(default: \code{resources = runif(n = n.resources, min = 1, max = 100)})}
+(default: \code{resources = runif(n = n_resources, min = 1, max = 100)})}
 
 \item{mumax}{numeric vector of maximum mu of species
-(default: \code{mumax = rep(1, n.species)})}
+(default: \code{mumax = rep(1, n_species)})}
 
-\item{k.table}{a matrix of K values in monod model
-(default: \code{k.table = matrix(rgamma(n=n.species*n.resources,
-shape = 50, rate = 0.25), nrow = n.species)})}
+\item{k_table}{a matrix of K values in monod model
+(default: \code{k_table = matrix(rgamma(n=n_species*n_resources,
+shape = 50, rate = 0.25), nrow = n_species)})}
 
-\item{t.end}{numeric scalar indicating the final time of the simulation
-(default: \code{t.end = 1000})}
+\item{t_end}{numeric scalar indicating the final time of the simulation
+(default: \code{t_end = 1000})}
 
-\item{...}{additional parameters including 't.start', 't.step', and 't.store'}
+\item{...}{additional parameters including 't_start', 't_step', and 't_store'}
 }
 \value{
 an abundance matrix with species and resources abundance as rows and
@@ -61,8 +61,8 @@ less than 0 during the iteration.
 }
 \examples{
 # example1 users provide least parameters.
-ExampleConsumerResource <- simulateConsumerResource(n.species = 2,
-n.resources = 4)
+ExampleConsumerResource <- simulateConsumerResource(n_species = 2,
+n_resources = 4)
 
 }
 \seealso{

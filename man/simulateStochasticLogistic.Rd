@@ -5,64 +5,64 @@
 \title{Stochastic Logistic simulation}
 \usage{
 simulateStochasticLogistic(
-  n.species,
-  b = runif(n = n.species, min = 0.1, max = 0.2),
-  k = runif(n = n.species, min = 1000, max = 2000),
-  dr = runif(n = n.species, min = 5e-04, max = 0.0025),
-  x = runif(n = n.species, min = 0.1, max = 10),
-  sigma.drift = 0.001,
-  sigma.epoch = 0.1,
-  sigma.external = 0.3,
-  p.epoch = 0.001,
-  t.external_events = c(0, 240, 480),
-  t.external_durations = c(0, 1, 1),
+  n_species,
+  b = runif(n = n_species, min = 0.1, max = 0.2),
+  k = runif(n = n_species, min = 1000, max = 2000),
+  dr = runif(n = n_species, min = 5e-04, max = 0.0025),
+  x = runif(n = n_species, min = 0.1, max = 10),
+  sigma_drift = 0.001,
+  sigma_epoch = 0.1,
+  sigma_external = 0.3,
+  p_epoch = 0.001,
+  t_external_events = c(0, 240, 480),
+  t_external_durations = c(0, 1, 1),
   stochastic = TRUE,
-  t.end = 1000,
+  t_end = 1000,
   ...
 )
 }
 \arguments{
-\item{n.species}{integer number of species}
+\item{n_species}{integer number of species}
 
 \item{b}{numeric growth rates
-(default: \code{b = runif(n = n.species, min = 0.1, max = 0.2)})}
+(default: \code{b = runif(n = n_species, min = 0.1, max = 0.2)})}
 
 \item{k}{numeric value of carrying capacities
-(default: \code{k = runif(n = n.species, min = 1000, max = 2000)})}
+(default: \code{k = runif(n = n_species, min = 1000, max = 2000)})}
 
 \item{dr}{numeric value of death rates
-(default: \code{dr = runif(n = n.species, min = 0.0005, max = 0.0025)})}
+(default: \code{dr = runif(n = n_species, min = 0.0005, max = 0.0025)})}
 
 \item{x}{numeric initial abundances
-(default: \code{x = runif(n = n.species, min = 0.1, max = 10)})}
+(default: \code{x = runif(n = n_species, min = 0.1, max = 10)})}
 
-\item{sigma.drift}{numeric degree of drift (turnover of species) in each
+\item{sigma_drift}{numeric degree of drift (turnover of species) in each
 time step.
-(default: \code{sigma.drift = 0.001})}
+(default: \code{sigma_drift = 0.001})}
 
-\item{sigma.epoch}{numeric degree of epoch change of community
-(default: \code{sigma.epoch = 0.1})}
+\item{sigma_epoch}{numeric degree of epoch change of community
+(default: \code{sigma_epoch = 0.1})}
 
-\item{sigma.external}{numeric degree of external events/disturbances
-(default: \code{sigma.external = 0.3})}
+\item{sigma_external}{numeric degree of external events/disturbances
+(default: \code{sigma_external = 0.3})}
 
-\item{p.epoch}{numeric value of probability/frequency of inherit periodic
-changes of community (default: \code{p.epoch = 0.001})}
+\item{p_epoch}{numeric value of probability/frequency of inherit periodic
+changes of community (default: \code{p_epoch = 0.001})}
 
-\item{t.external_events}{numeric value of starting times of external events
-(default: \code{t.external_events = c(0, 240, 480)})}
+\item{t_external_events}{numeric value of starting times of external events
+(default: \code{t_external_events = c(0, 240, 480)})}
 
-\item{t.external_durations}{numeric value of durations of external events
-(default: \code{t.external_durations = c(0, 1, 1)})}
+\item{t_external_durations}{numeric value of durations of external events
+(default: \code{t_external_durations = c(0, 1, 1)})}
 
 \item{stochastic}{logical scalar choosing whether the logistic model should
 be stochastic (controlled by multiplying the growth rate by a random number)
 (default: \code{stochastic = TRUE})}
 
-\item{t.end}{numeric final time of the simulation
-(default: \code{t.end = 1000})}
+\item{t_end}{numeric final time of the simulation
+(default: \code{t_end = 1000})}
 
-\item{...}{additional parameters including 't.start', 't.step', and 't.store'}
+\item{...}{additional parameters including 't_start', 't_step', and 't_store'}
 }
 \value{
 \code{simulateStochasticLogistic} returns an abundance matrix with
@@ -84,20 +84,20 @@ surpass the alive species abundances.
 \examples{
 ## ATTENTION: Don't set a large value to t.step, otherwise the computer won't
 #give a correct solution to the logistic ODE(ordinary differential equation).
-#Keeping t.step under 0.05 or 0.01 is a good practice.
+#Keeping t_step under 0.05 or 0.01 is a good practice.
 
 #while (!exists("ExampleLogistic"))
-ExampleLogistic <- simulateStochasticLogistic(n.species = 5)
+ExampleLogistic <- simulateStochasticLogistic(n_species = 5)
 #plot the calculated points
 matplot(ExampleLogistic, type = "l")
 
 #calculation by setting initial parameters explicitly
-ExampleLogistic2 <- simulateStochasticLogistic(n.species = 2,
+ExampleLogistic2 <- simulateStochasticLogistic(n_species = 2,
 b = c(0.2, 0.1), k = c(1000, 2000), dr = c(0.001, 0.0015), x = c(3, 0.1),
-sigma.drift = 0.001, sigma.epoch = 0.3, sigma.external = 0.5,p.epoch = 0.001,
-t.external_events = c(100, 200, 300), t.external_durations = c(1, 2, 3),
-t.start = 0, t.end = 1500, t.step = 0.01,
-t.store = 1500, stochastic = TRUE)
+sigma_drift = 0.001, sigma_epoch = 0.3, sigma_external = 0.5,p_epoch = 0.001,
+t_external_events = c(100, 200, 300), t_external_durations = c(1, 2, 3),
+t_start = 0, t_end = 1500, t_step = 0.01,
+t_store = 1500, stochastic = TRUE)
 
 }
 \seealso{

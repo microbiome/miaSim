@@ -11,7 +11,7 @@ simulateHubbellRates(
   k_events = 1,
   growth_rates = NULL,
   norm = FALSE,
-  t.end = 1000,
+  t_end = 1000,
   list = TRUE,
   ...
 )
@@ -38,13 +38,13 @@ decreasing precision.}
 returned with the abundances as proportions (\code{norm = TRUE}) or
 the raw counts (default: \code{norm = FALSE})}
 
-\item{t.end}{numeric value of simulation end time
-(default: \code{t.end = 1000})}
+\item{t_end}{numeric value of simulation end time
+(default: \code{t_end = 1000})}
 
 \item{list}{logical scalar deciding whether output is a list object or not
 (default: \code{norm = TRUE})}
 
-\item{...}{additional parameters including 't.start', 't.step', and 't.store'}
+\item{...}{additional parameters including 't_start', 't_step', and 't_store'}
 }
 \value{
 a community abundance matrix or a list object that contains
@@ -60,13 +60,14 @@ time effect is considered to determine the next event.
 \examples{
 ExampleHubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
              migration_p = 0.01, metacommunity_p = NULL, k_events = 1,
-             growth_rates = NULL, norm = FALSE, t.end=1000)
+             growth_rates = NULL, norm = FALSE, t_end=1000)
 
 }
 \references{
-Rosindell, James et al. "The unified neutral theory of
-biodiversity and biogeography at age ten." Trends in ecology & evolution
-vol. 26,7 (2011).
+Rosindell J, Hubbell SP, Etienne RS. The unified neutral theory
+of biodiversity and biogeography at age ten. Trends Ecol Evol.
+2011 Jul;26(7):340-8. doi: 10.1016/j.tree.2011.03.024.
+Epub 2011 May 10. PMID: 21561679.
 }
 \seealso{
 \code{\link[miaSim:convertToSE]{convertToSE}}

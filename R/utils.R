@@ -1,10 +1,10 @@
 
-simulationTimes <- function(t.start = 0, t.end = 1000,
-            t.step = 0.1, t.store = 1000){
-        t.total <- t.end-t.start
-        t.sys <- seq(t.start, t.end, by = t.step)
-        t.index <- seq(1, length(t.sys)-1, by=round(length(t.sys)/t.store))
-        return(list("t.sys" = t.sys, "t.index" = t.index))
+simulationTimes <- function(t_start = 0, t_end = 1000,
+            t_step = 0.1, t_store = 1000){
+        t_total <- t_end-t_start
+        t_sys <- seq(t_start, t_end, by = t_step)
+        t_index <- seq(1, length(t_sys)-1, by=round(length(t_sys)/t_store))
+        return(list("t_sys" = t_sys, "t_index" = t_index))
 }
 
 
@@ -17,15 +17,15 @@ isZeroOrPositiveInteger <- function(x, tol = .Machine$double.eps^0.5) {
 }
 
 
-eventTimes <- function(t.events=c(10,20,30),
-                        t.duration=rep(3,3), t.end=1000, ...){
-        tdyn <- simulationTimes(t.end = t.end,...)
-        t.result = c()
-        for (i in seq(length(t.events))){
-            p1 <- tdyn$t.sys[(tdyn$t.sys >= t.events[i]) &
-                        (tdyn$t.sys <= (t.events[i]+t.duration[i]))]
-            t.result <- c(t.result, p1)
+eventTimes <- function(t_events=c(10,20,30),
+                        t_duration=rep(3,3), t_end=1000, ...){
+        tdyn <- simulationTimes(t_end = t_end,...)
+        t_result = c()
+        for (i in seq(length(t_events))){
+            p1 <- tdyn$t_sys[(tdyn$t_sys >= t_events[i]) &
+                        (tdyn$t_sys <= (t_events[i]+t_duration[i]))]
+            t_result <- c(t_result, p1)
         }
-        return(t.result)
+        return(t_result)
     }
 

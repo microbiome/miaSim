@@ -4,10 +4,10 @@
 \alias{powerlawA}
 \title{Interaction matrix with Power-Law network adjacency matrix}
 \usage{
-powerlawA(n.species, alpha = 3, stdev = 1, s = 0.1, d = -1, symmetric = FALSE)
+powerlawA(n_species, alpha = 3, stdev = 1, s = 0.1, d = -1, symmetric = FALSE)
 }
 \arguments{
-\item{n.species}{integer number of species}
+\item{n_species}{integer number of species}
 
 \item{alpha}{numeric power-law distribution parameter. Should be > 1.
 (default: \code{alpha = 3.0}) Larger values will give lower interaction
@@ -29,7 +29,7 @@ negative values for stability). (default: \code{s = 1.0})}
 (default: \code{symmetric=FALSE})}
 }
 \value{
-The interaction matrix A with dimensions (n.species x n.species)
+The interaction matrix A with dimensions (n_species x n_species)
 }
 \description{
 Where N is the an Interspecific Interaction matrix with values drawn from
@@ -42,9 +42,9 @@ by the parameter d.
 }
 \examples{
 # Low interaction heterogeneity
-A_low <- powerlawA(n.species = 10, alpha = 3)
+A_low <- powerlawA(n_species = 10, alpha = 3)
 # Strong interaction heterogeneity
-A_strong <- powerlawA(n.species = 10, alpha = 1.01)
+A_strong <- powerlawA(n_species = 10, alpha = 1.01)
 
 }
 \references{

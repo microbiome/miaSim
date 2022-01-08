@@ -5,25 +5,25 @@
 \title{Generate random uniform interaction matrix}
 \usage{
 randomA(
-  n.species,
+  n_species,
   d = -0.5,
-  min.strength = -0.5,
-  max.strength = 0.5,
+  min_strength = -0.5,
+  max_strength = 0.5,
   connectance = 0.02,
   symmetric = FALSE
 )
 }
 \arguments{
-\item{n.species}{integer number of species}
+\item{n_species}{integer number of species}
 
 \item{d}{numeric diagonal values
 (default: \code{d = -0.5})}
 
-\item{min.strength}{numeric value of minimal off-diagonal interaction
-strength (default: \code{min.strength = -0.5})}
+\item{min_strength}{numeric value of minimal off-diagonal interaction
+strength (default: \code{min_strength = -0.5})}
 
-\item{max.strength}{numeric value of maximal off-diagonal interaction
-strength (default: \code{max.strength = 0.5})}
+\item{max_strength}{numeric value of maximal off-diagonal interaction
+strength (default: \code{max_strength = 0.5})}
 
 \item{connectance}{numeric interaction probability
 (default: \code{connectance = 0.02})}
@@ -32,15 +32,15 @@ strength (default: \code{max.strength = 0.5})}
 (default: \code{symmetric=FALSE})}
 }
 \value{
-\code{randomA} returns a matrix A with dimensions (n.species x n.species)
+\code{randomA} returns a matrix A with dimensions (n_species x n_species)
 }
 \description{
 Generate random simplified interaction matrix from a uniform distribution.
 }
 \examples{
-high_inter_A <- randomA(n.species = 10, d = -0.4, min.strength = -0.8,
-                                    max.strength = 0.8, connectance = 0.5)
+high_inter_A <- randomA(n_species = 10, d = -0.4, min_strength = -0.8,
+                                    max_strength = 0.8, connectance = 0.5)
 
-low_inter_A <- randomA(n.species = 10, connectance = 0.01)
+low_inter_A <- randomA(n_species = 10, connectance = 0.01)
 
 }

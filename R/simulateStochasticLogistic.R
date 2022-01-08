@@ -12,34 +12,34 @@
 #' The number of species will be set to 0 if the dead species abundances
 #' surpass the alive species abundances.
 #'
-#' @param n.species integer number of species
+#' @param n_species integer number of species
 #' @param b numeric growth rates
-#' (default: \code{b = runif(n = n.species, min = 0.1, max = 0.2)})
+#' (default: \code{b = runif(n = n_species, min = 0.1, max = 0.2)})
 #' @param k numeric value of carrying capacities
-#' (default: \code{k = runif(n = n.species, min = 1000, max = 2000)})
+#' (default: \code{k = runif(n = n_species, min = 1000, max = 2000)})
 #' @param dr numeric value of death rates
-#' (default: \code{dr = runif(n = n.species, min = 0.0005, max = 0.0025)})
+#' (default: \code{dr = runif(n = n_species, min = 0.0005, max = 0.0025)})
 #' @param x numeric initial abundances
-#' (default: \code{x = runif(n = n.species, min = 0.1, max = 10)})
-#' @param sigma.drift numeric degree of drift (turnover of species) in each
+#' (default: \code{x = runif(n = n_species, min = 0.1, max = 10)})
+#' @param sigma_drift numeric degree of drift (turnover of species) in each
 #' time step.
-#' (default: \code{sigma.drift = 0.001})
-#' @param sigma.epoch numeric degree of epoch change of community
-#' (default: \code{sigma.epoch = 0.1})
-#' @param sigma.external numeric degree of external events/disturbances
-#' (default: \code{sigma.external = 0.3})
-#' @param p.epoch numeric value of probability/frequency of inherit periodic
-#' changes of community (default: \code{p.epoch = 0.001})
-#' @param t.external_events numeric value of starting times of external events
-#' (default: \code{t.external_events = c(0, 240, 480)})
-#' @param t.external_durations numeric value of durations of external events
-#' (default: \code{t.external_durations = c(0, 1, 1)})
+#' (default: \code{sigma_drift = 0.001})
+#' @param sigma_epoch numeric degree of epoch change of community
+#' (default: \code{sigma_epoch = 0.1})
+#' @param sigma_external numeric degree of external events/disturbances
+#' (default: \code{sigma_external = 0.3})
+#' @param p_epoch numeric value of probability/frequency of inherit periodic
+#' changes of community (default: \code{p_epoch = 0.001})
+#' @param t_external_events numeric value of starting times of external events
+#' (default: \code{t_external_events = c(0, 240, 480)})
+#' @param t_external_durations numeric value of durations of external events
+#' (default: \code{t_external_durations = c(0, 1, 1)})
 #' @param stochastic logical scalar choosing whether the logistic model should
 #' be stochastic (controlled by multiplying the growth rate by a random number)
 #' (default: \code{stochastic = TRUE})
-#' @param t.end numeric final time of the simulation
-#' (default: \code{t.end = 1000})
-#' @param ... additional parameters including 't.start', 't.step', and 't.store'
+#' @param t_end numeric final time of the simulation
+#' (default: \code{t_end = 1000})
+#' @param ... additional parameters including 't_start', 't_step', and 't_store'
 #'
 #' @seealso
 #' \code{\link[miaSim:convertToSE]{convertToSE}}
@@ -47,38 +47,38 @@
 #' @examples
 #' ## ATTENTION: Don't set a large value to t.step, otherwise the computer won't
 #' #give a correct solution to the logistic ODE(ordinary differential equation).
-#' #Keeping t.step under 0.05 or 0.01 is a good practice.
+#' #Keeping t_step under 0.05 or 0.01 is a good practice.
 #'
 #' #while (!exists("ExampleLogistic"))
-#' ExampleLogistic <- simulateStochasticLogistic(n.species = 5)
+#' ExampleLogistic <- simulateStochasticLogistic(n_species = 5)
 #' #plot the calculated points
 #' matplot(ExampleLogistic, type = "l")
 #'
 #' #calculation by setting initial parameters explicitly
-#' ExampleLogistic2 <- simulateStochasticLogistic(n.species = 2,
+#' ExampleLogistic2 <- simulateStochasticLogistic(n_species = 2,
 #' b = c(0.2, 0.1), k = c(1000, 2000), dr = c(0.001, 0.0015), x = c(3, 0.1),
-#' sigma.drift = 0.001, sigma.epoch = 0.3, sigma.external = 0.5,p.epoch = 0.001,
-#' t.external_events = c(100, 200, 300), t.external_durations = c(1, 2, 3),
-#' t.start = 0, t.end = 1500, t.step = 0.01,
-#' t.store = 1500, stochastic = TRUE)
+#' sigma_drift = 0.001, sigma_epoch = 0.3, sigma_external = 0.5,p_epoch = 0.001,
+#' t_external_events = c(100, 200, 300), t_external_durations = c(1, 2, 3),
+#' t_start = 0, t_end = 1500, t_step = 0.01,
+#' t_store = 1500, stochastic = TRUE)
 #'
 #' @return \code{simulateStochasticLogistic} returns an abundance matrix with
 #' species abundance as rows and time points as columns
 #'
 #' @export
-simulateStochasticLogistic <- function(n.species,
-        b = runif(n = n.species, min = 0.1, max = 0.2),
-        k = runif(n = n.species, min = 1000, max = 2000),
-        dr = runif(n = n.species, min = 0.0005, max = 0.0025),
-        x = runif(n = n.species, min = 0.1, max = 10),
-        sigma.drift = 0.001,
-        sigma.epoch = 0.1,
-        sigma.external = 0.3,
-        p.epoch = 0.001,
-        t.external_events = c(0, 240, 480),
-        t.external_durations = c(0, 1, 1),
+simulateStochasticLogistic <- function(n_species,
+        b = runif(n = n_species, min = 0.1, max = 0.2),
+        k = runif(n = n_species, min = 1000, max = 2000),
+        dr = runif(n = n_species, min = 0.0005, max = 0.0025),
+        x = runif(n = n_species, min = 0.1, max = 10),
+        sigma_drift = 0.001,
+        sigma_epoch = 0.1,
+        sigma_external = 0.3,
+        p_epoch = 0.001,
+        t_external_events = c(0, 240, 480),
+        t_external_durations = c(0, 1, 1),
         stochastic = TRUE,
-        t.end = 1000, ...){
+        t_end = 1000, ...){
 
         # define the stochastic logistic model
         stochasticLogisticModel <- function (t, state, params){
@@ -97,61 +97,61 @@ simulateStochasticLogistic <- function(n.species,
         }
 
         # check the input format
-        if(!isPositiveInteger(n.species)){
-            stop("n.species must be integer.")}
+        if(!isPositiveInteger(n_species)){
+            stop("n_species must be integer.")}
         if(!all(vapply(list(b,k,dr,x), is.double, logical(1)),
-            vapply(list(b,k,dr,x), length, integer(1)) == n.species)){
-            stop("b,k,dr,x must be double and of n.species length.")}
+            vapply(list(b,k,dr,x), length, integer(1)) == n_species)){
+            stop("b,k,dr,x must be double and of n_species length.")}
         if(!is.logical(stochastic)){
             stop("stochastic should be boolean values.")}
 
         # select the time points to simulate and to store
-        t.dyn <- simulationTimes(t.end = t.end,...)
+        t_dyn <- simulationTimes(t_end = t_end,...)
 
         #continuous or episodic perturbation
         perturb <- function(t, y, parms){with(as.list(y), {
-            epoch.rN <- 0
-            external.rN <- 0
-            if (rbinom(1,1, parms$p.epoch)){
-                epoch.rN <- rnorm(parms$n.species, sd=parms$sigma.epoch)
-                epoch.rN <- params$stochastic*epoch.rN
+            epoch_rN <- 0
+            external_rN <- 0
+            if (rbinom(1,1, parms$p_epoch)){
+                epoch_rN <- rnorm(parms$n_species, sd=parms$sigma_epoch)
+                epoch_rN <- params$stochastic*epoch_rN
             }
             if (t %in% parms$tEvent){
-                external.rN <- rnorm(parms$n.species, sd=parms$sigma.external)
-                external.rN <- params$stochastic*external.rN
+                external_rN <- rnorm(parms$n_species, sd=parms$sigma_external)
+                external_rN <- params$stochastic*external_rN
             }
-            drift.rN <- rnorm(parms$n.species, sd=parms$sigma.drift)
-            drift.rN <- params$stochastic*drift.rN
+            drift_rN <- rnorm(parms$n_species, sd=parms$sigma_drift)
+            drift_rN <- params$stochastic*drift_rN
 
             #perturbation is applied to the current population
             current <- pmax(y[names(y)=='current'], 0)
-            current <- current*(1+drift.rN)*(1+epoch.rN)*(1+external.rN)
+            current <- current*(1+drift_rN)*(1+epoch_rN)*(1+external_rN)
             live <- y[names(y)=='live']
             dead <- y[names(y)=='dead']
             return(c(current, live, dead))})
         }
 
-        tEvent = eventTimes(t.events = t.external_events,
-            t.duration = t.external_durations,
-            t.end = t.end, ...)
+        tEvent = eventTimes(t_events = t_external_events,
+            t_duration = t_external_durations,
+            t_end = t_end, ...)
 
-        params <- list(b=b, k=k, dr=dr, n.species = n.species,
-            sigma.drift = sigma.drift, stochastic = stochastic,
-            sigma.epoch = sigma.epoch, p.epoch = p.epoch,
-            sigma.external = sigma.external, tEvent = tEvent)
-        yinit <- c(x, x, numeric(n.species))
-        names(yinit) <- rep(c("current", "live", "dead"), each = n.species)
+        params <- list(b=b, k=k, dr=dr, n_species = n_species,
+            sigma_drift = sigma_drift, stochastic = stochastic,
+            sigma_epoch = sigma_epoch, p_epoch = p_epoch,
+            sigma_external = sigma_external, tEvent = tEvent)
+        yinit <- c(x, x, numeric(n_species))
+        names(yinit) <- rep(c("current", "live", "dead"), each = n_species)
 
         out <- as.data.frame(ode(func=stochasticLogisticModel,
-                    y=yinit, times=t.dyn$t.sys, parms=params,
-                    events = list(func = perturb, time = t.dyn$t.sys)))
+                    y=yinit, times=t_dyn$t_sys, parms=params,
+                    events = list(func = perturb, time = t_dyn$t_sys)))
 
-        out.matrix <- out[names(out)=='current']
-        names(out.matrix) <- seq_len(n.species)
-        out.matrix <- out.matrix[t.dyn$t.index,]
+        out_matrix <- out[names(out)=='current']
+        names(out_matrix) <- seq_len(n_species)
+        out_matrix <- out_matrix[t_dyn$t_index,]
 
-        out.matrix$t <- t.dyn$t.sys[t.dyn$t.index]
-        counts <- as.matrix(out.matrix)
+        out_matrix$t <- t_dyn$t_sys[t_dyn$t_index]
+        counts <- as.matrix(out_matrix)
         return(counts)
 
 }

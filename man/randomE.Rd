@@ -5,27 +5,27 @@
 \title{Generate random efficiency matrix}
 \usage{
 randomE(
-  n.species,
-  n.resources,
-  min.con = round(n.resources/4),
-  max.con = round(n.resources/3),
-  min.prod = round(n.resources/6),
-  max.prod = round(n.resources/4),
+  n_species,
+  n_resources,
+  min_con = round(n_resources/4),
+  max_con = round(n_resources/3),
+  min_prod = round(n_resources/6),
+  max_prod = round(n_resources/4),
   maintenance = 0.5
 )
 }
 \arguments{
-\item{n.species}{integer number of species}
+\item{n_species}{integer number of species}
 
-\item{n.resources}{integer number of resources}
+\item{n_resources}{integer number of resources}
 
-\item{min.con}{integer minimum number of resources consumed by each species}
+\item{min_con}{integer minimum number of resources consumed by each species}
 
-\item{max.con}{integer maximum number of resources consumed by each species}
+\item{max_con}{integer maximum number of resources consumed by each species}
 
-\item{min.prod}{integer minimum number of resources produced by each species}
+\item{min_prod}{integer minimum number of resources produced by each species}
 
-\item{max.prod}{integer maximum number of resources produced by each species}
+\item{max_prod}{integer maximum number of resources produced by each species}
 
 \item{maintenance}{numeric value between 0~1 the proportion of resources used
 to maintain the living of microorganisms. 0 means all the resources will be
@@ -34,7 +34,7 @@ would be used to maintain the living of organisms and no resources would be
 left for their growth(reproduction).}
 }
 \value{
-\code{randomE} returns a matrix E with dimensions (n.species x n.resources),
+\code{randomE} returns a matrix E with dimensions (n_species x n_resources),
 and each row represents a species.
 }
 \description{
@@ -44,9 +44,9 @@ whilst negatives indicate that the species would produce the resource.
 }
 \examples{
 # example with specific parameters
-ExampleEfficiencyMatrix <- randomE(n.species = 3, n.resources = 6,
-min.con = 3, max.con = 4, min.prod = 1, max.prod = 1, maintenance = 0.4)
+ExampleEfficiencyMatrix <- randomE(n_species = 3, n_resources = 6,
+min_con = 3, max_con = 4, min_prod = 1, max_prod = 1, maintenance = 0.4)
 # example with minimum parameters
-ExampleEfficiencyMatrix2 <- randomE(n.species = 5, n.resources = 12)
+ExampleEfficiencyMatrix2 <- randomE(n_species = 5, n_resources = 12)
 
 }

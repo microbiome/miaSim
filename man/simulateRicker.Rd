@@ -5,19 +5,19 @@
 \title{Generate time series with the Ricker model}
 \usage{
 simulateRicker(
-  n.species,
+  n_species,
   A,
-  x = runif(n.species),
-  K = runif(n.species),
+  x = runif(n_species),
+  K = runif(n_species),
   sigma = 0.05,
-  explosion.bound = 10^8,
+  explosion_bound = 10^8,
   tskip = 0,
   tend,
   norm = FALSE
 )
 }
 \arguments{
-\item{n.species}{integer number of species}
+\item{n_species}{integer number of species}
 
 \item{A}{interaction matrix}
 
@@ -28,8 +28,8 @@ simulateRicker(
 \item{sigma}{numeric value of noise level, if set to a non-positive value,
 no noise is added (default: \code{sigma = 0.05})}
 
-\item{explosion.bound}{numeric value of boundary for explosion
-(default: \code{explosion.bound = 10^8})}
+\item{explosion_bound}{numeric value of boundary for explosion
+(default: \code{explosion_bound = 10^8})}
 
 \item{tskip}{integer number of generations that should not be included in the
 outputted species abundance matrix (default: \code{tskip = 0})}
@@ -50,7 +50,7 @@ in PLoS ONE 2014.
 }
 \examples{
 A <- powerlawA(10, alpha = 1.01)
-ExampleRicker <- simulateRicker(n.species=10,A,tend=100)
+ExampleRicker <- simulateRicker(n_species=10,A,tend=100)
 
 }
 \references{

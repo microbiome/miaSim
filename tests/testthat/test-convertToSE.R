@@ -5,7 +5,7 @@ test_that("convertToSE", {
                                               k_events = 1,
                                               growth_rates = NULL,
                                               norm = FALSE,
-                                              t.end=1000)
+                                              t_end=1000)
 
     HubbellSE <- convertToSE(matrix = ExampleHubbellRates$counts)
 
