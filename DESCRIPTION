@@ -27,19 +27,23 @@ Encoding: UTF-8
 LazyData: false
 RoxygenNote: 7.1.2
 Depends:
-    SummarizedExperiment
+    SummarizedExperiment,
+    TreeSummarizedExperiment
 Imports:
     deSolve,
     stats,
-    methods,
     poweRlaw,
-    utils
+    gtools,
+    S4Vectors,
+    MatrixGenerics
 Suggests:
     rmarkdown,
     knitr,
     BiocStyle,
-    devtools,
-    testthat
+    testthat,
+    miaViz,
+    mia,
+    miaTime
 URL: https://github.com/microbiome/miaSim
 BugReports: https://github.com/microbiome/miaSim/issues
 Roxygen: list(markdown = TRUE)
