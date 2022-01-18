@@ -2,75 +2,62 @@
 % Please edit documentation in R/simulateHubbell.R
 \name{simulateHubbell}
 \alias{simulateHubbell}
-\alias{simulateNeutral}
 \title{Hubbell's neutral model simulation}
 \usage{
-simulateHubbell(N, M, I, d, m, tskip = 0, tend, norm = FALSE)
+simulateHubbell(
+  n_species,
+  M,
+  I = 1000,
+  d = 10,
+  m = 0.02,
+  tskip = 0,
+  tend,
+  norm = FALSE
+)
 }
 \arguments{
-\item{N}{Integer: the amount of different species initially
+\item{n_species}{integer amount of different species initially
 in the local community}
 
-\item{M}{Integer: amount of different species in the
-metacommunity,including those of the local community}
+\item{M}{integer amount of different species in the metacommunity,
+including those of the local community}
 
-\item{I}{Integer: fixed amount of individuals in the
-local community (default: \code{I = 1000})}
+\item{I}{integer value of fixed amount of individuals in the local community
+(default: \code{I = 1000})}
 
-\item{d}{Integer: fixed amount of deaths of local community
+\item{d}{integer value of fixed amount of deaths of local community
 individuals in each generation (default: \code{d = 10})}
 
-\item{m}{Numeric: immigration rate: the probability that a
-death in the local community is replaced by a migrant of the metacommunity
-rather than by the birth of a local community member
-(default: \code{m = 0.02})}
+\item{m}{numeric immigration rate: the probability that a death in the local
+community is replaced by a migrant of the metacommunity rather than by
+the birth of a local community member (default: \code{m = 0.02})}
 
-\item{tskip}{Integer: number of generations that should
-not be included in the outputted species abundance matrix.
-(default: \code{tskip = 0})}
+\item{tskip}{integer number of generations that should not be included
+in the outputted species abundance matrix. (default: \code{tskip = 0})}
 
-\item{tend}{Integer: number of simulations
-to be simulated}
+\item{tend}{integer number of simulations to be simulated}
 
-\item{norm}{Logical: whether the time series should
-be returned with the abundances as proportions (norm = TRUE) or the raw
-counts (norm = FALSE, default)}
+\item{norm}{logical scalar choosing whether the time series should be
+returned with the abundances as proportions (\code{norm = TRUE}) or
+the raw counts (default: \code{norm = FALSE})}
 }
 \value{
-\code{simulateHubbell} returns a \code{\link{SummarizedExperiment}}
-object
+\code{simulateHubbell} returns an abundance matrix with
+species abundance as rows and time points as columns
 }
 \description{
-Neutral species abundances simulation turned into
-\linkS4class{SummarizedExperiment} according to the Hubbell model.
+Neutral species abundances simulation according to the Hubbell model.
 }
 \examples{
-colData <- DataFrame(sampleID = c(seq_len(100)),
-                        time = as.Date(100, origin = "2000-01-01"))
-
-rowData <- data.frame(Kingdom = "Animalia",
-                Phylum = rep(c("Platyhelminthes", "Mollusca"), c(50, 50)),
-                Class = rep(c("Turbellaria", "Polyplacophora"), each = 50),
-                ASV1 = paste0("D", seq_len(100)),
-                ASV2 = paste0("E", seq_len(100)),
-                ASV3 = paste0("F", seq_len(100)),
-                ASV4 = paste0("G", seq_len(100)),
-                ASV5 = paste0("H", seq_len(100)),
-                ASV6 = paste0("J", seq_len(100)),
-                ASV7 = paste0("K", seq_len(100)),
-                row.names = rownames(paste0("species", seq_len(10))),
-                stringsAsFactors = FALSE)
-
-rowData <- t(rowData)
-
-ExampleHubbell <- simulateHubbell(N = 8, M = 10, I = 1000, d = 50,
+ExampleHubbell <- simulateHubbell(n_species = 8, M = 10, I = 1000, d = 50,
                                                         m = 0.02, tend = 100)
-rowData(ExampleHubbell) <- rowData
-colData(ExampleHubbell) <- colData
 
 }
 \references{
 Rosindell, James et al. "The unified neutral theory of
 biodiversity and biogeography at age ten." Trends in ecology & evolution
 vol. 26,7 (2011).
+}
+\seealso{
+\code{\link[miaSim:convertToSE]{convertToSE}}
 }

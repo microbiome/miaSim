@@ -4,55 +4,80 @@
 \alias{simulateGLV}
 \title{Generalized Lotka-Volterra (gLV) simulation}
 \usage{
-simulateGLV(N, A, b = runif(N), x = runif(N), tend = 1000, norm = FALSE)
+simulateGLV(
+  n_species,
+  A,
+  x = runif(n_species),
+  b = runif(n_species),
+  sigma_drift = 0.01,
+  sigma_epoch = 0.3,
+  sigma_external = 0.3,
+  p_epoch = 0.01,
+  t_external_events = c(12, 36, 48),
+  t_external_durations = c(3, 10, 99),
+  stochastic = FALSE,
+  norm = FALSE,
+  t_end = 1000,
+  ...
+)
 }
 \arguments{
-\item{N}{Integer scalar specifying the number of species}
+\item{n_species}{integer number of species}
 
-\item{A}{a interaction matrix}
+\item{A}{interaction matrix}
 
-\item{b}{Numeric scalar indicating growth rates}
+\item{x}{numeric initial abundances}
 
-\item{x}{Numeric scalar indicating initial abundances}
+\item{b}{numeric growth rates}
 
-\item{tend}{Integer scalar indicating timepoints
-(default: \code{tend = 1000})}
+\item{sigma_drift}{numeric degree of drift
+(turnover of species) in each time step.
+(default: \code{sigma_drift = 0.01})}
 
-\item{norm}{Logical scalar \code{TRUE} or \code{FALSE},
-return normalised abundances (proportions in each generation)
-(default: \code{norm = FALSE})}
+\item{sigma_epoch}{numeric degree of epoch change of community
+(default: \code{sigma_epoch = 0.3})}
+
+\item{sigma_external}{numeric degree of the external events/disturbances
+(default: \code{sigma_external = 0.3})}
+
+\item{p_epoch}{numeric value of the probability/frequency of inherit periodic
+changes of community (default: \code{p_epoch  = 0.01})}
+
+\item{t_external_events}{numeric value of starting times of external events
+(default: \code{t_external_events = c(12, 36, 48)})}
+
+\item{t_external_durations}{numeric durations of external events
+(default: \code{t_external_durations = c(3, 10, 99)})}
+
+\item{stochastic}{logical scalar choosing whether the gLV model should be
+stochastic (default: \code{stochastic = FALSE})}
+
+\item{norm}{logical scalar returning normalised abundances (proportions
+in each generation) (default: \code{norm = FALSE})}
+
+\item{t_end}{numeric value of simulation end time
+(default: \code{t_end = 1000})}
+
+\item{...}{additional parameters including 't_start', 't_step', and 't_store'}
 }
 \value{
-\code{simulateGLV} returns a \linkS4class{SummarizedExperiment} object
+\code{simulateGLV} returns an abundance matrix
 }
 \description{
-Simulates time series with the generalized Lotka-Volterra model and forms a
-\linkS4class{SummarizedExperiment} object.
+Simulates time series with the generalized Lotka-Volterra model.
 }
 \details{
 Simulates a community time series using the generalized Lotka-Volterra model,
-defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
-A is the interaction matrix and growth_rates the vector of growth rates.
-
-The resulting abundance matrix model is used to construct
-\linkS4class{SummarizedExperiment} object.
+defined as dx/dt = diag(x)(b+Ax), where x is the vector of species abundances
+,diag(x) is a diagonal matrix with the diagonal values set to x.
+A is the interaction matrix and b is the vector of growth rates.
 }
 \examples{
-row_data <- data.frame(Kingdom = "Animalia",
-                Phylum = rep(c("Chordata", "Echinodermata"), c(500, 500)),
-                Class = rep(c("Mammalia", "Asteroidea"), each = 500),
-                ASV = paste0("X", seq_len(1000)),
-                row.names = rownames(paste0("species", seq_len(1000))),
-                stringsAsFactors = FALSE)
+A <- miaSim::powerlawA(4, alpha = 1.01)
 
-row_data <- t(row_data)
+ExampleGLV <- simulateGLV(n_species = 4, A, t_end = 1000)
 
-col_data <- DataFrame(sampleID = seq_len(1000),
-                    time = as.Date(1000, origin = "2000-01-01"),
-                    row.names = colnames(paste0("sample", seq_len(1000))))
-
-SEobject <- simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
-rowData(SEobject) <- row_data
-colData(SEobject) <- col_data
-
+}
+\seealso{
+\code{\link[miaSim:convertToSE]{convertToSE}}
 }

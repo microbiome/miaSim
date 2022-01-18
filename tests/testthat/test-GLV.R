@@ -1,20 +1,25 @@
-#usethis::use_r("simulateGLV")
 test_that("simulateGLV", {
-    # check powerlawA
-    expect_error(miaSim:::powerlawA(),
-               'argument "n" is missing')
-    expect_error(miaSim:::powerlawA(n = 5),
-               'argument "alpha" is missing')
-    expect_true(is.numeric(miaSim:::powerlawA(6,4)))
-
     #check dxdt
     expect_error(miaSim:::dxdt(x),
                 'argument "parameters" is missing')
 
     #check simulateGLV
-    SEobject <- miaSim:::simulateGLV(N = 4, A = powerlawA(n = 4, alpha = 2), tend = 1000)
-    InterMatx <- assay(SEobject)
-    expect_true(is.matrix(InterMatx))
-    expect_equal(dim(InterMatx), c(4,1000))
-    expect_s4_class(SEobject, "SummarizedExperiment")
+    A <- miaSim::powerlawA(4, alpha = 1.01)
+    simulateGLV(n_species = 4, A, t_start = 0, t_store = 1000)
+    SEobject <- simulateGLV(n_species = 4, A, t_start = 0,
+                                     t_store = 1000)
+
+    expect_type(SEobject, "double")
+    expect_equal(dim(SEobject), c(4,1000))
+
+    expect_error(Error1 <- simulateGLV(n_species = 0.5))
+    expect_error(Error2 <- simulateGLV(n_species = 5, A = 2, x = 2, b = 3))
+
+
+    #check norm = TRUE
+    SEobject2 <- miaSim:::simulateGLV(n_species = 4,
+                A = powerlawA(n_species = 4, alpha = 2), t_start = 0,
+                t_store = 1000, norm = TRUE)
+    expect_type(SEobject2, "double")
+    expect_equal(dim(SEobject2), c(4,1000))
 })
