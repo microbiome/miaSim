@@ -8,4 +8,5 @@ test_that("randomA", {
 
     low_inter_A <- randomA(10, connectance = 0.01, symmetric = TRUE)
     expect_type(low_inter_A, "double")
+
 })

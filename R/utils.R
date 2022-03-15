@@ -11,12 +11,9 @@ tDyn <- function(t.start = 0, t.end = 1000, t.step = 0.1, t.keep = 100){
 
   t.total <- t.end-t.start
 
-
   t.sys <- seq(t.start, t.end, by = t.step)
 
   t.index <- seq(1, length(t.sys), by=round(length(t.sys)/t.keep))
-
-
 
   return(list("t.sys" = t.sys, "t.index" = t.index))
 }

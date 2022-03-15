@@ -1,6 +1,6 @@
 Package: miaSim
 Type: Package
-Version: 0.99.0
+Version: 1.1.0
 Authors@R:
      c(person(given = "Karoline", family = "Faust", role = c("aut"),
               email = "karoline.faust@kuleuven.be"),
@@ -16,8 +16,8 @@ Authors@R:
               email = "leo.lahti@iki.fi",
               comment = c(ORCID = "0000-0001-5537-637X")))
 Title: Microbiome Data Simulation
-Description: 
-    Microbiome time series simulation with generalized Lotka-Volterra model, 
+Description:
+    Microbiome time series simulation with generalized Lotka-Volterra model,
     Self-Organized Instability (SOI), and other models. Hubbell's Neutral model
     is used to determine the abundance matrix. The resulting abundance matrix
     is applied to SummarizedExperiment or TreeSummarizedExperiment objects.

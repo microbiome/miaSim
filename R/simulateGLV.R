@@ -3,8 +3,8 @@
 #' Simulates time series with the generalized Lotka-Volterra model.
 #'
 #' Simulates a community time series using the generalized Lotka-Volterra model,
-#' defined as dx/dt = diag(x)(b+Ax), where x is the vector of species abundances
-#' ,diag(x) is a diagonal matrix with the diagonal values set to x.
+#' defined as dx/dt = x(b+Ax), where x is the vector of species abundances,
+#' diag(x) is a diagonal matrix with the diagonal values set to x.
 #' A is the interaction matrix and b is the vector of growth rates.
 #'
 #' @param n_species integer number of species

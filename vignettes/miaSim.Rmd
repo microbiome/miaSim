@@ -57,16 +57,15 @@ These matrices can be used in the simulation model examples.
 `simulationTimes` generates lists of time series that can be specified as 
 simulation time and time points to keep in simulated time.
 
-
 # Installation
 
 ### Bioc-release
+
 
 ```{r install-bioc,eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-    BiocManager::install("miaSim")
 ```
 
 # Models for simulating microbiome data sets 
@@ -79,12 +78,14 @@ with `powerlawA` or `randomA` functions depending on the distribution method.
 
 The function `powerlawA` uses normal distribution to create interaction matrix. 
 
+
 ```{r}
 library(miaSim)
 A_normal <- powerlawA(n_species = 4, alpha = 3)
 ```
 
 The function `randomA` uses uniform distribution to create interaction matrix. 
+
 
 ```{r}
 A_uniform <- randomA(n_species = 10, d = -0.4, min_strength = -0.8,
@@ -97,6 +98,7 @@ amount as the species used in the `simulateGLV` and `simulateSOI` models.
 Lotka-Volterra model.
 
 ```{r}
+
 A_normal <- powerlawA(n_species = 4, alpha = 3)
 
 ExampleGLV <- simulateGLV(n_species = 4, A_normal, t_start = 0, 

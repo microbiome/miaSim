@@ -1,7 +1,8 @@
 test_that("simulateGLV", {
+
     #check dxdt
     expect_error(miaSim:::dxdt(x),
-                'argument "parameters" is missing')
+                 'argument "parameters" is missing')
 
     #check simulateGLV
     A <- miaSim::powerlawA(4, alpha = 1.01)
@@ -22,4 +23,5 @@ test_that("simulateGLV", {
                 t_store = 1000, norm = TRUE)
     expect_type(SEobject2, "double")
     expect_equal(dim(SEobject2), c(4,1000))
+
 })

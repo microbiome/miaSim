@@ -16,7 +16,7 @@ randomA(
 \arguments{
 \item{n_species}{integer number of species}
 
-\item{d}{numeric diagonal values
+\item{d}{numeric diagonal values (should be negative)
 (default: \code{d = -0.5})}
 
 \item{min_strength}{numeric value of minimal off-diagonal interaction

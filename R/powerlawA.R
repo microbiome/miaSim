@@ -79,9 +79,11 @@ powerlawA <- function(n_species, alpha = 3.0, stdev = 1, s = 0.1, d = -1,
             #G[t(G) == 1] <- 1
             A <- N %*% H * G
             A <- A*s/max(A)
+
             if(symmetric){
                 A[lower.tri(A)] <- t(A)[lower.tri(A)]
             }
+
             diag(A) <- d
             colnames(A) <- seq_len(n_species)
             rownames(A) <- seq_len(n_species)

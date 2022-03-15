@@ -3,7 +3,7 @@
 #' Generate random simplified interaction matrix from a uniform distribution.
 #'
 #' @param n_species integer number of species
-#' @param d numeric diagonal values
+#' @param d numeric diagonal values (should be negative)
 #' (default: \code{d = -0.5})
 #' @param min_strength numeric value of minimal off-diagonal interaction
 #' strength (default: \code{min_strength = -0.5})
@@ -48,6 +48,7 @@ randomA <- function(n_species, d = -0.5, min_strength = -0.5,
             if(symmetric){
                 A[lower.tri(A)] <- t(A)[lower.tri(A)]
             }
+
             diag(A) <- d
             return(A)
 }
