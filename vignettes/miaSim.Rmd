@@ -243,7 +243,10 @@ df <- DataFrame(sampleID = colnames(ExampleGLV),
 
 SE_GLV <- convertToSE(matrix = ExampleGLV,
                       colData = df)
+```
 
+
+```{r eval=FALSE, include=FALSE}
 library(miaTime)
 
 SE_GLV_divergence <- getTimeDivergence(SE_GLV,
