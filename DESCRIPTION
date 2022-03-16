@@ -42,8 +42,7 @@ Suggests:
     BiocStyle,
     testthat,
     miaViz,
-    mia,
-    miaTime
+    mia
 URL: https://github.com/microbiome/miaSim
 BugReports: https://github.com/microbiome/miaSim/issues
 Roxygen: list(markdown = TRUE)
