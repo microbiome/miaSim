@@ -40,7 +40,10 @@ Suggests:
     rmarkdown,
     knitr,
     BiocStyle,
-    testthat
+    testthat,
+    mia,
+    miaViz,
+    miaTime
 URL: https://github.com/microbiome/miaSim
 BugReports: https://github.com/microbiome/miaSim/issues
 Roxygen: list(markdown = TRUE)
