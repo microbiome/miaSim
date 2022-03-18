@@ -80,7 +80,7 @@ The function `powerlawA` uses normal distribution to create interaction matrix.
 
 
 ```{r}
-
+library(miaSim)
 A_normal <- powerlawA(n_species = 4, alpha = 3)
 ```
 
