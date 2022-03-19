@@ -212,11 +212,6 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install("mia")
 ```
 
-`miaTime` installation
-```{r eval=FALSE, include=FALSE}
-remotes::install_github("microbiome/miaTime")
-```
-
 `HubbellSE` population density can be plotted with `plotAbundanceDensity` 
 function from `miaViz`.
 ```{r}
