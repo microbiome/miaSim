@@ -220,8 +220,6 @@ library(miaViz)
 HubbellDensityPlot <- plotAbundanceDensity(HubbellSE, abund_values = "counts")
 ```
 
-With the `getTimeDivergence` function of `miaTime`,  
-the beta diversity within the subject can be calculated in n time steps.
 ```{r}
 A_normal <- powerlawA(n_species = 4, alpha = 3)
 
@@ -238,16 +236,6 @@ df <- DataFrame(sampleID = colnames(ExampleGLV),
 
 SE_GLV <- convertToSE(matrix = ExampleGLV,
                       colData = df)
-```
-
-
-```{r eval=FALSE, include=FALSE}
-library(miaTime)
-
-SE_GLV_divergence <- getTimeDivergence(SE_GLV,
-                                       field = "SubjectID",
-                                       time_field = "Time",
-                                       time_interval = 1)
 ```
 
 More examples on `SummarizedExperiment` object manipulation and analysis can be

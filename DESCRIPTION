@@ -43,8 +43,6 @@ Suggests:
     testthat,
     mia,
     miaViz
-Remotes: 
-    microbiome/miaTime
 URL: https://github.com/microbiome/miaSim
 BugReports: https://github.com/microbiome/miaSim/issues
 Roxygen: list(markdown = TRUE)
