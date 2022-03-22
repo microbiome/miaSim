@@ -5,6 +5,4 @@ test_that("randomE", {
   expect_type(ExampleEfficiencyMatrix2, "double")
   expect_equal(dim(ExampleEfficiencyMatrix2), c(5,12))
 
-  expect_error(E3 <- randomE(n_species = 12, n_resources = -1))
-
 })
