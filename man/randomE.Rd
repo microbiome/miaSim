@@ -43,9 +43,6 @@ distribution. Positive efficiencies indicate the consumption of resources,
 whilst negatives indicate that the species would produce the resource.
 }
 \examples{
-# example with specific parameters
-ExampleEfficiencyMatrix <- randomE(n_species = 3, n_resources = 6,
-min_con = 3, max_con = 4, min_prod = 1, max_prod = 1, maintenance = 0.4)
 # example with minimum parameters
 ExampleEfficiencyMatrix2 <- randomE(n_species = 5, n_resources = 12)
 
