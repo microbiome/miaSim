@@ -55,7 +55,7 @@ randomE <- function(n_species,
         consumption <- irow
         production <- irow
         index_consumption <- sample(seq(n_resources),
-            size = sample(min_con:max_con))
+            size = min_con)
         consumption[index_consumption] <- 1
         irow <- rdirichlet(1, consumption)[,]
         index_production <-
