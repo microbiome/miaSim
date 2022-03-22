@@ -111,7 +111,7 @@ Time series is added to `simulateGLV` with `simulationTimes` function where
 the time points can be kept and extracted from simulation time as a separate 
 list.
 
-```{r,eval=FALSE eval=FALSE, include=FALSE, r,eval=FALSE}
+```{r eval=FALSE, include=FALSE}
 Time <- simulationTimes(t_start = 0, t_end = 100, t_step = 0.5, 
                            t_store = 100)
 Time$t.index 
