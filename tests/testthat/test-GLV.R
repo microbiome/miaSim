@@ -1,9 +1,5 @@
 test_that("simulateGLV", {
 
-    #check dxdt
-    expect_error(miaSim:::dxdt(x),
-                 'argument "parameters" is missing')
-
     #check simulateGLV
     A <- miaSim::powerlawA(4, alpha = 1.01)
     simulateGLV(n_species = 4, A, t_start = 0, t_store = 1000)
