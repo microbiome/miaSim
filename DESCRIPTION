@@ -27,11 +27,15 @@ Encoding: UTF-8
 LazyData: false
 RoxygenNote: 7.1.2
 Depends:
-    SummarizedExperiment
+    SummarizedExperiment,
+    TreeSummarizedExperiment
 Imports:
     deSolve,
     stats,
-    poweRlaw
+    poweRlaw,
+    gtools,
+    S4Vectors,
+    MatrixGenerics
 Suggests:
     rmarkdown,
     knitr,

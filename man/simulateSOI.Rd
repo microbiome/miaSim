@@ -4,32 +4,32 @@
 \alias{simulateSOI}
 \title{Self-Organised Instability model (SOI) simulation}
 \usage{
-simulateSOI(n.species, I, A, k = 5, com = NULL, tend, norm = FALSE)
+simulateSOI(n_species, I, A, k = 5, com = NULL, tend, norm = FALSE)
 }
 \arguments{
-\item{n.species}{Integer: number of species}
+\item{n_species}{integer number of species}
 
-\item{I}{Integer: community size, number of available sites (individuals)}
+\item{I}{integer community size, number of available sites (individuals)}
 
 \item{A}{interaction matrix}
 
-\item{k}{Integer: the number of transition events that are allowed to take
+\item{k}{integer number of transition events that are allowed to take
 place during one leap. (default: \code{k = 5}). Higher values reduce runtime,
 but also accuracy of the simulation.}
 
-\item{com}{a vector: initial community abundances
+\item{com}{a vector of initial community abundances
 If (default: \code{com = NULL}), based on migration rates}
 
-\item{tend}{Integer: number of timepoints to be returned in the time series
+\item{tend}{integer timepoints to be returned in the time series
 (number of generations)}
 
-\item{norm}{Logical: indicates whether the time series should be returned
-with the abundances as proportions (\code{norm = TRUE})
+\item{norm}{logical scalar indicating whether the time series should be
+returned with the abundances as proportions (\code{norm = TRUE})
 or the raw counts (default: \code{norm = FALSE})}
 }
 \value{
-\linkS4class{SummarizedExperiment} object containing abundance matrix
-consisting of species abundance as rows and time points as columns
+abundance matrix consisting of species abundance as rows and
+time points as columns
 }
 \description{
 Generate time-series with The Self-Organised Instability (SOI) model.
@@ -38,7 +38,10 @@ Implements a K-leap method for accelerating stochastic simulation.
 \examples{
 A <- miaSim::powerlawA(10, alpha = 1.2)
 
-ExampleSOI <- simulateSOI(n.species = 10, I = 1000, A, k=5,
-                                     com = NULL, tend = 150, norm = TRUE)
+ExampleSOI <- simulateSOI(n_species = 10, I = 1000, A, k=5, com = NULL,
+                                            tend = 150, norm = TRUE)
 
+}
+\seealso{
+\code{\link[miaSim:convertToSE]{convertToSE}}
 }

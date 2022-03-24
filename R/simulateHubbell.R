@@ -2,56 +2,33 @@
 #'
 #' Neutral species abundances simulation according to the Hubbell model.
 #'
-#' @param n.species Integer: the amount of different species initially
+#' @param n_species integer amount of different species initially
 #' in the local community
-#' @param M Integer: amount of different species in the
-#' metacommunity,including those of the local community
-#' @param I Integer: fixed amount of individuals in the
-#' local community (default: \code{I = 1000})
-#' @param d Integer: fixed amount of deaths of local community
+#' @param M integer amount of different species in the metacommunity,
+#' including those of the local community
+#' @param I integer value of fixed amount of individuals in the local community
+#' (default: \code{I = 1000})
+#' @param d integer value of fixed amount of deaths of local community
 #' individuals in each generation (default: \code{d = 10})
-#' @param m Numeric: immigration rate: the probability that a
-#' death in the local community is replaced by a migrant of the metacommunity
-#' rather than by the birth of a local community member
-#' (default: \code{m = 0.02})
-#' @param tskip  Integer: number of generations that should
-#' not be included in the outputted species abundance matrix.
-#' (default: \code{tskip = 0})
-#' @param tend Integer: number of simulations
-#' to be simulated
-#' @param norm Logical: whether the time series should
-#' be returned with the abundances as proportions (\code{norm = TRUE}) or
+#' @param m numeric immigration rate: the probability that a death in the local
+#' community is replaced by a migrant of the metacommunity rather than by
+#' the birth of a local community member (default: \code{m = 0.02})
+#' @param tskip integer number of generations that should not be included
+#' in the outputted species abundance matrix. (default: \code{tskip = 0})
+#' @param tend integer number of simulations to be simulated
+#' @param norm logical scalar choosing whether the time series should be
+#' returned with the abundances as proportions (\code{norm = TRUE}) or
 #' the raw counts (default: \code{norm = FALSE})
 #'
-#' @aliases simulateNeutral
+#' @seealso
+#' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
 #' @examples
-#' colData <- DataFrame(sampleID = c(seq_len(100)),
-#'                         time = as.Date(100, origin = "2000-01-01"))
-#'
-#' rowData <- data.frame(Kingdom = "Animalia",
-#'                 Phylum = rep(c("Platyhelminthes", "Mollusca"), c(50, 50)),
-#'                 Class = rep(c("Turbellaria", "Polyplacophora"), each = 50),
-#'                 ASV1 = paste0("D", seq_len(100)),
-#'                 ASV2 = paste0("E", seq_len(100)),
-#'                 ASV3 = paste0("F", seq_len(100)),
-#'                 ASV4 = paste0("G", seq_len(100)),
-#'                 ASV5 = paste0("H", seq_len(100)),
-#'                 ASV6 = paste0("J", seq_len(100)),
-#'                 ASV7 = paste0("K", seq_len(100)),
-#'                 row.names = rownames(paste0("species", seq_len(10))),
-#'                 stringsAsFactors = FALSE)
-#'
-#' rowData <- t(rowData)
-#'
-#' ExampleHubbell <- simulateHubbell(n.species = 8, M = 10, I = 1000, d = 50,
+#' ExampleHubbell <- simulateHubbell(n_species = 8, M = 10, I = 1000, d = 50,
 #'                                                         m = 0.02, tend = 100)
-#' rowData(ExampleHubbell) <- rowData
-#' colData(ExampleHubbell) <- colData
 #'
-#' @return \code{simulateHubbell} returns a \linkS4class{SummarizedExperiment}
-#' class object containing matrix with species abundance as rows and
-#' time points as columns
+#' @return \code{simulateHubbell} returns an abundance matrix with
+#' species abundance as rows and time points as columns
 #'
 #' @importFrom stats rbinom
 #' @importFrom stats rmultinom
@@ -61,11 +38,17 @@
 #' vol. 26,7 (2011).
 #
 #' @export
-simulateHubbell <- function(n.species, M, I = 1000, d = 10, m = 0.02, tskip = 0,
+simulateHubbell <- function(n_species, M, I = 1000, d = 10, m = 0.02, tskip = 0,
             tend, norm = FALSE){
-            pbirth <- runif(n.species, min = 0, max = 1)
+
+            #input check
+            if(!all(vapply(list(n_species,M,I,d), isPositiveInteger,
+                    logical(1)))){
+                stop("n_species,M,I,d,tskip must be integer.")}
+
+            pbirth <- runif(n_species, min = 0, max = 1)
             pmigr <- runif(M, min = 0, max = 1)
-            pbirth <- c(pbirth, rep(0, times = (M-n.species)))
+            pbirth <- c(pbirth, rep(0, times = (M-n_species)))
             pbirth <- pbirth/sum(pbirth)
             pmigr <- pmigr/sum(pmigr)
             com <- ceiling(I*pbirth)
@@ -100,9 +83,8 @@ simulateHubbell <- function(n.species, M, I = 1000, d = 10, m = 0.02, tskip = 0,
             tseries[,t] <- com
             }
             if(norm){
-                tseries <- t(t(tseries)/colSums(tseries))
+                tseries <- t(t(tseries)/colSums2(tseries))
             }
-            AbundanceM <- tseries[, (tskip +1):tend]
-            SE <- SummarizedExperiment(assays = list(counts = AbundanceM))
-            return(SE)
+            counts <- tseries[, (tskip +1):tend]
+            return(counts)
 }
