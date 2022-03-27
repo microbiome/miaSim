@@ -37,10 +37,10 @@ randomA <- function(n_species, d = -0.5, min_strength = -0.5,
                     must be numeric.")}
 
             #an efficient approximation to reach the desired connectance
-            setZeros = n_species^2*(1-connectance)
-            A[sample(seq_len(length(A)), setZeros, replace=0)] = 0
+            setZeros <- n_species^2*(1-connectance)
+            A[sample(seq_len(length(A)), setZeros, replace=0)] <- 0
 
-            A = matrix(A,
+            A <- matrix(A,
                         nrow = n_species,
                         ncol = n_species
             )

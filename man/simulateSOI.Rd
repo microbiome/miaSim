@@ -36,9 +36,10 @@ Generate time-series with The Self-Organised Instability (SOI) model.
 Implements a K-leap method for accelerating stochastic simulation.
 }
 \examples{
+# Generate interaction matrix
 A <- miaSim::powerlawA(10, alpha = 1.2)
-
-ExampleSOI <- simulateSOI(n_species = 10, I = 1000, A, k=5, com = NULL,
+# Simulate data from the SOI model
+x <- simulateSOI(n_species = 10, I = 1000, A, k=5, com = NULL,
                                             tend = 150, norm = TRUE)
 
 }

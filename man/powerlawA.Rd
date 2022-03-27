@@ -32,7 +32,7 @@ negative values for stability). (default: \code{s = 1.0})}
 The interaction matrix A with dimensions (n_species x n_species)
 }
 \description{
-Where N is the an Interspecific Interaction matrix with values drawn from
+N is the an Interspecific Interaction matrix with values drawn from
 a normal distribution H the interaction strength heterogeneity drawn from
 a power-law distribution with the parameter alpha, and G the adjacency matrix
 of with out-degree that reflects the heterogeneity of the powerlaw.

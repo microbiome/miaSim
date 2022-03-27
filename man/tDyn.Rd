@@ -8,13 +8,13 @@ of time points to return in sumulation functions.}
 tDyn(t.start = 0, t.end = 1000, t.step = 0.1, t.keep = 100)
 }
 \arguments{
-\item{t.start}{Numeric scalar indicating the initial time of the simulation, default is 0.}
+\item{t.start}{Numeric scalar. Initial time of the simulation, default 0.}
 
-\item{t.end}{Numeric scalar indicating the final time of the dimulation, default is 1000.}
+\item{t.end}{Numeric scalar. Final time of the simulation, default 1000.}
 
-\item{t.step}{Numeric scalar indicating the interval between simulation steps, default is 0.1.}
+\item{t.step}{Numeric scalar. Interval between simulation steps, default 0.1.}
 
-\item{t.keep}{Integer scalar indicating the number of evenly distributed time points to keep, default is 100.}
+\item{t.keep}{Integer scalar. Number of evenly distributed time points to keep, default 100.}
 }
 \value{
 list containing simulation times (t.sys) and the indices to keep.\

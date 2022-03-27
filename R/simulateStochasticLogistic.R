@@ -108,7 +108,7 @@ simulateStochasticLogistic <- function(n_species,
         # select the time points to simulate and to store
         t_dyn <- simulationTimes(t_end = t_end,...)
 
-        #continuous or episodic perturbation
+        # Continuous or episodic perturbation
         perturb <- function(t, y, parms){with(as.list(y), {
             epoch_rN <- 0
             external_rN <- 0

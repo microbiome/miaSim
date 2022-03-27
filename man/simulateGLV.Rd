@@ -75,7 +75,7 @@ A is the interaction matrix and b is the vector of growth rates.
 \examples{
 A <- miaSim::powerlawA(4, alpha = 1.01)
 
-ExampleGLV <- simulateGLV(n_species = 4, A, t_end = 1000)
+x <- simulateGLV(n_species = 4, A, t_end = 1000)
 
 }
 \seealso{

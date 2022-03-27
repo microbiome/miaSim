@@ -58,7 +58,7 @@ The specific time between the events of birth or migration is calculated and
 time effect is considered to determine the next event.
 }
 \examples{
-ExampleHubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
+x <- simulateHubbellRates(community_initial = c(0,5,10),
              migration_p = 0.01, metacommunity_p = NULL, k_events = 1,
              growth_rates = NULL, norm = FALSE, t_end=1000)
 

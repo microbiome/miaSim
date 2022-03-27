@@ -1,9 +1,9 @@
 #' Generate simulation times and the indices
 #' of time points to return in sumulation functions.
-#' @param t.start Numeric scalar indicating the initial time of the simulation, default is 0.
-#' @param t.end Numeric scalar indicating the final time of the dimulation, default is 1000.
-#' @param t.step Numeric scalar indicating the interval between simulation steps, default is 0.1.
-#' @param t.keep Integer scalar indicating the number of evenly distributed time points to keep, default is 100.
+#' @param t.start Numeric scalar. Initial time of the simulation, default 0.
+#' @param t.end Numeric scalar. Final time of the simulation, default 1000.
+#' @param t.step Numeric scalar. Interval between simulation steps, default 0.1.
+#' @param t.keep Integer scalar. Number of evenly distributed time points to keep, default 100.
 #' @return list containing simulation times (t.sys) and the indices to keep.\
 #' @keywords internal
 #' @export
@@ -46,4 +46,4 @@ eventTimes <- function(t_events=c(10,20,30),
             t_result <- c(t_result, p1)
         }
         return(t_result)
-    }
+}
