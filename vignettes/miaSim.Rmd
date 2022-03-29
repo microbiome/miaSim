@@ -241,6 +241,10 @@ SE_GLV <- convertToSE(matrix = ExampleGLV,
 More examples on `SummarizedExperiment` object manipulation and analysis can be
 found at https://microbiome.github.io/OMA/ . 
 
+## Related work
+
+- [micodymora](https://github.com/OSS-Lab/micodymora) Python package for microbiome simulation
+
 # Session info
 
 ```{r}
