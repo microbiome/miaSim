@@ -5,18 +5,18 @@
 \title{\linkS4class{SummarizedExperiment}(\code{SE}) or
 \code{TreeSE} construction function}
 \usage{
-convertToSE(matrix, output, ...)
+convertToSE(assay, output, ...)
 }
 \arguments{
-\item{matrix}{is a matrix-like or list of matrix-like object.
-Rows refer to taxa and columns refer to samples.}
-
 \item{output}{character value for storing the matrix in either
 \linkS4class{TreeSummarizedExperiment} (\code{output = TSE}) or
 \linkS4class{SummarizedExperiment} (default: \code{output = SE})}
 
 \item{...}{: additional parameters that can be implemented in
 the \code{SE} object.}
+
+\item{matrix}{is a matrix-like or list of matrix-like object.
+Rows refer to taxa and columns refer to samples.}
 }
 \value{
 \linkS4class{SummarizedExperiment} an object containing abundance
@@ -44,7 +44,7 @@ ExampleHubbellRates <- simulateHubbellRates(
     metacommunity_p = NULL, k_events = 1, growth_rates = NULL, norm = FALSE,
     t_end=1000)
 
-HubbellSE <- convertToSE(matrix = ExampleHubbellRates$counts,
+HubbellSE <- convertToSE(assay = ExampleHubbellRates$counts,
                         colData = ExampleHubbellRates$time,
                         metadata = ExampleHubbellRates$metadata)
 

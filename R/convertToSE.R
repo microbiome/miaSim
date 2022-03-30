@@ -15,7 +15,7 @@
 #' in `miaSim` can be easily converted to \linkS4class{SummarizedExperiment}
 #' class object.
 #'
-#' @param matrix is a matrix-like or list of matrix-like object.
+#' @param assay is a matrix-like or list of matrix-like object.
 #' Rows refer to taxa and columns refer to samples.
 #' @param output character value for storing the matrix in either
 #' \linkS4class{TreeSummarizedExperiment} (\code{output = TSE}) or
