@@ -8,15 +8,15 @@
 convertToSE(assay, output, ...)
 }
 \arguments{
+\item{assay}{is a matrix-like or list of matrix-like object.
+Rows refer to taxa and columns refer to samples.}
+
 \item{output}{character value for storing the matrix in either
 \linkS4class{TreeSummarizedExperiment} (\code{output = TSE}) or
 \linkS4class{SummarizedExperiment} (default: \code{output = SE})}
 
 \item{...}{: additional parameters that can be implemented in
 the \code{SE} object.}
-
-\item{matrix}{is a matrix-like or list of matrix-like object.
-Rows refer to taxa and columns refer to samples.}
 }
 \value{
 \linkS4class{SummarizedExperiment} an object containing abundance
