@@ -79,15 +79,15 @@ with `powerlawA` or `randomA` functions depending on the distribution method.
 The function `powerlawA` uses normal distribution to create interaction matrix. 
 
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 library(miaSim)
-A_normal <- powerlawA(n_species = 4, alpha = 3)
+A_normal <- powerlawA(n_species = 12, alpha = 3)
 ```
 
 The function `randomA` uses uniform distribution to create interaction matrix. 
 
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 A_uniform <- randomA(n_species = 10, d = -0.4, min_strength = -0.8,
                         max_strength = 0.8, connectance = 0.5)
 ```
@@ -97,21 +97,19 @@ amount as the species used in the `simulateGLV` and `simulateSOI` models.
 `simulateGLV` and `simulateRicker` functions both use the generalized
 Lotka-Volterra model.
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 
-A_normal <- powerlawA(n_species = 4, alpha = 3)
-
-ExampleGLV <- simulateGLV(n_species = 4, A_normal, t_start = 0, 
+ExampleGLV <- simulateGLV(n_species = 12, A_normal, t_start = 0, 
     t_store = 1000, stochastic = FALSE, norm = FALSE)
 
-ExampleRicker <- simulateRicker(n_species=4, A_normal, tend=100, norm = FALSE)
+ExampleRicker <- simulateRicker(n_species=12, A_normal, tend=100, norm = FALSE)
 ```
 
 Time series is added to `simulateGLV` with `simulationTimes` function where 
 the time points can be kept and extracted from simulation time as a separate 
 list.
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 Time <- simulationTimes(t_start = 0, t_end = 100, t_step = 0.5, 
                            t_store = 100)
 Time$t.index 
@@ -126,7 +124,7 @@ Similarly, `simulateHubbellRates` also uses the Hubbell Neutral model.Migration
 is determined by the metacommunity and replacement by birth is measure by 
 growth rates. The time between events is the determinant of replacement.
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 ExampleHubbell <- simulateHubbell(n_species = 8, M = 10, I = 1000, d = 50,
                                     m = 0.02, tend = 100)
 
@@ -138,15 +136,15 @@ ExampleHubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
 The Self-Organised Instability (SOI) model can be found in `simulateSOI` and it
 generates time series for communities and accelerates stochastic simulation.
 
-```{r eval=FALSE, include=FALSE}
-ExampleSOI <- simulateSOI(n_species = 4, I = 1000, A_normal, k=5, com = NULL,
+```{r}
+ExampleSOI <- simulateSOI(n_species = 12, I = 1000, A_normal, k=5, com = NULL,
                                             tend = 150, norm = TRUE)
 ```
 
 Stochastic logistic model is used in `simulateStochasticLogistic` to determine 
 dead and alive counts in community.
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 ExampleLogistic <- simulateStochasticLogistic(n_species = 5)
 ```
 
@@ -155,7 +153,7 @@ requires the use of the `randomE` function, which returns a matrix containing
 the production rates and consumption rates of each species. The resulting 
 matrix is used as a determination of resource consumption efficiency.
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 ExampleConsumerResource <- simulateConsumerResource(n_species = 2,
     n_resources = 4, eff = randomE(n_species = 2, n_resources = 4))
 
@@ -169,12 +167,12 @@ containing information about the samples, and colData, consisting of sample
 metadata describing the samples, can be added to the `SummarizedExperiment` 
 class object. This can be done by conversion function `convertToSE`.
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 ExampleHubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
     migration_p = 0.1, metacommunity_p = NULL, k_events = 1, 
     growth_rates = NULL, norm = FALSE, t_end=1000)
 
-HubbellSE <- convertToSE(matrix = ExampleHubbellRates$counts,
+HubbellSE <- convertToSE(assay = ExampleHubbellRates$counts,
                         colData = ExampleHubbellRates$time,
                         metadata = ExampleHubbellRates$metadata)
 ```
@@ -220,10 +218,9 @@ library(miaViz)
 HubbellDensityPlot <- plotAbundanceDensity(HubbellSE, abund_values = "counts")
 ```
 
-```{r eval=FALSE, include=FALSE}
-A_normal <- powerlawA(n_species = 4, alpha = 3)
+```{r}
 
-ExampleGLV <- simulateGLV(n_species = 4, A_normal, t_start = 0, 
+ExampleGLV <- simulateGLV(n_species = 12, A_normal, t_start = 0, 
     t_store = 1000, stochastic = FALSE, norm = FALSE)
 
 rownames(ExampleGLV) <- c(paste("Species", rownames(ExampleGLV), sep = "_"))
@@ -234,7 +231,7 @@ df <- DataFrame(sampleID = colnames(ExampleGLV),
             SubjectID = rep(1:4, 250),
             row.names = colnames(ExampleGLV))
 
-SE_GLV <- convertToSE(matrix = ExampleGLV,
+SE_GLV <- convertToSE(assay = ExampleGLV,
                       colData = df)
 ```
 

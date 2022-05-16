@@ -7,11 +7,11 @@ test_that("convertToSE", {
                                               norm = FALSE,
                                               t_end=1000)
 
-    HubbellSE <- convertToSE(matrix = ExampleHubbellRates$counts)
+    HubbellSE <- convertToSE(assay = ExampleHubbellRates$counts)
 
     expect_s4_class(HubbellSE, "SummarizedExperiment")
 
-    HubbellTSE <- convertToSE(matrix = ExampleHubbellRates$counts, output = TSE)
+    HubbellTSE <- convertToSE(assay = ExampleHubbellRates$counts, output = TSE)
 
     expect_s4_class(HubbellTSE, "TreeSummarizedExperiment")
 
