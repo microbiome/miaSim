@@ -55,7 +55,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 
 Load the library
 
-```{r load, eval=FALSE}
+```{r load, eval=TRUE}
 library(miaSim)
 ```
 
