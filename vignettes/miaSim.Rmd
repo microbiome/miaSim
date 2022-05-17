@@ -72,17 +72,16 @@ Generate interactions from normal distribution:
 
 ```{r eval=FALSE, include=FALSE}
 A_normal <- powerlawA(n_species = 4, alpha = 3)
+
 ```
 
 Generate interactions from uniform distribution:
 
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 A_uniform <- randomA(n_species = 10, d = -0.4, min_strength = -0.8,
                         max_strength = 0.8, connectance = 0.5)
 ```
-
-
 
 ### Generalized Lotka-Volterra (gLV)
 
@@ -92,6 +91,7 @@ assuming microbial population dynamics and interaction.
 ```{r glv, eval=FALSE, include=FALSE}
 glvmodel <- simulateGLV(n_species = 4, A_normal, t_start = 0, 
     t_store = 1000, stochastic = FALSE, norm = FALSE)
+
 ```
 
 
@@ -116,8 +116,7 @@ births and deaths but no interactions. Losses become replaced by
 migration or birth.
 
 ```{r eval=FALSE, include=FALSE}
-hubbellmodel <- simulateHubbell(n_species = 8, M = 10, I = 1000, d = 50,
-                                    m = 0.02, tend = 100)
+hubbellmodel <- simulateHubbell(n_species = 8, M = 10, I = 1000, d = 50,m = 0.02, tend = 100)
 ```
 
 
@@ -137,8 +136,7 @@ The Self-Organised Instability (SOI) model generates time series for
 communities and accelerates stochastic simulation.
 
 ```{r eval=FALSE, include=FALSE}
-soimodel <- simulateSOI(n_species = 4, I = 1000, A_normal, k=5, com = NULL,
-                                            tend = 150, norm = TRUE)
+soimodel <- simulateSOI(n_species = 4, I = 1000, A_normal, k=5, com = NULL,tend = 150, norm = TRUE)
 ```
 
 
@@ -160,8 +158,7 @@ consumption rates of each species. The resulting matrix is used as a
 determination of resource consumption efficiency.
 
 ```{r eval=FALSE, include=FALSE}
-crmodel <- simulateConsumerResource(n_species = 2,
-    n_resources = 4, eff = randomE(n_species = 2, n_resources = 4))
+crmodel <- simulateConsumerResource(n_species = 2,n_resources = 4, eff = randomE(n_species = 2, n_resources = 4))
 
 # visualize the simulated dynamics
 Consumer_plot <- matplot(crmodel, type = "l")
@@ -240,6 +237,7 @@ Time <- simulationTimes(t_start = 0, t_end = 100, t_step = 0.5,
 Time$t.index 
 ```
 
+
 It is also possible to incorporate phylogenetic tree information and
 convert into `TreeSummarizedExperiment`. For further details, see:
 
@@ -248,6 +246,10 @@ library(TreeSummarizedExperiment)
 help("TreeSummarizedExperiment-constructor", package = TreeSummarizedExperiment)
 ```
 
+
+## Related work
+
+- [micodymora](https://github.com/OSS-Lab/micodymora) Python package for microbiome simulation
 
 # Session info
 

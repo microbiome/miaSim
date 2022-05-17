@@ -1,23 +1,14 @@
 #' Generate simulation times and the indices
 #' of time points to return in sumulation functions.
+
 #' @param t.start Numeric scalar. Initial time of the simulation, default 0.
 #' @param t.end Numeric scalar. Final time of the simulation, default 1000.
 #' @param t.step Numeric scalar. Interval between simulation steps, default 0.1.
 #' @param t.keep Integer scalar. Number of evenly distributed time points to keep, default 100.
+#'
 #' @return list containing simulation times (t.sys) and the indices to keep.\
 #' @keywords internal
 #' @export
-tDyn <- function(t.start = 0, t.end = 1000, t.step = 0.1, t.keep = 100){
-
-  t.total <- t.end-t.start
-
-  t.sys <- seq(t.start, t.end, by = t.step)
-
-  t.index <- seq(1, length(t.sys), by=round(length(t.sys)/t.keep))
-
-  return(list("t.sys" = t.sys, "t.index" = t.index))
-}
-
 simulationTimes <- function(t_start = 0, t_end = 1000,
             t_step = 0.1, t_store = 1000){
         t_total <- t_end-t_start
