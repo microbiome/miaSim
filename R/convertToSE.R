@@ -1,19 +1,19 @@
 #' \linkS4class{SummarizedExperiment}(`SE`) or
 #' `TreeSE` construction function
 #'
+#' The abundance matrix from the simulation functions
+#' in `miaSim` can be converted to \linkS4class{SummarizedExperiment}
+#' class object.
+#'
 #' Storing the data in \linkS4class{SummarizedExperiment} enables access to
-#' various tools for further analysis of data. A large number of Bioconductor
-#' packages contain extension of \linkS4class{SummarizedExperiment} class.
-#' \linkS4class{SummarizedExperiment} class offers data and metadata
-#' synchronization, while still accommodating specialized data structures for
+#' various Bioconductor packages and tools that extend the
+#' \linkS4class{SummarizedExperiment} class.
+#' This offers data and metadata
+#' synchronization, while accommodating specialized data structures for
 #' particular scientific applications.
 #'
 #' Further examples for `SE` object manipulation and analysis can be found at
-#' https://microbiome.github.io/OMA/
-#'
-#' The resulting abundance matrix from the simulation functions used
-#' in `miaSim` can be easily converted to \linkS4class{SummarizedExperiment}
-#' class object.
+#' \url{https://microbiome.github.io/OMA}
 #'
 #' @param assay is a matrix-like or list of matrix-like object.
 #' Rows refer to taxa and columns refer to samples.
@@ -21,18 +21,18 @@
 #' \linkS4class{TreeSummarizedExperiment} (\code{output = TSE}) or
 #' \linkS4class{SummarizedExperiment} (default: \code{output = SE})
 #'
-#' @param ... : additional parameters that can be implemented in
+#' @param ... : additional parameters to pass for
 #' the `SE` object.
 #'
 #' @examples
-#' ExampleHubbellRates <- simulateHubbellRates(
+#' x <- simulateHubbellRates(
 #'     community_initial = c(0,5,10), migration_p = 0.01,
 #'     metacommunity_p = NULL, k_events = 1, growth_rates = NULL, norm = FALSE,
 #'     t_end=1000)
 #'
-#' HubbellSE <- convertToSE(assay = ExampleHubbellRates$counts,
-#'                         colData = ExampleHubbellRates$time,
-#'                         metadata = ExampleHubbellRates$metadata)
+#' HubbellSE <- convertToSE(assay = x$counts,
+#'                          colData = x$time,
+#'                          metadata = x$metadata)
 #'
 #' @return \linkS4class{SummarizedExperiment} an object containing abundance
 #' matrix

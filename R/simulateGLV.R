@@ -41,7 +41,7 @@
 #' @examples
 #' A <- miaSim::powerlawA(4, alpha = 1.01)
 #'
-#' ExampleGLV <- simulateGLV(n_species = 4, A, t_end = 1000)
+#' x <- simulateGLV(n_species = 4, A, t_end = 1000)
 #'
 #' @importFrom MatrixGenerics colSums2
 #' @importFrom deSolve ode
@@ -104,7 +104,7 @@ dxdt <- function(t, x, parameters){
 
 perturb <- function(t, y, parameters){
     with(as.list(y),{
-        #continuous or episodic perturbation
+        # continuous or episodic perturbation
         epoch_rN <- 0
         external_rN <- 0
         if (rbinom(1,1, parameters$p_epoch )){
@@ -119,7 +119,7 @@ perturb <- function(t, y, parameters){
         drift_rN <- rnorm(parameters$n_species, sd=parameters$sigma_drift)
         drift_rN <- parameters$stochastic*drift_rN
 
-        #perturbation is applied to the current population
+        # perturbation is applied to the current population
         y <- y * (1 + drift_rN)*(1 + epoch_rN)*(1 + external_rN)
         return(y)
     })

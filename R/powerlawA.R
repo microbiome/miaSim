@@ -1,6 +1,6 @@
 #' Interaction matrix with Power-Law network adjacency matrix
 #'
-#' Where N is the an Interspecific Interaction matrix with values drawn from
+#' N is the an Interspecific Interaction matrix with values drawn from
 #' a normal distribution H the interaction strength heterogeneity drawn from
 #' a power-law distribution with the parameter alpha, and G the adjacency matrix
 #' of with out-degree that reflects the heterogeneity of the powerlaw.

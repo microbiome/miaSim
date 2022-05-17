@@ -31,7 +31,7 @@
 #'
 #' @examples
 #' A <- powerlawA(10, alpha = 1.01)
-#' ExampleRicker <- simulateRicker(n_species=10,A,tend=100)
+#' x <- simulateRicker(n_species=10, A, tend=100)
 #'
 #' @importFrom stats rlnorm
 #'

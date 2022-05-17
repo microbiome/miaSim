@@ -60,9 +60,7 @@ The concentrations of resource will be set to 0 if they were calculated
 less than 0 during the iteration.
 }
 \examples{
-# example1 users provide least parameters.
-ExampleConsumerResource <- simulateConsumerResource(n_species = 2,
-n_resources = 4)
+x <- simulateConsumerResource(n_species = 2, n_resources = 4)
 
 }
 \seealso{

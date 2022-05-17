@@ -49,8 +49,8 @@ species abundance as rows and time points as columns
 Neutral species abundances simulation according to the Hubbell model.
 }
 \examples{
-ExampleHubbell <- simulateHubbell(n_species = 8, M = 10, I = 1000, d = 50,
-                                                        m = 0.02, tend = 100)
+x <- simulateHubbell(n_species = 8, M = 10, I = 1000, d = 50,
+                        m = 0.02, tend = 100)
 
 }
 \references{

@@ -32,9 +32,7 @@
 #' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
 #' @examples
-#' # example1 users provide least parameters.
-#' ExampleConsumerResource <- simulateConsumerResource(n_species = 2,
-#' n_resources = 4)
+#' x <- simulateConsumerResource(n_species = 2, n_resources = 4)
 #'
 #' @return an abundance matrix with species and resources abundance as rows and
 #' time points as columns

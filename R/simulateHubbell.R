@@ -24,8 +24,8 @@
 #' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
 #' @examples
-#' ExampleHubbell <- simulateHubbell(n_species = 8, M = 10, I = 1000, d = 50,
-#'                                                         m = 0.02, tend = 100)
+#' x <- simulateHubbell(n_species = 8, M = 10, I = 1000, d = 50,
+#'                         m = 0.02, tend = 100)
 #'
 #' @return \code{simulateHubbell} returns an abundance matrix with
 #' species abundance as rows and time points as columns
