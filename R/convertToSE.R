@@ -30,7 +30,7 @@
 #'     metacommunity_p = NULL, k_events = 1, growth_rates = NULL, norm = FALSE,
 #'     t_end=1000)
 #'
-#' HubbellSE <- convertToSE(matrix = x$counts,
+#' HubbellSE <- convertToSE(assay = x$counts,
 #'                          colData = x$time,
 #'                          metadata = x$metadata)
 #'
