@@ -59,7 +59,7 @@ powerlawA <- function(n_species, alpha = 3.0, stdev = 1, s = 0.1, d = -1,
 
             # power law sample
             pl <- rplcon(n = n_species, xmin = 1, alpha = alpha)
-            pl[is.infinite(pl)] = 10^308
+            pl[is.infinite(pl)] <- 10^308
 
             # Interaction strength heterogeneity
             H <- diag(1 + (pl-min(pl))/(max(pl)-min(pl)))

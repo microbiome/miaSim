@@ -7,60 +7,234 @@
 simulateConsumerResource(
   n_species,
   n_resources,
-  eff = randomE(n_species, n_resources),
-  consumers = runif(n = n_species, min = 0.1, max = 10),
-  resources = runif(n = n_resources, min = 1, max = 100),
-  mumax = rep(1, n_species),
-  k_table = matrix(rgamma(n = n_species * n_resources, shape = 50, rate = 0.25), nrow =
-    n_species),
+  names_species = NULL,
+  names_resources = NULL,
+  E = NULL,
+  x0 = NULL,
+  resources = NULL,
+  resources_dilution = NULL,
+  growth_rates = NULL,
+  monod_constant = NULL,
+  sigma_drift = 0.001,
+  sigma_epoch = 0.1,
+  sigma_external = 0.3,
+  sigma_migration = 0.01,
+  epoch_p = 0.001,
+  t_external_events = NULL,
+  t_external_durations = NULL,
+  stochastic = FALSE,
+  migration_p = 0.01,
+  metacommunity_probability = NULL,
+  error_variance = 0,
+  norm = FALSE,
   t_end = 1000,
+  trophic_priority = NULL,
+  inflow_rate = 0,
+  outflow_rate = 0,
+  volume = 1000,
   ...
 )
 }
 \arguments{
-\item{n_species}{integer number of species}
+\item{n_species}{Integer: number of species}
 
-\item{n_resources}{interger number of resources}
+\item{n_resources}{Interger: number of resources}
 
-\item{eff}{a matrix of efficiency. How efficient are resources
-converted into biomass, negative values represent excreted resources
-(default: \code{eff = randomE(n_species, n_resources)})}
+\item{names_species}{Character: names of species. If NULL,
+\code{paste0("sp", seq_len(n_species))} is used.
+(default: \code{names_species = NULL})}
 
-\item{consumers}{numeric vector of species
-(default: \code{consumers = runif(n = n_species, min = 0.1, max = 10)})}
+\item{names_resources}{Character: names of resources. If NULL,
+\code{paste0("res", seq_len(n_resources))} is used.}
 
-\item{resources}{numeric vector of resources
-(default: \code{resources = runif(n = n_resources, min = 1, max = 100)})}
+\item{E}{matrix: matrix of efficiency. A matrix defining the efficiency of
+resource-to-biomass conversion (positive values) and the relative conversion
+of metabolic by-products (negative values). If NULL,
+\code{randomE(n_species, n_resources)} is used.
+(default: \code{E = NULL})}
 
-\item{mumax}{numeric vector of maximum mu of species
-(default: \code{mumax = rep(1, n_species)})}
+\item{x0}{Numeric: initial abundances of simulated species. If NULL,
+\code{runif(n = n_species, min = 0.1, max = 10)} is used.
+(default: \code{x0 = NULL})}
 
-\item{k_table}{a matrix of K values in monod model
-(default: \code{k_table = matrix(rgamma(n=n_species*n_resources,
-shape = 50, rate = 0.25), nrow = n_species)})}
+\item{resources}{Numeric: initial concentrations of resources. If NULL,
+\code{runif(n = n_resources, min = 1, max = 100)} is used.
+(default: \code{resources = NULL})}
 
-\item{t_end}{numeric scalar indicating the final time of the simulation
+\item{resources_dilution}{Numeric: concentrations of resources in the
+continuous inflow (applicable when inflow_rate > 0). If NULL,
+\code{resources} is used.
+(default: \code{resources_dilution = NULL})}
+
+\item{growth_rates}{Numeric: vector of maximum growth rates(mu) of species.
+If NULL, \code{rep(1, n_species)} is used.
+(default: \code{growth_rates = NULL})}
+
+\item{monod_constant}{matrix: the constant of additive monod growth of
+n_species consuming n_resources. If NULL,
+\code{matrix(rgamma(n = n_species*n_resources, shape = 50*max(resources), rate = 1), nrow = n_species)}
+is used.
+(default: \code{monod_constant = NULL})}
+
+\item{sigma_drift}{Numeric: standard deviation of a normally distributed
+noise applied in each time step (t_step)
+(default: \code{sigma_drift = 0.001})}
+
+\item{sigma_epoch}{Numeric: standard deviation of a normally distributed
+noise applied to random periods of the community composition with frequency
+defined by the epoch_p parameter
+(default: \code{sigma_epoch = 0.1})}
+
+\item{sigma_external}{Numeric: standard deviation of a normally distributed
+noise applied to user-defined external events/disturbances
+(default: \code{sigma_external = 0.3})}
+
+\item{sigma_migration}{Numeric: standard deviation of a normally distributed
+variable that defines the intensity of migration at each time step (t_step)
+(default: \code{sigma_migration = 0.01})}
+
+\item{epoch_p}{Numeric: the probability/frequency of random periodic
+changes introduced to the community composition
+(default: \code{epoch_p = 0.001})}
+
+\item{t_external_events}{Numeric: the starting time points of defined
+external events that introduce random changes to the community composition
+(default: \code{t_external_events = NULL})}
+
+\item{t_external_durations}{Numeric: respective duration of the external
+events that are defined in the 't_external_events' (times) and
+sigma_external (std).
+(default: \code{t_external_durations = NULL})}
+
+\item{stochastic}{Logical: whether to introduce noise in the simulation.
+If False, sigma_drift, sigma_epoch, and sigma_external are ignored.
+(default: \code{stochastic = FALSE})}
+
+\item{migration_p}{Numeric: the probability/frequency of migration from a
+metacommunity.
+(default: \code{migration_p = 0.01})}
+
+\item{metacommunity_probability}{Numeric: Normalized probability distribution
+of the likelihood that species from the metacommunity can enter the community
+during the simulation. If NULL, \code{rdirichlet(1, alpha = rep(1,n_species))} is
+used.
+(default: \code{metacommunity_probability = NULL})}
+
+\item{error_variance}{Numeric: the variance of measurement error.
+By default it equals to 0, indicating that the result won't contain any
+measurement error. This value should be non-negative.
+(default: \code{error_variance = 0})}
+
+\item{norm}{Logical scalar: returns normalized abundances (proportions
+in each generation)
+(default: \code{norm = FALSE})}
+
+\item{t_end}{Numeric scalar indicating the final time of the simulation
 (default: \code{t_end = 1000})}
 
-\item{...}{additional parameters including 't_start', 't_step', and 't_store'}
+\item{trophic_priority}{Matrix: a matrix defining the orders of resources to
+be consumed by each species. If NULL, by default, this feature won't be
+turned on, and species will consume all resources simultaneously to grow.
+The dimension should be identical to matrix E.
+(default: \code{trophic_priority = NULL})}
+
+\item{inflow_rate, outflow_rate}{Numeric: the inflow and outflow rate of a
+culture process. By default, inflow_rate and outflow_rate are 0, indicating a
+batch culture process. By setting them equally larger than 0, we can simulate
+a continuous culture(e.g. chemostat).}
+
+\item{volume}{Numeric: the volume of the continuous cultivation. This
+parameter is important for simulations where inflow_rate or outflow_rate are
+not 0.
+(default: \code{volume = 1000})}
+
+\item{...}{additional parameters, see \code{\link{utils}} to know more.}
 }
 \value{
 an abundance matrix with species and resources abundance as rows and
 time points as columns
 }
 \description{
-Simulates a community time series using the consumer-resource model.
-The change rate of each species was defined as
-\code{dx/dt = mumax*sum(monod)*X}, where
-mumax is the vector of maximum growth rates for the species,
-monod is the monod growth rate, S/(Ks+S), where S is the concentration of the
-limiting resource, and Ks is the half-velocity constant for species X and S.
-X is the vector of abundances of species.
-The concentrations of resource will be set to 0 if they were calculated
-less than 0 during the iteration.
+Simulates time series with the consumer-resource model
 }
 \examples{
-x <- simulateConsumerResource(n_species = 2, n_resources = 4)
+ExampleCR <- simulateConsumerResource(n_species = 2, 
+    n_resources = 4)
+makePlot(ExampleCR$matrix)
+makePlot(ExampleCR$resources)
+
+# example to get relative abundance and relative proportion of resources
+ExampleCR <- simulateConsumerResource(n_species = 2, 
+    n_resources = 4, norm = TRUE)
+makePlot(ExampleCR$matrix)
+makePlot(ExampleCR$resources)
+
+# example with user-defined values (names_species, names_resources, E, x0, 
+# resources, growth_rates, error_variance, t_end, t_step)
+ExampleE <- randomE(n_species = 4, n_resources = 6, 
+    mean_consumption = 3, mean_production = 1, maintenance = 0.4)
+ExampleResources <- rep(100, 6)
+ExampleCR <- simulateConsumerResource(n_species = 4, 
+    n_resources = 6, names_species = letters[1:4], 
+    names_resources = paste0("res",LETTERS[1:6]), E = ExampleE, 
+    x0 = rep(0.001, 4), resources = ExampleResources, 
+    growth_rates = runif(4),
+    error_variance = 0.01,
+    t_end = 5000,
+    t_step = 1)
+makePlot(ExampleCR$matrix)
+makePlot(ExampleCR$resources)
+
+# example with trophic levels
+n_species <- 10
+n_resources <- 15
+
+ExampleEfficiencyMatrix <- randomE(n_species = 10, n_resources = 15,
+                                   trophic_levels = c(6,3,1),
+                                   trophic_preferences = list(
+                                       c(rep(1,5), rep(-1, 5), rep(0, 5)), 
+                                       c(rep(0,5), rep(1, 5), rep(-1, 5)), 
+                                       c(rep(0,10), rep(1, 5))))
+makeHeatmap(ExampleEfficiencyMatrix)
+
+# ExampleResources <- rep(100, n_resources)
+ExampleResources <- c(rep(500, 5), rep(200, 5), rep(50, 5))
+ExampleCR <- simulateConsumerResource(n_species = n_species, 
+                                      n_resources = n_resources, 
+                                      names_species = letters[1:n_species], 
+                                      names_resources = paste0(
+                                          "res",LETTERS[1:n_resources]), 
+                                      E = ExampleEfficiencyMatrix, 
+                                      x0 = rep(0.001, n_species), 
+                                      resources = ExampleResources, 
+                                      growth_rates = rep(1, n_species),
+                                      # error_variance = 0.001,
+                                      t_end = 5000, t_step = 1)
+makePlot(ExampleCR$matrix)
+makePlotRes(ExampleCR$resources)
+
+
+# example with trophic priority
+n_species <- 4
+n_resources <- 6
+ExampleE <- randomE(n_species = n_species, 
+                    n_resources = n_resources, 
+                    mean_consumption = n_resources, 
+                    mean_production = 0)
+ExampleTrophicPriority <- t(apply(matrix(sample(n_species * n_resources), 
+                                         nrow = n_species), 
+                                  1, order))
+# make sure that for non-consumables resources for each species, 
+# the priority is 0 (smaller than any given priority) 
+ExampleTrophicPriority <- (ExampleE > 0) * ExampleTrophicPriority
+ExampleCR <- simulateConsumerResource(n_species = n_species, 
+                                      n_resources = n_resources, 
+                                      E = ExampleE, 
+                                      trophic_priority = ExampleTrophicPriority,
+                                      t_end = 2000
+                                      )
+makePlot(ExampleCR$matrix)
+makePlotRes(ExampleCR$resources)
 
 }
 \seealso{

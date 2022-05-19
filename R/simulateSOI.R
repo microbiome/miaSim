@@ -32,6 +32,7 @@
 #'
 #' @importFrom stats rgamma
 #' @importFrom stats rnorm
+#' @importFrom MatrixGenerics colSums2
 #'
 #' @export
 simulateSOI <- function(n_species, I, A, k = 5, com = NULL, tend, norm = FALSE){
@@ -144,7 +145,7 @@ simulateSOI <- function(n_species, I, A, k = 5, com = NULL, tend, norm = FALSE){
             reactionsToFire <- as.vector(rmultinom(n= 1, size= k, prob = p))
             # update counts with allowed transitions (reactions)
             counts <- vapply(counts + trans_mat%*%reactionsToFire,
-                                FUN = function(x){x = max(0,x)}, numeric(1))
+                                FUN = function(x){x <- max(0,x)}, numeric(1))
             # update propensities with updated counts
             propensities <- updatePropensities(I, counts, death_rates,
                                 migr_rates, pos_inter_rates, neg_inter_rates)

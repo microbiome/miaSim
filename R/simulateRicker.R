@@ -34,7 +34,7 @@
 #' x <- simulateRicker(n_species=10, A, tend=100)
 #'
 #' @importFrom stats rlnorm
-#'
+#' @importFrom MatrixGenerics colSums2
 #' @export
 simulateRicker <- function(n_species, A, x = runif(n_species),
                         K = runif(n_species),sigma=0.05,
@@ -53,9 +53,9 @@ simulateRicker <- function(n_species, A, x = runif(n_species),
         # simulate difference equation
         for(t in seq(from=2, to=tend)){
             if(sigma > 0){
-                b=rlnorm(n_species,meanlog=0,sdlog=sigma)
+                b <- rlnorm(n_species,meanlog=0,sdlog=sigma)
             }else{
-                b=rep(1,n_species)
+                b <- rep(1,n_species)
             }
 
             x <- b*x*exp(A%*%(x-K))

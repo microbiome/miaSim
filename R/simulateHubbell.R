@@ -32,6 +32,7 @@
 #'
 #' @importFrom stats rbinom
 #' @importFrom stats rmultinom
+#' @importFrom MatrixGenerics colSums2
 #'
 #' @references Rosindell, James et al. "The unified neutral theory of
 #' biodiversity and biogeography at age ten." Trends in ecology & evolution

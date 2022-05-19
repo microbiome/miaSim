@@ -6,59 +6,102 @@
 \usage{
 simulateGLV(
   n_species,
-  A,
-  x = runif(n_species),
-  b = runif(n_species),
-  sigma_drift = 0.01,
-  sigma_epoch = 0.3,
+  names_species = NULL,
+  A = NULL,
+  x0 = NULL,
+  growth_rates = NULL,
+  sigma_drift = 0.001,
+  sigma_epoch = 0.1,
   sigma_external = 0.3,
-  p_epoch = 0.01,
-  t_external_events = c(12, 36, 48),
-  t_external_durations = c(3, 10, 99),
-  stochastic = FALSE,
+  sigma_migration = 0.01,
+  epoch_p = 0.001,
+  t_external_events = NULL,
+  t_external_durations = NULL,
+  stochastic = TRUE,
+  migration_p = 0.01,
+  metacommunity_probability = NULL,
+  error_variance = 0,
   norm = FALSE,
   t_end = 1000,
   ...
 )
 }
 \arguments{
-\item{n_species}{integer number of species}
+\item{n_species}{Integer: number of species}
 
-\item{A}{interaction matrix}
+\item{names_species}{Character: names of species. If NULL,
+\code{paste0("sp", seq_len(n_species))} is used.
+(default: \code{names_species = NULL})}
 
-\item{x}{numeric initial abundances}
+\item{A}{matrix: interaction matrix defining the positive and negative
+interactions between n_species. If NULL, \code{randomA(n_species)} is used.
+(default: \code{A = NULL})}
 
-\item{b}{numeric growth rates}
+\item{x0}{Numeric: initial abundances of simulated species. If NULL,
+\code{runif(n = n_species, min = 0, max = 1)} is used.
+(default: \code{x0 = NULL})}
 
-\item{sigma_drift}{numeric degree of drift
-(turnover of species) in each time step.
-(default: \code{sigma_drift = 0.01})}
+\item{growth_rates}{Numeric: growth rates of simulated species. If NULL,
+\code{runif(n = n_species, min = 0, max = 1)} is used.
+(default: \code{growth_rates = NULL})}
 
-\item{sigma_epoch}{numeric degree of epoch change of community
-(default: \code{sigma_epoch = 0.3})}
+\item{sigma_drift}{Numeric: standard deviation of a normally distributed
+noise applied in each time step (t_step)
+(default: \code{sigma_drift = 0.001})}
 
-\item{sigma_external}{numeric degree of the external events/disturbances
+\item{sigma_epoch}{Numeric: standard deviation of a normally distributed
+noise applied to random periods of the community composition with frequency
+defined by the epoch_p parameter
+(default: \code{sigma_epoch = 0.1})}
+
+\item{sigma_external}{Numeric: standard deviation of a normally distributed
+noise applied to user-defined external events/disturbances
 (default: \code{sigma_external = 0.3})}
 
-\item{p_epoch}{numeric value of the probability/frequency of inherit periodic
-changes of community (default: \code{p_epoch  = 0.01})}
+\item{sigma_migration}{Numeric: standard deviation of a normally distributed
+variable that defines the intensity of migration at each time step (t_step)
+(default: \code{sigma_migration = 0.01})}
 
-\item{t_external_events}{numeric value of starting times of external events
-(default: \code{t_external_events = c(12, 36, 48)})}
+\item{epoch_p}{Numeric: the probability/frequency of random periodic
+changes introduced to the community composition
+(default: \code{epoch_p = 0.001})}
 
-\item{t_external_durations}{numeric durations of external events
-(default: \code{t_external_durations = c(3, 10, 99)})}
+\item{t_external_events}{Numeric: the starting time points of defined
+external events that introduce random changes to the community composition
+(default: \code{t_external_events = NULL})}
 
-\item{stochastic}{logical scalar choosing whether the gLV model should be
-stochastic (default: \code{stochastic = FALSE})}
+\item{t_external_durations}{Numeric: respective duration of the external
+events that are defined in the 't_external_events' (times) and
+sigma_external (std).
+(default: \code{t_external_durations = NULL})}
 
-\item{norm}{logical scalar returning normalised abundances (proportions
-in each generation) (default: \code{norm = FALSE})}
+\item{stochastic}{Logical: whether to introduce noise in the simulation.
+If False, sigma_drift, sigma_epoch, and sigma_external are ignored.
+(default: \code{stochastic = TRUE})}
 
-\item{t_end}{numeric value of simulation end time
+\item{migration_p}{Numeric: the probability/frequency of migration from a
+metacommunity.
+(default: \code{migration_p = 0.01})}
+
+\item{metacommunity_probability}{Numeric: Normalized probability distribution
+of the likelihood that species from the metacommunity can enter the community
+during the simulation. If NULL, \code{rdirichlet(1, alpha = rep(1,n_species))} is
+used.
+(default: \code{metacommunity_probability = NULL})}
+
+\item{error_variance}{Numeric: the variance of measurement error.
+By default it equals to 0, indicating that the result won't contain any
+measurement error. This value should be non-negative.
+(default: \code{error_variance = 0})}
+
+\item{norm}{Logical scalar: returns normalized abundances (proportions
+in each generation)
+(default: \code{norm = FALSE})}
+
+\item{t_end}{Numeric scalar indicating the final time of the simulation
 (default: \code{t_end = 1000})}
 
-\item{...}{additional parameters including 't_start', 't_step', and 't_store'}
+\item{...}{additional parameters, see \code{\link{utils}} to know more.}
 }
 \value{
 \code{simulateGLV} returns an abundance matrix
@@ -73,9 +116,35 @@ diag(x) is a diagonal matrix with the diagonal values set to x.
 A is the interaction matrix and b is the vector of growth rates.
 }
 \examples{
-A <- miaSim::powerlawA(4, alpha = 1.01)
 
-x <- simulateGLV(n_species = 4, A, t_end = 1000)
+# generate a random interaction matrix
+ExampleA <- randomA(n_species = 4, diagonal = -1)
+
+# run the model with default values (only stochastic migration considered)
+ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA)
+# visualize the result
+makePlot(ExampleGLV$matrix)
+
+# run the model with two external disturbances at time points 240 and 480 
+# with durations equal to 1 (10 time steps when t_step by default is 0.1).
+ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA,
+    t_external_events = c(0, 240, 480), t_external_durations = c(0, 1, 1))
+# visualize the result
+makePlot(ExampleGLV$matrix)
+
+# run the model with no pertubation nor migration
+set.seed(42)
+ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA, stochastic = FALSE, 
+    sigma_migration = 0)
+# visualize the result
+makePlot(ExampleGLV$matrix)
+
+# run the model with no pertubation nor migration but with measurement error
+set.seed(42)
+ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA, stochastic = FALSE, 
+    error_variance = 0.001, sigma_migration = 0)
+# visualize the result
+makePlot(ExampleGLV$matrix)
 
 }
 \seealso{

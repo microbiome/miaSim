@@ -2,25 +2,35 @@
 % Please edit documentation in R/utils.R
 \name{simulationTimes}
 \alias{simulationTimes}
-\title{Generate simulation times and the indices
-of time points to return in sumulation functions.}
+\title{Generate simulation times and the indices of time points to return
+in simulation functions.}
 \usage{
 simulationTimes(t_start = 0, t_end = 1000, t_step = 0.1, t_store = 1000)
 }
 \arguments{
-\item{t.start}{Numeric scalar. Initial time of the simulation, default 0.}
+\item{t_start}{Numeric scalar indicating the initial time of the simulation.
+(default: \code{t_start = 0})}
 
-\item{t.end}{Numeric scalar. Final time of the simulation, default 1000.}
+\item{t_end}{Numeric scalar indicating the final time of the dimulation
+(default: \code{t_end = 1000})}
 
-\item{t.step}{Numeric scalar. Interval between simulation steps, default 0.1.}
+\item{t_step}{Numeric scalar indicating the interval between simulation steps
+(default: \code{t_step = 0.1})}
 
-\item{t.keep}{Integer scalar. Number of evenly distributed time points to keep, default 100.}
+\item{t_store}{Integer scalar indicating the number of evenly distributed
+time points to keep (default: \code{t_store = 100})}
 }
 \value{
-list containing simulation times (t.sys) and the indices to keep.\
+lists containing simulation times (t_sys) and the indices to keep.
 }
 \description{
-Generate simulation times and the indices
-of time points to return in sumulation functions.
+Generate simulation times and the indices of time points to return
+in simulation functions.
+}
+\examples{
+Time <- simulationTimes(t_start = 0, t_end = 100, t_step = 0.5,
+    t_store = 100)
+DefaultTime <- simulationTimes(t_end = 1000)
+
 }
 \keyword{internal}

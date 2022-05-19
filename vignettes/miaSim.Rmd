@@ -36,14 +36,9 @@ knitr::opts_chunk$set(cache = FALSE,
                         warning = FALSE)
 ```
 
-
 # Introduction
 
-`miaSim` implements tools for microbiome data simulation based on
-different ecological modeling assumptions. These can be used to
-simulate species abundance matrices, including time series. For a detailed function documentation, see the
-[function reference page](https://microbiome.github.io/miaSim/reference/index.html)
-
+`miaSim` implements tools for microbiome data simulation based on different ecological modeling assumptions. These can be used to simulate species abundance matrices, including time series. For a detailed function documentation, see the [function reference page](https://microbiome.github.io/miaSim/reference/index.html)
 
 Install the Bioconductor release version with
 
@@ -52,21 +47,17 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 ```
 
-
 Load the library
 
 ```{r load, eval=TRUE}
 library(miaSim)
 ```
 
-
 ## Examples
 
 ### Generating species interaction matrices
 
-Some of the models rely on interaction matrices that represents
-interaction heterogeneity between species. The interaction matrix can
-be generated with different distributional assumptions.
+Some of the models rely on interaction matrices that represents interaction heterogeneity between species. The interaction matrix can be generated with different distributional assumptions.
 
 Generate interactions from normal distribution:
 
@@ -77,143 +68,111 @@ A_normal <- powerlawA(n_species = 4, alpha = 3)
 
 Generate interactions from uniform distribution:
 
-
 ```{r}
-A_uniform <- randomA(n_species = 10, d = -0.4, min_strength = -0.8,
-                        max_strength = 0.8, connectance = 0.5)
+A_uniform <- randomA(n_species = 10, diagonal = -0.4, connectance = 0.5, interactions = runif(n = 10^2, min = -0.8, max = 0.8))
 ```
 
 ### Generalized Lotka-Volterra (gLV)
 
-The generalized Lotka-Volterra simulation model generates time-series
-assuming microbial population dynamics and interaction.
+The generalized Lotka-Volterra simulation model generates time-series assuming microbial population dynamics and interaction.
 
 ```{r glv, eval=FALSE, include=FALSE}
-glvmodel <- simulateGLV(n_species = 4, A_normal, t_start = 0, 
+glvmodel <- simulateGLV(n_species = 4, A = A_normal, t_start = 0, 
     t_store = 1000, stochastic = FALSE, norm = FALSE)
 
 ```
-
 
 ### Ricker model
 
 Ricker model is a discrete version of the gLV:
 
 ```{r ricker, eval=FALSE, include=FALSE}
-rickermodel <- simulateRicker(n_species=4, A_normal, tend=100, norm = FALSE)
+rickermodel <- simulateRicker(n_species=4, A = A_normal, tend=100, norm = FALSE)
 ```
 
-
-The number of species specified in the interaction matrix must be the same 
-as the species used in the models.
-
+The number of species specified in the interaction matrix must be the same as the species used in the models.
 
 ### Hubbell model
 
-Hubbell Neutral simulation model characterizes diversity and relative
-abundance of species in ecological communities assuming migration,
-births and deaths but no interactions. Losses become replaced by
-migration or birth.
+Hubbell Neutral simulation model characterizes diversity and relative abundance of species in ecological communities assuming migration, births and deaths but no interactions. Losses become replaced by migration or birth.
 
 ```{r eval=FALSE, include=FALSE}
 hubbellmodel <- simulateHubbell(n_species = 8, M = 10, I = 1000, d = 50,m = 0.02, tend = 100)
 ```
 
-
 One can also simulate parameters for the Hubbell model.
 
 ```{r eval=FALSE, include=FALSE}
-hubbellmodelRates <- simulateHubbellRates(community_initial = c(0,5,10),
-    migration_p = 0.1, metacommunity_p = NULL, k_events = 1, 
+hubbellmodelRates <- simulateHubbellRates(x0 = c(0,5,10),
+    migration_p = 0.1, metacommunity_probability = NULL, k_events = 1, 
     growth_rates = NULL, norm = FALSE, t_end=1000)
 ```
 
+### Self-Organised Instability (SOI)
 
-
-### Self-Organised Instability (SOI) 
-
-The Self-Organised Instability (SOI) model generates time series for
-communities and accelerates stochastic simulation.
+The Self-Organised Instability (SOI) model generates time series for communities and accelerates stochastic simulation.
 
 ```{r eval=FALSE, include=FALSE}
 soimodel <- simulateSOI(n_species = 4, I = 1000, A_normal, k=5, com = NULL,tend = 150, norm = TRUE)
 ```
 
-
 ### Stochastic logistic model
 
-Stochastic logistic model is used to determine dead and alive counts
-in community.
+Stochastic logistic model is used to determine dead and alive counts in community.
 
 ```{r eval=FALSE, include=FALSE}
 logisticmodel <- simulateStochasticLogistic(n_species = 5)
 ```
 
-
 ### Consumer-resource model
 
-The consumer resource model requires the use of the `randomE`
-function, which returns a matrix containing the production rates and
-consumption rates of each species. The resulting matrix is used as a
-determination of resource consumption efficiency.
+The consumer resource model requires the use of the `randomE` function, which returns a matrix containing the production rates and consumption rates of each species. The resulting matrix is used as a determination of resource consumption efficiency.
 
 ```{r eval=FALSE, include=FALSE}
-crmodel <- simulateConsumerResource(n_species = 2,n_resources = 4, eff = randomE(n_species = 2, n_resources = 4))
+crmodel <- simulateConsumerResource(n_species = 2,n_resources = 4, E = randomE(n_species = 2, n_resources = 4))
 
 # visualize the simulated dynamics
-Consumer_plot <- matplot(crmodel, type = "l")
+Consumer_plot <- matplot(crmodel$matrix[,c(1,2)], type = "l")
 ```
-
 
 ## Data containers
 
-The abundance matrices can be converted into `SummarizedExperiment`
-object with `convertToSE`. This provides access to a broad range of
-tools for microbiome analysis that support this format (see
-[microbiome.github.io](http://microbiome.github.io)). More examples on
-`SummarizedExperiment` object manipulation and analysis can be found
-at [OMA Online Manual](https://microbiome.github.io/OMA).
+The abundance matrices can be converted into `SummarizedExperiment` object with `convertToSE`. This provides access to a broad range of tools for microbiome analysis that support this format (see [microbiome.github.io](http://microbiome.github.io)). More examples on `SummarizedExperiment` object manipulation and analysis can be found at [OMA Online Manual](https://microbiome.github.io/OMA).
 
-This example shows how to generate taxonomic abundance data, including
-sample metadata, and convert this into into `SummarizedExperiment`.
+This example shows how to generate taxonomic abundance data, including sample metadata, and convert this into into `SummarizedExperiment`.
 
 ```{r eval=FALSE, include=FALSE}
 A_normal <- powerlawA(n_species = 4, alpha = 3)
 
-glvmodel <- simulateGLV(n_species = 4, A_normal, t_start = 0, 
+glvmodel <- simulateGLV(n_species = 4, A = A_normal, t_start = 0, 
     t_store = 1000, stochastic = FALSE, norm = FALSE)
 
-rownames(glvmodel) <- c(paste("Species", rownames(glvmodel), sep = "_"))
-colnames(glvmodel) <- c(paste("Sample", seq_len(ncol(glvmodel)), sep = "_"))
+# rownames(glvmodel) <- c(paste("Species", rownames(glvmodel), sep = "_"))
+# colnames(glvmodel) <- c(paste("Sample", seq_len(ncol(glvmodel)), sep = "_"))
 
-df <- DataFrame(sampleID = colnames(glvmodel),
+rownames(glvmodel$matrix) <- c(paste("Sample", seq_len(nrow(glvmodel$matrix)), sep = "_"))
+df <- DataFrame(sampleID = rownames(glvmodel$matrix),
             Time = seq(1, 1000, 1),
             SubjectID = rep(1:4, 250),
-            row.names = colnames(glvmodel))
+            row.names = rownames(glvmodel$matrix))
 
-SE_GLV <- convertToSE(matrix = glvmodel,
+SE_GLV <- convertToSE(assay = t(glvmodel$matrix[,1:4]),
                       colData = df)
 ```
 
-
-The community simulations result in abundance matrix that can be stored in
-`SummarizedExperiment` [@SE]  class object. Other fields, such as rowData 
-containing information about the samples, and colData, consisting of sample 
-metadata describing the samples, can be added to the `SummarizedExperiment` 
-class object. This can be done by conversion function `convertToSE`.
+The community simulations result in abundance matrix that can be stored in `SummarizedExperiment` [@SE] class object. Other fields, such as rowData containing information about the samples, and colData, consisting of sample metadata describing the samples, can be added to the `SummarizedExperiment` class object. This can be done by conversion function `convertToSE`.
 
 ```{r eval=FALSE, include=FALSE}
-hubbellmodelRates <- simulateHubbellRates(community_initial = c(0,5,10),
-    migration_p = 0.1, metacommunity_p = NULL, k_events = 1, 
+hubbellmodelRates <- simulateHubbellRates(x0 = c(0,5,10),
+    migration_p = 0.1, metacommunity_probability = NULL, k_events = 1, 
     growth_rates = NULL, norm = FALSE, t_end=1000)
 
-HubbellSE <- convertToSE(matrix = hubbellmodelRates$counts,
-                        colData = hubbellmodelRates$time,
+HubbellSE <- convertToSE(assay = t(hubbellmodelRates$matrix[,1:3]),
+                        colData = hubbellmodelRates$matrix[,"time"],
                         metadata = hubbellmodelRates$metadata)
 ```
 
-A broad range of functions are available in other packages to explore
-data in the `SummarizedExperiment` format (see e.g. microbiome.github.io).
+A broad range of functions are available in other packages to explore data in the `SummarizedExperiment` format (see e.g. microbiome.github.io).
 
 For instance, to plot population density we can use the `miaViz` package:
 
@@ -222,14 +181,9 @@ library(miaViz)
 HubbellDensityPlot <- plotAbundanceDensity(HubbellSE, abund_values = "counts")
 ```
 
-
-
-
 ### Auxiliary functions
 
-The `simulationTimes` function generates lists of time series that can
-be specified as simulation time and time points to keep in simulated
-time.
+The `simulationTimes` function generates lists of time series that can be specified as simulation time and time points to keep in simulated time.
 
 ```{r eval=FALSE, include=FALSE}
 Time <- simulationTimes(t_start = 0, t_end = 100, t_step = 0.5, 
@@ -237,19 +191,16 @@ Time <- simulationTimes(t_start = 0, t_end = 100, t_step = 0.5,
 Time$t.index 
 ```
 
-
-It is also possible to incorporate phylogenetic tree information and
-convert into `TreeSummarizedExperiment`. For further details, see:
+It is also possible to incorporate phylogenetic tree information and convert into `TreeSummarizedExperiment`. For further details, see:
 
 ```{r eval=FALSE, include=FALSE}
 library(TreeSummarizedExperiment)
 help("TreeSummarizedExperiment-constructor", package = TreeSummarizedExperiment)
 ```
 
-
 ## Related work
 
-- [micodymora](https://github.com/OSS-Lab/micodymora) Python package for microbiome simulation
+-   [micodymora](https://github.com/OSS-Lab/micodymora) Python package for microbiome simulation
 
 # Session info
 

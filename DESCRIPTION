@@ -34,8 +34,9 @@ Imports:
     stats,
     poweRlaw,
     gtools,
-    S4Vectors,
-    MatrixGenerics
+    MatrixGenerics,
+    reshape2,
+    ggplot2
 Suggests:
     rmarkdown,
     knitr,

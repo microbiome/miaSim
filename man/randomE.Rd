@@ -7,31 +7,61 @@
 randomE(
   n_species,
   n_resources,
-  min_con = round(n_resources/4),
-  max_con = round(n_resources/3),
-  min_prod = round(n_resources/6),
-  max_prod = round(n_resources/4),
-  maintenance = 0.5
+  names_species = NULL,
+  names_resources = NULL,
+  mean_consumption = n_resources/4,
+  mean_production = n_resources/6,
+  maintenance = 0.5,
+  trophic_levels = NULL,
+  trophic_preferences = NULL,
+  exact = FALSE
 )
 }
 \arguments{
-\item{n_species}{integer number of species}
+\item{n_species}{Integer: number of species}
 
-\item{n_resources}{integer number of resources}
+\item{n_resources}{Integer: number of resources}
 
-\item{min_con}{integer minimum number of resources consumed by each species}
+\item{names_species}{Character: names of species. If NULL,
+\code{paste0("sp", seq_len(n_species))} is used.
+(default: \code{names_species = NULL})}
 
-\item{max_con}{integer maximum number of resources consumed by each species}
+\item{names_resources}{Character: names of resources. If NULL,
+\code{paste0("res", seq_len(n_resources))} is used.}
 
-\item{min_prod}{integer minimum number of resources produced by each species}
+\item{mean_consumption}{Numeric: mean number of resources consumed by each
+species drawn from a poisson distribution
+(default: \code{mean_consumption = n_resources/4})}
 
-\item{max_prod}{integer maximum number of resources produced by each species}
+\item{mean_production}{Numeric: mean number of resources produced by each
+species drawn from a poisson distribution
+(default: \code{mean_production = n_resources/6})}
 
-\item{maintenance}{numeric value between 0~1 the proportion of resources used
+\item{maintenance}{Numeric: proportion of resources that cannot be converted
+into products
+between 0~1 the proportion of resources used
 to maintain the living of microorganisms. 0 means all the resources will be
 used for the reproduction of microorganisms, and 1 means all the resources
 would be used to maintain the living of organisms and no resources would be
-left for their growth(reproduction).}
+left for their growth(reproduction).
+(default: \code{maintenance = 0.5})}
+
+\item{trophic_levels}{Integer: number of species in microbial trophic levels.
+If NULL, by default, microbial trophic levels would not be considered.
+(default: \code{trophic_levels = NULL})}
+
+\item{trophic_preferences}{List: preferred resources and productions of each
+trophic level. Positive values indicate the consumption of resources,
+whilst negatives indicate that the species would produce the resource.}
+
+\item{exact}{Logical: whether to set the number of consumption/production to
+be exact as mean_consumption/mean_production or to set them using a Poisson
+distribution.
+(default: \code{exact = FALSE})
+If \code{length(trophic_preferences)} is smaller than \code{length(trophic_levels)},
+then NULL values would be appended to lower trophic levels.
+If NULL, by default, the consumption preference will be defined randomly.
+(default: \code{trophic_preferences = NULL})}
 }
 \value{
 \code{randomE} returns a matrix E with dimensions (n_species x n_resources),
@@ -44,6 +74,29 @@ whilst negatives indicate that the species would produce the resource.
 }
 \examples{
 # example with minimum parameters
-ExampleEfficiencyMatrix2 <- randomE(n_species = 5, n_resources = 12)
+ExampleEfficiencyMatrix <- randomE(n_species = 5, n_resources = 12)
+
+# examples with specific parameters
+ExampleEfficiencyMatrix <- randomE(n_species = 3, n_resources = 6,
+    names_species = letters[1:3], 
+    names_resources = paste0("res",LETTERS[1:6]),
+    mean_consumption = 3, mean_production = 1 )
+ExampleEfficiencyMatrix <- randomE(n_species = 3, n_resources = 6,
+    maintenance = 0.4)
+ExampleEfficiencyMatrix <- randomE(n_species = 3, n_resources = 6,
+    mean_consumption = 3, mean_production = 1, maintenance = 0.4)
+
+# examples with microbial trophic levels
+ExampleEfficiencyMatrix <- randomE(n_species = 10, n_resources = 15,
+    trophic_levels = c(6,3,1), 
+    trophic_preferences = list(c(rep(1,5), rep(-1, 5), rep(0, 5)), 
+        c(rep(0,5), rep(1, 5), rep(-1, 5)),
+        c(rep(0,10), rep(1, 5))))
+ExampleEfficiencyMatrix <- randomE(n_species = 10, n_resources = 15,
+    trophic_levels = c(6,3,1),
+    trophic_preferences = list(c(rep(1,5), rep(-1, 5), rep(0, 5)), NULL, NULL))
+ExampleEfficiencyMatrix <- randomE(n_species = 10, n_resources = 15,
+    trophic_levels = c(6,3,1))
+makeHeatmap(ExampleEfficiencyMatrix, lowColor = "Red4", highColor = "Blue")
 
 }
