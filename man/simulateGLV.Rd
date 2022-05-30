@@ -77,7 +77,7 @@ sigma_external (std).
 
 \item{stochastic}{Logical: whether to introduce noise in the simulation.
 If False, sigma_drift, sigma_epoch, and sigma_external are ignored.
-(default: \code{stochastic = TRUE})}
+(default: \code{stochastic = FALSE})}
 
 \item{migration_p}{Numeric: the probability/frequency of migration from a
 metacommunity.
@@ -94,11 +94,13 @@ By default it equals to 0, indicating that the result won't contain any
 measurement error. This value should be non-negative.
 (default: \code{error_variance = 0})}
 
-\item{norm}{Logical scalar: returns normalized abundances (proportions
-in each generation)
+\item{norm}{Logical: whether the time series should be returned with
+the abundances as proportions (\code{norm = TRUE}) or
+the raw counts (default: \code{norm = FALSE})
 (default: \code{norm = FALSE})}
 
-\item{t_end}{Numeric scalar indicating the final time of the simulation
+\item{t_end}{Numeric: the end time of the simulationTimes, defining the
+modeled time length of the community.
 (default: \code{t_end = 1000})}
 
 \item{...}{additional parameters, see \code{\link{utils}} to know more.}
@@ -123,28 +125,44 @@ ExampleA <- randomA(n_species = 4, diagonal = -1)
 # run the model with default values (only stochastic migration considered)
 ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA)
 # visualize the result
-makePlot(ExampleGLV$matrix)
+ExampleGLV_SE <- convertToSE(
+    assay = t(ExampleGLV$matrix[,1:4]),
+    colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
+    metadata = ExampleGLV[-which(names(ExampleGLV)=="matrix")])
+miaViz::plotSeries(ExampleGLV_SE, x = "time")
 
-# run the model with two external disturbances at time points 240 and 480 
+# run the model with two external disturbances at time points 240 and 480
 # with durations equal to 1 (10 time steps when t_step by default is 0.1).
 ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA,
     t_external_events = c(0, 240, 480), t_external_durations = c(0, 1, 1))
 # visualize the result
-makePlot(ExampleGLV$matrix)
+ExampleGLV_SE <- convertToSE(
+    assay = t(ExampleGLV$matrix[,1:4]),
+    colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
+    metadata = ExampleGLV[-which(names(ExampleGLV)=="matrix")])
+miaViz::plotSeries(ExampleGLV_SE, x = "time")
 
 # run the model with no pertubation nor migration
 set.seed(42)
-ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA, stochastic = FALSE, 
+ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA, stochastic = FALSE,
     sigma_migration = 0)
 # visualize the result
-makePlot(ExampleGLV$matrix)
+ExampleGLV_SE <- convertToSE(
+    assay = t(ExampleGLV$matrix[,1:4]),
+    colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
+    metadata = ExampleGLV[-which(names(ExampleGLV)=="matrix")])
+miaViz::plotSeries(ExampleGLV_SE, x = "time")
 
 # run the model with no pertubation nor migration but with measurement error
 set.seed(42)
-ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA, stochastic = FALSE, 
+ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA, stochastic = FALSE,
     error_variance = 0.001, sigma_migration = 0)
 # visualize the result
-makePlot(ExampleGLV$matrix)
+ExampleGLV_SE <- convertToSE(
+    assay = t(ExampleGLV$matrix[,1:4]),
+    colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
+    metadata = ExampleGLV[-which(names(ExampleGLV)=="matrix")])
+miaViz::plotSeries(ExampleGLV_SE, x = "time")
 
 }
 \seealso{

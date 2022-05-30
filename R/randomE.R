@@ -4,20 +4,15 @@
 #' distribution. Positive efficiencies indicate the consumption of resources,
 #' whilst negatives indicate that the species would produce the resource.
 #'
-#' @param n_species Integer: number of species
-#' @param n_resources Integer: number of resources
-#' @param names_species Character: names of species. If NULL,
-#' `paste0("sp", seq_len(n_species))` is used.
-#' (default: \code{names_species = NULL})
-#' @param names_resources Character: names of resources. If NULL,
-#' `paste0("res", seq_len(n_resources))` is used.
-#' @param mean_consumption Numeric: mean number of resources consumed by each 
+#' @template man_spe
+#' @template man_res
+#' @param mean_consumption Numeric: mean number of resources consumed by each
 #' species drawn from a poisson distribution
 #' (default: \code{mean_consumption = n_resources/4})
-#' @param mean_production Numeric: mean number of resources produced by each 
+#' @param mean_production Numeric: mean number of resources produced by each
 #' species drawn from a poisson distribution
 #' (default: \code{mean_production = n_resources/6})
-#' @param maintenance Numeric: proportion of resources that cannot be converted 
+#' @param maintenance Numeric: proportion of resources that cannot be converted
 #' into products
 #' between 0~1 the proportion of resources used
 #' to maintain the living of microorganisms. 0 means all the resources will be
@@ -28,11 +23,11 @@
 #' @param trophic_levels Integer: number of species in microbial trophic levels.
 #' If NULL, by default, microbial trophic levels would not be considered.
 #' (default: \code{trophic_levels = NULL})
-#' @param trophic_preferences List: preferred resources and productions of each 
+#' @param trophic_preferences List: preferred resources and productions of each
 #' trophic level. Positive values indicate the consumption of resources,
 #' whilst negatives indicate that the species would produce the resource.
-#' @param exact Logical: whether to set the number of consumption/production to 
-#' be exact as mean_consumption/mean_production or to set them using a Poisson 
+#' @param exact Logical: whether to set the number of consumption/production to
+#' be exact as mean_consumption/mean_production or to set them using a Poisson
 #' distribution.
 #' (default: \code{exact = FALSE})
 #' If `length(trophic_preferences)` is smaller than `length(trophic_levels)`,
@@ -46,18 +41,18 @@
 #'
 #' # examples with specific parameters
 #' ExampleEfficiencyMatrix <- randomE(n_species = 3, n_resources = 6,
-#'     names_species = letters[1:3], 
+#'     names_species = letters[1:3],
 #'     names_resources = paste0("res",LETTERS[1:6]),
 #'     mean_consumption = 3, mean_production = 1 )
 #' ExampleEfficiencyMatrix <- randomE(n_species = 3, n_resources = 6,
 #'     maintenance = 0.4)
 #' ExampleEfficiencyMatrix <- randomE(n_species = 3, n_resources = 6,
 #'     mean_consumption = 3, mean_production = 1, maintenance = 0.4)
-#' 
+#'
 #' # examples with microbial trophic levels
 #' ExampleEfficiencyMatrix <- randomE(n_species = 10, n_resources = 15,
-#'     trophic_levels = c(6,3,1), 
-#'     trophic_preferences = list(c(rep(1,5), rep(-1, 5), rep(0, 5)), 
+#'     trophic_levels = c(6,3,1),
+#'     trophic_preferences = list(c(rep(1,5), rep(-1, 5), rep(0, 5)),
 #'         c(rep(0,5), rep(1, 5), rep(-1, 5)),
 #'         c(rep(0,10), rep(1, 5))))
 #' ExampleEfficiencyMatrix <- randomE(n_species = 10, n_resources = 15,
@@ -65,8 +60,7 @@
 #'     trophic_preferences = list(c(rep(1,5), rep(-1, 5), rep(0, 5)), NULL, NULL))
 #' ExampleEfficiencyMatrix <- randomE(n_species = 10, n_resources = 15,
 #'     trophic_levels = c(6,3,1))
-#' makeHeatmap(ExampleEfficiencyMatrix, lowColor = "Red4", highColor = "Blue")
-#' 
+#'
 #' @return
 #' \code{randomE} returns a matrix E with dimensions (n_species x n_resources),
 #' and each row represents a species.
@@ -84,7 +78,7 @@ randomE <- function(n_species,
     trophic_preferences = NULL,
     exact = FALSE){
 
-    if(!all(vapply(list(n_species, n_resources), isPositiveInteger,
+    if(!all(vapply(list(n_species, n_resources), .isPosInt,
             logical(1)))){
         stop("n_species and/or n_resources must be integer.")}
 
@@ -116,7 +110,7 @@ randomE <- function(n_species,
     list_auto_trophic_preference <- list(NULL)
     for (j in seq_len(length(trophic_levels))) {
         n_species_this_level <- trophic_levels[j]
-        
+
         for (i in seq(n_species_this_level)){
             irow <- efficiency_matrix[i+sum(trophic_levels[0:(j-1)]),]
         consumption <- irow
@@ -131,7 +125,7 @@ randomE <- function(n_species,
         index_consumption <- sample(seq(n_resources),
                                                 size = min(max(1, round(mean_consumption)), n_resources))
                 } else {
-                    index_consumption <- sample(seq(n_resources), 
+                    index_consumption <- sample(seq(n_resources),
                                                 size = min(max(1, rpois(1, mean_consumption)), n_resources))
                 }
             } else { # with consumption preference
@@ -165,12 +159,12 @@ randomE <- function(n_species,
                         index_production <- unique(
                             sample(setprod,
                                    size = round(mean_production),
-                                   replace = TRUE)) 
+                                   replace = TRUE))
                     } else {
                         index_production <- unique(
                             sample(setprod,
                                    size = rpois(1, mean_production),
-                                   replace = TRUE)) 
+                                   replace = TRUE))
                     }
                     index_production <- setdiff(index_production, index_consumption)
                 } else{
@@ -195,12 +189,12 @@ randomE <- function(n_species,
         production[index_production] <- 1
             prod <- (-1)*(1-maintenance)*rdirichlet(1, production)
         irow[index_production] <- prod[index_production]
-            
-            
+
+
             efficiency_matrix[i+sum(trophic_levels[0:(j-1)]),] <- irow
     }
 
-        # automatically generate consumption of next level according to 
+        # automatically generate consumption of next level according to
         # the production of this level
         if (j < length(trophic_levels)){
             if (j+1 > length(list_auto_trophic_preference) || is.null(trophic_preferences[[j+1]])) {
@@ -210,7 +204,7 @@ randomE <- function(n_species,
                 list_auto_trophic_preference[[j+1]] <- colSums(eff_mat)
             }
         }
-        
+
     }
     return(efficiency_matrix)
 }

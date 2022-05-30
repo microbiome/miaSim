@@ -24,7 +24,7 @@ generate a vector of times when events is happening
 \examples{
 tEvent <-  eventTimes(t_events = c(10, 50, 100),
     t_duration = c(1, 2, 3),
-    t_end = 100, 
-    t_store = 100, 
+    t_end = 100,
+    t_store = 100,
     t_step = 1)
 }

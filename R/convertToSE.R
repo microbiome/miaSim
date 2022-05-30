@@ -25,13 +25,19 @@
 #' the `SE` object.
 #'
 #' @examples
-#' x <- simulateHubbellRates(
-#'     x0 = c(0,5,10), migration_p = 0.01, metacommunity_probability = NULL,
-#'     k_events = 1, growth_rates = NULL, norm = FALSE, t_end=1000)
+#' n_species <- 3
+#' x <- simulateHubbellRates(n_species = n_species,
+#'     migration_p = 0.01,
+#'     metacommunity_probability = NULL,
+#'     k_events = 1,
+#'     growth_rates = NULL,
+#'     norm = FALSE,
+#'     t_end=1000)
 #'
-#' HubbellSE <- convertToSE(assay = t(x$matrix[,1:3]),
-#'                          colData = x$matrix[,"time"],
-#'                          metadata = x$metadata)
+#' HubbellSE <- convertToSE(assay = t(x$matrix[,1:n_species]),
+#'                          colData = DataFrame(time = x$matrix[,"time"]),
+#'                          metadata = x[ - which(names(x) == "matrix")])
+#' miaViz::plotSeries(HubbellSE, x = "time")
 #'
 #' @return \linkS4class{SummarizedExperiment} an object containing abundance
 #' matrix

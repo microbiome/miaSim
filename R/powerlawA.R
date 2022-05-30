@@ -44,7 +44,7 @@ powerlawA <- function(n_species, alpha = 3.0, stdev = 1, s = 0.1, d = -1,
                     symmetric = FALSE){
 
             #input check
-            if(!isPositiveInteger(n_species)){
+            if(!.isPosInt(n_species)){
                 stop("n_species must be integer.")}
             if(!all(vapply(list(alpha, stdev, s, d),
                     is.numeric, logical(1)))){

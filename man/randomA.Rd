@@ -21,7 +21,7 @@ randomA(
 )
 }
 \arguments{
-\item{n_species}{Integer number of species}
+\item{n_species}{Integer: number of species}
 
 \item{names_species}{Character: names of species. If NULL,
 \code{paste0("sp", seq_len(n_species))} is used.
@@ -89,32 +89,28 @@ Generate random interaction matrix for Generalized Lotka-Volterra (GLV) model
 }
 \examples{
 
-dense_A <- randomA(n_species = 10, 
-    scale_off_diagonal = 1, 
-    diagonal = -1.0, 
+dense_A <- randomA(n_species = 10,
+    scale_off_diagonal = 1,
+    diagonal = -1.0,
     connectance = 0.9)
-makeHeatmap(dense_A, lowColor = 'blue', highColor = 'red')
 
-sparse_A <- randomA(n_species = 10, 
+sparse_A <- randomA(n_species = 10,
     diagonal = -1.0,
     connectance = 0.09)
-makeHeatmap(sparse_A, lowColor = 'blue', highColor = 'red')
 
 user_interactions <- rbeta(n = 10^2, .5,.5)
 user_A <- randomA(n_species = 10, interactions = user_interactions)
-makeHeatmap(user_A, lowColor = 'blue', highColor = 'red')
 
-competitive_A <- randomA(n_species = 10, 
-    mutualism = 0, 
-    commensalism = 0, 
-    parasitism = 0, 
-    amensalism = 0, 
-    competition = 1, 
-    connectance = 1, 
+competitive_A <- randomA(n_species = 10,
+    mutualism = 0,
+    commensalism = 0,
+    parasitism = 0,
+    amensalism = 0,
+    competition = 1,
+    connectance = 1,
     scale_off_diagonal=1)
-makeHeatmap(competitive_A, lowColor = 'blue', highColor = 'red')
 
-parasitism_A <- randomA(n_species = 10, 
+parasitism_A <- randomA(n_species = 10,
     mutualism = 0,
     commensalism = 0,
     parasitism = 1,
@@ -123,10 +119,8 @@ parasitism_A <- randomA(n_species = 10,
     connectance = 1,
     scale_off_diagonal = 1,
     symmetric=TRUE)
-makeHeatmap(parasitism_A, lowColor = 'blue', highColor = 'red')
 
 list_A <- list(dense_A, sparse_A, competitive_A, parasitism_A)
 groupA <- randomA(n_species = 40, list_A = list_A)
-makeHeatmap(groupA, lowColor = 'blue', highColor = 'red')
 
 }

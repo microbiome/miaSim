@@ -45,7 +45,7 @@ simulateSOI <- function(n_species, I, A, k = 5, com = NULL, tend, norm = FALSE){
             # additional draw from the uniform distribution for the empty sites
 
             #input check
-            if(!all(vapply(list(n_species,I,k), isPositiveInteger,
+            if(!all(vapply(list(n_species,I,k), .isPosInt,
                     logical(1)))){
                 stop("n_species,I and k values must be integer.")}
 

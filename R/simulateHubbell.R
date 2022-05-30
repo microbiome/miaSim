@@ -43,7 +43,7 @@ simulateHubbell <- function(n_species, M, I = 1000, d = 10, m = 0.02, tskip = 0,
             tend, norm = FALSE){
 
             #input check
-            if(!all(vapply(list(n_species,M,I,d), isPositiveInteger,
+            if(!all(vapply(list(n_species,M,I,d), .isPosInt,
                     logical(1)))){
                 stop("n_species,M,I,d,tskip must be integer.")}
 

@@ -74,11 +74,12 @@ changes introduced to the community composition
 
 \item{t_external_events}{Numeric: the starting time points of defined
 external events that introduce random changes to the community composition
-(default: \code{t_external_events = c(0, 240, 480)})}
+(default: \code{t_external_events = NULL})}
 
 \item{t_external_durations}{Numeric: respective duration of the external
-events that are defined in the 't_external_events' (times) and sigma_external (std).
-(default: \code{t_external_durations = c(0, 1, 1)})}
+events that are defined in the 't_external_events' (times) and
+sigma_external (std).
+(default: \code{t_external_durations = NULL})}
 
 \item{migration_p}{Numeric: the probability/frequency of migration from a
 metacommunity.
@@ -86,8 +87,8 @@ metacommunity.
 
 \item{metacommunity_probability}{Numeric: Normalized probability distribution
 of the likelihood that species from the metacommunity can enter the community
-during the simulation. If NULL,
-\code{rdirichlet(1, alpha = rep(1,n_species))} is used.
+during the simulation. If NULL, \code{rdirichlet(1, alpha = rep(1,n_species))} is
+used.
 (default: \code{metacommunity_probability = NULL})}
 
 \item{stochastic}{Logical: whether to introduce noise in the simulation.
@@ -101,7 +102,8 @@ measurement error. This value should be non-negative.
 
 \item{norm}{Logical: whether the time series should be returned with
 the abundances as proportions (\code{norm = TRUE}) or
-the raw counts (default: \code{norm = FALSE})}
+the raw counts (default: \code{norm = FALSE})
+(default: \code{norm = FALSE})}
 
 \item{t_end}{Numeric: the end time of the simulationTimes, defining the
 modeled time length of the community.
@@ -131,54 +133,76 @@ surpass the alive species abundances.
 }
 \examples{
 
-# Example of logistic model without stochasticity, death rates, or external 
+# Example of logistic model without stochasticity, death rates, or external
 # disturbances
 set.seed(42)
-ExampleLogistic <- simulateStochasticLogistic(n_species = 5, 
+ExampleLogistic <- simulateStochasticLogistic(n_species = 5,
     stochastic = FALSE, death_rates=rep(0,5))
-makePlot(ExampleLogistic$matrix)
+ExampleLogistic_SE <- convertToSE(
+    assay = t(ExampleLogistic$matrix[,1:5]),
+    colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
+    metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
+miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 
 # Adding a death rate
 set.seed(42)
-ExampleLogistic <- simulateStochasticLogistic(n_species = 5, 
+ExampleLogistic <- simulateStochasticLogistic(n_species = 5,
     stochastic = FALSE, death_rates=rep(0.01, 5))
-makePlot(ExampleLogistic$matrix)
+ExampleLogistic_SE <- convertToSE(
+    assay = t(ExampleLogistic$matrix[,1:5]),
+    colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
+    metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
+miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 
 # Example of stochastic logistic model
 set.seed(42)
 ExampleLogistic <- simulateStochasticLogistic(n_species = 5)
-makePlot(ExampleLogistic$matrix)
+ExampleLogistic_SE <- convertToSE(
+    assay = t(ExampleLogistic$matrix[,1:5]),
+    colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
+    metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
+miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 
 # Example of stochastic logistic model with measurement error
 set.seed(42)
-ExampleLogistic <- simulateStochasticLogistic(n_species = 5, 
+ExampleLogistic <- simulateStochasticLogistic(n_species = 5,
     error_variance = 1000)
-makePlot(ExampleLogistic$matrix)
+ExampleLogistic_SE <- convertToSE(
+    assay = t(ExampleLogistic$matrix[,1:5]),
+    colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
+    metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
+miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 
 # example with all the initial parameters defined by the user
 set.seed(42)
 ExampleLogistic <- simulateStochasticLogistic(n_species = 2,
     names_species = c("species1", "species2"),
-    growth_rates = c(0.2, 0.1), 
-    carrying_capacities = c(1000, 2000), 
-    death_rates = c(0.001, 0.0015), 
+    growth_rates = c(0.2, 0.1),
+    carrying_capacities = c(1000, 2000),
+    death_rates = c(0.001, 0.0015),
     x0 = c(3, 0.1),
-    sigma_drift = 0.001, 
-    sigma_epoch = 0.3, 
+    sigma_drift = 0.001,
+    sigma_epoch = 0.3,
     sigma_external = 0.5,
     sigma_migration = 0.002,
     epoch_p = 0.001,
-    t_external_events = c(100, 200, 300), 
+    t_external_events = c(100, 200, 300),
     t_external_durations = c(0.1, 0.2, 0.3),
     migration_p = 0.01,
     metacommunity_probability = gtools::rdirichlet(1, alpha = rep(1, 2)),
     stochastic = TRUE,
     error_variance = 0,
-    norm = TRUE, 
-    t_end = 400, 
+    norm = FALSE, # TRUE,
+    t_end = 400,
     t_start = 0, t_step = 0.01,
     t_store = 1500)
-makePlot(ExampleLogistic$matrix)
+ExampleLogistic_SE <- convertToSE(
+    assay = t(ExampleLogistic$matrix[,1:2]),
+    colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
+    metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
+ExampleLogistic_SE <- mia::transformCounts(ExampleLogistic_SE, method = "relabundance")
+miaViz::plotSeries(ExampleLogistic_SE, x = "time")
+miaViz::plotSeries(ExampleLogistic_SE, x = "time", abund_values = "relabundance")
 
 }
 \seealso{

@@ -32,10 +32,10 @@ simulateHubbellRates(
 (default: \code{names_species = NULL})}
 
 \item{migration_p}{Numeric: the probability/frequency of migration from a
-metacommunity
+metacommunity.
 (default: \code{migration_p = 0.01})}
 
-\item{metacommunity_probability}{Numeric: normalized probability distribution
+\item{metacommunity_probability}{Numeric: Normalized probability distribution
 of the likelihood that species from the metacommunity can enter the community
 during the simulation. If NULL, \code{rdirichlet(1, alpha = rep(1,n_species))} is
 used.
@@ -56,12 +56,14 @@ measurement error. This value should be non-negative.
 
 \item{norm}{Logical: whether the time series should be returned with
 the abundances as proportions (\code{norm = TRUE}) or
-the raw counts (default: \code{norm = FALSE})}
+the raw counts (default: \code{norm = FALSE})
+(default: \code{norm = FALSE})}
 
-\item{t_end}{Numeric: simulation end time (default: \code{t_end = 1000})}
+\item{t_end}{Numeric: the end time of the simulationTimes, defining the
+modeled time length of the community.
+(default: \code{t_end = 1000})}
 
-\item{...}{additional parameters including 't_start', 't_step', and 't_store'
-see \code{\link{utils}} for more information.}
+\item{...}{additional parameters, see \code{\link{utils}} to know more.}
 }
 \value{
 \code{simulateHubbellRates} returns a list of initial states,
@@ -78,45 +80,65 @@ time effect is considered to determine the next event.
 \examples{
 set.seed(42)
 ExampleHubbellRates <- simulateHubbellRates(n_species = 5)
-makePlot(ExampleHubbellRates$matrix)
+ExampleHubbellRates_SE <- convertToSE(
+    assay = t(ExampleHubbellRates$matrix[,1:5]),
+    colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
+    metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates)=="matrix")])
+miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 
 # no migration, all stochastic birth and death
 set.seed(42)
 ExampleHubbellRates <- simulateHubbellRates(n_species = 5, migration_p = 0)
-makePlot(ExampleHubbellRates$matrix)
+ExampleHubbellRates_SE <- convertToSE(
+    assay = t(ExampleHubbellRates$matrix[,1:5]),
+    colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
+    metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates)=="matrix")])
+miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 
 # all migration, no stochastic birth and death
 set.seed(42)
 ExampleHubbellRates <- simulateHubbellRates(
-    n_species = 5, 
-    migration_p = 1, 
-    metacommunity_probability = c(0.1, 0.15, 0.2, 0.25, 0.3), 
-    t_end = 20, 
+    n_species = 5,
+    migration_p = 1,
+    metacommunity_probability = c(0.1, 0.15, 0.2, 0.25, 0.3),
+    t_end = 20,
     t_store = 200)
-makePlot(ExampleHubbellRates$matrix)
+ExampleHubbellRates_SE <- convertToSE(
+    assay = t(ExampleHubbellRates$matrix[,1:5]),
+    colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
+    metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates)=="matrix")])
+miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 
 # all migration, no stochastic birth and death, but with measurement errors
 set.seed(42)
 ExampleHubbellRates <- simulateHubbellRates(
-    n_species = 5, 
-    migration_p = 1, 
-    metacommunity_probability = c(0.1, 0.15, 0.2, 0.25, 0.3), 
-    t_end = 20, 
-    t_store = 200, 
+    n_species = 5,
+    migration_p = 1,
+    metacommunity_probability = c(0.1, 0.15, 0.2, 0.25, 0.3),
+    t_end = 20,
+    t_store = 200,
     error_variance = 100)
-makePlot(ExampleHubbellRates$matrix) 
+ExampleHubbellRates_SE <- convertToSE(
+    assay = t(ExampleHubbellRates$matrix[,1:5]),
+    colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
+    metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates)=="matrix")])
+miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 
 # model with specified inputs
 set.seed(42)
 ExampleHubbellRates <- simulateHubbellRates(
     n_species = 5,
     migration_p = 0.1,
-    metacommunity_probability = c(0.1, 0.15, 0.2, 0.25, 0.3), 
-    t_end = 200, 
-    t_store = 1000, 
+    metacommunity_probability = c(0.1, 0.15, 0.2, 0.25, 0.3),
+    t_end = 200,
+    t_store = 1000,
     k_events = 5,
     growth_rates = c(1.1, 1.05, 1, 0.95, 0.9))
-makePlot(ExampleHubbellRates$matrix)
+ExampleHubbellRates_SE <- convertToSE(
+    assay = t(ExampleHubbellRates$matrix[,1:5]),
+    colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
+    metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates)=="matrix")])
+miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 
 }
 \references{

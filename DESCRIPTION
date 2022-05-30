@@ -34,14 +34,13 @@ Imports:
     stats,
     poweRlaw,
     gtools,
-    MatrixGenerics,
-    reshape2,
-    ggplot2
+    MatrixGenerics
 Suggests:
     rmarkdown,
     knitr,
     BiocStyle,
-    testthat
+    testthat,
+    miaViz
 URL: https://github.com/microbiome/miaSim
 BugReports: https://github.com/microbiome/miaSim/issues
 Roxygen: list(markdown = TRUE)

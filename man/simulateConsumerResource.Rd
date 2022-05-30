@@ -38,7 +38,7 @@ simulateConsumerResource(
 \arguments{
 \item{n_species}{Integer: number of species}
 
-\item{n_resources}{Interger: number of resources}
+\item{n_resources}{Integer: number of resources}
 
 \item{names_species}{Character: names of species. If NULL,
 \code{paste0("sp", seq_len(n_species))} is used.
@@ -125,11 +125,13 @@ By default it equals to 0, indicating that the result won't contain any
 measurement error. This value should be non-negative.
 (default: \code{error_variance = 0})}
 
-\item{norm}{Logical scalar: returns normalized abundances (proportions
-in each generation)
+\item{norm}{Logical: whether the time series should be returned with
+the abundances as proportions (\code{norm = TRUE}) or
+the raw counts (default: \code{norm = FALSE})
 (default: \code{norm = FALSE})}
 
-\item{t_end}{Numeric scalar indicating the final time of the simulation
+\item{t_end}{Numeric: the end time of the simulationTimes, defining the
+modeled time length of the community.
 (default: \code{t_end = 1000})}
 
 \item{trophic_priority}{Matrix: a matrix defining the orders of resources to
@@ -158,83 +160,101 @@ time points as columns
 Simulates time series with the consumer-resource model
 }
 \examples{
-ExampleCR <- simulateConsumerResource(n_species = 2, 
-    n_resources = 4)
-makePlot(ExampleCR$matrix)
-makePlot(ExampleCR$resources)
+n_species <- 2
+n_resources <- 4
+ExampleCR <- simulateConsumerResource(
+    n_species = n_species,
+    n_resources = n_resources)
+# convert to SummarizedExperiment format
+ExampleCR_SE <- convertToSE(
+    assay = t(ExampleCR$matrix[,1:n_species]),
+    colData = DataFrame(time = ExampleCR$matrix[, "time"]),
+    metadata = ExampleCR[-which(names(ExampleCR)=="matrix")])
+miaViz::plotSeries(ExampleCR_SE, x = "time")
+# convert to relative abundance
+ExampleCR_SE <- mia::transformCounts(ExampleCR_SE, method = "relabundance")
+miaViz::plotSeries(ExampleCR_SE, x = "time", abund_values = "relabundance")
 
 # example to get relative abundance and relative proportion of resources
-ExampleCR <- simulateConsumerResource(n_species = 2, 
-    n_resources = 4, norm = TRUE)
-makePlot(ExampleCR$matrix)
-makePlot(ExampleCR$resources)
+n_species <- 2
+n_resources <- 4
+ExampleCR <- simulateConsumerResource(n_species = n_species,
+    n_resources = n_resources, norm = TRUE)
 
-# example with user-defined values (names_species, names_resources, E, x0, 
+# example with user-defined values (names_species, names_resources, E, x0,
 # resources, growth_rates, error_variance, t_end, t_step)
-ExampleE <- randomE(n_species = 4, n_resources = 6, 
+n_species <- 4
+n_resources <- 6
+ExampleE <- randomE(n_species = n_species, n_resources = n_resources,
     mean_consumption = 3, mean_production = 1, maintenance = 0.4)
-ExampleResources <- rep(100, 6)
-ExampleCR <- simulateConsumerResource(n_species = 4, 
-    n_resources = 6, names_species = letters[1:4], 
-    names_resources = paste0("res",LETTERS[1:6]), E = ExampleE, 
-    x0 = rep(0.001, 4), resources = ExampleResources, 
-    growth_rates = runif(4),
+ExampleResources <- rep(100, n_resources)
+ExampleCR <- simulateConsumerResource(n_species = n_species,
+    n_resources = n_resources, names_species = letters[1:n_species],
+    names_resources = paste0("res",LETTERS[1:n_resources]), E = ExampleE,
+    x0 = rep(0.001, n_species), resources = ExampleResources,
+    growth_rates = runif(n_species),
     error_variance = 0.01,
     t_end = 5000,
     t_step = 1)
-makePlot(ExampleCR$matrix)
-makePlot(ExampleCR$resources)
+ExampleCR_SE <- convertToSE(
+    assay = t(ExampleCR$matrix[,1:n_species]),
+    colData = DataFrame(time = ExampleCR$matrix[, "time"]),
+    metadata = ExampleCR[-which(names(ExampleCR)=="matrix")])
+miaViz::plotSeries(ExampleCR_SE, x = "time")
 
 # example with trophic levels
 n_species <- 10
 n_resources <- 15
-
 ExampleEfficiencyMatrix <- randomE(n_species = 10, n_resources = 15,
                                    trophic_levels = c(6,3,1),
                                    trophic_preferences = list(
-                                       c(rep(1,5), rep(-1, 5), rep(0, 5)), 
-                                       c(rep(0,5), rep(1, 5), rep(-1, 5)), 
+                                       c(rep(1,5), rep(-1, 5), rep(0, 5)),
+                                       c(rep(0,5), rep(1, 5), rep(-1, 5)),
                                        c(rep(0,10), rep(1, 5))))
-makeHeatmap(ExampleEfficiencyMatrix)
 
-# ExampleResources <- rep(100, n_resources)
 ExampleResources <- c(rep(500, 5), rep(200, 5), rep(50, 5))
-ExampleCR <- simulateConsumerResource(n_species = n_species, 
-                                      n_resources = n_resources, 
-                                      names_species = letters[1:n_species], 
+ExampleCR <- simulateConsumerResource(n_species = n_species,
+                                      n_resources = n_resources,
+                                      names_species = letters[1:n_species],
                                       names_resources = paste0(
-                                          "res",LETTERS[1:n_resources]), 
-                                      E = ExampleEfficiencyMatrix, 
-                                      x0 = rep(0.001, n_species), 
-                                      resources = ExampleResources, 
+                                          "res",LETTERS[1:n_resources]),
+                                      E = ExampleEfficiencyMatrix,
+                                      x0 = rep(0.001, n_species),
+                                      resources = ExampleResources,
                                       growth_rates = rep(1, n_species),
                                       # error_variance = 0.001,
                                       t_end = 5000, t_step = 1)
-makePlot(ExampleCR$matrix)
-makePlotRes(ExampleCR$resources)
 
+ExampleCR_SE <- convertToSE(
+    assay = t(ExampleCR$matrix[,1:n_species]),
+    colData = DataFrame(time = ExampleCR$matrix[, "time"]),
+    metadata = ExampleCR[-which(names(ExampleCR)=="matrix")])
+miaViz::plotSeries(ExampleCR_SE, x = "time")
 
 # example with trophic priority
 n_species <- 4
 n_resources <- 6
-ExampleE <- randomE(n_species = n_species, 
-                    n_resources = n_resources, 
-                    mean_consumption = n_resources, 
+ExampleE <- randomE(n_species = n_species,
+                    n_resources = n_resources,
+                    mean_consumption = n_resources,
                     mean_production = 0)
-ExampleTrophicPriority <- t(apply(matrix(sample(n_species * n_resources), 
-                                         nrow = n_species), 
+ExampleTrophicPriority <- t(apply(matrix(sample(n_species * n_resources),
+                                         nrow = n_species),
                                   1, order))
-# make sure that for non-consumables resources for each species, 
-# the priority is 0 (smaller than any given priority) 
+# make sure that for non-consumables resources for each species,
+# the priority is 0 (smaller than any given priority)
 ExampleTrophicPriority <- (ExampleE > 0) * ExampleTrophicPriority
-ExampleCR <- simulateConsumerResource(n_species = n_species, 
-                                      n_resources = n_resources, 
-                                      E = ExampleE, 
+ExampleCR <- simulateConsumerResource(n_species = n_species,
+                                      n_resources = n_resources,
+                                      E = ExampleE,
                                       trophic_priority = ExampleTrophicPriority,
                                       t_end = 2000
                                       )
-makePlot(ExampleCR$matrix)
-makePlotRes(ExampleCR$resources)
+ExampleCR_SE <- convertToSE(
+    assay = t(ExampleCR$matrix[,1:n_species]),
+    colData = DataFrame(time = ExampleCR$matrix[, "time"]),
+    metadata = ExampleCR[-which(names(ExampleCR)=="matrix")])
+miaViz::plotSeries(ExampleCR_SE, x = "time")
 
 }
 \seealso{
