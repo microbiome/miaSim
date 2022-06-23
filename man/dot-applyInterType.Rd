@@ -2,8 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{.applyInterType}
 \alias{.applyInterType}
-\title{generate pairs of interactions according to interaction types
-A helper function to be used in combination with .getInteractions()}
+\title{Generate pairs of interactions according to interaction types}
 \usage{
 .applyInterType(I, pair, interType)
 }
@@ -20,6 +19,5 @@ species in the process of applying the interaction types}
 A matrix of interaction types with one pair changed
 }
 \description{
-generate pairs of interactions according to interaction types
 A helper function to be used in combination with .getInteractions()
 }

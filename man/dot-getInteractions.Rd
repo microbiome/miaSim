@@ -2,8 +2,8 @@
 % Please edit documentation in R/utils.R
 \name{.getInteractions}
 \alias{.getInteractions}
-\title{generate interactions according to five types of interactions and
-their weights}
+\title{Generate interactions according to five types of interactions and their
+weights}
 \usage{
 .getInteractions(n_species, weights, connectance)
 }
@@ -21,6 +21,6 @@ A matrix of interactions with all interactions changed according to
 the weights and connectance.
 }
 \description{
-generate interactions according to five types of interactions and
-their weights
+Generate interactions according to five types of interactions and their
+weights
 }

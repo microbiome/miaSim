@@ -92,7 +92,6 @@
 #' @aliases simulateHubbellRates-numeric
 #' @aliases simulateHubbellRates,numeric-method
 #'
-#' @importFrom MatrixGenerics rowSums2
 #' @importFrom gtools rdirichlet
 #' @importFrom stats rbinom
 #' @importFrom stats rgamma
