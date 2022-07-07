@@ -92,10 +92,7 @@
 #' @aliases simulateHubbellRates-numeric
 #' @aliases simulateHubbellRates,numeric-method
 #'
-#' @importFrom gtools rdirichlet
-#' @importFrom stats rbinom
-#' @importFrom stats rgamma
-#' @importFrom stats rmultinom
+#' @importFrom stats rbinom rgamma rmultinom
 #'
 #' @references Rosindell, James et al. "The unified neutral theory of
 #' biodiversity and biogeography at age ten." Trends in ecology & evolution
@@ -215,6 +212,6 @@ simulateHubbellRates <- function(n_species = NULL,
         x0 = x0,
         metacommunity_probability = metacommunity_probability,
         error_variance = error_variance,
-                            growth_rates = growth_rates)
+        growth_rates = growth_rates)
     return(out_list)
 }

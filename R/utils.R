@@ -37,6 +37,26 @@ simulationTimes <- function(t_start = 0, t_end = 1000,
         return(abs(x - round(x)) < tol && x > 0)
 }
 
+#' Generate dirichlet random deviates
+#'
+#' @param n Number of random vectors to generate.
+#' @param alpha Vector containing shape parameters.
+#'
+#' @importFrom stats rgamma
+#'
+#' @return a vector containing the Dirichlet density
+#'
+#' @examples
+#' dirichletExample <- rdirichlet(1, c(1,2,3))
+#'
+#' @export
+rdirichlet <- function(n, alpha) {
+    l <- length(alpha)
+    x <- matrix(rgamma(l * n, alpha), ncol = l, byrow = TRUE)
+    sm <- x %*% rep(1, l)
+    x / as.vector(sm)
+}
+
 #' generate a vector of times when events is happening
 #' @param t_events,t_duration Numeric: vector of starting time and durations of
 #' the events

@@ -37,8 +37,6 @@
 #' @seealso
 #' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
-#' @importFrom gtools rdirichlet
-#'
 #' @examples
 #'
 #' # Example of logistic model without stochasticity, death rates, or external
@@ -97,7 +95,7 @@
 #'     t_external_events = c(100, 200, 300),
 #'     t_external_durations = c(0.1, 0.2, 0.3),
 #'     migration_p = 0.01,
-#'     metacommunity_probability = gtools::rdirichlet(1, alpha = rep(1, 2)),
+#'     metacommunity_probability = miaSim::rdirichlet(1, alpha = rep(1, 2)),
 #'     stochastic = TRUE,
 #'     error_variance = 0,
 #'     norm = FALSE, # TRUE,

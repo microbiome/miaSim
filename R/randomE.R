@@ -113,8 +113,8 @@ randomE <- function(n_species,
 
         for (i in seq(n_species_this_level)){
             irow <- efficiency_matrix[i+sum(trophic_levels[0:(j-1)]),]
-        consumption <- irow
-        production <- irow
+            consumption <- irow
+            production <- irow
             # calculate consumption
             consumption_pref <- trophic_preferences[[j]]*(trophic_preferences[[j]]>0)
             if (length(consumption_pref) == 0 && is.null(list_auto_trophic_preference[[j]])) {
@@ -122,13 +122,14 @@ randomE <- function(n_species,
                 # consumption_pref <- NULL
                 consumption_pref <- rep(1, n_resources)
                 if (exact) {
-        index_consumption <- sample(seq(n_resources),
+                    index_consumption <- sample(seq(n_resources),
                                                 size = min(max(1, round(mean_consumption)), n_resources))
                 } else {
                     index_consumption <- sample(seq(n_resources),
                                                 size = min(max(1, rpois(1, mean_consumption)), n_resources))
                 }
-            } else { # with consumption preference
+            } else {
+                # with consumption preference
                 if (length(consumption_pref) == 0) {
                     consumption_pref <- list_auto_trophic_preference[[j]]
                 }
@@ -146,7 +147,7 @@ randomE <- function(n_species,
                                                 prob = consumption_pref)
                 }
             }
-        consumption[index_consumption] <- 1
+            consumption[index_consumption] <- 1
             irow <- rdirichlet(1, consumption * consumption_pref * 100)
 
             # calculate production

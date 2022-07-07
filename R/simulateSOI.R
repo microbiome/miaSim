@@ -30,8 +30,7 @@
 #' x <- simulateSOI(n_species = 10, I = 1000, A, k=5, com = NULL,
 #'                                             tend = 150, norm = TRUE)
 #'
-#' @importFrom stats rgamma
-#' @importFrom stats rnorm
+#' @importFrom stats rgamma rnorm
 #' @importFrom MatrixGenerics colSums2
 #'
 #' @export

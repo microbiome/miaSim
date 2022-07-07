@@ -33,7 +33,6 @@ Imports:
     deSolve,
     stats,
     poweRlaw,
-    gtools,
     MatrixGenerics
 Suggests:
     rmarkdown,
