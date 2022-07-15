@@ -283,20 +283,27 @@ simulateConsumerResource <- function(n_species, n_resources,
                              func = consumerResourceModel, parms = parameters,
                              events = list(func = perturb, time = t_dyn$t_sys)))
 
-
+    # end_row and index_to_return helps to solve returning early of ode solver.
+    end_row <- max(t_dyn$t_index)
+    if (nrow(out) <= end_row){
+        warning("returned output are earlier finished than t_end.")
+        index_to_return <- t_dyn$t_index[t_dyn$t_index <= nrow(out)]
+    } else {
+        index_to_return <- t_dyn$t_index
+    }
     species_index <- grepl('consumer', names(out))
     resource_index <- grepl('resource', names(out))
     volume_index <- grepl('volume', names(out))
 
     out_species_matrix <- as.matrix(out[,species_index])
-    out_species_matrix <- as.matrix(out_species_matrix[t_dyn$t_index,])
+    out_species_matrix <- as.matrix(out_species_matrix[index_to_return,])
 
     out_resource_matrix <- as.matrix(out[,resource_index])
-    out_resource_matrix <- as.matrix(out_resource_matrix[t_dyn$t_index,])
+    out_resource_matrix <- as.matrix(out_resource_matrix[index_to_return,])
 
 
     out_volume_matrix <- as.matrix(out[,volume_index])
-    out_volume_matrix <- as.matrix(out_volume_matrix[t_dyn$t_index,])
+    out_volume_matrix <- as.matrix(out_volume_matrix[index_to_return,])
 
     if(error_variance > 0){
         measurement_error <- rgamma(length(out_species_matrix), 1/error_variance, 1/error_variance)
@@ -314,13 +321,13 @@ simulateConsumerResource <- function(n_species, n_resources,
 
     out_species_matrix <- cbind(
         out_species_matrix,
-        time = t_dyn$t_sys[t_dyn$t_index])
+        time = t_dyn$t_sys[index_to_return])
     out_resource_matrix <- cbind(
         out_resource_matrix,
-        time = t_dyn$t_sys[t_dyn$t_index])
+        time = t_dyn$t_sys[index_to_return])
     out_volume_matrix <- cbind(
         out_volume_matrix,
-        time = t_dyn$t_sys[t_dyn$t_index])
+        time = t_dyn$t_sys[index_to_return])
 
     out_list <- list(matrix = out_species_matrix,
         resources = out_resource_matrix,
