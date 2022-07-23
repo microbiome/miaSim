@@ -167,15 +167,15 @@ Consumer_plot <- matplot(crmodel, type = "l")
 
 ## Data containers
 
-The abundance matrices can be converted into `SummarizedExperiment`
-object with `convertToSE`. This provides access to a broad range of
+The abundance matrices can be converted into `TreeSummarizedExperiment`
+object. This provides access to a broad range of
 tools for microbiome analysis that support this format (see
 [microbiome.github.io](http://microbiome.github.io)). More examples on
-`SummarizedExperiment` object manipulation and analysis can be found
+`TreeSummarizedExperiment` object manipulation and analysis can be found
 at [OMA Online Manual](https://microbiome.github.io/OMA).
 
 This example shows how to generate taxonomic abundance data, including
-sample metadata, and convert this into into `SummarizedExperiment`.
+sample metadata, and convert this into into `TreeSummarizedExperiment`.
 
 ```{r eval=FALSE, include=FALSE}
 A_normal <- powerlawA(n_species = 4, alpha = 3)
@@ -191,35 +191,37 @@ df <- DataFrame(sampleID = colnames(glvmodel),
             SubjectID = rep(1:4, 250),
             row.names = colnames(glvmodel))
 
-SE_GLV <- convertToSE(matrix = glvmodel,
+SE_GLV <- TreeSummarizedExperiment(
+                      assays = list(counts = glvmodel), 
                       colData = df)
 ```
 
 
 The community simulations result in abundance matrix that can be stored in
-`SummarizedExperiment` [@SE]  class object. Other fields, such as rowData 
+`TreeSummarizedExperiment` [@TreeSE]  class object. Other fields, such as rowData 
 containing information about the samples, and colData, consisting of sample 
-metadata describing the samples, can be added to the `SummarizedExperiment` 
-class object. This can be done by conversion function `convertToSE`.
+metadata describing the samples, can be added to the `TreeSummarizedExperiment` 
+class object. 
 
 ```{r eval=FALSE, include=FALSE}
 hubbellmodelRates <- simulateHubbellRates(community_initial = c(0,5,10),
     migration_p = 0.1, metacommunity_p = NULL, k_events = 1, 
     growth_rates = NULL, norm = FALSE, t_end=1000)
 
-HubbellSE <- convertToSE(matrix = hubbellmodelRates$counts,
+tse <- TreeSummarizedExperiment(
+                        assays = list(counts = hubbellmodelRates$counts),  
                         colData = hubbellmodelRates$time,
                         metadata = hubbellmodelRates$metadata)
 ```
 
 A broad range of functions are available in other packages to explore
-data in the `SummarizedExperiment` format (see e.g. microbiome.github.io).
+data in the `TreeSummarizedExperiment` format (see e.g. microbiome.github.io).
 
 For instance, to plot population density we can use the `miaViz` package:
 
 ```{r eval=FALSE, include=FALSE}
 library(miaViz)
-HubbellDensityPlot <- plotAbundanceDensity(HubbellSE, abund_values = "counts")
+HubbellDensityPlot <- plotAbundanceDensity(tse, abund_values = "counts")
 ```
 
 
@@ -238,8 +240,8 @@ Time$t.index
 ```
 
 
-It is also possible to incorporate phylogenetic tree information and
-convert into `TreeSummarizedExperiment`. For further details, see:
+It is also possible to incorporate phylogenetic tree information into
+`TreeSummarizedExperiment` objects. For further details, see:
 
 ```{r eval=FALSE, include=FALSE}
 library(TreeSummarizedExperiment)

@@ -1,4 +1,4 @@
-test_that("convertToSE", {
+test_that("convertToTreeSE", {
     ExampleHubbellRates <- simulateHubbellRates(community_initial = c(0,5,10),
                                               migration_p = 0.01,
                                               metacommunity_p = NULL,
@@ -7,12 +7,7 @@ test_that("convertToSE", {
                                               norm = FALSE,
                                               t_end=1000)
 
-    HubbellSE <- convertToSE(assay = ExampleHubbellRates$counts)
-
-    expect_s4_class(HubbellSE, "SummarizedExperiment")
-
-    HubbellTSE <- convertToSE(assay = ExampleHubbellRates$counts, output = TSE)
-
-    expect_s4_class(HubbellTSE, "TreeSummarizedExperiment")
+    HubbellSE <- convertToTreeSE(assay = ExampleHubbellRates$counts)
+    expect_s4_class(HubbellSE, "TreeSummarizedExperiment")
 
 })
