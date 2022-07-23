@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">miaSim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/miaSim.html">Get started</a>
 </li>
@@ -52,7 +48,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/microbiome/miaSim/">
+  <a href="https://github.com/microbiome/miaSim/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -67,43 +63,178 @@
 
       
 
-      </header><script src="miaSim_files/header-attrs-2.10/header-attrs.js"></script><script src="miaSim_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="miaSim_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>miaSim: Microbiome Data Simulation</h1>
-            
-            <h4 class="date">2021-09-04</h4>
+                        <h4 data-toc-skip class="author">Yagmur Simsek</h4>
+                  <a class="author_email" href="mailto:#"></a><a href="mailto:yagmur.simsek@hsrw.org" class="email">yagmur.simsek@hsrw.org</a>
       
-      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/master/vignettes/miaSim.Rmd"><code>vignettes/miaSim.Rmd</code></a></small>
+                              <h4 data-toc-skip class="author">Yu Gao</h4>
+                  <a class="author_email" href="mailto:#"></a><a href="mailto:gaoyu19920914@gmail.com" class="email">gaoyu19920914@gmail.com</a>
+      
+                              <h4 data-toc-skip class="author">Emma Gheysen</h4>
+                  <a class="author_email" href="mailto:#"></a><a href="mailto:emma.gheysen@student.kuleuven.be" class="email">emma.gheysen@student.kuleuven.be</a>
+      
+                              <h4 data-toc-skip class="author">Daniel Rios Garza</h4>
+                  <a class="author_email" href="mailto:#"></a><a href="mailto:danielrios.garza@kuleuven.be" class="email">danielrios.garza@kuleuven.be</a>
+      
+                              <h4 data-toc-skip class="author">Karoline Faust</h4>
+                  <a class="author_email" href="mailto:#"></a><a href="mailto:karoline.faust@kuleuven.be" class="email">karoline.faust@kuleuven.be</a>
+      
+                              <h4 data-toc-skip class="author">Leo Lahti</h4>
+                  <a class="author_email" href="mailto:#"></a><a href="mailto:leo.lahti@iki.fi" class="email">leo.lahti@iki.fi</a>
+      
+                  
+            <h4 data-toc-skip class="date">2022-07-23</h4>
+      
+      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/HEAD/vignettes/miaSim.Rmd" class="external-link"><code>vignettes/miaSim.Rmd</code></a></small>
       <div class="hidden name"><code>miaSim.Rmd</code></div>
 
     </div>
 
     
     
-<p><code>miaSim</code> implements tools for microbiome data simulation based on the <code>SummarizedExperiment</code> <span class="citation">[@SE]</span>, <code>microsim</code> .</p>
-<div id="installation" class="section level1">
-<h1 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h1>
-<p>To install <code>miaSim</code>, install <code>devtools</code> first, if it is not installed. Afterwards use the <code>install_github</code> function from <code>devtools</code>.</p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p><code>miaSim</code> implements tools for microbiome data simulation based on different ecological modeling assumptions. These can be used to simulate species abundance matrices, including time series. For a detailed function documentation, see the <a href="https://microbiome.github.io/miaSim/reference/index.html" class="external-link">function reference page</a></p>
+<p>Install the Bioconductor release version with</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"microbiome/miaSim"</span><span class="op">)</span></code></pre></div>
-</div>
-<div id="load-miasim" class="section level1">
-<h1 class="hasAnchor">
-<a href="#load-miasim" class="anchor"></a>Load <em>miaSim</em>
-</h1>
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span></code></pre></div>
+<p>Load the library</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/microbiome/miaSim">"miaSim"</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/microbiome/miaSim" class="external-link">miaSim</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h3>
+<div class="section level4">
+<h4 id="generating-species-interaction-matrices">Generating species interaction matrices<a class="anchor" aria-label="anchor" href="#generating-species-interaction-matrices"></a>
+</h4>
+<p>Some of the models rely on interaction matrices that represents interaction heterogeneity between species. The interaction matrix can be generated with different distributional assumptions.</p>
+<p>Generate interactions from normal distribution:</p>
+<p>Generate interactions from uniform distribution:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">A_uniform</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomA.html">randomA</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">10</span>, d <span class="op">=</span> <span class="op">-</span><span class="fl">0.4</span>, min_strength <span class="op">=</span> <span class="op">-</span><span class="fl">0.8</span>,</span>
+<span>                        max_strength <span class="op">=</span> <span class="fl">0.8</span>, connectance <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="models-for-simulating-microbiome-data-sets" class="section level1">
-<h1 class="hasAnchor">
-<a href="#models-for-simulating-microbiome-data-sets" class="anchor"></a>Models for simulating microbiome data sets</h1>
-<p>The generalized Lotka-Volterra simulation model fitted to time-series estimates microbial population dynamics and relative rates of interaction.</p>
-<p>The Hubbell Neutral simulation model explains the diversity and relative abundance of species in ecological communities.</p>
+<div class="section level4">
+<h4 id="generalized-lotka-volterra-glv">Generalized Lotka-Volterra (gLV)<a class="anchor" aria-label="anchor" href="#generalized-lotka-volterra-glv"></a>
+</h4>
+<p>The generalized Lotka-Volterra simulation model generates time-series assuming microbial population dynamics and interaction.</p>
+</div>
+<div class="section level4">
+<h4 id="ricker-model">Ricker model<a class="anchor" aria-label="anchor" href="#ricker-model"></a>
+</h4>
+<p>Ricker model is a discrete version of the gLV:</p>
+<p>The number of species specified in the interaction matrix must be the same as the species used in the models.</p>
+</div>
+<div class="section level4">
+<h4 id="hubbell-model">Hubbell model<a class="anchor" aria-label="anchor" href="#hubbell-model"></a>
+</h4>
+<p>Hubbell Neutral simulation model characterizes diversity and relative abundance of species in ecological communities assuming migration, births and deaths but no interactions. Losses become replaced by migration or birth.</p>
+<p>One can also simulate parameters for the Hubbell model.</p>
+</div>
+<div class="section level4">
+<h4 id="self-organised-instability-soi">Self-Organised Instability (SOI)<a class="anchor" aria-label="anchor" href="#self-organised-instability-soi"></a>
+</h4>
 <p>The Self-Organised Instability (SOI) model generates time series for communities and accelerates stochastic simulation.</p>
-<p>The simulations result in abundance matrix which can be used to form SummarizedExperiment object.</p>
+</div>
+<div class="section level4">
+<h4 id="stochastic-logistic-model">Stochastic logistic model<a class="anchor" aria-label="anchor" href="#stochastic-logistic-model"></a>
+</h4>
+<p>Stochastic logistic model is used to determine dead and alive counts in community.</p>
+</div>
+<div class="section level4">
+<h4 id="consumer-resource-model">Consumer-resource model<a class="anchor" aria-label="anchor" href="#consumer-resource-model"></a>
+</h4>
+<p>The consumer resource model requires the use of the <code>randomE</code> function, which returns a matrix containing the production rates and consumption rates of each species. The resulting matrix is used as a determination of resource consumption efficiency.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="data-containers">Data containers<a class="anchor" aria-label="anchor" href="#data-containers"></a>
+</h3>
+<p>The abundance matrices can be converted into <code>SummarizedExperiment</code> object with <code>convertToSE</code>. This provides access to a broad range of tools for microbiome analysis that support this format (see <a href="http://microbiome.github.io" class="external-link">microbiome.github.io</a>). More examples on <code>SummarizedExperiment</code> object manipulation and analysis can be found at <a href="https://microbiome.github.io/OMA" class="external-link">OMA Online Manual</a>.</p>
+<p>This example shows how to generate taxonomic abundance data, including sample metadata, and convert this into into <code>SummarizedExperiment</code>.</p>
+<p>The community simulations result in abundance matrix that can be stored in <code>SummarizedExperiment</code> <span class="citation">[@SE]</span> class object. Other fields, such as rowData containing information about the samples, and colData, consisting of sample metadata describing the samples, can be added to the <code>SummarizedExperiment</code> class object. This can be done by conversion function <code>convertToSE</code>.</p>
+<p>A broad range of functions are available in other packages to explore data in the <code>SummarizedExperiment</code> format (see e.g. microbiome.github.io).</p>
+<p>For instance, to plot population density we can use the <code>miaViz</code> package:</p>
+<div class="section level4">
+<h4 id="auxiliary-functions">Auxiliary functions<a class="anchor" aria-label="anchor" href="#auxiliary-functions"></a>
+</h4>
+<p>The <code>simulationTimes</code> function generates lists of time series that can be specified as simulation time and time points to keep in simulated time.</p>
+<p>It is also possible to incorporate phylogenetic tree information and convert into <code>TreeSummarizedExperiment</code>. For further details, see:</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="related-work">Related work<a class="anchor" aria-label="anchor" href="#related-work"></a>
+</h3>
+<ul>
+<li>
+<a href="https://github.com/OSS-Lab/micodymora" class="external-link">micodymora</a> Python package for microbiome simulation</li>
+</ul>
+</div>
+</div>
+<div class="section level2">
+<h2 id="session-info">Session info<a class="anchor" aria-label="anchor" href="#session-info"></a>
+</h2>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## R version 4.2.0 (2022-04-22)</span></span>
+<span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
+<span><span class="co">## Running under: Ubuntu 22.04 LTS</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Matrix products: default</span></span>
+<span><span class="co">## BLAS:   /home/xxx/bin/R-4.2.0/lib/libRblas.so</span></span>
+<span><span class="co">## LAPACK: /home/xxx/bin/R-4.2.0/lib/libRlapack.so</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## locale:</span></span>
+<span><span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
+<span><span class="co">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span></span>
+<span><span class="co">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></span>
+<span><span class="co">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span></span>
+<span><span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
+<span><span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## attached base packages:</span></span>
+<span><span class="co">## [1] stats4    stats     graphics  grDevices utils     datasets  methods  </span></span>
+<span><span class="co">## [8] base     </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## other attached packages:</span></span>
+<span><span class="co">##  [1] miaSim_1.3.0                   TreeSummarizedExperiment_2.5.0</span></span>
+<span><span class="co">##  [3] Biostrings_2.65.1              XVector_0.37.0                </span></span>
+<span><span class="co">##  [5] SingleCellExperiment_1.19.0    SummarizedExperiment_1.27.1   </span></span>
+<span><span class="co">##  [7] Biobase_2.57.1                 GenomicRanges_1.49.0          </span></span>
+<span><span class="co">##  [9] GenomeInfoDb_1.33.3            IRanges_2.31.0                </span></span>
+<span><span class="co">## [11] S4Vectors_0.35.1               BiocGenerics_0.43.0           </span></span>
+<span><span class="co">## [13] MatrixGenerics_1.9.1           matrixStats_0.62.0            </span></span>
+<span><span class="co">## [15] BiocStyle_2.25.0              </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## loaded via a namespace (and not attached):</span></span>
+<span><span class="co">##  [1] sass_0.4.1             tidyr_1.2.0            jsonlite_1.8.0        </span></span>
+<span><span class="co">##  [4] gtools_3.9.2.2         bslib_0.3.1            assertthat_0.2.1      </span></span>
+<span><span class="co">##  [7] BiocManager_1.30.18    yulab.utils_0.0.5      GenomeInfoDbData_1.2.8</span></span>
+<span><span class="co">## [10] yaml_2.3.5             pillar_1.8.0           lattice_0.20-45       </span></span>
+<span><span class="co">## [13] glue_1.6.2             digest_0.6.29          htmltools_0.5.3       </span></span>
+<span><span class="co">## [16] Matrix_1.4-1           pkgconfig_2.0.3        bookdown_0.27         </span></span>
+<span><span class="co">## [19] zlibbioc_1.43.0        purrr_0.3.4            tidytree_0.3.9        </span></span>
+<span><span class="co">## [22] pracma_2.3.8           BiocParallel_1.31.10   tibble_3.1.8          </span></span>
+<span><span class="co">## [25] generics_0.1.3         cachem_1.0.6           lazyeval_0.2.2        </span></span>
+<span><span class="co">## [28] cli_3.3.0              magrittr_2.0.3         crayon_1.5.1          </span></span>
+<span><span class="co">## [31] poweRlaw_0.70.6        memoise_2.0.1          evaluate_0.15         </span></span>
+<span><span class="co">## [34] fs_1.5.2               fansi_1.0.3            nlme_3.1-158          </span></span>
+<span><span class="co">## [37] textshaping_0.3.6      tools_4.2.0            lifecycle_1.0.1       </span></span>
+<span><span class="co">## [40] stringr_1.4.0          DelayedArray_0.23.0    compiler_4.2.0        </span></span>
+<span><span class="co">## [43] pkgdown_2.0.5          jquerylib_0.1.4        systemfonts_1.0.4     </span></span>
+<span><span class="co">## [46] rlang_1.0.4            grid_4.2.0             RCurl_1.98-1.7        </span></span>
+<span><span class="co">## [49] bitops_1.0-7           rmarkdown_2.14.1       codetools_0.2-18      </span></span>
+<span><span class="co">## [52] deSolve_1.32           DBI_1.1.3              R6_2.5.1              </span></span>
+<span><span class="co">## [55] knitr_1.39             dplyr_1.0.9            fastmap_1.1.0         </span></span>
+<span><span class="co">## [58] utf8_1.2.2             rprojroot_2.0.3        treeio_1.21.0         </span></span>
+<span><span class="co">## [61] ragg_1.2.2             desc_1.4.1             ape_5.6-2             </span></span>
+<span><span class="co">## [64] stringi_1.7.8          parallel_4.2.0         Rcpp_1.0.9            </span></span>
+<span><span class="co">## [67] vctrs_0.4.1            tidyselect_1.1.2       xfun_0.31</span></span></code></pre>
 </div>
   </div>
 
@@ -118,11 +249,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Leo Lahti, Yagmur Simsek.</p>
+  <p></p>
+<p>Developed by Karoline Faust, Yu Gao, Emma Gheysen, Daniel Rios Garza, Yagmur Simsek, Leo Lahti.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>
@@ -130,6 +263,8 @@
 
   
 
+
+  
 
   </body>
 </html>
