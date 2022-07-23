@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">miaSim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
       </span>
     </div>
 
@@ -155,16 +155,16 @@
 <div class="section level3">
 <h3 id="data-containers">Data containers<a class="anchor" aria-label="anchor" href="#data-containers"></a>
 </h3>
-<p>The abundance matrices can be converted into <code>SummarizedExperiment</code> object with <code>convertToSE</code>. This provides access to a broad range of tools for microbiome analysis that support this format (see <a href="http://microbiome.github.io" class="external-link">microbiome.github.io</a>). More examples on <code>SummarizedExperiment</code> object manipulation and analysis can be found at <a href="https://microbiome.github.io/OMA" class="external-link">OMA Online Manual</a>.</p>
-<p>This example shows how to generate taxonomic abundance data, including sample metadata, and convert this into into <code>SummarizedExperiment</code>.</p>
-<p>The community simulations result in abundance matrix that can be stored in <code>SummarizedExperiment</code> <span class="citation">[@SE]</span> class object. Other fields, such as rowData containing information about the samples, and colData, consisting of sample metadata describing the samples, can be added to the <code>SummarizedExperiment</code> class object. This can be done by conversion function <code>convertToSE</code>.</p>
-<p>A broad range of functions are available in other packages to explore data in the <code>SummarizedExperiment</code> format (see e.g. microbiome.github.io).</p>
+<p>The abundance matrices can be converted into <code>TreeSummarizedExperiment</code> object. This provides access to a broad range of tools for microbiome analysis that support this format (see <a href="http://microbiome.github.io" class="external-link">microbiome.github.io</a>). More examples on <code>TreeSummarizedExperiment</code> object manipulation and analysis can be found at <a href="https://microbiome.github.io/OMA" class="external-link">OMA Online Manual</a>.</p>
+<p>This example shows how to generate taxonomic abundance data, including sample metadata, and convert this into into <code>TreeSummarizedExperiment</code>.</p>
+<p>The community simulations result in abundance matrix that can be stored in <code>TreeSummarizedExperiment</code> <span class="citation">[@TreeSE]</span> class object. Other fields, such as rowData containing information about the samples, and colData, consisting of sample metadata describing the samples, can be added to the <code>TreeSummarizedExperiment</code> class object.</p>
+<p>A broad range of functions are available in other packages to explore data in the <code>TreeSummarizedExperiment</code> format (see e.g. microbiome.github.io).</p>
 <p>For instance, to plot population density we can use the <code>miaViz</code> package:</p>
 <div class="section level4">
 <h4 id="auxiliary-functions">Auxiliary functions<a class="anchor" aria-label="anchor" href="#auxiliary-functions"></a>
 </h4>
 <p>The <code>simulationTimes</code> function generates lists of time series that can be specified as simulation time and time points to keep in simulated time.</p>
-<p>It is also possible to incorporate phylogenetic tree information and convert into <code>TreeSummarizedExperiment</code>. For further details, see:</p>
+<p>It is also possible to incorporate phylogenetic tree information into <code>TreeSummarizedExperiment</code> objects. For further details, see:</p>
 </div>
 </div>
 <div class="section level3">
@@ -202,7 +202,7 @@
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] miaSim_1.3.0                   TreeSummarizedExperiment_2.5.0</span></span>
+<span><span class="co">##  [1] miaSim_1.3.1                   TreeSummarizedExperiment_2.5.0</span></span>
 <span><span class="co">##  [3] Biostrings_2.65.1              XVector_0.37.0                </span></span>
 <span><span class="co">##  [5] SingleCellExperiment_1.19.0    SummarizedExperiment_1.27.1   </span></span>
 <span><span class="co">##  [7] Biobase_2.57.1                 GenomicRanges_1.49.0          </span></span>
