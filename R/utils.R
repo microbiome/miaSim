@@ -194,8 +194,7 @@ generateSimulations <- function(model,
     }
     if (is.null(param_iter)){
         for (i in seq_len(n_instances)){
-            print(paste(i, "of", n_instances,"instances in one set of params."))
-            # print(params_list)
+            # print(paste(i, "of", n_instances,"instances in one set of params."))
             simulation <- do.call(model, params_list)
             # simulation$matrix[,colnames(simulation$model)!= "time"]
             simulations[[length(simulations)+1]] <- simulation
@@ -213,7 +212,7 @@ generateSimulations <- function(model,
 
         simulations_full <- list()
         for (i in seq_along(param_iter[[1]])){
-            print(paste(i, "of", length(param_iter[[1]]), "sets of params."))
+            # print(paste(i, "of", length(param_iter[[1]]), "sets of params."))
             params_list_local <- utils::modifyList(params_list,
                                                    lapply(param_iter, "[[", i))
             simulations_local <- generateSimulations(
@@ -421,7 +420,7 @@ estimateAFromSimulations <- function(
                                         ncol = ncol(simulations_compare_df))
     colnames(simulations_compare_means) <- colnames(simulations_compare_df)
     for (i in seq_len(nrow(simulations_compare_means))){
-        simulations_compare_means[i,] <- colMeans(simulations_compare_df[(i-1)*n_instances + (1:n_instances),])
+        simulations_compare_means[i,] <- colMeans(simulations_compare_df[(i-1)*n_instances + seq_len(n_instances),])
     }
     if (nrow(simulations_compare_means) != length(simulations_means)){
         stop("numbers of simulations to compare not equals to the numbers of species")
