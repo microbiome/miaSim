@@ -24,7 +24,7 @@
 #' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
 #' @return
-#' \code{simulateGLV} returns an abundance matrix
+#' \code{simulateGLV} returns a result list containing an abundance matrix
 #'
 #' @examples
 #'
@@ -74,7 +74,7 @@
 #' miaViz::plotSeries(ExampleGLV_SE, x = "time")
 #'
 #' @importFrom deSolve ode
-#' @importFrom stats runif
+#' @importFrom stats runif rnorm
 #'
 #' @export
 simulateGLV <- function(n_species,

@@ -106,7 +106,7 @@ modeled time length of the community.
 \item{...}{additional parameters, see \code{\link{utils}} to know more.}
 }
 \value{
-\code{simulateGLV} returns an abundance matrix
+\code{simulateGLV} returns a result list containing an abundance matrix
 }
 \description{
 Simulates time series with the generalized Lotka-Volterra model.

@@ -4,32 +4,60 @@
 \alias{simulateSOI}
 \title{Self-Organised Instability model (SOI) simulation}
 \usage{
-simulateSOI(n_species, I, A, k = 5, com = NULL, tend, norm = FALSE)
+simulateSOI(
+  n_species,
+  x0 = NULL,
+  names_species = NULL,
+  carrying_capacity = 1000,
+  A = NULL,
+  k_events = 5,
+  t_end = 1000,
+  metacommunity_probability = runif(n_species, min = 0.1, max = 0.8),
+  death_rates = runif(n_species, min = 0.01, max = 0.08),
+  norm = FALSE
+)
 }
 \arguments{
-\item{n_species}{integer number of species}
+\item{n_species}{Integer: number of species}
 
-\item{I}{integer community size, number of available sites (individuals)}
+\item{x0}{a vector of initial community abundances
+If (default: \code{x0 = NULL}), based on migration rates}
 
-\item{A}{interaction matrix}
+\item{names_species}{Character: names of species. If NULL,
+\code{paste0("sp", seq_len(n_species))} is used.
+(default: \code{names_species = NULL})}
 
-\item{k}{integer number of transition events that are allowed to take
-place during one leap. (default: \code{k = 5}). Higher values reduce runtime,
-but also accuracy of the simulation.}
+\item{carrying_capacity}{integer community size, number of available sites
+(individuals)}
 
-\item{com}{a vector of initial community abundances
-If (default: \code{com = NULL}), based on migration rates}
+\item{A}{matrix: interaction matrix defining the positive and negative
+interactions between n_species. If NULL, \code{powerlawA(n_species)} is used.
+(default: \code{A = NULL})}
 
-\item{tend}{integer timepoints to be returned in the time series
-(number of generations)}
+\item{k_events}{integer number of transition events that are allowed to take
+place during one leap. (default: \code{k_events = 5}).
+Higher values reduce runtime, but also accuracy of the simulation.}
+
+\item{t_end}{Numeric: the end time of the simulation, defining the
+modeled time length of the community.
+(default: \code{t_end = 1000})}
+
+\item{metacommunity_probability}{Numeric: Normalized probability distribution
+of the likelihood that species from the metacommunity can enter the community
+during the simulation. By default, \code{runif(n_species, min = 0.1, max = 0.8)}
+is used.
+(default: \code{metacommunity_probability = runif(n_species, min = 0.1, max = 0.8)})}
+
+\item{death_rates}{Numeric: death rates of each species. By default,
+\code{runif(n_species, min = 0.01, max = 0.08)} is used.
+(default: \code{death_rates = runif(n_species, min = 0.01, max = 0.08)})}
 
 \item{norm}{logical scalar indicating whether the time series should be
 returned with the abundances as proportions (\code{norm = TRUE})
 or the raw counts (default: \code{norm = FALSE})}
 }
 \value{
-abundance matrix consisting of species abundance as rows and
-time points as columns
+\code{simulateSOI} returns a result list containing an abundance matrix
 }
 \description{
 Generate time-series with The Self-Organised Instability (SOI) model.
@@ -39,8 +67,8 @@ Implements a K-leap method for accelerating stochastic simulation.
 # Generate interaction matrix
 A <- miaSim::powerlawA(10, alpha = 1.2)
 # Simulate data from the SOI model
-x <- simulateSOI(n_species = 10, I = 1000, A, k=5, com = NULL,
-                                            tend = 150, norm = TRUE)
+x <- simulateSOI(n_species = 10, carrying_capacity = 1000, A = A,
+    k_events=5, x0 = NULL, t_end = 150, norm = TRUE)
 
 }
 \seealso{
