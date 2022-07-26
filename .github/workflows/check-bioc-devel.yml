@@ -23,10 +23,10 @@
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 name: R-CMD-check-bioc-devel
 
@@ -166,9 +166,9 @@ jobs:
 
           BiocManager::install("vegandevs/vegan")
           BiocManager::install("fionarhuang/TreeSummarizedExperiment")
-          BiocManager::install("microbiome/mia)
-          BiocManager::install("microbiome/miaViz)
-          remotes::install_github("microbiome/miaTime)
+          BiocManager::install("microbiome/mia")
+          BiocManager::install("microbiome/miaViz")
+          remotes::install_github("microbiome/miaTime")
 
           # rspm is out of date
           install.packages("matrixStats", repos = "https://cran.rstudio.com/")
