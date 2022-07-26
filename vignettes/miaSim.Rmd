@@ -209,7 +209,7 @@ Time$t_sys[Time$t_index]
 ```
 
 It is also possible to incorporate phylogenetic tree information into
-`TreeSummarizedExperiment`. For further details, see:
+`TreeSummarizedExperiment` objects. For further details, see:
 
 ```{r}
 library(TreeSummarizedExperiment)

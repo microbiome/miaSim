@@ -1,6 +1,6 @@
 #' Convert simulated microbiome data to \linkS4class{TreeSummarizedExperiment}(`TreeSE`) data container
 #'
-#' This function converts simulated microbial community data to
+#' This function converts simulated microbial community data to 
 #' \linkS4class{TreeSummarizedExperiment}(`TreeSummarizedExperiment`) format.
 #'
 #' The abundance matrix from the simulation functions
@@ -18,7 +18,7 @@
 #'
 #' @param assay is a matrix-like or list of matrix-like object.
 #' Rows refer to taxa and columns refer to samples.
-#' @param output character value for storing the matrix in
+#' @param output character value for storing the matrix in 
 #' \linkS4class{TreeSummarizedExperiment} (\code{output = TreeSE}).
 #' @param ... : additional parameters to pass
 #'
@@ -54,7 +54,7 @@ convertToTreeSE <- function(assay, output, ...){
 #' Old conversion function (to be deprecated)
 #' @param assay is a matrix-like or list of matrix-like object.
 #' Rows refer to taxa and columns refer to samples.
-#' @param output character value for storing the matrix in
+#' @param output character value for storing the matrix in 
 #' \linkS4class{TreeSummarizedExperiment} (\code{output = TreeSE}).
 #' @param ... : additional parameters to pass
 #' @export
