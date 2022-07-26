@@ -42,28 +42,29 @@ simulateHubbell <- function(n_species, M, carrying_capacity = 1000,
                             k_events = 10, migration_p = 0.02, t_skip = 0,
                             t_end, norm = FALSE){
 
-            #input check
-            if(!all(vapply(list(n_species,M,carrying_capacity,k_events), .isPosInt,
-                    logical(1)))){
-                stop("n_species,M,carrying_capacity,k_events,t_skip must be integer.")}
+    #input check
+    if (!.isPosInt(n_species)) stop("n_species must be positive integer.")
+    if (!.isPosInt(M)) stop("M must be positive integer.")
+    if (!.isPosInt(carrying_capacity)) stop("carrying_capacity must be positive integer.")
+    if (!.isPosInt(k_events)) stop("k_events must be positive integer.")
 
-            pbirth <- runif(n_species, min = 0, max = 1)
-            pmigr <- runif(M, min = 0, max = 1)
-            pbirth <- c(pbirth, rep(0, times = (M-n_species)))
-            pbirth <- pbirth/sum(pbirth)
-            pmigr <- pmigr/sum(pmigr)
-            com <- ceiling(carrying_capacity*pbirth)
-            if(sum(com)>carrying_capacity){
-                ind <- sample(seq_len(M), size = sum(com)-carrying_capacity, prob = 1-pbirth)
-                com[ind] <- com[ind] -1
-            }
+    pbirth <- runif(n_species, min = 0, max = 1)
+    pmigr <- runif(M, min = 0, max = 1)
+    pbirth <- c(pbirth, rep(0, times = (M-n_species)))
+    pbirth <- pbirth/sum(pbirth)
+    pmigr <- pmigr/sum(pmigr)
+    com <- ceiling(carrying_capacity*pbirth)
+    if(sum(com)>carrying_capacity){
+        ind <- sample(seq_len(M), size = sum(com)-carrying_capacity, prob = 1-pbirth)
+        com[ind] <- com[ind] -1
+    }
 
             tseries <- matrix(0, nrow = M, ncol = t_end)
             colnames(tseries) <- paste0("t", seq_len(t_end))
             rownames(tseries) <- seq_len(M)
             com[which(com < 0)] <- 0
             tseries[,1] <- com
-            for (t in 2:t_end){
+            for (t in seq(2,t_end, 1)){
                 pbirth <- com/sum(com)
                 pbirth[which(pbirth < 0)] <- 0
                 deaths <- rmultinom(n = 1, size = k_events, prob = pbirth)
@@ -86,7 +87,7 @@ simulateHubbell <- function(n_species, M, carrying_capacity = 1000,
             if(norm){
                 tseries <- t(t(tseries)/colSums2(tseries))
             }
-            counts <- tseries[, (t_skip +1):t_end]
+            counts <- tseries[, seq((t_skip +1),t_end, 1)]
             # return(counts)
             matrix_out <- cbind(t(counts), time = seq_len(t_end))
             list_out <- list(matrix = matrix_out,

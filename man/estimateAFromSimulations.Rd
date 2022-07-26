@@ -72,7 +72,7 @@ CRMSimus <- generateSimulations(model = "simulateConsumerResource",
     params_list = crm_params, param_iter = NULL, n_instances = 1, t_end = 20)
 CRMSimus_SE <- TreeSummarizedExperiment(assays = list(counts = t(CRMSimus[[1]]$matrix[,1:10])),
     colData = DataFrame(time = CRMSimus[[1]]$matrix[,"time"]))
-# miaViz::plotSeries(CRMSimus_SE, x = "time")
+miaViz::plotSeries(CRMSimus_SE, x = "time")
 
 # get average of all instances
 CRMSimusCom <- as.data.frame(do.call(rbind, lapply(CRMSimus, getCommunity)))
@@ -127,5 +127,5 @@ estimatedGLVmodel <- simulateGLV(n_species = 10, x0 = crm_params$x0,
 estimatedGLVmodel_SE <- TreeSummarizedExperiment(
     assays = list(counts = t(estimatedGLVmodel$matrix[,1:10])),
     colData = DataFrame(time = estimatedGLVmodel$matrix[, "time"]))
-# miaViz::plotSeries(estimatedGLVmodel_SE, x = "time")
+miaViz::plotSeries(estimatedGLVmodel_SE, x = "time")
 }

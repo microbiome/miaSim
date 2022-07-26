@@ -1,6 +1,6 @@
 #' Convert simulated microbiome data to \linkS4class{TreeSummarizedExperiment}(`TreeSE`) data container
 #'
-#' This function converts simulated microbial community data to 
+#' This function converts simulated microbial community data to
 #' \linkS4class{TreeSummarizedExperiment}(`TreeSummarizedExperiment`) format.
 #'
 #' The abundance matrix from the simulation functions
@@ -18,7 +18,7 @@
 #'
 #' @param assay is a matrix-like or list of matrix-like object.
 #' Rows refer to taxa and columns refer to samples.
-#' @param output character value for storing the matrix in 
+#' @param output character value for storing the matrix in
 #' \linkS4class{TreeSummarizedExperiment} (\code{output = TreeSE}).
 #' @param ... : additional parameters to pass
 #'
@@ -36,10 +36,9 @@
 #'     assays = list(counts = t(x$matrix[,1:3])),
 #'     colData = DataFrame(time = x$matrix[,"time"]),
 #'     metadata = x[ - which(names(x) == "matrix")])
-#' # miaViz::plotSeries(HubbellSE, x = "time")
+#' miaViz::plotSeries(HubbellSE, x = "time")
 #' @return \linkS4class{TreeSummarizedExperiment} data object containing abundance matrix
 #'
-#' @importFrom TreeSummarizedExperiment TreeSummarizedExperiment
 #' @importFrom S4Vectors DataFrame
 #' @export
 convertToTreeSE <- function(assay, output, ...){
@@ -54,9 +53,10 @@ convertToTreeSE <- function(assay, output, ...){
 #' Old conversion function (to be deprecated)
 #' @param assay is a matrix-like or list of matrix-like object.
 #' Rows refer to taxa and columns refer to samples.
-#' @param output character value for storing the matrix in 
+#' @param output character value for storing the matrix in
 #' \linkS4class{TreeSummarizedExperiment} (\code{output = TreeSE}).
 #' @param ... : additional parameters to pass
+#' @return \linkS4class{SummarizedExperiment} data object containing abundance matrix
 #' @export
 convertToSE <- function(assay, output, ...){
     .Deprecated(msg="The convertToSE function is replaced with TreeSummarizedExperiment.")

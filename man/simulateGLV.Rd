@@ -129,7 +129,7 @@ ExampleGLV_SE <- TreeSummarizedExperiment(
     assays = list(counts = t(ExampleGLV$matrix[,1:4])),
     colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
     metadata = ExampleGLV[-which(names(ExampleGLV)=="matrix")])
-# miaViz::plotSeries(ExampleGLV_SE, x = "time")
+miaViz::plotSeries(ExampleGLV_SE, x = "time")
 
 # run the model with two external disturbances at time points 240 and 480
 # with durations equal to 1 (10 time steps when t_step by default is 0.1).
@@ -140,7 +140,7 @@ ExampleGLV_SE <- TreeSummarizedExperiment(
     assays = list(counts = t(ExampleGLV$matrix[,1:4])),
     colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
     metadata = ExampleGLV[-which(names(ExampleGLV)=="matrix")])
-# miaViz::plotSeries(ExampleGLV_SE, x = "time")
+miaViz::plotSeries(ExampleGLV_SE, x = "time")
 
 # run the model with no pertubation nor migration
 set.seed(42)
@@ -151,7 +151,7 @@ ExampleGLV_SE <- TreeSummarizedExperiment(
     assays = list(counts = t(ExampleGLV$matrix[,1:4])),
     colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
     metadata = ExampleGLV[-which(names(ExampleGLV)=="matrix")])
-# miaViz::plotSeries(ExampleGLV_SE, x = "time")
+miaViz::plotSeries(ExampleGLV_SE, x = "time")
 
 # run the model with no pertubation nor migration but with measurement error
 set.seed(42)
@@ -162,7 +162,7 @@ ExampleGLV_SE <- TreeSummarizedExperiment(
     assays = list(counts = t(ExampleGLV$matrix[,1:4])),
     colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
     metadata = ExampleGLV[-which(names(ExampleGLV)=="matrix")])
-# miaViz::plotSeries(ExampleGLV_SE, x = "time")
+miaViz::plotSeries(ExampleGLV_SE, x = "time")
 
 }
 \seealso{

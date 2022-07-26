@@ -50,5 +50,5 @@ HubbellSE <- TreeSummarizedExperiment(
     assays = list(counts = t(x$matrix[,1:3])),
     colData = DataFrame(time = x$matrix[,"time"]),
     metadata = x[ - which(names(x) == "matrix")])
-# miaViz::plotSeries(HubbellSE, x = "time")
+miaViz::plotSeries(HubbellSE, x = "time")
 }

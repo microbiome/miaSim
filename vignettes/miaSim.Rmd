@@ -165,7 +165,7 @@ df <- DataFrame(sampleID = rownames(glvmodel$matrix),
             SubjectID = rep(1:4, 250),
             row.names = rownames(glvmodel$matrix))
 
-SE_GLV <- TreeSummarizedExperiment(
+GLV_TSE <- TreeSummarizedExperiment(
     assays = list(assay = t(glvmodel$matrix[,1:4])),
     colData = df)
 ```
@@ -181,7 +181,7 @@ hubbellmodelRates <- simulateHubbellRates(x0 = c(0,5,10),
     migration_p = 0.1, metacommunity_probability = NULL, k_events = 1, 
     growth_rates = NULL, norm = FALSE, t_end=1000)
 
-HubbellSE <- TreeSummarizedExperiment(
+Hubbell_TSE <- TreeSummarizedExperiment(
     assays = list(counts = t(hubbellmodelRates$matrix[,1:3])),
     colData = S4Vectors::DataFrame(time = hubbellmodelRates$matrix[,"time"]),
     metadata = hubbellmodelRates[which(names(hubbellmodelRates) != "matrix")])
@@ -193,8 +193,8 @@ For instance, to plot population density we can use the `miaViz` package:
 
 ```{r}
 library(miaViz)
-HubbellDensityPlot <- plotAbundanceDensity(HubbellSE, abund_values = "counts")
-HubbellLinePlot <- plotSeries(HubbellSE, x = "time")
+HubbellDensityPlot <- plotAbundanceDensity(Hubbell_TSE, abund_values = "counts")
+HubbellLinePlot <- plotSeries(Hubbell_TSE, x = "time")
 ```
 
 ### Auxiliary functions

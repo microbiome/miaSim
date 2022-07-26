@@ -84,7 +84,7 @@ ExampleHubbellRates_SE <- TreeSummarizedExperiment(
     assays = list(counts = t(ExampleHubbellRates$matrix[,1:5])),
     colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
     metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates)=="matrix")])
-# miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 
 # no migration, all stochastic birth and death
 set.seed(42)
@@ -93,7 +93,7 @@ ExampleHubbellRates_SE <- TreeSummarizedExperiment(
     assays = list(counts = t(ExampleHubbellRates$matrix[,1:5])),
     colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
     metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates)=="matrix")])
-# miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 
 # all migration, no stochastic birth and death
 set.seed(42)
@@ -107,7 +107,7 @@ ExampleHubbellRates_SE <- TreeSummarizedExperiment(
     assays = list(counts = t(ExampleHubbellRates$matrix[,1:5])),
     colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
     metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates)=="matrix")])
-# miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 
 # all migration, no stochastic birth and death, but with measurement errors
 set.seed(42)
@@ -122,7 +122,7 @@ ExampleHubbellRates_SE <- TreeSummarizedExperiment(
     assays = list(counts = t(ExampleHubbellRates$matrix[,1:5])),
     colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
     metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates)=="matrix")])
-# miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 
 # model with specified inputs
 set.seed(42)
@@ -138,7 +138,7 @@ ExampleHubbellRates_SE <- TreeSummarizedExperiment(
     assays = list(counts = t(ExampleHubbellRates$matrix[,1:5])),
     colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
     metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates)=="matrix")])
-# miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 
 }
 \references{

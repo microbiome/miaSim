@@ -341,7 +341,7 @@ createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE){
 #'     params_list = crm_params, param_iter = NULL, n_instances = 1, t_end = 20)
 #' CRMSimus_SE <- TreeSummarizedExperiment(assays = list(counts = t(CRMSimus[[1]]$matrix[,1:10])),
 #'     colData = DataFrame(time = CRMSimus[[1]]$matrix[,"time"]))
-#' # miaViz::plotSeries(CRMSimus_SE, x = "time")
+#' miaViz::plotSeries(CRMSimus_SE, x = "time")
 #'
 #' # get average of all instances
 #' CRMSimusCom <- as.data.frame(do.call(rbind, lapply(CRMSimus, getCommunity)))
@@ -396,7 +396,7 @@ createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE){
 #' estimatedGLVmodel_SE <- TreeSummarizedExperiment(
 #'     assays = list(counts = t(estimatedGLVmodel$matrix[,1:10])),
 #'     colData = DataFrame(time = estimatedGLVmodel$matrix[, "time"]))
-#' # miaViz::plotSeries(estimatedGLVmodel_SE, x = "time")
+#' miaViz::plotSeries(estimatedGLVmodel_SE, x = "time")
 #' @return a matrix A with dimensions (n_species x n_species) where n_species
 #' equals to the number of elements in simulations_compare
 #' @export

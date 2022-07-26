@@ -15,6 +15,9 @@ Rows refer to taxa and columns refer to samples.}
 
 \item{...}{: additional parameters to pass}
 }
+\value{
+\linkS4class{SummarizedExperiment} data object containing abundance matrix
+}
 \description{
 Old conversion function (to be deprecated)
 }

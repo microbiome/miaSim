@@ -142,7 +142,7 @@ ExampleLogistic_SE <- TreeSummarizedExperiment(
     assays = list(counts = t(ExampleLogistic$matrix[,1:5])),
     colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
     metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
-# miaViz::plotSeries(ExampleLogistic_SE, x = "time")
+miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 
 # Adding a death rate
 set.seed(42)
@@ -152,7 +152,7 @@ ExampleLogistic_SE <- TreeSummarizedExperiment(
     assays = list(counts = t(ExampleLogistic$matrix[,1:5])),
     colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
     metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
-# miaViz::plotSeries(ExampleLogistic_SE, x = "time")
+miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 
 # Example of stochastic logistic model
 set.seed(42)
@@ -161,7 +161,7 @@ ExampleLogistic_SE <- TreeSummarizedExperiment(
     assays = list(counts = t(ExampleLogistic$matrix[,1:5])),
     colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
     metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
-# miaViz::plotSeries(ExampleLogistic_SE, x = "time")
+miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 
 # Example of stochastic logistic model with measurement error
 set.seed(42)
@@ -171,7 +171,7 @@ ExampleLogistic_SE <- TreeSummarizedExperiment(
     assays = list(counts = t(ExampleLogistic$matrix[,1:5])),
     colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
     metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
-# miaViz::plotSeries(ExampleLogistic_SE, x = "time")
+miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 
 # example with all the initial parameters defined by the user
 set.seed(42)
@@ -201,8 +201,8 @@ ExampleLogistic_SE <- TreeSummarizedExperiment(
     colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
     metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
 ExampleLogistic_SE <- mia::transformCounts(ExampleLogistic_SE, method = "relabundance")
-# miaViz::plotSeries(ExampleLogistic_SE, x = "time")
-# miaViz::plotSeries(ExampleLogistic_SE, x = "time", abund_values = "relabundance")
+miaViz::plotSeries(ExampleLogistic_SE, x = "time")
+miaViz::plotSeries(ExampleLogistic_SE, x = "time", abund_values = "relabundance")
 
 }
 \seealso{
