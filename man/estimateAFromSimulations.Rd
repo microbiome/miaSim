@@ -54,7 +54,8 @@ species and a simulation with complete species (leave-one-out)
 # example of generateSimulations
 crm_params <- list(n_species = 10,
                    n_resources = 5,
-                   E = randomE(n_species = 10, n_resources = 5, mean_consumption = 1, mean_production = 3),
+                   E = randomE(n_species = 10, n_resources = 5,
+                       mean_consumption = 1, mean_production = 3),
                    x0 = rep(0.001, 10),
                    resources = rep(1000,5),
                    monod_constant = matrix(rbeta(10*5, 10,10),nrow=10, ncol=5),
@@ -67,7 +68,8 @@ crm_params <- list(n_species = 10,
                    t_store = 100,
                    growth_rates = runif(10),
                    norm=FALSE)
-CRMSimus <- generateSimulations(model = "simulateConsumerResource", params_list = crm_params, param_iter = NULL, n_instances = 1, t_end = 20)
+CRMSimus <- generateSimulations(model = "simulateConsumerResource",
+    params_list = crm_params, param_iter = NULL, n_instances = 1, t_end = 20)
 CRMSimus_SE <- convertToSE(assay = t(CRMSimus[[1]]$matrix[,1:10]),
                            colData = DataFrame(time = CRMSimus[[1]]$matrix[,"time"]))
 miaViz::plotSeries(CRMSimus_SE, x = "time")
@@ -102,7 +104,8 @@ paramx0 <- createParamList(input_param = rep(0.001, 10), n_repeat = 10, replace_
 paramresources <- createParamList(input_param = rep(1000,5), n_repeat = 10)
 # test overwrite params
 crm_params_iter <- list(x0 = paramx0, resources = paramresources)
-CRMSimus2 <- generateSimulations(model = "simulateConsumerResource", params_list = crm_params, param_iter = crm_params_iter, n_instances = 1, t_end = 20)
+CRMSimus2 <- generateSimulations(model = "simulateConsumerResource",
+    params_list = crm_params, param_iter = crm_params_iter, n_instances = 1, t_end = 20)
 # get average of all instances
 CRMSimusCom2 <- as.data.frame(do.call(rbind, lapply(CRMSimus2, getCommunity)))
 
@@ -116,9 +119,11 @@ for (i in seq_len(nrow(CRMSimusCom2simp))){
     CRMSimusCom2simp[i,] <- colMeans(CRMSimusCom2[(i-1)*n_instances + (1:n_instances),])
 }
 # View(CRMSimusCom2simp)
-estimatedA <- estimateAFromSimulations(CRMSimus, CRMSimus2, n_instances = 1, scale_off_diagonal = 1, diagonal = -0.5, connectance = 0.2)/1000
+estimatedA <- estimateAFromSimulations(CRMSimus, CRMSimus2, n_instances = 1,
+    scale_off_diagonal = 1, diagonal = -0.5, connectance = 0.2)/1000
 
-estimatedGLVmodel <- simulateGLV(n_species = 10, x0 = crm_params$x0, A = estimatedA, growth_rates = crm_params$growth_rates, t_end = 20, t_store = 100)
+estimatedGLVmodel <- simulateGLV(n_species = 10, x0 = crm_params$x0,
+    A = estimatedA, growth_rates = crm_params$growth_rates, t_end = 20, t_store = 100)
 estimatedGLVmodel_SE <- convertToSE(assay = t(estimatedGLVmodel$matrix[,1:10]),
                                     colData = DataFrame(time = estimatedGLVmodel$matrix[, "time"]))
 miaViz::plotSeries(estimatedGLVmodel_SE, x = "time")

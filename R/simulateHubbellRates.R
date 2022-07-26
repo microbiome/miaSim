@@ -92,7 +92,7 @@
 #' @aliases simulateHubbellRates-numeric
 #' @aliases simulateHubbellRates,numeric-method
 #'
-#' @importFrom stats rbinom rgamma rmultinom
+#' @importFrom stats rbinom rgamma rmultinom rnorm
 #'
 #' @references Rosindell, James et al. "The unified neutral theory of
 #' biodiversity and biogeography at age ten." Trends in ecology & evolution

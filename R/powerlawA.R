@@ -31,6 +31,7 @@
 #' PLOS Computational Biology 12(2): e1004688.
 #' https://doi.org/10.1371/journal.pcbi.1004688
 #'
+#' @importFrom stats rnorm
 #' @importFrom poweRlaw rplcon
 #'
 #' @examples

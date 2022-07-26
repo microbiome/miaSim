@@ -114,6 +114,7 @@
 #' matrix(species abundance as rows and time points as columns) and its
 #' inputs(including metacommunity_probability and migration_p)
 #'
+#' @importFrom stats rnorm
 #' @export
 simulateStochasticLogistic <- function(n_species,
     names_species = NULL,
