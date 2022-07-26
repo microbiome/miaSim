@@ -57,7 +57,9 @@ library(miaSim)
 
 ### Generating species interaction matrices
 
-Some of the models rely on interaction matrices that represents interaction heterogeneity between species. The interaction matrix can be generated with different distributional assumptions.
+Some of the models rely on interaction matrices that represents interaction
+heterogeneity between species. The interaction matrix can be generated with
+different distributional assumptions.
 
 Generate interactions from normal distribution:
 
@@ -73,7 +75,8 @@ A_uniform <- randomA(n_species = 10, diagonal = -0.4, connectance = 0.5, interac
 
 ### Generalized Lotka-Volterra (gLV)
 
-The generalized Lotka-Volterra simulation model generates time-series assuming microbial population dynamics and interaction.
+The generalized Lotka-Volterra simulation model generates time-series assuming
+microbial population dynamics and interaction.
 
 ```{r glv}
 glvmodel <- simulateGLV(n_species = 4, A = A_normal, t_start = 0, 
@@ -96,7 +99,8 @@ The number of species specified in the interaction matrix must be the same as th
 Hubbell Neutral simulation model characterizes diversity and relative abundance of species in ecological communities assuming migration, births and deaths but no interactions. Losses become replaced by migration or birth.
 
 ```{r}
-hubbellmodel <- simulateHubbell(n_species = 8, M = 10, I = 1000, d = 50,m = 0.02, tend = 100)
+hubbellmodel <- simulateHubbell(n_species = 8, M = 10, carrying_capacity = 1000,
+                                k_events = 50, migration_p = 0.02, t_end = 100)
 ```
 
 One can also simulate parameters for the Hubbell model.
@@ -136,9 +140,15 @@ Consumer_plot <- matplot(crmodel$matrix[,c(1,2)], type = "l")
 
 ## Data containers
 
-The abundance matrices can be converted into `SummarizedExperiment` object with `convertToSE`. This provides access to a broad range of tools for microbiome analysis that support this format (see [microbiome.github.io](http://microbiome.github.io)). More examples on `SummarizedExperiment` object manipulation and analysis can be found at [OMA Online Manual](https://microbiome.github.io/OMA).
+The abundance matrices can be converted into `TreeSummarizedExperiment`
+object. This provides access to a broad range of
+tools for microbiome analysis that support this format (see
+[microbiome.github.io](http://microbiome.github.io)). More examples on
+`TreeSummarizedExperiment` object manipulation and analysis can be found
+at [OMA Online Manual](https://microbiome.github.io/OMA).
 
-This example shows how to generate taxonomic abundance data, including sample metadata, and convert this into into `SummarizedExperiment`.
+This example shows how to generate taxonomic abundance data, including
+sample metadata, and convert this into into `TreeSummarizedExperiment`.
 
 ```{r}
 A_normal <- powerlawA(n_species = 4, alpha = 3)
@@ -155,20 +165,26 @@ df <- DataFrame(sampleID = rownames(glvmodel$matrix),
             SubjectID = rep(1:4, 250),
             row.names = rownames(glvmodel$matrix))
 
-SE_GLV <- convertToSE(assay = t(glvmodel$matrix[,1:4]),
-                      colData = df)
+SE_GLV <- TreeSummarizedExperiment(
+    assays = list(assay = t(glvmodel$matrix[,1:4])),
+    colData = df)
 ```
 
-The community simulations result in abundance matrix that can be stored in `SummarizedExperiment` [@SE] class object. Other fields, such as rowData containing information about the samples, and colData, consisting of sample metadata describing the samples, can be added to the `SummarizedExperiment` class object. This can be done by conversion function `convertToSE`.
+The community simulations result in abundance matrix that can be stored in
+`TreeSummarizedExperiment` [@TreeSE]  class object. Other fields, such as rowData 
+containing information about the samples, and colData, consisting of sample 
+metadata describing the samples, can be added to the `TreeSummarizedExperiment` 
+class object. 
 
 ```{r}
 hubbellmodelRates <- simulateHubbellRates(x0 = c(0,5,10),
     migration_p = 0.1, metacommunity_probability = NULL, k_events = 1, 
     growth_rates = NULL, norm = FALSE, t_end=1000)
 
-HubbellSE <- convertToSE(assay = t(hubbellmodelRates$matrix[,1:3]),
-                        colData = hubbellmodelRates$matrix[,"time"],
-                        metadata = hubbellmodelRates$metadata)
+HubbellSE <- TreeSummarizedExperiment(
+    assays = list(counts = t(hubbellmodelRates$matrix[,1:3])),
+    colData = S4Vectors::DataFrame(time = hubbellmodelRates$matrix[,"time"]),
+    metadata = hubbellmodelRates[which(names(hubbellmodelRates) != "matrix")])
 ```
 
 A broad range of functions are available in other packages to explore data in the `SummarizedExperiment` format (see e.g. microbiome.github.io).
@@ -178,6 +194,7 @@ For instance, to plot population density we can use the `miaViz` package:
 ```{r}
 library(miaViz)
 HubbellDensityPlot <- plotAbundanceDensity(HubbellSE, abund_values = "counts")
+HubbellLinePlot <- plotSeries(HubbellSE, x = "time")
 ```
 
 ### Auxiliary functions
@@ -191,7 +208,8 @@ Time <- simulationTimes(t_start = 0, t_end = 100, t_step = 0.5,
 Time$t_sys[Time$t_index]
 ```
 
-It is also possible to incorporate phylogenetic tree information and convert into `TreeSummarizedExperiment`. For further details, see:
+It is also possible to incorporate phylogenetic tree information into
+`TreeSummarizedExperiment`. For further details, see:
 
 ```{r}
 library(TreeSummarizedExperiment)

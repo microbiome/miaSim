@@ -24,15 +24,14 @@ Description:
 License: Artistic-2.0 | file LICENSE
 biocViews: Microbiome, Software, Sequencing, DNASeq, ATACSeq, Coverage, Network
 Encoding: UTF-8
-LazyData: false
 RoxygenNote: 7.2.1
 Depends:
-    SummarizedExperiment,
     TreeSummarizedExperiment
 Imports:
     deSolve,
     stats,
     poweRlaw,
+    S4Vectors,
     MatrixGenerics
 Suggests:
     rmarkdown,

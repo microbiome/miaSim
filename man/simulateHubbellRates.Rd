@@ -80,20 +80,20 @@ time effect is considered to determine the next event.
 \examples{
 set.seed(42)
 ExampleHubbellRates <- simulateHubbellRates(n_species = 5)
-ExampleHubbellRates_SE <- convertToSE(
-    assay = t(ExampleHubbellRates$matrix[,1:5]),
+ExampleHubbellRates_SE <- TreeSummarizedExperiment(
+    assays = list(counts = t(ExampleHubbellRates$matrix[,1:5])),
     colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
     metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates)=="matrix")])
-miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+# miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 
 # no migration, all stochastic birth and death
 set.seed(42)
 ExampleHubbellRates <- simulateHubbellRates(n_species = 5, migration_p = 0)
-ExampleHubbellRates_SE <- convertToSE(
-    assay = t(ExampleHubbellRates$matrix[,1:5]),
+ExampleHubbellRates_SE <- TreeSummarizedExperiment(
+    assays = list(counts = t(ExampleHubbellRates$matrix[,1:5])),
     colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
     metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates)=="matrix")])
-miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+# miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 
 # all migration, no stochastic birth and death
 set.seed(42)
@@ -103,11 +103,11 @@ ExampleHubbellRates <- simulateHubbellRates(
     metacommunity_probability = c(0.1, 0.15, 0.2, 0.25, 0.3),
     t_end = 20,
     t_store = 200)
-ExampleHubbellRates_SE <- convertToSE(
-    assay = t(ExampleHubbellRates$matrix[,1:5]),
+ExampleHubbellRates_SE <- TreeSummarizedExperiment(
+    assays = list(counts = t(ExampleHubbellRates$matrix[,1:5])),
     colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
     metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates)=="matrix")])
-miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+# miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 
 # all migration, no stochastic birth and death, but with measurement errors
 set.seed(42)
@@ -118,11 +118,11 @@ ExampleHubbellRates <- simulateHubbellRates(
     t_end = 20,
     t_store = 200,
     error_variance = 100)
-ExampleHubbellRates_SE <- convertToSE(
-    assay = t(ExampleHubbellRates$matrix[,1:5]),
+ExampleHubbellRates_SE <- TreeSummarizedExperiment(
+    assays = list(counts = t(ExampleHubbellRates$matrix[,1:5])),
     colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
     metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates)=="matrix")])
-miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+# miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 
 # model with specified inputs
 set.seed(42)
@@ -134,11 +134,11 @@ ExampleHubbellRates <- simulateHubbellRates(
     t_store = 1000,
     k_events = 5,
     growth_rates = c(1.1, 1.05, 1, 0.95, 0.9))
-ExampleHubbellRates_SE <- convertToSE(
-    assay = t(ExampleHubbellRates$matrix[,1:5]),
+ExampleHubbellRates_SE <- TreeSummarizedExperiment(
+    assays = list(counts = t(ExampleHubbellRates$matrix[,1:5])),
     colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
     metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates)=="matrix")])
-miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+# miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 
 }
 \references{

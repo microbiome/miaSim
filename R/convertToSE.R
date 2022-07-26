@@ -1,61 +1,63 @@
-#' \linkS4class{SummarizedExperiment}(`SE`) or
-#' `TreeSE` construction function
+#' Convert simulated microbiome data to \linkS4class{TreeSummarizedExperiment}(`TreeSE`) data container
+#'
+#' This function converts simulated microbial community data to
+#' \linkS4class{TreeSummarizedExperiment}(`TreeSummarizedExperiment`) format.
 #'
 #' The abundance matrix from the simulation functions
-#' in `miaSim` can be converted to \linkS4class{SummarizedExperiment}
+#' in `miaSim` can be converted to \linkS4class{TreeSummarizedExperiment}
 #' class object.
 #'
-#' Storing the data in \linkS4class{SummarizedExperiment} enables access to
+#' Storing the data in \linkS4class{TreeSummarizedExperiment} enables access to
 #' various Bioconductor packages and tools that extend the
-#' \linkS4class{SummarizedExperiment} class.
-#' This offers data and metadata
+#' this class. This offers data and metadata
 #' synchronization, while accommodating specialized data structures for
 #' particular scientific applications.
 #'
-#' Further examples for `SE` object manipulation and analysis can be found at
+#' Examples for `TreeSE` object manipulation and analysis can be found at
 #' \url{https://microbiome.github.io/OMA}
 #'
 #' @param assay is a matrix-like or list of matrix-like object.
 #' Rows refer to taxa and columns refer to samples.
-#' @param output character value for storing the matrix in either
-#' \linkS4class{TreeSummarizedExperiment} (\code{output = TSE}) or
-#' \linkS4class{SummarizedExperiment} (default: \code{output = SE})
-#'
-#' @param ... : additional parameters to pass for
-#' the `SE` object.
+#' @param output character value for storing the matrix in
+#' \linkS4class{TreeSummarizedExperiment} (\code{output = TreeSE}).
+#' @param ... : additional parameters to pass
 #'
 #' @examples
-#' n_species <- 3
-#' x <- simulateHubbellRates(n_species = n_species,
+#' # Simulate time series data
+#' x <- simulateHubbellRates(n_species = 3,
 #'     migration_p = 0.01,
 #'     metacommunity_probability = NULL,
 #'     k_events = 1,
 #'     growth_rates = NULL,
 #'     norm = FALSE,
-#'     t_end=1000)
+#'     t_end = 1000)
+#' # Convert into TreeSE format.
+#' HubbellSE <- TreeSummarizedExperiment(
+#'     assays = list(counts = t(x$matrix[,1:3])),
+#'     colData = DataFrame(time = x$matrix[,"time"]),
+#'     metadata = x[ - which(names(x) == "matrix")])
+#' # miaViz::plotSeries(HubbellSE, x = "time")
+#' @return \linkS4class{TreeSummarizedExperiment} data object containing abundance matrix
 #'
-#' HubbellSE <- convertToSE(assay = t(x$matrix[,1:n_species]),
-#'                          colData = DataFrame(time = x$matrix[,"time"]),
-#'                          metadata = x[ - which(names(x) == "matrix")])
-#' miaViz::plotSeries(HubbellSE, x = "time")
-#'
-#' @return \linkS4class{SummarizedExperiment} an object containing abundance
-#' matrix
-#'
-#' @importFrom SummarizedExperiment SummarizedExperiment
 #' @importFrom TreeSummarizedExperiment TreeSummarizedExperiment
-#'
+#' @importFrom S4Vectors DataFrame
 #' @export
-convertToSE<- function(assay, output, ...){
+convertToTreeSE <- function(assay, output, ...){
 
-  if(missing(output)) {
-    objectContainer <- SummarizedExperiment(assays = list(counts = assay),
-                                            ...)
-  } else {
-    objectContainer <- TreeSummarizedExperiment(
-      assays = list(counts = assay),
-      ...)
-  }
+    .Deprecated(msg="The convertToTreeSE is replaced with TreeSummarizedExperiment.")
 
-  return(objectContainer)
+    TreeSummarizedExperiment(
+        assays = list(counts = assay), ...)
+
+}
+
+#' Old conversion function (to be deprecated)
+#' @param assay is a matrix-like or list of matrix-like object.
+#' Rows refer to taxa and columns refer to samples.
+#' @param output character value for storing the matrix in
+#' \linkS4class{TreeSummarizedExperiment} (\code{output = TreeSE}).
+#' @param ... : additional parameters to pass
+#' @export
+convertToSE <- function(assay, output, ...){
+    .Deprecated(msg="The convertToSE function is replaced with TreeSummarizedExperiment.")
 }

@@ -51,15 +51,15 @@
 #' ExampleCR <- simulateConsumerResource(
 #'     n_species = n_species,
 #'     n_resources = n_resources)
-#' # convert to SummarizedExperiment format
-#' ExampleCR_SE <- convertToSE(
-#'     assay = t(ExampleCR$matrix[,1:n_species]),
+#' # convert to TreeSummarizedExperiment format
+#' ExampleCR_SE <- TreeSummarizedExperiment(
+#'     assays = list(counts =t(ExampleCR$matrix[,1:n_species])),
 #'     colData = DataFrame(time = ExampleCR$matrix[, "time"]),
 #'     metadata = ExampleCR[-which(names(ExampleCR)=="matrix")])
-#' miaViz::plotSeries(ExampleCR_SE, x = "time")
+#' # miaViz::plotSeries(ExampleCR_SE, x = "time")
 #' # convert to relative abundance
 #' ExampleCR_SE <- mia::transformCounts(ExampleCR_SE, method = "relabundance")
-#' miaViz::plotSeries(ExampleCR_SE, x = "time", abund_values = "relabundance")
+#' # miaViz::plotSeries(ExampleCR_SE, x = "time", abund_values = "relabundance")
 #'
 #' # example to get relative abundance and relative proportion of resources
 #' n_species <- 2
@@ -82,11 +82,11 @@
 #'     error_variance = 0.01,
 #'     t_end = 5000,
 #'     t_step = 1)
-#' ExampleCR_SE <- convertToSE(
-#'     assay = t(ExampleCR$matrix[,1:n_species]),
+#' ExampleCR_SE <- TreeSummarizedExperiment(
+#'     assays = list(counts = t(ExampleCR$matrix[,1:n_species])),
 #'     colData = DataFrame(time = ExampleCR$matrix[, "time"]),
 #'     metadata = ExampleCR[-which(names(ExampleCR)=="matrix")])
-#' miaViz::plotSeries(ExampleCR_SE, x = "time")
+#' # miaViz::plotSeries(ExampleCR_SE, x = "time")
 #'
 #' # example with trophic levels
 #' n_species <- 10
@@ -111,11 +111,11 @@
 #'                                       # error_variance = 0.001,
 #'                                       t_end = 5000, t_step = 1)
 #'
-#' ExampleCR_SE <- convertToSE(
-#'     assay = t(ExampleCR$matrix[,1:n_species]),
+#' ExampleCR_SE <- TreeSummarizedExperiment(
+#'     assays = list(counts = t(ExampleCR$matrix[,1:n_species])),
 #'     colData = DataFrame(time = ExampleCR$matrix[, "time"]),
 #'     metadata = ExampleCR[-which(names(ExampleCR)=="matrix")])
-#' miaViz::plotSeries(ExampleCR_SE, x = "time")
+#' # miaViz::plotSeries(ExampleCR_SE, x = "time")
 #'
 #' # example with trophic priority
 #' n_species <- 4
@@ -136,11 +136,11 @@
 #'                                       trophic_priority = ExampleTrophicPriority,
 #'                                       t_end = 2000
 #'                                       )
-#' ExampleCR_SE <- convertToSE(
-#'     assay = t(ExampleCR$matrix[,1:n_species]),
+#' ExampleCR_SE <- TreeSummarizedExperiment(
+#'     assays = list(counts = t(ExampleCR$matrix[,1:n_species])),
 #'     colData = DataFrame(time = ExampleCR$matrix[, "time"]),
 #'     metadata = ExampleCR[-which(names(ExampleCR)=="matrix")])
-#' miaViz::plotSeries(ExampleCR_SE, x = "time")
+#' # miaViz::plotSeries(ExampleCR_SE, x = "time")
 #'
 #' @return an abundance matrix with species and resources abundance as rows and
 #' time points as columns

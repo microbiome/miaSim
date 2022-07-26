@@ -7,11 +7,11 @@
 simulateHubbell(
   n_species,
   M,
-  I = 1000,
-  d = 10,
-  m = 0.02,
-  tskip = 0,
-  tend,
+  carrying_capacity = 1000,
+  k_events = 10,
+  migration_p = 0.02,
+  t_skip = 0,
+  t_end,
   norm = FALSE
 )
 }
@@ -22,20 +22,20 @@ in the local community}
 \item{M}{integer amount of different species in the metacommunity,
 including those of the local community}
 
-\item{I}{integer value of fixed amount of individuals in the local community
-(default: \code{I = 1000})}
+\item{carrying_capacity}{integer value of fixed amount of individuals in the local community
+(default: \code{carrying_capacity = 1000})}
 
-\item{d}{integer value of fixed amount of deaths of local community
-individuals in each generation (default: \code{d = 10})}
+\item{k_events}{integer value of fixed amount of deaths of local community
+individuals in each generation (default: \code{k_events = 10})}
 
-\item{m}{numeric immigration rate: the probability that a death in the local
+\item{migration_p}{numeric immigration rate: the probability that a death in the local
 community is replaced by a migrant of the metacommunity rather than by
-the birth of a local community member (default: \code{m = 0.02})}
+the birth of a local community member (default: \code{migration_p = 0.02})}
 
-\item{tskip}{integer number of generations that should not be included
-in the outputted species abundance matrix. (default: \code{tskip = 0})}
+\item{t_skip}{integer number of generations that should not be included
+in the outputted species abundance matrix. (default: \code{t_skip = 0})}
 
-\item{tend}{integer number of simulations to be simulated}
+\item{t_end}{integer number of simulations to be simulated}
 
 \item{norm}{logical scalar choosing whether the time series should be
 returned with the abundances as proportions (\code{norm = TRUE}) or
@@ -49,8 +49,8 @@ species abundance as rows and time points as columns
 Neutral species abundances simulation according to the Hubbell model.
 }
 \examples{
-x <- simulateHubbell(n_species = 8, M = 10, I = 1000, d = 50,
-                        m = 0.02, tend = 100)
+x <- simulateHubbell(n_species = 8, M = 10, carrying_capacity = 1000, k_events = 50,
+                        migration_p = 0.02, t_end = 100)
 
 }
 \references{
