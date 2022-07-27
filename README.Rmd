@@ -26,9 +26,11 @@ model, and the self-organised instability model.
 
 ## Installation
 
+
+
 ### Bioc-release
 
-```{r, eval=FALSE}
+```
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
@@ -37,7 +39,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 
 ### Bioc-devel
 
-```{r, eval=FALSE}
+```
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
