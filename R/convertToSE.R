@@ -56,7 +56,7 @@ convertToTreeSE <- function(assay, output, ...){
 #' @param output character value for storing the matrix in
 #' \linkS4class{TreeSummarizedExperiment} (\code{output = TreeSE}).
 #' @param ... : additional parameters to pass
-#' @return \linkS4class{SummarizedExperiment} data object containing abundance matrix
+#' @return SummarizedExperiment data object containing abundance matrix
 #' @export
 convertToSE <- function(assay, output, ...){
     .Deprecated(msg="The convertToSE function is replaced with TreeSummarizedExperiment.")
