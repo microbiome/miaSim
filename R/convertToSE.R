@@ -40,6 +40,7 @@
 #' @return \linkS4class{TreeSummarizedExperiment} data object containing abundance matrix
 #'
 #' @importFrom S4Vectors DataFrame
+#' @importFrom TreeSummarizedExperiment TreeSummarizedExperiment
 #' @export
 convertToTreeSE <- function(assay, output, ...){
 
