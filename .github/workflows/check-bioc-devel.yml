@@ -154,7 +154,7 @@ jobs:
         run: |
           BiocManager::install(version = "devel", ask = FALSE)
         shell: Rscript {0}
-
+    
       - name: Install dependencies
         run: |
           ## Try installing the package dependencies in steps. First the local
