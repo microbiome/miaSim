@@ -191,8 +191,17 @@ A broad range of functions are available in other packages to explore data in th
 
 For instance, to plot population density we can use the `miaViz` package:
 
+```{r eval=FALSE, include=FALSE}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("miaViz")
+
+```
+
 ```{r}
 library(miaViz)
+
 HubbellDensityPlot <- plotAbundanceDensity(Hubbell_TSE, abund_values = "counts")
 HubbellLinePlot <- plotSeries(Hubbell_TSE, x = "time")
 ```
