@@ -59,7 +59,7 @@
 #' miaViz::plotSeries(ExampleCR_SE, x = "time")
 #' # convert to relative abundance
 #' ExampleCR_SE <- mia::transformCounts(ExampleCR_SE, method = "relabundance")
-#' miaViz::plotSeries(ExampleCR_SE, x = "time", abund_values = "relabundance")
+#' miaViz::plotSeries(ExampleCR_SE, x = "time", assay_name = "relabundance")
 #'
 #' # example to get relative abundance and relative proportion of resources
 #' n_species <- 2

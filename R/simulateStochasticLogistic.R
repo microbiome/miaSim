@@ -108,7 +108,7 @@
 #'     metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
 #' ExampleLogistic_SE <- mia::transformCounts(ExampleLogistic_SE, method = "relabundance")
 #' miaViz::plotSeries(ExampleLogistic_SE, x = "time")
-#' miaViz::plotSeries(ExampleLogistic_SE, x = "time", abund_values = "relabundance")
+#' miaViz::plotSeries(ExampleLogistic_SE, x = "time", assay_name = "relabundance")
 #'
 #' @return \code{simulateStochasticLogistic} returns a list of community dynamic
 #' matrix(species abundance as rows and time points as columns) and its

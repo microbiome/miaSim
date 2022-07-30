@@ -202,7 +202,7 @@ BiocManager::install("miaViz")
 ```{r}
 library(miaViz)
 
-HubbellDensityPlot <- plotAbundanceDensity(Hubbell_TSE, abund_values = "counts")
+HubbellDensityPlot <- plotAbundanceDensity(Hubbell_TSE, assay_name = "counts")
 HubbellLinePlot <- plotSeries(Hubbell_TSE, x = "time")
 ```
 
