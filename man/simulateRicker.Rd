@@ -7,37 +7,45 @@
 simulateRicker(
   n_species,
   A,
-  x = runif(n_species),
-  K = runif(n_species),
-  sigma = 0.05,
+  names_species = NULL,
+  x0 = runif(n_species),
+  carrying_capacities = runif(n_species),
+  error_variance = 0.05,
   explosion_bound = 10^8,
-  tskip = 0,
-  tend,
-  norm = FALSE
+  t_end = 1000,
+  norm = FALSE,
+  ...
 )
 }
 \arguments{
-\item{n_species}{integer number of species}
+\item{n_species}{Integer: number of species}
 
 \item{A}{interaction matrix}
 
-\item{x}{numeric initial abundances}
+\item{names_species}{Character: names of species. If NULL,
+\code{paste0("sp", seq_len(n_species))} is used.
+(default: \code{names_species = NULL})}
 
-\item{K}{numeric carrying capacities}
+\item{x0}{Numeric: initial abundances of simulated species. If NULL,
+\code{runif(n = n_species, min = 0, max = 1)} is used.}
 
-\item{sigma}{numeric value of noise level, if set to a non-positive value,
-no noise is added (default: \code{sigma = 0.05})}
+\item{carrying_capacities}{numeric carrying capacities. If NULL,
+\code{runif(n = n_species, min = 0, max = 1)} is used.}
+
+\item{error_variance}{Numeric: the variance of measurement error.
+By default it equals to 0, indicating that the result won't contain any
+measurement error. This value should be non-negative.
+(default: \code{error_variance = 0.05})}
 
 \item{explosion_bound}{numeric value of boundary for explosion
 (default: \code{explosion_bound = 10^8})}
 
-\item{tskip}{integer number of generations that should not be included in the
-outputted species abundance matrix (default: \code{tskip = 0})}
-
-\item{tend}{integer number of simulations to be simulated}
+\item{t_end}{integer number of simulations to be simulated}
 
 \item{norm}{logical scalar returning normalised abundances (proportions
 in each generation) (default: \code{norm = FALSE})}
+
+\item{...}{additional parameters, see \code{\link{utils}} to know more.}
 }
 \value{
 \code{simulateRicker} returns an abundance matrix with species abundance
@@ -50,7 +58,7 @@ in PLoS ONE 2014.
 }
 \examples{
 A <- powerlawA(10, alpha = 1.01)
-x <- simulateRicker(n_species=10, A, tend=100)
+x0 <- simulateRicker(n_species = 10, A, t_end = 100)
 
 }
 \references{

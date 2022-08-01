@@ -1,6 +1,6 @@
 Package: miaSim
 Type: Package
-Version: 1.3.4
+Version: 1.3.5
 Authors@R:
      c(person(given = "Yagmur", family = "Simsek", role = c("cre", "aut"),
               email = "yagmur.simsek@hsrw.org"),
@@ -31,14 +31,15 @@ Imports:
     deSolve,
     stats,
     poweRlaw,
-    gtools,
     S4Vectors,
     MatrixGenerics
 Suggests:
     rmarkdown,
     knitr,
     BiocStyle,
-    testthat
+    testthat,
+    mia,
+    miaViz
 URL: https://github.com/microbiome/miaSim
 BugReports: https://github.com/microbiome/miaSim/issues
 Roxygen: list(markdown = TRUE)

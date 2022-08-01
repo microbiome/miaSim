@@ -6,3 +6,4 @@
 ^docs$
 ^codecov.yml$
 ^README.Rmd$
+man-roxygen
