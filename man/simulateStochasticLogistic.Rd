@@ -136,46 +136,57 @@ surpass the alive species abundances.
 # Example of logistic model without stochasticity, death rates, or external
 # disturbances
 set.seed(42)
-ExampleLogistic <- simulateStochasticLogistic(n_species = 5,
-    stochastic = FALSE, death_rates=rep(0,5))
+ExampleLogistic <- simulateStochasticLogistic(
+    n_species = 5,
+    stochastic = FALSE, death_rates = rep(0, 5)
+)
 ExampleLogistic_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleLogistic$matrix[,1:5])),
+    assays = list(counts = t(ExampleLogistic$matrix[, 1:5])),
     colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
-    metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
+    metadata = ExampleLogistic[-which(names(ExampleLogistic) == "matrix")]
+)
 miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 
 # Adding a death rate
 set.seed(42)
-ExampleLogistic <- simulateStochasticLogistic(n_species = 5,
-    stochastic = FALSE, death_rates=rep(0.01, 5))
+ExampleLogistic <- simulateStochasticLogistic(
+    n_species = 5,
+    stochastic = FALSE, death_rates = rep(0.01, 5)
+)
 ExampleLogistic_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleLogistic$matrix[,1:5])),
+    assays = list(counts = t(ExampleLogistic$matrix[, 1:5])),
     colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
-    metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
+    metadata = ExampleLogistic[-which(names(ExampleLogistic) == "matrix")]
+)
 miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 
 # Example of stochastic logistic model
 set.seed(42)
 ExampleLogistic <- simulateStochasticLogistic(n_species = 5)
 ExampleLogistic_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleLogistic$matrix[,1:5])),
+    assays = list(counts = t(ExampleLogistic$matrix[, 1:5])),
     colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
-    metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
+    metadata = ExampleLogistic[-which(names(ExampleLogistic) == "matrix")]
+)
 miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 
 # Example of stochastic logistic model with measurement error
 set.seed(42)
-ExampleLogistic <- simulateStochasticLogistic(n_species = 5,
-    error_variance = 1000)
+ExampleLogistic <- simulateStochasticLogistic(
+    n_species = 5,
+    error_variance = 1000
+)
 ExampleLogistic_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleLogistic$matrix[,1:5])),
+    assays = list(counts = t(ExampleLogistic$matrix[, 1:5])),
     colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
-    metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
+    metadata = ExampleLogistic[-which(names(ExampleLogistic) == "matrix")]
+)
 miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 
 # example with all the initial parameters defined by the user
 set.seed(42)
-ExampleLogistic <- simulateStochasticLogistic(n_species = 2,
+ExampleLogistic <- simulateStochasticLogistic(
+    n_species = 2,
     names_species = c("species1", "species2"),
     growth_rates = c(0.2, 0.1),
     carrying_capacities = c(1000, 2000),
@@ -195,11 +206,13 @@ ExampleLogistic <- simulateStochasticLogistic(n_species = 2,
     norm = FALSE, # TRUE,
     t_end = 400,
     t_start = 0, t_step = 0.01,
-    t_store = 1500)
+    t_store = 1500
+)
 ExampleLogistic_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleLogistic$matrix[,1:2])),
+    assays = list(counts = t(ExampleLogistic$matrix[, 1:2])),
     colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
-    metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
+    metadata = ExampleLogistic[-which(names(ExampleLogistic) == "matrix")]
+)
 ExampleLogistic_SE <- mia::transformCounts(ExampleLogistic_SE, method = "relabundance")
 miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 miaViz::plotSeries(ExampleLogistic_SE, x = "time", assay_name = "relabundance")

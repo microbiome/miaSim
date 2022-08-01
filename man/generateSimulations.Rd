@@ -40,23 +40,29 @@ or simulating multiple instances to evaluate stochasticity therein.
 }
 \examples{
 
-crm_params <- list(n_species = 10,
-                   n_resources = 5,
-                   E = randomE(n_species = 10, n_resources = 5,
-                       mean_consumption = 1, mean_production = 3),
-                   x0 = rep(0.001, 10),
-                   resources = rep(1000,5),
-                   monod_constant = matrix(rbeta(10*5, 10,10),nrow=10, ncol=5),
-                   inflow_rate = .5,
-                   outflow_rate = .5,
-                   migration_p = 0,
-                   stochastic = TRUE,
-                   t_start = 0,
-                   t_end = 20,
-                   t_store = 100,
-                   growth_rates = runif(10),
-                   norm=FALSE)
-CRMSimus <- generateSimulations(model = "simulateConsumerResource",
-    params_list = crm_params, param_iter = NULL, n_instances = 1, t_end = 20)
+crm_params <- list(
+    n_species = 10,
+    n_resources = 5,
+    E = randomE(
+        n_species = 10, n_resources = 5,
+        mean_consumption = 1, mean_production = 3
+    ),
+    x0 = rep(0.001, 10),
+    resources = rep(1000, 5),
+    monod_constant = matrix(rbeta(10 * 5, 10, 10), nrow = 10, ncol = 5),
+    inflow_rate = .5,
+    outflow_rate = .5,
+    migration_p = 0,
+    stochastic = TRUE,
+    t_start = 0,
+    t_end = 20,
+    t_store = 100,
+    growth_rates = runif(10),
+    norm = FALSE
+)
+CRMSimus <- generateSimulations(
+    model = "simulateConsumerResource",
+    params_list = crm_params, param_iter = NULL, n_instances = 1, t_end = 20
+)
 
 }

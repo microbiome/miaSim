@@ -52,26 +52,34 @@ species and a simulation with complete species (leave-one-out)
 }
 \examples{
 # example of generateSimulations
-crm_params <- list(n_species = 10,
-                   n_resources = 5,
-                   E = randomE(n_species = 10, n_resources = 5,
-                       mean_consumption = 1, mean_production = 3),
-                   x0 = rep(0.001, 10),
-                   resources = rep(1000,5),
-                   monod_constant = matrix(rbeta(10*5, 10,10),nrow=10, ncol=5),
-                   inflow_rate = .5,
-                   outflow_rate = .5,
-                   migration_p = 0,
-                   stochastic = TRUE,
-                   t_start = 0,
-                   t_end = 20,
-                   t_store = 100,
-                   growth_rates = runif(10),
-                   norm=FALSE)
-CRMSimus <- generateSimulations(model = "simulateConsumerResource",
-    params_list = crm_params, param_iter = NULL, n_instances = 1, t_end = 20)
-CRMSimus_SE <- TreeSummarizedExperiment(assays = list(counts = t(CRMSimus[[1]]$matrix[,1:10])),
-    colData = DataFrame(time = CRMSimus[[1]]$matrix[,"time"]))
+crm_params <- list(
+    n_species = 10,
+    n_resources = 5,
+    E = randomE(
+        n_species = 10, n_resources = 5,
+        mean_consumption = 1, mean_production = 3
+    ),
+    x0 = rep(0.001, 10),
+    resources = rep(1000, 5),
+    monod_constant = matrix(rbeta(10 * 5, 10, 10), nrow = 10, ncol = 5),
+    inflow_rate = .5,
+    outflow_rate = .5,
+    migration_p = 0,
+    stochastic = TRUE,
+    t_start = 0,
+    t_end = 20,
+    t_store = 100,
+    growth_rates = runif(10),
+    norm = FALSE
+)
+CRMSimus <- generateSimulations(
+    model = "simulateConsumerResource",
+    params_list = crm_params, param_iter = NULL, n_instances = 1, t_end = 20
+)
+CRMSimus_SE <- TreeSummarizedExperiment(
+    assays = list(counts = t(CRMSimus[[1]]$matrix[, 1:10])),
+    colData = DataFrame(time = CRMSimus[[1]]$matrix[, "time"])
+)
 miaViz::plotSeries(CRMSimus_SE, x = "time")
 
 # get average of all instances
@@ -82,18 +90,18 @@ CRMSimusVariance <- apply(CRMSimusCom, 2, var)
 
 # test leave-one-out in CRM
 
-.replaceByZero <- function(input_list){ # crm_params_iter$x0 as input_list
-    if(!all(length(input_list) == unlist(unique(lapply(input_list, length))))){
+.replaceByZero <- function(input_list) { # crm_params_iter$x0 as input_list
+    if (!all(length(input_list) == unlist(unique(lapply(input_list, length))))) {
         stop("Length of input_list doesn't match length of element in it.")
     }
-    for (i in seq_along(input_list)){
+    for (i in seq_along(input_list)) {
         input_list[[i]][[i]] <- 0
     }
     return(input_list)
 }
-createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE){
+createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE) {
     res_list <- vector(mode = "list", length = n_repeat)
-    for (i in seq_len(n_repeat)){
+    for (i in seq_len(n_repeat)) {
         res_list[[i]] <- input_param
     }
     if (replace_by_zero) res_list <- .replaceByZero(res_list)
@@ -101,31 +109,39 @@ createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE){
 }
 
 paramx0 <- createParamList(input_param = rep(0.001, 10), n_repeat = 10, replace_by_zero = TRUE)
-paramresources <- createParamList(input_param = rep(1000,5), n_repeat = 10)
+paramresources <- createParamList(input_param = rep(1000, 5), n_repeat = 10)
 # test overwrite params
 crm_params_iter <- list(x0 = paramx0, resources = paramresources)
-CRMSimus2 <- generateSimulations(model = "simulateConsumerResource",
-    params_list = crm_params, param_iter = crm_params_iter, n_instances = 1, t_end = 20)
+CRMSimus2 <- generateSimulations(
+    model = "simulateConsumerResource",
+    params_list = crm_params, param_iter = crm_params_iter, n_instances = 1, t_end = 20
+)
 # get average of all instances
 CRMSimusCom2 <- as.data.frame(do.call(rbind, lapply(CRMSimus2, getCommunity)))
 
 # get only one average for 1 set of params
 n_instances <- 1
 CRMSimusCom2simp <- matrix(NA,
-                           nrow = nrow(CRMSimusCom2)/n_instances,
-                           ncol = ncol(CRMSimusCom2))
+    nrow = nrow(CRMSimusCom2) / n_instances,
+    ncol = ncol(CRMSimusCom2)
+)
 colnames(CRMSimusCom2simp) <- colnames(CRMSimusCom2)
-for (i in seq_len(nrow(CRMSimusCom2simp))){
-    CRMSimusCom2simp[i,] <- colMeans(CRMSimusCom2[(i-1)*n_instances + (1:n_instances),])
+for (i in seq_len(nrow(CRMSimusCom2simp))) {
+    CRMSimusCom2simp[i, ] <- colMeans(CRMSimusCom2[(i - 1) * n_instances + (1:n_instances), ])
 }
 # View(CRMSimusCom2simp)
-estimatedA <- estimateAFromSimulations(CRMSimus, CRMSimus2, n_instances = 1,
-    scale_off_diagonal = 1, diagonal = -0.5, connectance = 0.2)/1000
+estimatedA <- estimateAFromSimulations(CRMSimus, CRMSimus2,
+    n_instances = 1,
+    scale_off_diagonal = 1, diagonal = -0.5, connectance = 0.2
+) / 1000
 
-estimatedGLVmodel <- simulateGLV(n_species = 10, x0 = crm_params$x0,
-    A = estimatedA, growth_rates = crm_params$growth_rates, t_end = 20, t_store = 100)
+estimatedGLVmodel <- simulateGLV(
+    n_species = 10, x0 = crm_params$x0,
+    A = estimatedA, growth_rates = crm_params$growth_rates, t_end = 20, t_store = 100
+)
 estimatedGLVmodel_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(estimatedGLVmodel$matrix[,1:10])),
-    colData = DataFrame(time = estimatedGLVmodel$matrix[, "time"]))
+    assays = list(counts = t(estimatedGLVmodel$matrix[, 1:10])),
+    colData = DataFrame(time = estimatedGLVmodel$matrix[, "time"])
+)
 miaViz::plotSeries(estimatedGLVmodel_SE, x = "time")
 }

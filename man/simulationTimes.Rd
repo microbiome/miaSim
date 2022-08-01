@@ -28,8 +28,10 @@ Generate simulation times and the indices of time points to return
 in simulation functions.
 }
 \examples{
-Time <- simulationTimes(t_start = 0, t_end = 100, t_step = 0.5,
-    t_store = 100)
+Time <- simulationTimes(
+    t_start = 0, t_end = 100, t_step = 0.5,
+    t_store = 100
+)
 DefaultTime <- simulationTimes(t_end = 1000)
 
 }

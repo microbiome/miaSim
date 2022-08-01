@@ -38,17 +38,20 @@ Examples for \code{TreeSE} object manipulation and analysis can be found at
 }
 \examples{
 # Simulate time series data
-x <- simulateHubbellRates(n_species = 3,
+x <- simulateHubbellRates(
+    n_species = 3,
     migration_p = 0.01,
     metacommunity_probability = NULL,
     k_events = 1,
     growth_rates = NULL,
     norm = FALSE,
-    t_end = 1000)
+    t_end = 1000
+)
 # Convert into TreeSE format.
 HubbellSE <- TreeSummarizedExperiment(
-    assays = list(counts = t(x$matrix[,1:3])),
-    colData = DataFrame(time = x$matrix[,"time"]),
-    metadata = x[ - which(names(x) == "matrix")])
+    assays = list(counts = t(x$matrix[, 1:3])),
+    colData = DataFrame(time = x$matrix[, "time"]),
+    metadata = x[-which(names(x) == "matrix")]
+)
 miaViz::plotSeries(HubbellSE, x = "time")
 }

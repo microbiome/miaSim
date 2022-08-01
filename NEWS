@@ -1,35 +1,51 @@
-# Changes (2022-05-30)
+# Changes in version 1.3.5 (2022-05-30)
 
-## added `names_species` and `names_resources` in related functions
+## New arguments
+added `names_species` in `randomA`, `randomE`, `simulateConsumerResource`,
+`simulateGLV`, `simulateHubbellRates`, `simulateRicker`, `simulateSOI`, and
+`simulateStochasticLogistic` functions.
+
+added `names_resources` in  `randomE` and `simulateConsumerResource` functions.
 
 ## `randomA`
-1. added parameter `interactions` and 5 interaction types to customize values and proportions of interspecies interactions
-2. added `scale_off_diagonal `to avoid exponential growth in certain gLV modeling scenarios
+1. added parameter `interactions` and 5 interaction types to customize values
+and proportions of interspecies interactions
+
+2. added `scale_off_diagonal `to avoid exponential growth in certain gLV
+modeling scenarios
+
 3. added `list_A `to enable generating groups of species in simulation
 
 ## `randomE`
 1. added trophic levels and trophic preferences
-2. added `exact` to switch the number of resources to consume/produce between a poisson distribution and the exact number
 
-## simulations
+2. added `exact` to switch the number of resources to consume/produce between a
+poisson distribution and the exact number
+
+## Simulations
 CRM, GLV, HubbellRates, and Logistic
-1. added control of stochasticity, external events, migration from the metacommunity, and the extend of measurement errors to all these simulations
-2. added microbial trophic levels (an implicit inter-species interaction) in `simulateConsumerResource`
-3. put together result matrix and some parameters into a list containing the first element named 'matrix' to store the counts of species in the community
+1. added control of stochasticity, external events, migration from the
+metacommunity, and the extend of measurement errors to all these simulations
 
-## conversion from simulation to SummarizedExperiment and plot using miaViz
-An example could be found in convertToSE.R
+2. added microbial trophic levels (an implicit inter-species interaction) in
+`simulateConsumerResource`
 
-## documentations for functions
+3. put together result matrix and some parameters into a list containing the
+first element named 'matrix' to store the counts of species in the community
+
+## Support plot using miaViz
+Example could be found in `simulateConsumerResource`,
+`simulateGLV`, `simulateHubbellRates`, `simulateStochasticLogistic` functions.
+
+## Function documentations
 shared templates of documentation in man-roxygen to avoid duplication
 
-## other minor improvements
+other minor improvements
 
 # What's changed
 
-1. some names of parameters
-2. ways to customize the distribution in `randomA` and `randomE`
-3. tests using previous data formats
+1. ways to customize the distribution in `randomA` and `randomE`
+2. tests using previous data formats
 
 # Changes in version 0.99.0 (2021-09-29)
 + Three simulation models and three functions are added

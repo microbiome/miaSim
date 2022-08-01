@@ -164,12 +164,14 @@ n_species <- 2
 n_resources <- 4
 ExampleCR <- simulateConsumerResource(
     n_species = n_species,
-    n_resources = n_resources)
+    n_resources = n_resources
+)
 # convert to TreeSummarizedExperiment format
 ExampleCR_SE <- TreeSummarizedExperiment(
-    assays = list(counts =t(ExampleCR$matrix[,1:n_species])),
+    assays = list(counts = t(ExampleCR$matrix[, 1:n_species])),
     colData = DataFrame(time = ExampleCR$matrix[, "time"]),
-    metadata = ExampleCR[-which(names(ExampleCR)=="matrix")])
+    metadata = ExampleCR[-which(names(ExampleCR) == "matrix")]
+)
 miaViz::plotSeries(ExampleCR_SE, x = "time")
 # convert to relative abundance
 ExampleCR_SE <- mia::transformCounts(ExampleCR_SE, method = "relabundance")
@@ -178,82 +180,103 @@ miaViz::plotSeries(ExampleCR_SE, x = "time", assay_name = "relabundance")
 # example to get relative abundance and relative proportion of resources
 n_species <- 2
 n_resources <- 4
-ExampleCR <- simulateConsumerResource(n_species = n_species,
-    n_resources = n_resources, norm = TRUE)
+ExampleCR <- simulateConsumerResource(
+    n_species = n_species,
+    n_resources = n_resources, norm = TRUE
+)
 
 # example with user-defined values (names_species, names_resources, E, x0,
 # resources, growth_rates, error_variance, t_end, t_step)
 n_species <- 4
 n_resources <- 6
-ExampleE <- randomE(n_species = n_species, n_resources = n_resources,
-    mean_consumption = 3, mean_production = 1, maintenance = 0.4)
+ExampleE <- randomE(
+    n_species = n_species, n_resources = n_resources,
+    mean_consumption = 3, mean_production = 1, maintenance = 0.4
+)
 ExampleResources <- rep(100, n_resources)
-ExampleCR <- simulateConsumerResource(n_species = n_species,
+ExampleCR <- simulateConsumerResource(
+    n_species = n_species,
     n_resources = n_resources, names_species = letters[1:n_species],
-    names_resources = paste0("res",LETTERS[1:n_resources]), E = ExampleE,
+    names_resources = paste0("res", LETTERS[1:n_resources]), E = ExampleE,
     x0 = rep(0.001, n_species), resources = ExampleResources,
     growth_rates = runif(n_species),
     error_variance = 0.01,
     t_end = 5000,
-    t_step = 1)
+    t_step = 1
+)
 ExampleCR_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleCR$matrix[,1:n_species])),
+    assays = list(counts = t(ExampleCR$matrix[, 1:n_species])),
     colData = DataFrame(time = ExampleCR$matrix[, "time"]),
-    metadata = ExampleCR[-which(names(ExampleCR)=="matrix")])
+    metadata = ExampleCR[-which(names(ExampleCR) == "matrix")]
+)
 miaViz::plotSeries(ExampleCR_SE, x = "time")
 
 # example with trophic levels
 n_species <- 10
 n_resources <- 15
-ExampleEfficiencyMatrix <- randomE(n_species = 10, n_resources = 15,
-                                   trophic_levels = c(6,3,1),
-                                   trophic_preferences = list(
-                                       c(rep(1,5), rep(-1, 5), rep(0, 5)),
-                                       c(rep(0,5), rep(1, 5), rep(-1, 5)),
-                                       c(rep(0,10), rep(1, 5))))
+ExampleEfficiencyMatrix <- randomE(
+    n_species = 10, n_resources = 15,
+    trophic_levels = c(6, 3, 1),
+    trophic_preferences = list(
+        c(rep(1, 5), rep(-1, 5), rep(0, 5)),
+        c(rep(0, 5), rep(1, 5), rep(-1, 5)),
+        c(rep(0, 10), rep(1, 5))
+    )
+)
 
 ExampleResources <- c(rep(500, 5), rep(200, 5), rep(50, 5))
-ExampleCR <- simulateConsumerResource(n_species = n_species,
-                                      n_resources = n_resources,
-                                      names_species = letters[1:n_species],
-                                      names_resources = paste0(
-                                          "res",LETTERS[1:n_resources]),
-                                      E = ExampleEfficiencyMatrix,
-                                      x0 = rep(0.001, n_species),
-                                      resources = ExampleResources,
-                                      growth_rates = rep(1, n_species),
-                                      # error_variance = 0.001,
-                                      t_end = 5000, t_step = 1)
+ExampleCR <- simulateConsumerResource(
+    n_species = n_species,
+    n_resources = n_resources,
+    names_species = letters[1:n_species],
+    names_resources = paste0(
+        "res", LETTERS[1:n_resources]
+    ),
+    E = ExampleEfficiencyMatrix,
+    x0 = rep(0.001, n_species),
+    resources = ExampleResources,
+    growth_rates = rep(1, n_species),
+    # error_variance = 0.001,
+    t_end = 5000, t_step = 1
+)
 
 ExampleCR_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleCR$matrix[,1:n_species])),
+    assays = list(counts = t(ExampleCR$matrix[, 1:n_species])),
     colData = DataFrame(time = ExampleCR$matrix[, "time"]),
-    metadata = ExampleCR[-which(names(ExampleCR)=="matrix")])
+    metadata = ExampleCR[-which(names(ExampleCR) == "matrix")]
+)
 miaViz::plotSeries(ExampleCR_SE, x = "time")
 
 # example with trophic priority
 n_species <- 4
 n_resources <- 6
-ExampleE <- randomE(n_species = n_species,
-                    n_resources = n_resources,
-                    mean_consumption = n_resources,
-                    mean_production = 0)
-ExampleTrophicPriority <- t(apply(matrix(sample(n_species * n_resources),
-                                         nrow = n_species),
-                                  1, order))
+ExampleE <- randomE(
+    n_species = n_species,
+    n_resources = n_resources,
+    mean_consumption = n_resources,
+    mean_production = 0
+)
+ExampleTrophicPriority <- t(apply(
+    matrix(sample(n_species * n_resources),
+        nrow = n_species
+    ),
+    1, order
+))
 # make sure that for non-consumables resources for each species,
 # the priority is 0 (smaller than any given priority)
 ExampleTrophicPriority <- (ExampleE > 0) * ExampleTrophicPriority
-ExampleCR <- simulateConsumerResource(n_species = n_species,
-                                      n_resources = n_resources,
-                                      E = ExampleE,
-                                      trophic_priority = ExampleTrophicPriority,
-                                      t_end = 2000
-                                      )
+ExampleCR <- simulateConsumerResource(
+    n_species = n_species,
+    n_resources = n_resources,
+    E = ExampleE,
+    trophic_priority = ExampleTrophicPriority,
+    t_end = 2000
+)
 ExampleCR_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleCR$matrix[,1:n_species])),
+    assays = list(counts = t(ExampleCR$matrix[, 1:n_species])),
     colData = DataFrame(time = ExampleCR$matrix[, "time"]),
-    metadata = ExampleCR[-which(names(ExampleCR)=="matrix")])
+    metadata = ExampleCR[-which(names(ExampleCR) == "matrix")]
+)
 miaViz::plotSeries(ExampleCR_SE, x = "time")
 
 }

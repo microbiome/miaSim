@@ -42,46 +42,57 @@
 #' # Example of logistic model without stochasticity, death rates, or external
 #' # disturbances
 #' set.seed(42)
-#' ExampleLogistic <- simulateStochasticLogistic(n_species = 5,
-#'     stochastic = FALSE, death_rates=rep(0,5))
+#' ExampleLogistic <- simulateStochasticLogistic(
+#'     n_species = 5,
+#'     stochastic = FALSE, death_rates = rep(0, 5)
+#' )
 #' ExampleLogistic_SE <- TreeSummarizedExperiment(
-#'     assays = list(counts = t(ExampleLogistic$matrix[,1:5])),
+#'     assays = list(counts = t(ExampleLogistic$matrix[, 1:5])),
 #'     colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
-#'     metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
+#'     metadata = ExampleLogistic[-which(names(ExampleLogistic) == "matrix")]
+#' )
 #' miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 #'
 #' # Adding a death rate
 #' set.seed(42)
-#' ExampleLogistic <- simulateStochasticLogistic(n_species = 5,
-#'     stochastic = FALSE, death_rates=rep(0.01, 5))
+#' ExampleLogistic <- simulateStochasticLogistic(
+#'     n_species = 5,
+#'     stochastic = FALSE, death_rates = rep(0.01, 5)
+#' )
 #' ExampleLogistic_SE <- TreeSummarizedExperiment(
-#'     assays = list(counts = t(ExampleLogistic$matrix[,1:5])),
+#'     assays = list(counts = t(ExampleLogistic$matrix[, 1:5])),
 #'     colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
-#'     metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
+#'     metadata = ExampleLogistic[-which(names(ExampleLogistic) == "matrix")]
+#' )
 #' miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 #'
 #' # Example of stochastic logistic model
 #' set.seed(42)
 #' ExampleLogistic <- simulateStochasticLogistic(n_species = 5)
 #' ExampleLogistic_SE <- TreeSummarizedExperiment(
-#'     assays = list(counts = t(ExampleLogistic$matrix[,1:5])),
+#'     assays = list(counts = t(ExampleLogistic$matrix[, 1:5])),
 #'     colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
-#'     metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
+#'     metadata = ExampleLogistic[-which(names(ExampleLogistic) == "matrix")]
+#' )
 #' miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 #'
 #' # Example of stochastic logistic model with measurement error
 #' set.seed(42)
-#' ExampleLogistic <- simulateStochasticLogistic(n_species = 5,
-#'     error_variance = 1000)
+#' ExampleLogistic <- simulateStochasticLogistic(
+#'     n_species = 5,
+#'     error_variance = 1000
+#' )
 #' ExampleLogistic_SE <- TreeSummarizedExperiment(
-#'     assays = list(counts = t(ExampleLogistic$matrix[,1:5])),
+#'     assays = list(counts = t(ExampleLogistic$matrix[, 1:5])),
 #'     colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
-#'     metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
+#'     metadata = ExampleLogistic[-which(names(ExampleLogistic) == "matrix")]
+#' )
 #' miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 #'
 #' # example with all the initial parameters defined by the user
 #' set.seed(42)
-#' ExampleLogistic <- simulateStochasticLogistic(n_species = 2,
+#' ExampleLogistic <- simulateStochasticLogistic(
+#'     n_species = 2,
 #'     names_species = c("species1", "species2"),
 #'     growth_rates = c(0.2, 0.1),
 #'     carrying_capacities = c(1000, 2000),
@@ -101,11 +112,13 @@
 #'     norm = FALSE, # TRUE,
 #'     t_end = 400,
 #'     t_start = 0, t_step = 0.01,
-#'     t_store = 1500)
+#'     t_store = 1500
+#' )
 #' ExampleLogistic_SE <- TreeSummarizedExperiment(
-#'     assays = list(counts = t(ExampleLogistic$matrix[,1:2])),
+#'     assays = list(counts = t(ExampleLogistic$matrix[, 1:2])),
 #'     colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
-#'     metadata = ExampleLogistic[-which(names(ExampleLogistic)=="matrix")])
+#'     metadata = ExampleLogistic[-which(names(ExampleLogistic) == "matrix")]
+#' )
 #' ExampleLogistic_SE <- mia::transformCounts(ExampleLogistic_SE, method = "relabundance")
 #' miaViz::plotSeries(ExampleLogistic_SE, x = "time")
 #' miaViz::plotSeries(ExampleLogistic_SE, x = "time", assay_name = "relabundance")
@@ -134,28 +147,29 @@ simulateStochasticLogistic <- function(n_species,
     stochastic = TRUE,
     error_variance = 0,
     norm = FALSE,
-    t_end = 1000, ...){
+    t_end = 1000, ...) {
 
     # define the stochastic logistic model
-    stochasticLogisticModel <- function (t, state, parameters){
-        current <- pmax(0,state[names(state) == 'current'])
-        live <- state[names(state) == 'live']
-        dead <- state[names(state) == 'dead']
+    stochasticLogisticModel <- function(t, state, parameters) {
+        current <- pmax(0, state[names(state) == "current"])
+        live <- state[names(state) == "live"]
+        dead <- state[names(state) == "dead"]
         growth_rates <- parameters$growth_rates
         carrying_capacities <- parameters$carrying_capacities
         death_rates <- parameters$death_rates
 
-        dlive <- growth_rates*live*(1-(live/(carrying_capacities)))
-        ddead <- death_rates*current
-            dcurrent <- (dlive-ddead)
-            dxdt <- list(c(dcurrent, dlive, ddead))
-            return(dxdt)
-        }
+        dlive <- growth_rates * live * (1 - (live / (carrying_capacities)))
+        ddead <- death_rates * current
+        dcurrent <- (dlive - ddead)
+        dxdt <- list(c(dcurrent, dlive, ddead))
+        return(dxdt)
+    }
 
 
-    #input check
-    if(!.isPosInt(n_species)){
-      stop("n_species must be integer.")}
+    # input check
+    if (!.isPosInt(n_species)) {
+        stop("n_species must be integer.")
+    }
 
     # set the default values
     if (is.null(names_species)) {
@@ -173,81 +187,92 @@ simulateStochasticLogistic <- function(n_species,
     if (is.null(x0)) {
         x0 <- runif(n = n_species, min = 0.1, max = 10)
     }
-    if (is.null(metacommunity_probability)){
-        metacommunity_probability <- rdirichlet(1, alpha = rep(1,n_species))
+    if (is.null(metacommunity_probability)) {
+        metacommunity_probability <- rdirichlet(1, alpha = rep(1, n_species))
     }
 
-        # select the time points to simulate and to store
-        t_dyn <- simulationTimes(t_end = t_end,...)
+    # select the time points to simulate and to store
+    t_dyn <- simulationTimes(t_end = t_end, ...)
 
-    #continuous or episodic perturbation
-        perturb <- function(t, y, parms){with(as.list(y), {
+    # continuous or episodic perturbation
+    perturb <- function(t, y, parms) {
+        with(as.list(y), {
             epoch_rN <- 0
             external_rN <- 0
-        migration_rN <- 0
-        if (rbinom(1,1, parms$epoch_p)){
-                epoch_rN <- rnorm(parms$n_species, sd=parms$sigma_epoch)
-            epoch_rN <- parameters$stochastic*epoch_rN
-        }
-        if (rbinom(1,1, parameters$migration_p)){
-            migration_rN <- rmultinom(n = 1, size = 1, prob = parameters$metacommunity_probability)[,]*abs(rnorm(n=1, mean=0, sd = parameters$sigma_migration))
-
-
+            migration_rN <- 0
+            if (rbinom(1, 1, parms$epoch_p)) {
+                epoch_rN <- rnorm(parms$n_species, sd = parms$sigma_epoch)
+                epoch_rN <- parameters$stochastic * epoch_rN
             }
-            if (t %in% parms$tEvent){
-                external_rN <- rnorm(parms$n_species, sd=parms$sigma_external)
-            external_rN <- parameters$stochastic*external_rN
+            if (rbinom(1, 1, parameters$migration_p)) {
+                migration_rN <- rmultinom(n = 1, size = 1, prob = parameters$metacommunity_probability)[, ] * abs(rnorm(n = 1, mean = 0, sd = parameters$sigma_migration))
             }
-            drift_rN <- rnorm(parms$n_species, sd=parms$sigma_drift)
-        drift_rN <- parameters$stochastic*drift_rN
+            if (t %in% parms$tEvent) {
+                external_rN <- rnorm(parms$n_species, sd = parms$sigma_external)
+                external_rN <- parameters$stochastic * external_rN
+            }
+            drift_rN <- rnorm(parms$n_species, sd = parms$sigma_drift)
+            drift_rN <- parameters$stochastic * drift_rN
 
-            #perturbation is applied to the current population
-            current <- pmax(y[names(y)=='current'], 0)
-        current <- current*(1+drift_rN)*(1+epoch_rN)*(1+external_rN)+ migration_rN
-            live <- y[names(y)=='live']
-            dead <- y[names(y)=='dead']
-            return(c(current, live, dead))})
-        }
+            # perturbation is applied to the current population
+            current <- pmax(y[names(y) == "current"], 0)
+            current <- current * (1 + drift_rN) * (1 + epoch_rN) * (1 + external_rN) + migration_rN
+            live <- y[names(y) == "live"]
+            dead <- y[names(y) == "dead"]
+            return(c(current, live, dead))
+        })
+    }
 
-        tEvent <- eventTimes(t_events = t_external_events,
-            t_duration = t_external_durations,
-            t_end = t_end, ...)
+    tEvent <- eventTimes(
+        t_events = t_external_events,
+        t_duration = t_external_durations,
+        t_end = t_end, ...
+    )
 
-    parameters <- list(growth_rates=growth_rates, carrying_capacities=carrying_capacities, death_rates=death_rates, n_species = n_species,
-            sigma_drift = sigma_drift, stochastic = stochastic,
+    parameters <- list(
+        growth_rates = growth_rates, carrying_capacities = carrying_capacities, death_rates = death_rates, n_species = n_species,
+        sigma_drift = sigma_drift, stochastic = stochastic,
         sigma_epoch = sigma_epoch, epoch_p = epoch_p,
         sigma_external = sigma_external, tEvent = tEvent,
         migration_p = migration_p, metacommunity_probability = metacommunity_probability,
-        sigma_migration = sigma_migration)
+        sigma_migration = sigma_migration
+    )
     yinit <- c(x0, x0, numeric(n_species))
-        names(yinit) <- rep(c("current", "live", "dead"), each = n_species)
+    names(yinit) <- rep(c("current", "live", "dead"), each = n_species)
 
-        out <- as.data.frame(ode(func=stochasticLogisticModel,
-        y=yinit, times=t_dyn$t_sys, parms=parameters,
-                    events = list(func = perturb, time = t_dyn$t_sys)))
+    out <- as.data.frame(ode(
+        func = stochasticLogisticModel,
+        y = yinit, times = t_dyn$t_sys, parms = parameters,
+        events = list(func = perturb, time = t_dyn$t_sys)
+    ))
 
-    out_matrix <- as.matrix(out[,names(out)=='current'])
-        out_matrix <- out_matrix[t_dyn$t_index,]
+    out_matrix <- as.matrix(out[, names(out) == "current"])
+    out_matrix <- out_matrix[t_dyn$t_index, ]
 
-    if(error_variance > 0){
-        measurement_error <- rnorm(n = length(t_dyn$t_index)*n_species,
-                                   mean = 0, sd = sqrt(error_variance))
+    if (error_variance > 0) {
+        measurement_error <- rnorm(
+            n = length(t_dyn$t_index) * n_species,
+            mean = 0, sd = sqrt(error_variance)
+        )
         measurement_error <- matrix(measurement_error,
-                                    nrow = length(t_dyn$t_index))
+            nrow = length(t_dyn$t_index)
+        )
         out_matrix <- out_matrix + measurement_error
     }
 
-    if(norm){
-        out_matrix <- out_matrix/rowSums(out_matrix)
+    if (norm) {
+        out_matrix <- out_matrix / rowSums(out_matrix)
     }
 
     colnames(out_matrix) <- names_species
 
     out_matrix <- cbind(out_matrix, time = t_dyn$t_sys[t_dyn$t_index])
 
-    out_list <- list(matrix = out_matrix,
-                     metacommunity_probability = metacommunity_probability,
-                     migration_p = migration_p,
-                     error_variance = error_variance)
+    out_list <- list(
+        matrix = out_matrix,
+        metacommunity_probability = metacommunity_probability,
+        migration_p = migration_p,
+        error_variance = error_variance
+    )
     return(out_list)
 }

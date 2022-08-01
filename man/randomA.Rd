@@ -89,28 +89,35 @@ Generate random interaction matrix for Generalized Lotka-Volterra (GLV) model
 }
 \examples{
 
-dense_A <- randomA(n_species = 10,
+dense_A <- randomA(
+    n_species = 10,
     scale_off_diagonal = 1,
     diagonal = -1.0,
-    connectance = 0.9)
+    connectance = 0.9
+)
 
-sparse_A <- randomA(n_species = 10,
+sparse_A <- randomA(
+    n_species = 10,
     diagonal = -1.0,
-    connectance = 0.09)
+    connectance = 0.09
+)
 
-user_interactions <- rbeta(n = 10^2, .5,.5)
+user_interactions <- rbeta(n = 10^2, .5, .5)
 user_A <- randomA(n_species = 10, interactions = user_interactions)
 
-competitive_A <- randomA(n_species = 10,
+competitive_A <- randomA(
+    n_species = 10,
     mutualism = 0,
     commensalism = 0,
     parasitism = 0,
     amensalism = 0,
     competition = 1,
     connectance = 1,
-    scale_off_diagonal=1)
+    scale_off_diagonal = 1
+)
 
-parasitism_A <- randomA(n_species = 10,
+parasitism_A <- randomA(
+    n_species = 10,
     mutualism = 0,
     commensalism = 0,
     parasitism = 1,
@@ -118,7 +125,8 @@ parasitism_A <- randomA(n_species = 10,
     competition = 0,
     connectance = 1,
     scale_off_diagonal = 1,
-    symmetric=TRUE)
+    symmetric = TRUE
+)
 
 list_A <- list(dense_A, sparse_A, competitive_A, parasitism_A)
 groupA <- randomA(n_species = 40, list_A = list_A)

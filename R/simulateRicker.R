@@ -35,33 +35,33 @@
 #'
 #' @examples
 #' A <- powerlawA(10, alpha = 1.01)
-#' x0 <- simulateRicker(n_species=10, A, t_end=100)
+#' x0 <- simulateRicker(n_species = 10, A, t_end = 100)
 #'
 #' @importFrom stats rlnorm rgamma
 #' @importFrom MatrixGenerics colSums2
 #' @export
 simulateRicker <- function(n_species,
-                           A,
-                           names_species = NULL,
-                           x0 = runif(n_species),
-                           carrying_capacities = runif(n_species),
-                           error_variance = 0.05,
-                           explosion_bound=10^8,
-                           t_end = 1000,
-                           norm = FALSE,
-                           ...){
+    A,
+    names_species = NULL,
+    x0 = runif(n_species),
+    carrying_capacities = runif(n_species),
+    error_variance = 0.05,
+    explosion_bound = 10^8,
+    t_end = 1000,
+    norm = FALSE,
+    ...) {
     if (is.null(names_species)) {
         names_species <- paste0("sp", seq_len(n_species))
     }
     t_dyn <- simulationTimes(t_end = t_end, ...)
 
-    if(length(x0) != n_species){
+    if (length(x0) != n_species) {
         stop("x0 needs to have n_species entries.")
     }
-    if(nrow(A)!=n_species || ncol(A)!=n_species){
+    if (nrow(A) != n_species || ncol(A) != n_species) {
         stop("A needs to have n_species rows and n_species columns.")
     }
-    if(length(carrying_capacities)!=n_species){
+    if (length(carrying_capacities) != n_species) {
         stop("carrying_capacities needs to have n_species entries.")
     }
 
@@ -69,34 +69,36 @@ simulateRicker <- function(n_species,
     # out_matrix[1,] <- x0
 
     # simulate difference equation
-    for (nth_row in seq_len(length(t_dyn$t_sys))){
-        if(error_variance > 0){
+    for (nth_row in seq_len(length(t_dyn$t_sys))) {
+        if (error_variance > 0) {
             # b <- rgamma(n_species, 1/error_variance, 1/error_variance)
-            b <- rlnorm(n_species, meanlog=0, sdlog = error_variance)
-        }else{
+            b <- rlnorm(n_species, meanlog = 0, sdlog = error_variance)
+        } else {
             b <- rep(1, n_species)
         }
-        x0 <- b*x0*exp(A%*%(x0-carrying_capacities))
-        if(max(x0) > explosion_bound){
+        x0 <- b * x0 * exp(A %*% (x0 - carrying_capacities))
+        if (max(x0) > explosion_bound) {
             # report which species explodes
-            stop("Explosion for species ", which(x0==max(x0)))
+            stop("Explosion for species ", which(x0 == max(x0)))
         }
-        if(length(x0[x0<0]) > 0){
+        if (length(x0[x0 < 0]) > 0) {
             stop("Species below 0!")
         }
-        out_matrix[nth_row,] <- as.vector(x0)
+        out_matrix[nth_row, ] <- as.vector(x0)
     }
-    if(norm){
-        out_matrix <- out_matrix/rowSums(out_matrix)
+    if (norm) {
+        out_matrix <- out_matrix / rowSums(out_matrix)
     }
     colnames(out_matrix) <- names_species
     out_matrix <- cbind(out_matrix, time = t_dyn$t_sys)
-    out_matrix <- out_matrix[t_dyn$t_index,]
-    out_list <- list(matrix = out_matrix,
-                     x0 = x0,
-                     A = A,
-                     carrying_capacities = carrying_capacities,
-                     error_variance = error_variance,
-                     norm = norm)
+    out_matrix <- out_matrix[t_dyn$t_index, ]
+    out_list <- list(
+        matrix = out_matrix,
+        x0 = x0,
+        A = A,
+        carrying_capacities = carrying_capacities,
+        error_variance = error_variance,
+        norm = norm
+    )
     return(out_list)
 }

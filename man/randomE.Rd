@@ -77,25 +77,39 @@ whilst negatives indicate that the species would produce the resource.
 ExampleEfficiencyMatrix <- randomE(n_species = 5, n_resources = 12)
 
 # examples with specific parameters
-ExampleEfficiencyMatrix <- randomE(n_species = 3, n_resources = 6,
+ExampleEfficiencyMatrix <- randomE(
+    n_species = 3, n_resources = 6,
     names_species = letters[1:3],
-    names_resources = paste0("res",LETTERS[1:6]),
-    mean_consumption = 3, mean_production = 1 )
-ExampleEfficiencyMatrix <- randomE(n_species = 3, n_resources = 6,
-    maintenance = 0.4)
-ExampleEfficiencyMatrix <- randomE(n_species = 3, n_resources = 6,
-    mean_consumption = 3, mean_production = 1, maintenance = 0.4)
+    names_resources = paste0("res", LETTERS[1:6]),
+    mean_consumption = 3, mean_production = 1
+)
+ExampleEfficiencyMatrix <- randomE(
+    n_species = 3, n_resources = 6,
+    maintenance = 0.4
+)
+ExampleEfficiencyMatrix <- randomE(
+    n_species = 3, n_resources = 6,
+    mean_consumption = 3, mean_production = 1, maintenance = 0.4
+)
 
 # examples with microbial trophic levels
-ExampleEfficiencyMatrix <- randomE(n_species = 10, n_resources = 15,
-    trophic_levels = c(6,3,1),
-    trophic_preferences = list(c(rep(1,5), rep(-1, 5), rep(0, 5)),
-        c(rep(0,5), rep(1, 5), rep(-1, 5)),
-        c(rep(0,10), rep(1, 5))))
-ExampleEfficiencyMatrix <- randomE(n_species = 10, n_resources = 15,
-    trophic_levels = c(6,3,1),
-    trophic_preferences = list(c(rep(1,5), rep(-1, 5), rep(0, 5)), NULL, NULL))
-ExampleEfficiencyMatrix <- randomE(n_species = 10, n_resources = 15,
-    trophic_levels = c(6,3,1))
+ExampleEfficiencyMatrix <- randomE(
+    n_species = 10, n_resources = 15,
+    trophic_levels = c(6, 3, 1),
+    trophic_preferences = list(
+        c(rep(1, 5), rep(-1, 5), rep(0, 5)),
+        c(rep(0, 5), rep(1, 5), rep(-1, 5)),
+        c(rep(0, 10), rep(1, 5))
+    )
+)
+ExampleEfficiencyMatrix <- randomE(
+    n_species = 10, n_resources = 15,
+    trophic_levels = c(6, 3, 1),
+    trophic_preferences = list(c(rep(1, 5), rep(-1, 5), rep(0, 5)), NULL, NULL)
+)
+ExampleEfficiencyMatrix <- randomE(
+    n_species = 10, n_resources = 15,
+    trophic_levels = c(6, 3, 1)
+)
 
 }

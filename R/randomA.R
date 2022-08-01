@@ -48,28 +48,35 @@
 #' (default: \code{list_A = NULL})
 #' @examples
 #'
-#' dense_A <- randomA(n_species = 10,
+#' dense_A <- randomA(
+#'     n_species = 10,
 #'     scale_off_diagonal = 1,
 #'     diagonal = -1.0,
-#'     connectance = 0.9)
+#'     connectance = 0.9
+#' )
 #'
-#' sparse_A <- randomA(n_species = 10,
+#' sparse_A <- randomA(
+#'     n_species = 10,
 #'     diagonal = -1.0,
-#'     connectance = 0.09)
+#'     connectance = 0.09
+#' )
 #'
-#' user_interactions <- rbeta(n = 10^2, .5,.5)
+#' user_interactions <- rbeta(n = 10^2, .5, .5)
 #' user_A <- randomA(n_species = 10, interactions = user_interactions)
 #'
-#' competitive_A <- randomA(n_species = 10,
+#' competitive_A <- randomA(
+#'     n_species = 10,
 #'     mutualism = 0,
 #'     commensalism = 0,
 #'     parasitism = 0,
 #'     amensalism = 0,
 #'     competition = 1,
 #'     connectance = 1,
-#'     scale_off_diagonal=1)
+#'     scale_off_diagonal = 1
+#' )
 #'
-#' parasitism_A <- randomA(n_species = 10,
+#' parasitism_A <- randomA(
+#'     n_species = 10,
 #'     mutualism = 0,
 #'     commensalism = 0,
 #'     parasitism = 1,
@@ -77,7 +84,8 @@
 #'     competition = 0,
 #'     connectance = 1,
 #'     scale_off_diagonal = 1,
-#'     symmetric=TRUE)
+#'     symmetric = TRUE
+#' )
 #'
 #' list_A <- list(dense_A, sparse_A, competitive_A, parasitism_A)
 #' groupA <- randomA(n_species = 40, list_A = list_A)
@@ -98,19 +106,25 @@ randomA <- function(n_species,
     competition = 1,
     interactions = NULL,
     symmetric = FALSE,
-    list_A = NULL){
-            #input check
-            if(!.isPosInt(n_species)){
-                stop("n_species must be integer.")}
-            if(!all(vapply(list(diagonal, connectance, scale_off_diagonal,
-                                mutualism, commensalism, parasitism, amensalism,
-                                competition),
-                    is.numeric, logical(1)))){
-                stop("diagonal, connectance, scale_off_diagonal, mutualism,
+    list_A = NULL) {
+    # input check
+    if (!.isPosInt(n_species)) {
+        stop("n_species must be integer.")
+    }
+    if (!all(vapply(
+        list(
+            diagonal, connectance, scale_off_diagonal,
+            mutualism, commensalism, parasitism, amensalism,
+            competition
+        ),
+        is.numeric, logical(1)
+    ))) {
+        stop("diagonal, connectance, scale_off_diagonal, mutualism,
                      commensalism, parasitism, amensalism and competition must
-                     be numeric.")}
+                     be numeric.")
+    }
 
-    if(connectance > 1 || connectance < 0) {
+    if (connectance > 1 || connectance < 0) {
         stop("'connectance' should be in range: 0 <= connectance <= 1")
     }
     # set the default values
@@ -121,8 +135,8 @@ randomA <- function(n_species,
             if (length(names_species) != length(unique(names_species))) {
                 list_Alengths <- unlist(lapply(list_A, nrow))
                 sn <- c()
-                for(i in seq_len(length(list_Alengths))){
-                    sn <- c(sn ,rep(i, times = list_Alengths[i]))
+                for (i in seq_len(length(list_Alengths))) {
+                    sn <- c(sn, rep(i, times = list_Alengths[i]))
                 }
                 names_species <- paste0("g", sn, "_", names_species)
             }
@@ -130,41 +144,43 @@ randomA <- function(n_species,
             names_species <- paste0("sp", seq_len(n_species))
         }
     }
-    if (is.null(interactions)){
-        A <- runif(n_species^2, min=0, max=abs(diagonal))
+    if (is.null(interactions)) {
+        A <- runif(n_species^2, min = 0, max = abs(diagonal))
     } else {
         A <- interactions
     }
 
-    interaction_weights <- c(mutualism,
+    interaction_weights <- c(
+        mutualism,
         commensalism,
         parasitism,
         amensalism,
-        competition)
+        competition
+    )
 
     A <- matrix(A, nrow = n_species, ncol = n_species)
     I <- .getInteractions(n_species, interaction_weights, connectance)
 
-            if(symmetric){
-                A[lower.tri(A)] <- t(A)[lower.tri(A)]
+    if (symmetric) {
+        A[lower.tri(A)] <- t(A)[lower.tri(A)]
         I[lower.tri(I)] <- t(I)[lower.tri(I)]
     }
 
-    A <- I*abs(A)*(scale_off_diagonal*min(abs(diagonal)))
+    A <- I * abs(A) * (scale_off_diagonal * min(abs(diagonal)))
     diag(A) <- diagonal
     colnames(A) <- rownames(A) <- names_species
 
-    if (!is.null(list_A)){
-        if (n_species != sum(unlist(lapply(list_A, nrow)))){
+    if (!is.null(list_A)) {
+        if (n_species != sum(unlist(lapply(list_A, nrow)))) {
             stop("'n_species' should equals to the number of species in the
                  given list")
         }
         counter <- 0
-        for (repA in list_A){
-            A[(counter+1):(counter+nrow(repA)), (counter+1):(counter+nrow(repA))] <- repA
+        for (repA in list_A) {
+            A[(counter + 1):(counter + nrow(repA)), (counter + 1):(counter + nrow(repA))] <- repA
             counter <- counter + nrow(repA)
         }
-            }
+    }
 
-            return(A)
+    return(A)
 }

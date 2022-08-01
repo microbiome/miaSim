@@ -42,51 +42,55 @@
 #'
 #' @export
 powerlawA <- function(n_species, alpha = 3.0, stdev = 1, s = 0.1, d = -1,
-                    symmetric = FALSE){
+    symmetric = FALSE) {
 
-            #input check
-            if(!.isPosInt(n_species)){
-                stop("n_species must be integer.")}
-            if(!all(vapply(list(alpha, stdev, s, d),
-                    is.numeric, logical(1)))){
-                stop("alpha, stdev, s and d values must be numeric.")}
+    # input check
+    if (!.isPosInt(n_species)) {
+        stop("n_species must be integer.")
+    }
+    if (!all(vapply(
+        list(alpha, stdev, s, d),
+        is.numeric, logical(1)
+    ))) {
+        stop("alpha, stdev, s and d values must be numeric.")
+    }
 
-            # Nominal Interspecific Interaction matrix N
-            N <- matrix(
-                data = rnorm(n_species^2, mean = 0, sd = stdev),
-                nrow = n_species,
-                ncol = n_species
-            )
+    # Nominal Interspecific Interaction matrix N
+    N <- matrix(
+        data = rnorm(n_species^2, mean = 0, sd = stdev),
+        nrow = n_species,
+        ncol = n_species
+    )
 
-            # power law sample
-            pl <- rplcon(n = n_species, xmin = 1, alpha = alpha)
-            pl[is.infinite(pl)] <- 10^308
+    # power law sample
+    pl <- rplcon(n = n_species, xmin = 1, alpha = alpha)
+    pl[is.infinite(pl)] <- 10^308
 
-            # Interaction strength heterogeneity
-            H <- diag(1 + (pl-min(pl))/(max(pl)-min(pl)))
+    # Interaction strength heterogeneity
+    H <- diag(1 + (pl - min(pl)) / (max(pl) - min(pl)))
 
-            # Adjacency matrix G of power-law out-degree digraph ecological
-            #network
-            deg <- 0.1*n_species
+    # Adjacency matrix G of power-law out-degree digraph ecological
+    # network
+    deg <- 0.1 * n_species
 
-            h <- pmin(ceiling(deg*pl/mean(pl)), n_species)
+    h <- pmin(ceiling(deg * pl / mean(pl)), n_species)
 
-            G <- matrix(0, nrow = n_species, ncol = n_species)
-            for(i in seq_len(n_species)){
-                index <- sample(x = seq_len(n_species), size = h[i])
-                G[index, i] <- 1
-            }
+    G <- matrix(0, nrow = n_species, ncol = n_species)
+    for (i in seq_len(n_species)) {
+        index <- sample(x = seq_len(n_species), size = h[i])
+        G[index, i] <- 1
+    }
 
-            #G[t(G) == 1] <- 1
-            A <- N %*% H * G
-            A <- A*s/max(A)
+    # G[t(G) == 1] <- 1
+    A <- N %*% H * G
+    A <- A * s / max(A)
 
-            if(symmetric){
-                A[lower.tri(A)] <- t(A)[lower.tri(A)]
-            }
+    if (symmetric) {
+        A[lower.tri(A)] <- t(A)[lower.tri(A)]
+    }
 
-            diag(A) <- d
-            colnames(A) <- seq_len(n_species)
-            rownames(A) <- seq_len(n_species)
-            return(A)
+    diag(A) <- d
+    colnames(A) <- seq_len(n_species)
+    rownames(A) <- seq_len(n_species)
+    return(A)
 }

@@ -24,8 +24,10 @@
 #' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
 #' @examples
-#' x <- simulateHubbell(n_species = 8, M = 10, carrying_capacity = 1000, k_events = 50,
-#'                         migration_p = 0.02, t_end = 100)
+#' x <- simulateHubbell(
+#'     n_species = 8, M = 10, carrying_capacity = 1000, k_events = 50,
+#'     migration_p = 0.02, t_end = 100
+#' )
 #'
 #' @return \code{simulateHubbell} returns an abundance matrix with
 #' species abundance as rows and time points as columns
@@ -39,10 +41,10 @@
 #
 #' @export
 simulateHubbell <- function(n_species, M, carrying_capacity = 1000,
-                            k_events = 10, migration_p = 0.02, t_skip = 0,
-                            t_end, norm = FALSE){
+    k_events = 10, migration_p = 0.02, t_skip = 0,
+    t_end, norm = FALSE) {
 
-    #input check
+    # input check
     if (!.isPosInt(n_species)) stop("n_species must be positive integer.")
     if (!.isPosInt(M)) stop("M must be positive integer.")
     if (!.isPosInt(carrying_capacity)) stop("carrying_capacity must be positive integer.")
@@ -50,52 +52,54 @@ simulateHubbell <- function(n_species, M, carrying_capacity = 1000,
 
     pbirth <- runif(n_species, min = 0, max = 1)
     pmigr <- runif(M, min = 0, max = 1)
-    pbirth <- c(pbirth, rep(0, times = (M-n_species)))
-    pbirth <- pbirth/sum(pbirth)
-    pmigr <- pmigr/sum(pmigr)
-    com <- ceiling(carrying_capacity*pbirth)
-    if(sum(com)>carrying_capacity){
-        ind <- sample(seq_len(M), size = sum(com)-carrying_capacity, prob = 1-pbirth)
-        com[ind] <- com[ind] -1
+    pbirth <- c(pbirth, rep(0, times = (M - n_species)))
+    pbirth <- pbirth / sum(pbirth)
+    pmigr <- pmigr / sum(pmigr)
+    com <- ceiling(carrying_capacity * pbirth)
+    if (sum(com) > carrying_capacity) {
+        ind <- sample(seq_len(M), size = sum(com) - carrying_capacity, prob = 1 - pbirth)
+        com[ind] <- com[ind] - 1
     }
 
-            tseries <- matrix(0, nrow = M, ncol = t_end)
-            colnames(tseries) <- paste0("t", seq_len(t_end))
-            rownames(tseries) <- seq_len(M)
-            com[which(com < 0)] <- 0
-            tseries[,1] <- com
-            for (t in seq(2,t_end, 1)){
-                pbirth <- com/sum(com)
-                pbirth[which(pbirth < 0)] <- 0
-                deaths <- rmultinom(n = 1, size = k_events, prob = pbirth)
-            while(sum(com-deaths <0) >0){ #species with count 0 have probability
+    tseries <- matrix(0, nrow = M, ncol = t_end)
+    colnames(tseries) <- paste0("t", seq_len(t_end))
+    rownames(tseries) <- seq_len(M)
+    com[which(com < 0)] <- 0
+    tseries[, 1] <- com
+    for (t in seq(2, t_end, 1)) {
+        pbirth <- com / sum(com)
+        pbirth[which(pbirth < 0)] <- 0
+        deaths <- rmultinom(n = 1, size = k_events, prob = pbirth)
+        while (sum(com - deaths < 0) > 0) { # species with count 0 have probability
             # 0 and species not present in the community can also not die
-                neg_sp <- which(com-deaths <0)
-                pbirth[neg_sp] <- 0
-                deaths <- rmultinom(n = 1, size = k_events, prob = pbirth)
-            }
-            event <- rbinom(k_events, 1, prob = migration_p) # immigration rate migration_p: probability
-            # death replaced by immigrant; immigration 1, birth 0
-            n_migrants <- sum(event)
-            n_births <- length(event) - n_migrants
-            births <- rmultinom(1, n_births, prob = pbirth)
-            migr <- rmultinom(1, n_migrants, prob = pmigr)
-            com <- com - deaths + births + migr
-            com[which(com < 0)] <- 0
-            tseries[,t] <- com
-            }
-            if(norm){
-                tseries <- t(t(tseries)/colSums2(tseries))
-            }
-            counts <- tseries[, seq((t_skip +1),t_end, 1)]
-            # return(counts)
-            matrix_out <- cbind(t(counts), time = seq_len(t_end))
-            list_out <- list(matrix = matrix_out,
-                             M = M,
-                             carrying_capacity = carrying_capacity,
-                             k_events = k_events,
-                             migration_p = migration_p,
-                             t_skip = t_skip,
-                             norm = norm)
-            return(list_out)
+            neg_sp <- which(com - deaths < 0)
+            pbirth[neg_sp] <- 0
+            deaths <- rmultinom(n = 1, size = k_events, prob = pbirth)
+        }
+        event <- rbinom(k_events, 1, prob = migration_p) # immigration rate migration_p: probability
+        # death replaced by immigrant; immigration 1, birth 0
+        n_migrants <- sum(event)
+        n_births <- length(event) - n_migrants
+        births <- rmultinom(1, n_births, prob = pbirth)
+        migr <- rmultinom(1, n_migrants, prob = pmigr)
+        com <- com - deaths + births + migr
+        com[which(com < 0)] <- 0
+        tseries[, t] <- com
+    }
+    if (norm) {
+        tseries <- t(t(tseries) / colSums2(tseries))
+    }
+    counts <- tseries[, seq((t_skip + 1), t_end, 1)]
+    # return(counts)
+    matrix_out <- cbind(t(counts), time = seq_len(t_end))
+    list_out <- list(
+        matrix = matrix_out,
+        M = M,
+        carrying_capacity = carrying_capacity,
+        k_events = k_events,
+        migration_p = migration_p,
+        t_skip = t_skip,
+        norm = norm
+    )
+    return(list_out)
 }

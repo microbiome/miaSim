@@ -126,42 +126,52 @@ ExampleA <- randomA(n_species = 4, diagonal = -1)
 ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA)
 # visualize the result
 ExampleGLV_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleGLV$matrix[,1:4])),
+    assays = list(counts = t(ExampleGLV$matrix[, 1:4])),
     colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
-    metadata = ExampleGLV[-which(names(ExampleGLV)=="matrix")])
+    metadata = ExampleGLV[-which(names(ExampleGLV) == "matrix")]
+)
 miaViz::plotSeries(ExampleGLV_SE, x = "time")
 
 # run the model with two external disturbances at time points 240 and 480
 # with durations equal to 1 (10 time steps when t_step by default is 0.1).
-ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA,
-    t_external_events = c(0, 240, 480), t_external_durations = c(0, 1, 1))
+ExampleGLV <- simulateGLV(
+    n_species = 4, A = ExampleA,
+    t_external_events = c(0, 240, 480), t_external_durations = c(0, 1, 1)
+)
 # visualize the result
 ExampleGLV_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleGLV$matrix[,1:4])),
+    assays = list(counts = t(ExampleGLV$matrix[, 1:4])),
     colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
-    metadata = ExampleGLV[-which(names(ExampleGLV)=="matrix")])
+    metadata = ExampleGLV[-which(names(ExampleGLV) == "matrix")]
+)
 miaViz::plotSeries(ExampleGLV_SE, x = "time")
 
 # run the model with no pertubation nor migration
 set.seed(42)
-ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA, stochastic = FALSE,
-    sigma_migration = 0)
+ExampleGLV <- simulateGLV(
+    n_species = 4, A = ExampleA, stochastic = FALSE,
+    sigma_migration = 0
+)
 # visualize the result
 ExampleGLV_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleGLV$matrix[,1:4])),
+    assays = list(counts = t(ExampleGLV$matrix[, 1:4])),
     colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
-    metadata = ExampleGLV[-which(names(ExampleGLV)=="matrix")])
+    metadata = ExampleGLV[-which(names(ExampleGLV) == "matrix")]
+)
 miaViz::plotSeries(ExampleGLV_SE, x = "time")
 
 # run the model with no pertubation nor migration but with measurement error
 set.seed(42)
-ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA, stochastic = FALSE,
-    error_variance = 0.001, sigma_migration = 0)
+ExampleGLV <- simulateGLV(
+    n_species = 4, A = ExampleA, stochastic = FALSE,
+    error_variance = 0.001, sigma_migration = 0
+)
 # visualize the result
 ExampleGLV_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleGLV$matrix[,1:4])),
+    assays = list(counts = t(ExampleGLV$matrix[, 1:4])),
     colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
-    metadata = ExampleGLV[-which(names(ExampleGLV)=="matrix")])
+    metadata = ExampleGLV[-which(names(ExampleGLV) == "matrix")]
+)
 miaViz::plotSeries(ExampleGLV_SE, x = "time")
 
 }

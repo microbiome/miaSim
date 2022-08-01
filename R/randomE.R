@@ -40,26 +40,40 @@
 #' ExampleEfficiencyMatrix <- randomE(n_species = 5, n_resources = 12)
 #'
 #' # examples with specific parameters
-#' ExampleEfficiencyMatrix <- randomE(n_species = 3, n_resources = 6,
+#' ExampleEfficiencyMatrix <- randomE(
+#'     n_species = 3, n_resources = 6,
 #'     names_species = letters[1:3],
-#'     names_resources = paste0("res",LETTERS[1:6]),
-#'     mean_consumption = 3, mean_production = 1 )
-#' ExampleEfficiencyMatrix <- randomE(n_species = 3, n_resources = 6,
-#'     maintenance = 0.4)
-#' ExampleEfficiencyMatrix <- randomE(n_species = 3, n_resources = 6,
-#'     mean_consumption = 3, mean_production = 1, maintenance = 0.4)
+#'     names_resources = paste0("res", LETTERS[1:6]),
+#'     mean_consumption = 3, mean_production = 1
+#' )
+#' ExampleEfficiencyMatrix <- randomE(
+#'     n_species = 3, n_resources = 6,
+#'     maintenance = 0.4
+#' )
+#' ExampleEfficiencyMatrix <- randomE(
+#'     n_species = 3, n_resources = 6,
+#'     mean_consumption = 3, mean_production = 1, maintenance = 0.4
+#' )
 #'
 #' # examples with microbial trophic levels
-#' ExampleEfficiencyMatrix <- randomE(n_species = 10, n_resources = 15,
-#'     trophic_levels = c(6,3,1),
-#'     trophic_preferences = list(c(rep(1,5), rep(-1, 5), rep(0, 5)),
-#'         c(rep(0,5), rep(1, 5), rep(-1, 5)),
-#'         c(rep(0,10), rep(1, 5))))
-#' ExampleEfficiencyMatrix <- randomE(n_species = 10, n_resources = 15,
-#'     trophic_levels = c(6,3,1),
-#'     trophic_preferences = list(c(rep(1,5), rep(-1, 5), rep(0, 5)), NULL, NULL))
-#' ExampleEfficiencyMatrix <- randomE(n_species = 10, n_resources = 15,
-#'     trophic_levels = c(6,3,1))
+#' ExampleEfficiencyMatrix <- randomE(
+#'     n_species = 10, n_resources = 15,
+#'     trophic_levels = c(6, 3, 1),
+#'     trophic_preferences = list(
+#'         c(rep(1, 5), rep(-1, 5), rep(0, 5)),
+#'         c(rep(0, 5), rep(1, 5), rep(-1, 5)),
+#'         c(rep(0, 10), rep(1, 5))
+#'     )
+#' )
+#' ExampleEfficiencyMatrix <- randomE(
+#'     n_species = 10, n_resources = 15,
+#'     trophic_levels = c(6, 3, 1),
+#'     trophic_preferences = list(c(rep(1, 5), rep(-1, 5), rep(0, 5)), NULL, NULL)
+#' )
+#' ExampleEfficiencyMatrix <- randomE(
+#'     n_species = 10, n_resources = 15,
+#'     trophic_levels = c(6, 3, 1)
+#' )
 #'
 #' @return
 #' \code{randomE} returns a matrix E with dimensions (n_species x n_resources),
@@ -68,19 +82,21 @@
 #' @importFrom stats rpois
 #' @export
 randomE <- function(n_species,
-                    n_resources,
+    n_resources,
     names_species = NULL,
     names_resources = NULL,
-    mean_consumption = n_resources/4,
-    mean_production = n_resources/6,
+    mean_consumption = n_resources / 4,
+    mean_production = n_resources / 6,
     maintenance = 0.5,
     trophic_levels = NULL,
     trophic_preferences = NULL,
-    exact = FALSE){
-
-    if(!all(vapply(list(n_species, n_resources), .isPosInt,
-            logical(1)))){
-        stop("n_species and/or n_resources must be integer.")}
+    exact = FALSE) {
+    if (!all(vapply(
+        list(n_species, n_resources), .isPosInt,
+        logical(1)
+    ))) {
+        stop("n_species and/or n_resources must be integer.")
+    }
 
     # set the default values
     if (is.null(names_species)) {
@@ -96,37 +112,41 @@ randomE <- function(n_species,
         stop("Sum of 'trophic_levels' should equal to 'n_species'.")
     }
     if (!is.null(trophic_preferences)) {
-        if(!is.list(trophic_preferences) && length(trophic_preferences) == n_resources){
+        if (!is.list(trophic_preferences) && length(trophic_preferences) == n_resources) {
             trophic_preferences <- list(trophic_preferences)
         }
-        while(length(trophic_preferences) < length(trophic_levels)){
+        while (length(trophic_preferences) < length(trophic_levels)) {
             warning("Autofilling 'trophic_preferences' with NULL")
             trophic_preferences <- c(trophic_preferences, list(NULL))
         }
     }
-    efficiency_matrix <- matrix(0, nrow = n_species, ncol = n_resources,
-        dimnames = list(names_species, names_resources))
+    efficiency_matrix <- matrix(0,
+        nrow = n_species, ncol = n_resources,
+        dimnames = list(names_species, names_resources)
+    )
 
     list_auto_trophic_preference <- list(NULL)
     for (j in seq_len(length(trophic_levels))) {
         n_species_this_level <- trophic_levels[j]
 
-        for (i in seq(n_species_this_level)){
-            irow <- efficiency_matrix[i+sum(trophic_levels[0:(j-1)]),]
+        for (i in seq(n_species_this_level)) {
+            irow <- efficiency_matrix[i + sum(trophic_levels[0:(j - 1)]), ]
             consumption <- irow
             production <- irow
             # calculate consumption
-            consumption_pref <- trophic_preferences[[j]]*(trophic_preferences[[j]]>0)
+            consumption_pref <- trophic_preferences[[j]] * (trophic_preferences[[j]] > 0)
             if (length(consumption_pref) == 0 && is.null(list_auto_trophic_preference[[j]])) {
                 # no consumption preference nor auto_trophic_preference
                 # consumption_pref <- NULL
                 consumption_pref <- rep(1, n_resources)
                 if (exact) {
                     index_consumption <- sample(seq(n_resources),
-                                                size = min(max(1, round(mean_consumption)), n_resources))
+                        size = min(max(1, round(mean_consumption)), n_resources)
+                    )
                 } else {
                     index_consumption <- sample(seq(n_resources),
-                                                size = min(max(1, rpois(1, mean_consumption)), n_resources))
+                        size = min(max(1, rpois(1, mean_consumption)), n_resources)
+                    )
                 }
             } else {
                 # with consumption preference
@@ -135,77 +155,92 @@ randomE <- function(n_species,
                 }
                 if (exact) {
                     index_consumption <- sample(seq(n_resources),
-                                                size = min(sum(consumption_pref > 0),
-                                                           max(1, round(mean_consumption))),
-                                                replace = FALSE,
-                                                prob = consumption_pref)
+                        size = min(
+                            sum(consumption_pref > 0),
+                            max(1, round(mean_consumption))
+                        ),
+                        replace = FALSE,
+                        prob = consumption_pref
+                    )
                 } else {
                     index_consumption <- sample(seq(n_resources),
-                                                size = min(sum(consumption_pref > 0),
-                                                           max(1, rpois(1, mean_consumption))),
-                                                replace = FALSE,
-                                                prob = consumption_pref)
+                        size = min(
+                            sum(consumption_pref > 0),
+                            max(1, rpois(1, mean_consumption))
+                        ),
+                        replace = FALSE,
+                        prob = consumption_pref
+                    )
                 }
             }
             consumption[index_consumption] <- 1
             irow <- rdirichlet(1, consumption * consumption_pref * 100)
 
             # calculate production
-            production_pref <- trophic_preferences[[j]]*(trophic_preferences[[j]]<0)
+            production_pref <- trophic_preferences[[j]] * (trophic_preferences[[j]] < 0)
             if (sum(production_pref) == 0) { # no production preference
                 production_pref <- NULL
                 setprod <- setdiff(seq(n_resources), index_consumption)
-                if(length(setprod)>0){
+                if (length(setprod) > 0) {
                     if (exact) {
                         index_production <- unique(
                             sample(setprod,
-                                   size = round(mean_production),
-                                   replace = TRUE))
+                                size = round(mean_production),
+                                replace = TRUE
+                            )
+                        )
                     } else {
                         index_production <- unique(
                             sample(setprod,
-                                   size = rpois(1, mean_production),
-                                   replace = TRUE))
+                                size = rpois(1, mean_production),
+                                replace = TRUE
+                            )
+                        )
                     }
                     index_production <- setdiff(index_production, index_consumption)
-                } else{
+                } else {
                     index_production <- c()
                 }
             } else { # with production preference
                 if (exact) {
                     index_production <- sample(seq(n_resources),
-                                               size = min(sum(production_pref < 0),
-                                                          round(mean_production)),
-                                               replace = FALSE,
-                                               prob = abs(production_pref))
+                        size = min(
+                            sum(production_pref < 0),
+                            round(mean_production)
+                        ),
+                        replace = FALSE,
+                        prob = abs(production_pref)
+                    )
                 } else {
                     index_production <- sample(seq(n_resources),
-                                               size = min(sum(production_pref < 0),
-                                                          rpois(1, mean_production)),
-                                               replace = FALSE,
-                                               prob = abs(production_pref))
+                        size = min(
+                            sum(production_pref < 0),
+                            rpois(1, mean_production)
+                        ),
+                        replace = FALSE,
+                        prob = abs(production_pref)
+                    )
                 }
             }
 
-        production[index_production] <- 1
-            prod <- (-1)*(1-maintenance)*rdirichlet(1, production)
-        irow[index_production] <- prod[index_production]
+            production[index_production] <- 1
+            prod <- (-1) * (1 - maintenance) * rdirichlet(1, production)
+            irow[index_production] <- prod[index_production]
 
 
-            efficiency_matrix[i+sum(trophic_levels[0:(j-1)]),] <- irow
-    }
+            efficiency_matrix[i + sum(trophic_levels[0:(j - 1)]), ] <- irow
+        }
 
         # automatically generate consumption of next level according to
         # the production of this level
-        if (j < length(trophic_levels)){
-            if (j+1 > length(list_auto_trophic_preference) || is.null(trophic_preferences[[j+1]])) {
-                eff_mat <- efficiency_matrix[seq_len(n_species_this_level) + sum(trophic_levels[0:(j-1)]),]
+        if (j < length(trophic_levels)) {
+            if (j + 1 > length(list_auto_trophic_preference) || is.null(trophic_preferences[[j + 1]])) {
+                eff_mat <- efficiency_matrix[seq_len(n_species_this_level) + sum(trophic_levels[seq(0, j - 1, 1)]), ]
                 eff_mat[eff_mat > 0] <- 0
-                eff_mat <- - eff_mat
-                list_auto_trophic_preference[[j+1]] <- colSums(eff_mat)
+                eff_mat <- -eff_mat
+                list_auto_trophic_preference[[j + 1]] <- colSums(eff_mat)
             }
         }
-
     }
     return(efficiency_matrix)
 }

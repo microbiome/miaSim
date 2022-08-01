@@ -18,6 +18,6 @@ a vector containing the Dirichlet density
 Generate dirichlet random deviates
 }
 \examples{
-dirichletExample <- rdirichlet(1, c(1,2,3))
+dirichletExample <- rdirichlet(1, c(1, 2, 3))
 
 }

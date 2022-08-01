@@ -49,8 +49,10 @@ species abundance as rows and time points as columns
 Neutral species abundances simulation according to the Hubbell model.
 }
 \examples{
-x <- simulateHubbell(n_species = 8, M = 10, carrying_capacity = 1000, k_events = 50,
-                        migration_p = 0.02, t_end = 100)
+x <- simulateHubbell(
+    n_species = 8, M = 10, carrying_capacity = 1000, k_events = 50,
+    migration_p = 0.02, t_end = 100
+)
 
 }
 \references{
