@@ -18,7 +18,7 @@ Implements a K-leap method for accelerating stochastic simulation."><!-- mathjax
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">miaSim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.7</span>
       </span>
     </div>
 
@@ -55,37 +55,72 @@ Implements a K-leap method for accelerating stochastic simulation.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">simulateSOI</span><span class="op">(</span><span class="va">n_species</span>, <span class="va">I</span>, <span class="va">A</span>, k <span class="op">=</span> <span class="fl">5</span>, com <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">tend</span>, norm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">simulateSOI</span><span class="op">(</span></span>
+<span>  <span class="va">n_species</span>,</span>
+<span>  x0 <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  names_species <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  carrying_capacity <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  A <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  k_events <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  t_end <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  metacommunity_probability <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n_species</span>, min <span class="op">=</span> <span class="fl">0.1</span>, max <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span>,</span>
+<span>  death_rates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n_species</span>, min <span class="op">=</span> <span class="fl">0.01</span>, max <span class="op">=</span> <span class="fl">0.08</span><span class="op">)</span>,</span>
+<span>  norm <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>n_species</dt>
-<dd><p>integer number of species</p></dd>
+<dd><p>Integer: number of species</p></dd>
 
 
-<dt>I</dt>
-<dd><p>integer community size, number of available sites (individuals)</p></dd>
+<dt>x0</dt>
+<dd><p>a vector of initial community abundances
+If (default: <code>x0 = NULL</code>), based on migration rates</p></dd>
+
+
+<dt>names_species</dt>
+<dd><p>Character: names of species. If NULL,
+<code>paste0("sp", seq_len(n_species))</code> is used.
+(default: <code>names_species = NULL</code>)</p></dd>
+
+
+<dt>carrying_capacity</dt>
+<dd><p>integer community size, number of available sites
+(individuals)</p></dd>
 
 
 <dt>A</dt>
-<dd><p>interaction matrix</p></dd>
+<dd><p>matrix: interaction matrix defining the positive and negative
+interactions between n_species. If NULL, <code>powerlawA(n_species)</code> is used.
+(default: <code>A = NULL</code>)</p></dd>
 
 
-<dt>k</dt>
+<dt>k_events</dt>
 <dd><p>integer number of transition events that are allowed to take
-place during one leap. (default: <code>k = 5</code>). Higher values reduce runtime,
-but also accuracy of the simulation.</p></dd>
+place during one leap. (default: <code>k_events = 5</code>).
+Higher values reduce runtime, but also accuracy of the simulation.</p></dd>
 
 
-<dt>com</dt>
-<dd><p>a vector of initial community abundances
-If (default: <code>com = NULL</code>), based on migration rates</p></dd>
+<dt>t_end</dt>
+<dd><p>Numeric: the end time of the simulation, defining the
+modeled time length of the community.
+(default: <code>t_end = 1000</code>)</p></dd>
 
 
-<dt>tend</dt>
-<dd><p>integer timepoints to be returned in the time series
-(number of generations)</p></dd>
+<dt>metacommunity_probability</dt>
+<dd><p>Numeric: Normalized probability distribution
+of the likelihood that species from the metacommunity can enter the community
+during the simulation. By default, <code>runif(n_species, min = 0.1, max = 0.8)</code>
+is used.
+(default: <code>metacommunity_probability = runif(n_species, min = 0.1, max = 0.8)</code>)</p></dd>
+
+
+<dt>death_rates</dt>
+<dd><p>Numeric: death rates of each species. By default,
+<code>runif(n_species, min = 0.01, max = 0.08)</code> is used.
+(default: <code>death_rates = runif(n_species, min = 0.01, max = 0.08)</code>)</p></dd>
 
 
 <dt>norm</dt>
@@ -98,8 +133,7 @@ or the raw counts (default: <code>norm = FALSE</code>)</p></dd>
     <h2>Value</h2>
     
 
-<p>abundance matrix consisting of species abundance as rows and
-time points as columns</p>
+<p><code>simulateSOI</code> returns a result list containing an abundance matrix</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -111,8 +145,10 @@ time points as columns</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Generate interaction matrix</span></span></span>
 <span class="r-in"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu">miaSim</span><span class="fu">::</span><span class="fu"><a href="powerlawA.html">powerlawA</a></span><span class="op">(</span><span class="fl">10</span>, alpha <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Simulate data from the SOI model</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">simulateSOI</span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">10</span>, I <span class="op">=</span> <span class="fl">1000</span>, <span class="va">A</span>, k<span class="op">=</span><span class="fl">5</span>, com <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
-<span class="r-in"><span>                                            tend <span class="op">=</span> <span class="fl">150</span>, norm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">simulateSOI</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    n_species <span class="op">=</span> <span class="fl">10</span>, carrying_capacity <span class="op">=</span> <span class="fl">1000</span>, A <span class="op">=</span> <span class="va">A</span>,</span></span>
+<span class="r-in"><span>    k_events <span class="op">=</span> <span class="fl">5</span>, x0 <span class="op">=</span> <span class="cn">NULL</span>, t_end <span class="op">=</span> <span class="fl">150</span>, norm <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -124,11 +160,11 @@ time points as columns</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Karoline Faust, Yu Gao, Emma Gheysen, Daniel Rios Garza, Yagmur Simsek, Leo Lahti.</p>
+  <p></p><p>Developed by Yagmur Simsek, Karoline Faust, Yu Gao, Emma Gheysen, Daniel Rios Garza, Leo Lahti.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

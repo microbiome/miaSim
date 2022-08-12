@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">miaSim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.7</span>
       </span>
     </div>
 
@@ -83,19 +83,21 @@
 <div class="section level3">
 <h3 id="bioc-release">Bioc-release<a class="anchor" aria-label="anchor" href="#bioc-release"></a>
 </h3>
-<p>```{r, eval=FALSE} if (!requireNamespace(“BiocManager”, quietly = TRUE)) install.packages(“BiocManager”)</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">"miaSim"</span>)</span></code></pre></div>
-<pre><code>
-### Bioc-devel
-
-```{r, eval=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-# The following initializes usage of Bioc devel
-BiocManager::install(version='devel')
-
-BiocManager::install("miaSim")</code></pre>
+<pre><code><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"miaSim"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="bioc-devel">Bioc-devel<a class="anchor" aria-label="anchor" href="#bioc-devel"></a>
+</h3>
+<pre><code><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># The following initializes usage of Bioc devel</span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span>version<span class="op">=</span><span class="st">'devel'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"miaSim"</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="contributions-and-acknowledgments">Contributions and acknowledgments<a class="anchor" aria-label="anchor" href="#contributions-and-acknowledgments"></a>
@@ -145,11 +147,11 @@ BiocManager::install("miaSim")</code></pre>
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
+<li>Yagmur Simsek <br><small class="roles"> Maintainer, author </small>  </li>
 <li>Karoline Faust <br><small class="roles"> Author </small>  </li>
 <li>Yu Gao <br><small class="roles"> Author </small>  </li>
 <li>Emma Gheysen <br><small class="roles"> Author </small>  </li>
 <li>Daniel Rios Garza <br><small class="roles"> Author </small>  </li>
-<li>Yagmur Simsek <br><small class="roles"> Maintainer, author </small>  </li>
 <li>Leo Lahti <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-5537-637X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
@@ -173,12 +175,12 @@ BiocManager::install("miaSim")</code></pre>
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Karoline Faust, Yu Gao, Emma Gheysen, Daniel Rios Garza, Yagmur Simsek, Leo Lahti.</p>
+<p>Developed by Yagmur Simsek, Karoline Faust, Yu Gao, Emma Gheysen, Daniel Rios Garza, Leo Lahti.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">miaSim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.7</span>
       </span>
     </div>
 
@@ -55,16 +55,21 @@
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">simulateGLV</span><span class="op">(</span></span>
 <span>  <span class="va">n_species</span>,</span>
-<span>  <span class="va">A</span>,</span>
-<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n_species</span><span class="op">)</span>,</span>
-<span>  b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n_species</span><span class="op">)</span>,</span>
-<span>  sigma_drift <span class="op">=</span> <span class="fl">0.01</span>,</span>
-<span>  sigma_epoch <span class="op">=</span> <span class="fl">0.3</span>,</span>
+<span>  names_species <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  A <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  x0 <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  growth_rates <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sigma_drift <span class="op">=</span> <span class="fl">0.001</span>,</span>
+<span>  sigma_epoch <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  sigma_external <span class="op">=</span> <span class="fl">0.3</span>,</span>
-<span>  p_epoch <span class="op">=</span> <span class="fl">0.01</span>,</span>
-<span>  t_external_events <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">36</span>, <span class="fl">48</span><span class="op">)</span>,</span>
-<span>  t_external_durations <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">10</span>, <span class="fl">99</span><span class="op">)</span>,</span>
-<span>  stochastic <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  sigma_migration <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>  epoch_p <span class="op">=</span> <span class="fl">0.001</span>,</span>
+<span>  t_external_events <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  t_external_durations <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stochastic <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  migration_p <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>  metacommunity_probability <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  error_variance <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  norm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  t_end <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -74,76 +79,126 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>n_species</dt>
-<dd><p>integer number of species</p></dd>
+<dd><p>Integer: number of species</p></dd>
+
+
+<dt>names_species</dt>
+<dd><p>Character: names of species. If NULL,
+<code>paste0("sp", seq_len(n_species))</code> is used.
+(default: <code>names_species = NULL</code>)</p></dd>
 
 
 <dt>A</dt>
-<dd><p>interaction matrix</p></dd>
+<dd><p>matrix: interaction matrix defining the positive and negative
+interactions between n_species. If NULL, <code>randomA(n_species)</code> is used.
+(default: <code>A = NULL</code>)</p></dd>
 
 
-<dt>x</dt>
-<dd><p>numeric initial abundances</p></dd>
+<dt>x0</dt>
+<dd><p>Numeric: initial abundances of simulated species. If NULL,
+<code>runif(n = n_species, min = 0, max = 1)</code> is used.
+(default: <code>x0 = NULL</code>)</p></dd>
 
 
-<dt>b</dt>
-<dd><p>numeric growth rates</p></dd>
+<dt>growth_rates</dt>
+<dd><p>Numeric: growth rates of simulated species. If NULL,
+<code>runif(n = n_species, min = 0, max = 1)</code> is used.
+(default: <code>growth_rates = NULL</code>)</p></dd>
 
 
 <dt>sigma_drift</dt>
-<dd><p>numeric degree of drift
-(turnover of species) in each time step.
-(default: <code>sigma_drift = 0.01</code>)</p></dd>
+<dd><p>Numeric: standard deviation of a normally distributed
+noise applied in each time step (t_step)
+(default: <code>sigma_drift = 0.001</code>)</p></dd>
 
 
 <dt>sigma_epoch</dt>
-<dd><p>numeric degree of epoch change of community
-(default: <code>sigma_epoch = 0.3</code>)</p></dd>
+<dd><p>Numeric: standard deviation of a normally distributed
+noise applied to random periods of the community composition with frequency
+defined by the epoch_p parameter
+(default: <code>sigma_epoch = 0.1</code>)</p></dd>
 
 
 <dt>sigma_external</dt>
-<dd><p>numeric degree of the external events/disturbances
+<dd><p>Numeric: standard deviation of a normally distributed
+noise applied to user-defined external events/disturbances
 (default: <code>sigma_external = 0.3</code>)</p></dd>
 
 
-<dt>p_epoch</dt>
-<dd><p>numeric value of the probability/frequency of inherit periodic
-changes of community (default: <code>p_epoch  = 0.01</code>)</p></dd>
+<dt>sigma_migration</dt>
+<dd><p>Numeric: standard deviation of a normally distributed
+variable that defines the intensity of migration at each time step (t_step)
+(default: <code>sigma_migration = 0.01</code>)</p></dd>
+
+
+<dt>epoch_p</dt>
+<dd><p>Numeric: the probability/frequency of random periodic
+changes introduced to the community composition
+(default: <code>epoch_p = 0.001</code>)</p></dd>
 
 
 <dt>t_external_events</dt>
-<dd><p>numeric value of starting times of external events
-(default: <code>t_external_events = c(12, 36, 48)</code>)</p></dd>
+<dd><p>Numeric: the starting time points of defined
+external events that introduce random changes to the community composition
+(default: <code>t_external_events = NULL</code>)</p></dd>
 
 
 <dt>t_external_durations</dt>
-<dd><p>numeric durations of external events
-(default: <code>t_external_durations = c(3, 10, 99)</code>)</p></dd>
+<dd><p>Numeric: respective duration of the external
+events that are defined in the 't_external_events' (times) and
+sigma_external (std).
+(default: <code>t_external_durations = NULL</code>)</p></dd>
 
 
 <dt>stochastic</dt>
-<dd><p>logical scalar choosing whether the gLV model should be
-stochastic (default: <code>stochastic = FALSE</code>)</p></dd>
+<dd><p>Logical: whether to introduce noise in the simulation.
+If False, sigma_drift, sigma_epoch, and sigma_external are ignored.
+(default: <code>stochastic = FALSE</code>)</p></dd>
+
+
+<dt>migration_p</dt>
+<dd><p>Numeric: the probability/frequency of migration from a
+metacommunity.
+(default: <code>migration_p = 0.01</code>)</p></dd>
+
+
+<dt>metacommunity_probability</dt>
+<dd><p>Numeric: Normalized probability distribution
+of the likelihood that species from the metacommunity can enter the community
+during the simulation. If NULL, <code>rdirichlet(1, alpha = rep(1,n_species))</code> is
+used.
+(default: <code>metacommunity_probability = NULL</code>)</p></dd>
+
+
+<dt>error_variance</dt>
+<dd><p>Numeric: the variance of measurement error.
+By default it equals to 0, indicating that the result won't contain any
+measurement error. This value should be non-negative.
+(default: <code>error_variance = 0</code>)</p></dd>
 
 
 <dt>norm</dt>
-<dd><p>logical scalar returning normalised abundances (proportions
-in each generation) (default: <code>norm = FALSE</code>)</p></dd>
+<dd><p>Logical: whether the time series should be returned with
+the abundances as proportions (<code>norm = TRUE</code>) or
+the raw counts (default: <code>norm = FALSE</code>)
+(default: <code>norm = FALSE</code>)</p></dd>
 
 
 <dt>t_end</dt>
-<dd><p>numeric value of simulation end time
+<dd><p>Numeric: the end time of the simulationTimes, defining the
+modeled time length of the community.
 (default: <code>t_end = 1000</code>)</p></dd>
 
 
 <dt>...</dt>
-<dd><p>additional parameters including 't_start', 't_step', and 't_store'</p></dd>
+<dd><p>additional parameters, see <code><a href="https://rdrr.io/r/utils/utils-package.html" class="external-link">utils</a></code> to know more.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p><code>simulateGLV</code> returns an abundance matrix</p>
+<p><code>simulateGLV</code> returns a result list containing an abundance matrix</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -159,9 +214,81 @@ A is the interaction matrix and b is the vector of growth rates.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu">miaSim</span><span class="fu">::</span><span class="fu"><a href="powerlawA.html">powerlawA</a></span><span class="op">(</span><span class="fl">4</span>, alpha <span class="op">=</span> <span class="fl">1.01</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># generate a random interaction matrix</span></span></span>
+<span class="r-in"><span><span class="va">ExampleA</span> <span class="op">&lt;-</span> <span class="fu"><a href="randomA.html">randomA</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">4</span>, diagonal <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">simulateGLV</span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">4</span>, <span class="va">A</span>, t_end <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># run the model with default values (only stochastic migration considered)</span></span></span>
+<span class="r-in"><span><span class="va">ExampleGLV</span> <span class="op">&lt;-</span> <span class="fu">simulateGLV</span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">4</span>, A <span class="op">=</span> <span class="va">ExampleA</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># visualize the result</span></span></span>
+<span class="r-in"><span><span class="va">ExampleGLV_SE</span> <span class="op">&lt;-</span> <span class="fu">TreeSummarizedExperiment</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    assays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">ExampleGLV</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    colData <span class="op">=</span> <span class="fu">DataFrame</span><span class="op">(</span>time <span class="op">=</span> <span class="va">ExampleGLV</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="st">"time"</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    metadata <span class="op">=</span> <span class="va">ExampleGLV</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ExampleGLV</span><span class="op">)</span> <span class="op">==</span> <span class="st">"matrix"</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleGLV_SE</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-plt img"><img src="simulateGLV-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># run the model with two external disturbances at time points 240 and 480</span></span></span>
+<span class="r-in"><span><span class="co"># with durations equal to 1 (10 time steps when t_step by default is 0.1).</span></span></span>
+<span class="r-in"><span><span class="va">ExampleGLV</span> <span class="op">&lt;-</span> <span class="fu">simulateGLV</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    n_species <span class="op">=</span> <span class="fl">4</span>, A <span class="op">=</span> <span class="va">ExampleA</span>,</span></span>
+<span class="r-in"><span>    t_external_events <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">240</span>, <span class="fl">480</span><span class="op">)</span>, t_external_durations <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># visualize the result</span></span></span>
+<span class="r-in"><span><span class="va">ExampleGLV_SE</span> <span class="op">&lt;-</span> <span class="fu">TreeSummarizedExperiment</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    assays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">ExampleGLV</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    colData <span class="op">=</span> <span class="fu">DataFrame</span><span class="op">(</span>time <span class="op">=</span> <span class="va">ExampleGLV</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="st">"time"</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    metadata <span class="op">=</span> <span class="va">ExampleGLV</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ExampleGLV</span><span class="op">)</span> <span class="op">==</span> <span class="st">"matrix"</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleGLV_SE</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-plt img"><img src="simulateGLV-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># run the model with no pertubation nor migration</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ExampleGLV</span> <span class="op">&lt;-</span> <span class="fu">simulateGLV</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    n_species <span class="op">=</span> <span class="fl">4</span>, A <span class="op">=</span> <span class="va">ExampleA</span>, stochastic <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>    sigma_migration <span class="op">=</span> <span class="fl">0</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># visualize the result</span></span></span>
+<span class="r-in"><span><span class="va">ExampleGLV_SE</span> <span class="op">&lt;-</span> <span class="fu">TreeSummarizedExperiment</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    assays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">ExampleGLV</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    colData <span class="op">=</span> <span class="fu">DataFrame</span><span class="op">(</span>time <span class="op">=</span> <span class="va">ExampleGLV</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="st">"time"</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    metadata <span class="op">=</span> <span class="va">ExampleGLV</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ExampleGLV</span><span class="op">)</span> <span class="op">==</span> <span class="st">"matrix"</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleGLV_SE</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-plt img"><img src="simulateGLV-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># run the model with no pertubation nor migration but with measurement error</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ExampleGLV</span> <span class="op">&lt;-</span> <span class="fu">simulateGLV</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    n_species <span class="op">=</span> <span class="fl">4</span>, A <span class="op">=</span> <span class="va">ExampleA</span>, stochastic <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>    error_variance <span class="op">=</span> <span class="fl">0.001</span>, sigma_migration <span class="op">=</span> <span class="fl">0</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># visualize the result</span></span></span>
+<span class="r-in"><span><span class="va">ExampleGLV_SE</span> <span class="op">&lt;-</span> <span class="fu">TreeSummarizedExperiment</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    assays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">ExampleGLV</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    colData <span class="op">=</span> <span class="fu">DataFrame</span><span class="op">(</span>time <span class="op">=</span> <span class="va">ExampleGLV</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="st">"time"</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    metadata <span class="op">=</span> <span class="va">ExampleGLV</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ExampleGLV</span><span class="op">)</span> <span class="op">==</span> <span class="st">"matrix"</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleGLV_SE</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
+<span class="r-plt img"><img src="simulateGLV-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -173,11 +300,11 @@ A is the interaction matrix and b is the vector of growth rates.</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Karoline Faust, Yu Gao, Emma Gheysen, Daniel Rios Garza, Yagmur Simsek, Leo Lahti.</p>
+  <p></p><p>Developed by Yagmur Simsek, Karoline Faust, Yu Gao, Emma Gheysen, Daniel Rios Garza, Leo Lahti.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

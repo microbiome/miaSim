@@ -25,6 +25,33 @@
     <loc>/reference/convertToTreeSE.html</loc>
   </url>
   <url>
+    <loc>/reference/createParamList.html</loc>
+  </url>
+  <url>
+    <loc>/reference/dot-applyInterType.html</loc>
+  </url>
+  <url>
+    <loc>/reference/dot-getInteractions.html</loc>
+  </url>
+  <url>
+    <loc>/reference/dot-isPosInt.html</loc>
+  </url>
+  <url>
+    <loc>/reference/dot-replaceByZero.html</loc>
+  </url>
+  <url>
+    <loc>/reference/estimateAFromSimulations.html</loc>
+  </url>
+  <url>
+    <loc>/reference/eventTimes.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generateSimulations.html</loc>
+  </url>
+  <url>
+    <loc>/reference/getCommunity.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
@@ -35,6 +62,9 @@
   </url>
   <url>
     <loc>/reference/randomE.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rdirichlet.html</loc>
   </url>
   <url>
     <loc>/reference/simulateConsumerResource.html</loc>
