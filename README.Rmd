@@ -26,14 +26,11 @@ model, and the self-organised instability model.
 
 ## Installation
 
-
-
 ### Bioc-release
 
 ```
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-
     BiocManager::install("miaSim")
 ```
 
@@ -42,10 +39,8 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 ```
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-
 # The following initializes usage of Bioc devel
 BiocManager::install(version='devel')
-
 BiocManager::install("miaSim")
 ```
 
