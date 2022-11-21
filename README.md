@@ -52,10 +52,9 @@ BiocManager::install("miaSim")
 
 ### miaSimShiny
 
-miaSim is accompanied by miaSimShiny, which allows users to explore the parameter space of their models in real-time in an intuitive graphical interface. miaSimShiny is available at https://github.com/gaoyu19920914/miaSimShiny.
+miaSim is accompanied by [miaSimShiny](https://github.com/gaoyu19920914/miaSimShiny), which allows users to explore the parameter space of their models in real-time in an intuitive graphical interface.
 
-Follow [this link](https://gaoyu.shinyapps.io/shiny_rep/) to try the online version.
-
+You can experiment with miaSimShiny in an [interactive online application](https://gaoyu.shinyapps.io/shiny_rep/).
 
 ### Contributions and acknowledgments
 
