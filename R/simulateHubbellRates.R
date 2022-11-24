@@ -216,13 +216,18 @@ simulateHubbellRates <- function(n_species = NULL,
 
     out_matrix <- cbind(out_matrix, time = t_dyn$t_sys[t_dyn$t_index])
 
-    out_list <- list(
-        matrix = out_matrix,
-        community = community,
-        x0 = x0,
-        metacommunity_probability = metacommunity_probability,
-        error_variance = error_variance,
-        growth_rates = growth_rates
-    )
-    return(out_list)
+    #out_list <- list(
+    #    matrix = out_matrix,
+    #    community = community,
+    #    x0 = x0,
+    #    metacommunity_probability = metacommunity_probability,
+    #    error_variance = error_variance,
+    #    growth_rates = growth_rates
+    #)
+
+    TreeSE <- TreeSummarizedExperiment(
+        assays = list(counts = t(out_matrix[, 1:n_species])),
+        colData = DataFrame(time = out_matrix[, "time"]))
+
+    return(TreeSE)
 }

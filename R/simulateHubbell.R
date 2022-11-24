@@ -92,14 +92,20 @@ simulateHubbell <- function(n_species, M, carrying_capacity = 1000,
     counts <- tseries[, seq((t_skip + 1), t_end, 1)]
     # return(counts)
     matrix_out <- cbind(t(counts), time = seq_len(t_end))
-    list_out <- list(
-        matrix = matrix_out,
-        M = M,
-        carrying_capacity = carrying_capacity,
-        k_events = k_events,
-        migration_p = migration_p,
-        t_skip = t_skip,
-        norm = norm
-    )
-    return(list_out)
+
+    #list_out <- list(
+    #    matrix = matrix_out,
+    #    M = M,
+    #    carrying_capacity = carrying_capacity,
+    #    k_events = k_events,
+    #    migration_p = migration_p,
+    #    t_skip = t_skip,
+    #    norm = norm
+    #)
+
+    TreeSE <- TreeSummarizedExperiment(
+      assays = list(counts = t(matrix_out[, 1:n_species])),
+      colData = DataFrame(time = matrix_out[, "time"]))
+
+    return(TreeSE)
 }

@@ -268,11 +268,16 @@ simulateStochasticLogistic <- function(n_species,
 
     out_matrix <- cbind(out_matrix, time = t_dyn$t_sys[t_dyn$t_index])
 
-    out_list <- list(
-        matrix = out_matrix,
-        metacommunity_probability = metacommunity_probability,
-        migration_p = migration_p,
-        error_variance = error_variance
-    )
-    return(out_list)
+    #out_list <- list(
+    #    matrix = out_matrix,
+    #    metacommunity_probability = metacommunity_probability,
+    #    migration_p = migration_p,
+    #    error_variance = error_variance
+    #)
+
+    TreeSE <- TreeSummarizedExperiment(
+        assays = list(counts = t(out_matrix[, 1:n_species])),
+        colData = DataFrame(time = out_matrix[, "time"]))
+
+    return(TreeSE)
 }

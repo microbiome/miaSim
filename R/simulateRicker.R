@@ -92,13 +92,19 @@ simulateRicker <- function(n_species,
     colnames(out_matrix) <- names_species
     out_matrix <- cbind(out_matrix, time = t_dyn$t_sys)
     out_matrix <- out_matrix[t_dyn$t_index, ]
-    out_list <- list(
-        matrix = out_matrix,
-        x0 = x0,
-        A = A,
-        carrying_capacities = carrying_capacities,
-        error_variance = error_variance,
-        norm = norm
-    )
-    return(out_list)
+
+    #out_list <- list(
+    #    matrix = out_matrix,
+    #    x0 = x0,
+    #    A = A,
+    #    carrying_capacities = carrying_capacities,
+    #    error_variance = error_variance,
+    #    norm = norm
+    #)
+
+    TreeSE <- TreeSummarizedExperiment(
+        assays = list(counts = t(out_matrix[, 1:n_species])),
+        colData = DataFrame(time = out_matrix[, "time"]))
+
+    return(TreeSE)
 }

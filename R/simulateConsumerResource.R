@@ -369,15 +369,19 @@ simulateConsumerResource <- function(n_species, n_resources,
         time = t_dyn$t_sys[index_to_return]
     )
 
-    out_list <- list(
-        matrix = out_species_matrix,
-        resources = out_resource_matrix,
-        volume = out_volume_matrix,
-        E = E,
-        monod_constant = monod_constant,
-        error_variance = error_variance
-    )
-    return(out_list)
+    #out_list <- list(
+        #matrix = out_species_matrix,
+        #resources = out_resource_matrix,
+        #volume = out_volume_matrix,
+        #E = E,
+        #monod_constant = monod_constant,
+        #error_variance = error_variance
+    #)
+    TreeSE <- TreeSummarizedExperiment(
+        assays = list(counts = t(out_species_matrix[, 1:n_species])),
+        colData = DataFrame(time = out_species_matrix[, "time"]))
+
+    return(TreeSE)
 }
 
 # define the consumer-resource model

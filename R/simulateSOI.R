@@ -195,14 +195,19 @@ simulateSOI <- function(n_species,
     }
     counts <- series
     out_matrix <- cbind(t(counts), time = seq_len(ncol(counts)))
-    out_list <- list(
-        matrix = out_matrix,
-        x0 = x0,
-        A = A,
-        carrying_capacity = carrying_capacity,
-        k_events = k_events
-    )
-    return(out_list)
+    #out_list <- list(
+    #    matrix = out_matrix,
+    #    x0 = x0,
+    #    A = A,
+    #    carrying_capacity = carrying_capacity,
+    #    k_events = k_events
+    #)
+
+    TreeSE <- TreeSummarizedExperiment(
+        assays = list(counts = t(out_matrix[, 1:n_species])),
+        colData = DataFrame(time = out_matrix[, "time"]))
+
+    return(TreeSE)
 }
 
 updatePropensities <- function(carrying_capacity, # total nr of sites
