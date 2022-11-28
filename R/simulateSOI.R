@@ -28,11 +28,9 @@
 #' @param norm logical scalar indicating whether the time series should be
 #' returned with the abundances as proportions (\code{norm = TRUE})
 #' or the raw counts (default: \code{norm = FALSE})
-#' @seealso
-#' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
 #' @return
-#' \code{simulateSOI} returns a result list containing an abundance matrix
+#' \code{simulateSOI} returns a TreeSummarizedExperiment class object
 #'
 #' @examples
 #' # Generate interaction matrix
@@ -195,17 +193,14 @@ simulateSOI <- function(n_species,
     }
     counts <- series
     out_matrix <- cbind(t(counts), time = seq_len(ncol(counts)))
-    #out_list <- list(
-    #    matrix = out_matrix,
-    #    x0 = x0,
-    #    A = A,
-    #    carrying_capacity = carrying_capacity,
-    #    k_events = k_events
-    #)
 
     TreeSE <- TreeSummarizedExperiment(
         assays = list(counts = t(out_matrix[, 1:n_species])),
-        colData = DataFrame(time = out_matrix[, "time"]))
+        colData = DataFrame(time = out_matrix[, "time"]),
+        metadata = list(x0 = x0,
+                        A = A,
+                        carrying_capacity = carrying_capacity,
+                        k_events = k_events))
 
     return(TreeSE)
 }

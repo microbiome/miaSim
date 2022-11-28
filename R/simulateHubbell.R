@@ -20,17 +20,14 @@
 #' returned with the abundances as proportions (\code{norm = TRUE}) or
 #' the raw counts (default: \code{norm = FALSE})
 #'
-#' @seealso
-#' \code{\link[miaSim:convertToSE]{convertToSE}}
-#'
 #' @examples
 #' x <- simulateHubbell(
 #'     n_species = 8, M = 10, carrying_capacity = 1000, k_events = 50,
 #'     migration_p = 0.02, t_end = 100
 #' )
 #'
-#' @return \code{simulateHubbell} returns an abundance matrix with
-#' species abundance as rows and time points as columns
+#' @return \code{simulateHubbell} returns a TreeSummarizedExperiment class
+#' object
 #'
 #' @importFrom stats rbinom rmultinom
 #' @importFrom MatrixGenerics colSums2
@@ -93,19 +90,14 @@ simulateHubbell <- function(n_species, M, carrying_capacity = 1000,
     # return(counts)
     matrix_out <- cbind(t(counts), time = seq_len(t_end))
 
-    #list_out <- list(
-    #    matrix = matrix_out,
-    #    M = M,
-    #    carrying_capacity = carrying_capacity,
-    #    k_events = k_events,
-    #    migration_p = migration_p,
-    #    t_skip = t_skip,
-    #    norm = norm
-    #)
-
     TreeSE <- TreeSummarizedExperiment(
       assays = list(counts = t(matrix_out[, 1:n_species])),
-      colData = DataFrame(time = matrix_out[, "time"]))
+      colData = DataFrame(time = matrix_out[, "time"]),
+      metadata = list(carrying_capacity = carrying_capacity,
+                      k_events = k_events,
+                      migration_p = migration_p,
+                      t_skip = t_skip,
+                      norm = norm))
 
     return(TreeSE)
 }

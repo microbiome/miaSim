@@ -5,8 +5,8 @@ test_that("simulateHubbellRates", {
         growth_rates = NULL, norm = FALSE, t_end = 1000
     )
 
-    expect_type(HubbellWTime, "list")
-    expect_equal(dim(t(HubbellWTime$matrix)), c(4, 1000))
+    expect_s4_class(HubbellWTime, "TreeSummarizedExperiment")
+    expect_equal(dim(HubbellWTime@assays@data@listData[["counts"]]), c(3, 1000))
 
     # check errors in inputs
     expect_error(Error1 <- simulateHubbellRates(x0 = -1))

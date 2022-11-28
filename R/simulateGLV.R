@@ -20,11 +20,9 @@
 #' @template man_sto
 #' @template man_mig
 #' @template man_mod
-#' @seealso
-#' \code{\link[miaSim:convertToSE]{convertToSE}}
 #'
 #' @return
-#' \code{simulateGLV} returns a result list containing an abundance matrix
+#' \code{simulateGLV} returns a TreeSummarizedExperiment class object
 #'
 #' @examples
 #'
@@ -34,12 +32,7 @@
 #' # run the model with default values (only stochastic migration considered)
 #' ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA)
 #' # visualize the result
-#' ExampleGLV_SE <- TreeSummarizedExperiment(
-#'     assays = list(counts = t(ExampleGLV$matrix[, 1:4])),
-#'     colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
-#'     metadata = ExampleGLV[-which(names(ExampleGLV) == "matrix")]
-#' )
-#' miaViz::plotSeries(ExampleGLV_SE, x = "time")
+#' miaViz::plotSeries(ExampleGLV, x = "time")
 #'
 #' # run the model with two external disturbances at time points 240 and 480
 #' # with durations equal to 1 (10 time steps when t_step by default is 0.1).
@@ -48,12 +41,7 @@
 #'     t_external_events = c(0, 240, 480), t_external_durations = c(0, 1, 1)
 #' )
 #' # visualize the result
-#' ExampleGLV_SE <- TreeSummarizedExperiment(
-#'     assays = list(counts = t(ExampleGLV$matrix[, 1:4])),
-#'     colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
-#'     metadata = ExampleGLV[-which(names(ExampleGLV) == "matrix")]
-#' )
-#' miaViz::plotSeries(ExampleGLV_SE, x = "time")
+#' miaViz::plotSeries(ExampleGLV, x = "time")
 #'
 #' # run the model with no pertubation nor migration
 #' set.seed(42)
@@ -62,12 +50,7 @@
 #'     sigma_migration = 0
 #' )
 #' # visualize the result
-#' ExampleGLV_SE <- TreeSummarizedExperiment(
-#'     assays = list(counts = t(ExampleGLV$matrix[, 1:4])),
-#'     colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
-#'     metadata = ExampleGLV[-which(names(ExampleGLV) == "matrix")]
-#' )
-#' miaViz::plotSeries(ExampleGLV_SE, x = "time")
+#' miaViz::plotSeries(ExampleGLV, x = "time")
 #'
 #' # run the model with no pertubation nor migration but with measurement error
 #' set.seed(42)
@@ -76,12 +59,7 @@
 #'     error_variance = 0.001, sigma_migration = 0
 #' )
 #' # visualize the result
-#' ExampleGLV_SE <- TreeSummarizedExperiment(
-#'     assays = list(counts = t(ExampleGLV$matrix[, 1:4])),
-#'     colData = DataFrame(time = ExampleGLV$matrix[, "time"]),
-#'     metadata = ExampleGLV[-which(names(ExampleGLV) == "matrix")]
-#' )
-#' miaViz::plotSeries(ExampleGLV_SE, x = "time")
+#' miaViz::plotSeries(ExampleGLV, x = "time")
 #'
 #' @importFrom deSolve ode
 #' @importFrom stats runif rnorm
@@ -181,16 +159,12 @@ simulateGLV <- function(n_species,
 
     out_matrix <- cbind(out_matrix, time = t_dyn$t_sys[t_dyn$t_index])
 
-    #out_list <- list(
-    #    matrix = out_matrix,
-    #    metacommunity_probability = metacommunity_probability,
-    #    migration_p = migration_p,
-    #    error_variance = error_variance
-    #)
-
     TreeSE <- TreeSummarizedExperiment(
         assays = list(counts = t(out_matrix[, 1:n_species])),
-        colData = DataFrame(time = out_matrix[, "time"]))
+        colData = DataFrame(time = out_matrix[, "time"]),
+        metadata = list(migration_p = migration_p,
+                        error_variance = error_variance))
+
 
     return(TreeSE)
 }
