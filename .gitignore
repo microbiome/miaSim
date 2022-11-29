@@ -6,3 +6,4 @@ inst/extras
 *.Ruserdata
 .Rproj.user
 
+inst/doc
