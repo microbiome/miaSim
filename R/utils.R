@@ -146,128 +146,6 @@ eventTimes <- function(t_events = NULL, t_duration = NULL,
     return(I)
 }
 
-
-#' Generate multiple simulations and store them in a list
-#'
-#' This function is useful when generating simulations with different parameters
-#' or simulating multiple instances to evaluate stochasticity therein.
-#'
-#' @param model Character: name of the model to use, must be one of
-#' "simulateConsumerResource", "simulateGLV", "simulateHubbellRates", and
-#' "simulateStochasticLogistic"
-#' @param params_list List: a list containing all parameters used in the
-#' aforementionned called model
-#' @param param_iter List of parameters to overwrite in different simulations.
-#' If NULL, then simulate different instances using the same set of parameters.
-#' (default: \code{param_iter = NULL})
-#' @param n_instances Integer: number of instances to generate
-#' (default: \code{n_instances = 1})
-#' @param t_end Numeric: end time of the simulation. If not identical with t_end
-#' in params_list, then it will overwrite t_end in each simulation
-#' (default: \code{t_end = 1000})
-#' @return A list containing multiple simulating results
-#' @examples
-#'
-#' crm_params <- list(
-#'     n_species = 10,
-#'     n_resources = 5,
-#'     E = randomE(
-#'         n_species = 10, n_resources = 5,
-#'         mean_consumption = 1, mean_production = 3
-#'     ),
-#'     x0 = rep(0.001, 10),
-#'     resources = rep(1000, 5),
-#'     monod_constant = matrix(rbeta(10 * 5, 10, 10), nrow = 10, ncol = 5),
-#'     inflow_rate = .5,
-#'     outflow_rate = .5,
-#'     migration_p = 0,
-#'     stochastic = TRUE,
-#'     t_start = 0,
-#'     t_end = 20,
-#'     t_store = 100,
-#'     growth_rates = runif(10),
-#'     norm = FALSE
-#' )
-#' CRMSimus <- generateSimulations(
-#'     model = "simulateConsumerResource",
-#'     params_list = crm_params, param_iter = NULL, n_instances = 1, t_end = 20
-#' )
-#'
-#' @export
-generateSimulations <- function(model,
-    params_list,
-    param_iter = NULL,
-    n_instances = 1,
-    t_end = 1000) {
-    simulations <- list()
-    if (params_list$t_end != t_end) {
-        warning("t_end in the variable list not equals to t_end")
-        params_list$t_end <- t_end
-    }
-    if (is.null(param_iter)) {
-        for (i in seq_len(n_instances)) {
-            # print(paste(i, "of", n_instances,"instances in one set of params."))
-            simulation <- do.call(model, params_list)
-            # simulation$matrix[,colnames(simulation$model)!= "time"]
-            simulations[[length(simulations) + 1]] <- simulation
-        }
-        return(simulations)
-    } else {
-        if (!all(names(param_iter) %in% names(params_list))) {
-            stop(
-                "not recognized parameter(s) :",
-                names(param_iter)[!names(param_iter) %in% names(params_list)]
-            )
-        }
-        if (length(unique(unlist(lapply(param_iter, length)))) > 1) {
-            stop("parameters in list param_iter are not of the same length.")
-        }
-
-        simulations_full <- list()
-        for (i in seq_along(param_iter[[1]])) {
-            # print(paste(i, "of", length(param_iter[[1]]), "sets of params."))
-            params_list_local <- utils::modifyList(
-                params_list,
-                lapply(param_iter, "[[", i)
-            )
-            simulations_local <- generateSimulations(
-                model,
-                params_list_local,
-                param_iter = NULL,
-                n_instances = n_instances,
-                t_end = t_end
-            )
-            simulations_full <- append(simulations_full, simulations_local)
-        }
-        return(simulations_full)
-    }
-}
-
-#' Get the community from one simulation
-#'
-#' Get the community composition at specific time point in a simulation
-#' (default: last time point)
-#'
-#' @param simulation A list generated from simulateXXX function
-#' @param t_end Numeric: end time of the simulation. If NULL, the last t_end in
-#' the simulation will be used to extract the final state.
-#' (default: \code{t_end = NULL})
-#' @return a subset of dataframe simulation$matrix, containing the composition
-#' at t_end.
-#' @examples
-#' # single use: extract community composition at t_end = 200 from a simulation
-#' getCommunity(simulateGLV(n_species = 3, t_end = 1000), t_end = 200)
-#' # apply this function to previously generated list of simulations
-#' GLVSimus <- generateSimulations("simulateGLV", list(n_species = 3, t_end = 1000), n_instances = 5)
-#' GLVSimusCom <- as.data.frame(do.call(rbind, lapply(GLVSimus, getCommunity)))
-#'
-#' @export
-getCommunity <- function(simulation, t_end = NULL) {
-    if (is.null(t_end)) {
-        t_end <- max(simulation$matrix[, "time"])
-    }
-    return(simulation$matrix[simulation$matrix[, "time"] == t_end, -ncol(simulation$matrix)])
-}
 #' Replace one element with zero in a list.
 #'
 #' If the list contains m elements, then lengths of each element must be m, too.
@@ -291,13 +169,12 @@ getCommunity <- function(simulation, t_end = NULL) {
 #' Create a list of parameter.
 #'
 #' This function is intended to generate a list of parameters such as initial
-#' community, to prepare the parameter param_iter in `generateSimulations`.
+#' community.
 #' @param input_param Vector: the input parameter for a simulation.
 #' @param n_repeat Integer: the number to repeat the parameter.
 #' @param replace_by_zero Boolean: whether to replace certain elements in result with
 #' 0 using internal function `.replaceByZero`.
-#' @return A list of parameters which is ready as input of param_iter for
-#' `generateSimulations`.
+#' @return A list of parameters.
 #' @examples
 #' paramx0 <- createParamList(input_param = rep(99, 10), n_repeat = 10, replace_by_zero = TRUE)
 #' @export
