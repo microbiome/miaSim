@@ -1,4 +1,6 @@
 inst/extras
+*.html
+*.R
 *~
 *.Rproj.user
 *.Rproj
