@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">miaSim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.0</span>
       </span>
     </div>
 
@@ -261,12 +261,7 @@ not 0.
     <h2>Value</h2>
     
 
-<p>an abundance matrix with species and resources abundance as rows and
-time points as columns</p>
-    </div>
-    <div id="see-also">
-    <h2>See also</h2>
-    <div class="dont-index"><p><code><a href="convertToSE.html">convertToSE</a></code></p></div>
+<p>an TreeSummarizedExperiment class object</p>
     </div>
 
     <div id="ref-examples">
@@ -277,19 +272,14 @@ time points as columns</p>
 <span class="r-in"><span>    n_species <span class="op">=</span> <span class="va">n_species</span>,</span></span>
 <span class="r-in"><span>    n_resources <span class="op">=</span> <span class="va">n_resources</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># convert to TreeSummarizedExperiment format</span></span></span>
-<span class="r-in"><span><span class="va">ExampleCR_SE</span> <span class="op">&lt;-</span> <span class="fu">TreeSummarizedExperiment</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    assays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">ExampleCR</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="va">n_species</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    colData <span class="op">=</span> <span class="fu">DataFrame</span><span class="op">(</span>time <span class="op">=</span> <span class="va">ExampleCR</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="st">"time"</span><span class="op">]</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    metadata <span class="op">=</span> <span class="va">ExampleCR</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ExampleCR</span><span class="op">)</span> <span class="op">==</span> <span class="st">"matrix"</span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleCR_SE</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleCR</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
 <span class="r-plt img"><img src="simulateConsumerResource-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># convert to relative abundance</span></span></span>
-<span class="r-in"><span><span class="va">ExampleCR_SE</span> <span class="op">&lt;-</span> <span class="fu">mia</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mia/man/transformCounts.html" class="external-link">transformCounts</a></span><span class="op">(</span><span class="va">ExampleCR_SE</span>, method <span class="op">=</span> <span class="st">"relabundance"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleCR_SE</span>, x <span class="op">=</span> <span class="st">"time"</span>, assay_name <span class="op">=</span> <span class="st">"relabundance"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ExampleCR</span> <span class="op">&lt;-</span> <span class="fu">mia</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mia/man/transformCounts.html" class="external-link">transformCounts</a></span><span class="op">(</span><span class="va">ExampleCR</span>, method <span class="op">=</span> <span class="st">"relabundance"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleCR</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
 <span class="r-plt img"><img src="simulateConsumerResource-2.png" alt="" width="700" height="433"></span>
@@ -321,12 +311,8 @@ time points as columns</p>
 <span class="r-in"><span>    t_end <span class="op">=</span> <span class="fl">5000</span>,</span></span>
 <span class="r-in"><span>    t_step <span class="op">=</span> <span class="fl">1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ExampleCR_SE</span> <span class="op">&lt;-</span> <span class="fu">TreeSummarizedExperiment</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    assays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">ExampleCR</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="va">n_species</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    colData <span class="op">=</span> <span class="fu">DataFrame</span><span class="op">(</span>time <span class="op">=</span> <span class="va">ExampleCR</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="st">"time"</span><span class="op">]</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    metadata <span class="op">=</span> <span class="va">ExampleCR</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ExampleCR</span><span class="op">)</span> <span class="op">==</span> <span class="st">"matrix"</span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleCR_SE</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleCR</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
@@ -362,12 +348,7 @@ time points as columns</p>
 <span class="r-in"><span>    t_end <span class="op">=</span> <span class="fl">5000</span>, t_step <span class="op">=</span> <span class="fl">1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">ExampleCR_SE</span> <span class="op">&lt;-</span> <span class="fu">TreeSummarizedExperiment</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    assays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">ExampleCR</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="va">n_species</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    colData <span class="op">=</span> <span class="fu">DataFrame</span><span class="op">(</span>time <span class="op">=</span> <span class="va">ExampleCR</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="st">"time"</span><span class="op">]</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    metadata <span class="op">=</span> <span class="va">ExampleCR</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ExampleCR</span><span class="op">)</span> <span class="op">==</span> <span class="st">"matrix"</span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleCR_SE</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleCR</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
@@ -405,12 +386,8 @@ time points as columns</p>
 <span class="r-in"><span>    trophic_priority <span class="op">=</span> <span class="va">ExampleTrophicPriority</span>,</span></span>
 <span class="r-in"><span>    t_end <span class="op">=</span> <span class="fl">2000</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ExampleCR_SE</span> <span class="op">&lt;-</span> <span class="fu">TreeSummarizedExperiment</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    assays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">ExampleCR</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="va">n_species</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    colData <span class="op">=</span> <span class="fu">DataFrame</span><span class="op">(</span>time <span class="op">=</span> <span class="va">ExampleCR</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>, <span class="st">"time"</span><span class="op">]</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    metadata <span class="op">=</span> <span class="va">ExampleCR</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ExampleCR</span><span class="op">)</span> <span class="op">==</span> <span class="st">"matrix"</span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleCR_SE</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleCR</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
@@ -431,7 +408,7 @@ time points as columns</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

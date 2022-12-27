@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">miaSim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.0</span>
       </span>
     </div>
 
@@ -63,30 +63,36 @@
 
       
 
-      </header><script src="miaSim_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>miaSim: Microbiome Data Simulation</h1>
-                        <h4 data-toc-skip class="author">Yagmur Simsek</h4>
-                  <a class="author_email" href="mailto:#"></a><a href="mailto:yagmur.simsek@hsrw.org" class="email">yagmur.simsek@hsrw.org</a>
+                        <h4 data-toc-skip class="author">Yagmur
+Simsek</h4>
+                  <a class="author_email" href="mailto:#"></a><a href="mailto:yagmur.simsek@fu-berlin.de" class="email">yagmur.simsek@fu-berlin.de</a>
       
-                              <h4 data-toc-skip class="author">Yu Gao</h4>
+                              <h4 data-toc-skip class="author">Yu
+Gao</h4>
                   <a class="author_email" href="mailto:#"></a><a href="mailto:gaoyu19920914@gmail.com" class="email">gaoyu19920914@gmail.com</a>
       
-                              <h4 data-toc-skip class="author">Emma Gheysen</h4>
+                              <h4 data-toc-skip class="author">Emma
+Gheysen</h4>
                   <a class="author_email" href="mailto:#"></a><a href="mailto:emma.gheysen@student.kuleuven.be" class="email">emma.gheysen@student.kuleuven.be</a>
       
-                              <h4 data-toc-skip class="author">Daniel Rios Garza</h4>
+                              <h4 data-toc-skip class="author">Daniel
+Rios Garza</h4>
                   <a class="author_email" href="mailto:#"></a><a href="mailto:danielrios.garza@kuleuven.be" class="email">danielrios.garza@kuleuven.be</a>
       
-                              <h4 data-toc-skip class="author">Karoline Faust</h4>
+                              <h4 data-toc-skip class="author">Karoline
+Faust</h4>
                   <a class="author_email" href="mailto:#"></a><a href="mailto:karoline.faust@kuleuven.be" class="email">karoline.faust@kuleuven.be</a>
       
-                              <h4 data-toc-skip class="author">Leo Lahti</h4>
+                              <h4 data-toc-skip class="author">Leo
+Lahti</h4>
                   <a class="author_email" href="mailto:#"></a><a href="mailto:leo.lahti@iki.fi" class="email">leo.lahti@iki.fi</a>
       
                   
-            <h4 data-toc-skip class="date">2022-08-12</h4>
+            <h4 data-toc-skip class="date">2022-12-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/HEAD/vignettes/miaSim.Rmd" class="external-link"><code>vignettes/miaSim.Rmd</code></a></small>
       <div class="hidden name"><code>miaSim.Rmd</code></div>
@@ -98,7 +104,11 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p><code>miaSim</code> implements tools for microbiome data simulation based on different ecological modeling assumptions. These can be used to simulate species abundance matrices, including time series. For a detailed function documentation, see the <a href="https://microbiome.github.io/miaSim/reference/index.html" class="external-link">function reference page</a></p>
+<p><code>miaSim</code> implements tools for microbiome data simulation
+based on different ecological modeling assumptions. These can be used to
+simulate species abundance matrices, including time series. For a
+detailed function documentation, see the <a href="https://microbiome.github.io/miaSim/reference/index.html" class="external-link">function
+reference page</a></p>
 <p>Install the Bioconductor release version with</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
@@ -112,7 +122,9 @@
 <div class="section level4">
 <h4 id="generating-species-interaction-matrices">Generating species interaction matrices<a class="anchor" aria-label="anchor" href="#generating-species-interaction-matrices"></a>
 </h4>
-<p>Some of the models rely on interaction matrices that represents interaction heterogeneity between species. The interaction matrix can be generated with different distributional assumptions.</p>
+<p>Some of the models rely on interaction matrices that represents
+interaction heterogeneity between species. The interaction matrix can be
+generated with different distributional assumptions.</p>
 <p>Generate interactions from normal distribution:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">A_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/powerlawA.html">powerlawA</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">4</span>, alpha <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
@@ -123,7 +135,8 @@
 <div class="section level4">
 <h4 id="generalized-lotka-volterra-glv">Generalized Lotka-Volterra (gLV)<a class="anchor" aria-label="anchor" href="#generalized-lotka-volterra-glv"></a>
 </h4>
-<p>The generalized Lotka-Volterra simulation model generates time-series assuming microbial population dynamics and interaction.</p>
+<p>The generalized Lotka-Volterra simulation model generates time-series
+assuming microbial population dynamics and interaction.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">glvmodel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateGLV.html">simulateGLV</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">4</span>, A <span class="op">=</span> <span class="va">A_normal</span>, t_start <span class="op">=</span> <span class="fl">0</span>, </span>
 <span>    t_store <span class="op">=</span> <span class="fl">1000</span>, stochastic <span class="op">=</span> <span class="cn">FALSE</span>, norm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
@@ -134,12 +147,16 @@
 <p>Ricker model is a discrete version of the gLV:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rickermodel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateRicker.html">simulateRicker</a></span><span class="op">(</span>n_species<span class="op">=</span><span class="fl">4</span>, A <span class="op">=</span> <span class="va">A_normal</span>, t_end<span class="op">=</span><span class="fl">100</span>, norm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p>The number of species specified in the interaction matrix must be the same as the species used in the models.</p>
+<p>The number of species specified in the interaction matrix must be the
+same as the species used in the models.</p>
 </div>
 <div class="section level4">
 <h4 id="hubbell-model">Hubbell model<a class="anchor" aria-label="anchor" href="#hubbell-model"></a>
 </h4>
-<p>Hubbell Neutral simulation model characterizes diversity and relative abundance of species in ecological communities assuming migration, births and deaths but no interactions. Losses become replaced by migration or birth.</p>
+<p>Hubbell Neutral simulation model characterizes diversity and relative
+abundance of species in ecological communities assuming migration,
+births and deaths but no interactions. Losses become replaced by
+migration or birth.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hubbellmodel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateHubbell.html">simulateHubbell</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">8</span>, M <span class="op">=</span> <span class="fl">10</span>, carrying_capacity <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>                                k_events <span class="op">=</span> <span class="fl">50</span>, migration_p <span class="op">=</span> <span class="fl">0.02</span>, t_end <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
@@ -152,73 +169,70 @@
 <div class="section level4">
 <h4 id="self-organised-instability-soi">Self-Organised Instability (SOI)<a class="anchor" aria-label="anchor" href="#self-organised-instability-soi"></a>
 </h4>
-<p>The Self-Organised Instability (SOI) model generates time series for communities and accelerates stochastic simulation.</p>
+<p>The Self-Organised Instability (SOI) model generates time series for
+communities and accelerates stochastic simulation.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">soimodel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateSOI.html">simulateSOI</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">4</span>, carrying_capacity <span class="op">=</span> <span class="fl">1000</span>, A <span class="op">=</span> <span class="va">A_normal</span>, k_events<span class="op">=</span><span class="fl">5</span>, x0 <span class="op">=</span> <span class="cn">NULL</span>,t_end <span class="op">=</span> <span class="fl">150</span>, norm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="stochastic-logistic-model">Stochastic logistic model<a class="anchor" aria-label="anchor" href="#stochastic-logistic-model"></a>
 </h4>
-<p>Stochastic logistic model is used to determine dead and alive counts in community.</p>
+<p>Stochastic logistic model is used to determine dead and alive counts
+in community.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">logisticmodel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateStochasticLogistic.html">simulateStochasticLogistic</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="consumer-resource-model">Consumer-resource model<a class="anchor" aria-label="anchor" href="#consumer-resource-model"></a>
 </h4>
-<p>The consumer resource model requires the use of the <code>randomE</code> function, which returns a matrix containing the production rates and consumption rates of each species. The resulting matrix is used as a determination of resource consumption efficiency.</p>
+<p>The consumer resource model requires the use of the
+<code>randomE</code> function, which returns a matrix containing the
+production rates and consumption rates of each species. The resulting
+matrix is used as a determination of resource consumption
+efficiency.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">crmodel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateConsumerResource.html">simulateConsumerResource</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">2</span>,n_resources <span class="op">=</span> <span class="fl">4</span>, E <span class="op">=</span> <span class="fu"><a href="../reference/randomE.html">randomE</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">2</span>, n_resources <span class="op">=</span> <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># visualize the simulated dynamics</span></span>
-<span><span class="va">Consumer_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/matplot.html" class="external-link">matplot</a></span><span class="op">(</span><span class="va">crmodel</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="miaSim_files/figure-html/unnamed-chunk-8-1.png" width="864"></p>
+<code class="sourceCode R"><span><span class="va">crmodel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateConsumerResource.html">simulateConsumerResource</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">2</span>,n_resources <span class="op">=</span> <span class="fl">4</span>, E <span class="op">=</span> <span class="fu"><a href="../reference/randomE.html">randomE</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">2</span>, n_resources <span class="op">=</span> <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
 <h3 id="data-containers">Data containers<a class="anchor" aria-label="anchor" href="#data-containers"></a>
 </h3>
-<p>The abundance matrices can be converted into <code>TreeSummarizedExperiment</code> object. This provides access to a broad range of tools for microbiome analysis that support this format (see <a href="http://microbiome.github.io" class="external-link">microbiome.github.io</a>). More examples on <code>TreeSummarizedExperiment</code> object manipulation and analysis can be found at <a href="https://microbiome.github.io/OMA" class="external-link">OMA Online Manual</a>.</p>
-<p>This example shows how to generate taxonomic abundance data, including sample metadata, and convert this into into <code>TreeSummarizedExperiment</code>.</p>
+<p>The output of simulation functions are
+<code>TreeSummarizedExperiment</code> object. This provides access to a
+broad range of tools for microbiome analysis that support this format
+(see <a href="http://microbiome.github.io" class="external-link">microbiome.github.io</a>).
+More examples on <code>TreeSummarizedExperiment</code> object
+manipulation and analysis can be found at <a href="https://microbiome.github.io/OMA" class="external-link">OMA Online Manual</a>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">A_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/powerlawA.html">powerlawA</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">4</span>, alpha <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">glvmodel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateGLV.html">simulateGLV</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">4</span>, A <span class="op">=</span> <span class="va">A_normal</span>, t_start <span class="op">=</span> <span class="fl">0</span>, </span>
-<span>    t_store <span class="op">=</span> <span class="fl">1000</span>, stochastic <span class="op">=</span> <span class="cn">FALSE</span>, norm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># rownames(glvmodel) &lt;- c(paste("Species", rownames(glvmodel), sep = "_"))</span></span>
-<span><span class="co"># colnames(glvmodel) &lt;- c(paste("Sample", seq_len(ncol(glvmodel)), sep = "_"))</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">glvmodel</span><span class="op">$</span><span class="va">matrix</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Sample"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">glvmodel</span><span class="op">$</span><span class="va">matrix</span><span class="op">)</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">DataFrame</span><span class="op">(</span>sampleID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">glvmodel</span><span class="op">$</span><span class="va">matrix</span><span class="op">)</span>,</span>
-<span>            Time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1000</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>            SubjectID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">250</span><span class="op">)</span>,</span>
-<span>            row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">glvmodel</span><span class="op">$</span><span class="va">matrix</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">GLV_TSE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TreeSummarizedExperiment/man/TreeSummarizedExperiment-constructor.html" class="external-link">TreeSummarizedExperiment</a></span><span class="op">(</span></span>
-<span>    assays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>assay <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">glvmodel</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    colData <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span></code></pre></div>
-<p>The community simulations result in abundance matrix that can be stored in <code>TreeSummarizedExperiment</code> <span class="citation">[@TreeSE]</span> class object. Other fields, such as rowData containing information about the samples, and colData, consisting of sample metadata describing the samples, can be added to the <code>TreeSummarizedExperiment</code> class object.</p>
+<span>    t_store <span class="op">=</span> <span class="fl">1000</span>, stochastic <span class="op">=</span> <span class="cn">FALSE</span>, norm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>The community simulations result in abundance matrix that can be
+stored in <code>TreeSummarizedExperiment</code> <span class="citation">[@TreeSE]</span> class object. Other fields, such as
+rowData containing information about the samples, and colData,
+consisting of sample metadata describing the samples, can be added to
+the <code>TreeSummarizedExperiment</code> class object.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hubbellmodelRates</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateHubbellRates.html">simulateHubbellRates</a></span><span class="op">(</span>x0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">5</span>,<span class="fl">10</span><span class="op">)</span>,</span>
 <span>    migration_p <span class="op">=</span> <span class="fl">0.1</span>, metacommunity_probability <span class="op">=</span> <span class="cn">NULL</span>, k_events <span class="op">=</span> <span class="fl">1</span>, </span>
-<span>    growth_rates <span class="op">=</span> <span class="cn">NULL</span>, norm <span class="op">=</span> <span class="cn">FALSE</span>, t_end<span class="op">=</span><span class="fl">1000</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">Hubbell_TSE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/TreeSummarizedExperiment/man/TreeSummarizedExperiment-constructor.html" class="external-link">TreeSummarizedExperiment</a></span><span class="op">(</span></span>
-<span>    assays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">hubbellmodelRates</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    colData <span class="op">=</span> <span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html" class="external-link">DataFrame</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">hubbellmodelRates</span><span class="op">$</span><span class="va">matrix</span><span class="op">[</span>,<span class="st">"time"</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>    metadata <span class="op">=</span> <span class="va">hubbellmodelRates</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">hubbellmodelRates</span><span class="op">)</span> <span class="op">!=</span> <span class="st">"matrix"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p>A broad range of functions are available in other packages to explore data in the <code>SummarizedExperiment</code> format (see e.g. microbiome.github.io).</p>
-<p>For instance, to plot population density we can use the <code>miaViz</code> package:</p>
+<span>    growth_rates <span class="op">=</span> <span class="cn">NULL</span>, norm <span class="op">=</span> <span class="cn">FALSE</span>, t_end<span class="op">=</span><span class="fl">1000</span><span class="op">)</span></span></code></pre></div>
+<p>A broad range of functions are available in other packages to explore
+data in the <code>TreeSummarizedExperiment</code> format (see
+e.g. microbiome.github.io).</p>
+<p>For instance, to plot population density we can use the
+<code>miaViz</code> package:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">miaViz</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">HubbellDensityPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotAbundanceDensity.html" class="external-link">plotAbundanceDensity</a></span><span class="op">(</span><span class="va">Hubbell_TSE</span>, assay_name <span class="op">=</span> <span class="st">"counts"</span><span class="op">)</span></span>
-<span><span class="va">HubbellLinePlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">Hubbell_TSE</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">HubbellDensityPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotAbundanceDensity.html" class="external-link">plotAbundanceDensity</a></span><span class="op">(</span><span class="va">hubbellmodel</span><span class="op">)</span></span>
+<span><span class="va">HubbellLinePlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">hubbellmodel</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="auxiliary-functions">Auxiliary functions<a class="anchor" aria-label="anchor" href="#auxiliary-functions"></a>
 </h4>
-<p>The <code>simulationTimes</code> function generates lists of time series that can be specified as simulation time and time points to keep in simulated time.</p>
+<p>The <code>simulationTimes</code> function generates lists of time
+series that can be specified as simulation time and time points to keep
+in simulated time.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Time</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulationTimes.html">simulationTimes</a></span><span class="op">(</span>t_start <span class="op">=</span> <span class="fl">0</span>, t_end <span class="op">=</span> <span class="fl">100</span>, t_step <span class="op">=</span> <span class="fl">0.5</span>, </span>
 <span>                           t_store <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
@@ -228,33 +242,123 @@
 <span><span class="co">##  [26] 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49</span></span>
 <span><span class="co">##  [51] 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74</span></span>
 <span><span class="co">##  [76] 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99</span></span></code></pre>
-<p>It is also possible to incorporate phylogenetic tree information into <code>TreeSummarizedExperiment</code> objects. For further details, see:</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="generating-multiple-simulations-at-once">Generating multiple simulations at once<a class="anchor" aria-label="anchor" href="#generating-multiple-simulations-at-once"></a>
+</h3>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">crm_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    n_species <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>    n_resources <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>    E <span class="op">=</span> <span class="fu"><a href="../reference/randomE.html">randomE</a></span><span class="op">(</span></span>
+<span>        n_species <span class="op">=</span> <span class="fl">10</span>, n_resources <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>        mean_consumption <span class="op">=</span> <span class="fl">1</span>, mean_production <span class="op">=</span> <span class="fl">3</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    x0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.001</span>, <span class="fl">10</span><span class="op">)</span>,</span>
+<span>    resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">5</span><span class="op">)</span>,</span>
+<span>    monod_constant <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">10</span> <span class="op">*</span> <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">10</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">10</span>, ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span>
+<span>    inflow_rate <span class="op">=</span> <span class="fl">.5</span>,</span>
+<span>    outflow_rate <span class="op">=</span> <span class="fl">.5</span>,</span>
+<span>    migration_p <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>    stochastic <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    t_start <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>    t_end <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>    t_store <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>    growth_rates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>,</span>
+<span>    norm <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">###  restructure the parameter list</span></span>
+<span><span class="va">param_iter_new</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">8</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, min <span class="op">=</span> <span class="fl">0.01</span>, max <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">CRMSimus_single_param_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">CRMSimus_single_param_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span></span>
+<span>  <span class="va">param_iter_new</span>,</span>
+<span>  <span class="kw">function</span><span class="op">(</span><span class="va">pars</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span></span>
+<span>      what <span class="op">=</span> <span class="va">simulateConsumerResource</span>,</span>
+<span>      args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/modifyList.html" class="external-link">modifyList</a></span><span class="op">(</span><span class="va">crm_params</span>, val <span class="op">=</span> <span class="va">pars</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## 2. demo to iterate combinations of parameters e.g. 9 different x0 and 9 different growth_rates</span></span>
+<span><span class="va">param_iter2_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">9</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, min <span class="op">=</span> <span class="fl">0.01</span>, max <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span>,</span>
+<span>                                          growth_rates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span>, min <span class="op">=</span> <span class="fl">0.5</span>, max <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">CRMSimus_double_param_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">CRMSimus_double_param_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span></span>
+<span>  <span class="va">param_iter2_new</span>,</span>
+<span>  <span class="kw">function</span><span class="op">(</span><span class="va">pars</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span></span>
+<span>      what <span class="op">=</span> <span class="va">simulateConsumerResource</span>,</span>
+<span>      args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/modifyList.html" class="external-link">modifyList</a></span><span class="op">(</span><span class="va">crm_params</span>, val <span class="op">=</span> <span class="va">pars</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## 3 demo multiple instances</span></span>
+<span><span class="va">CRMsimus_multiple_instances_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>,</span>
+<span>  <span class="kw">function</span><span class="op">(</span><span class="va">pars</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span></span>
+<span>      what <span class="op">=</span> <span class="va">simulateConsumerResource</span>,</span>
+<span>      args <span class="op">=</span> <span class="va">crm_params</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## 4&amp;5 demo to iterate multiple instances</span></span>
+<span><span class="va">CRMSimus_single_param_multiple_instances_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">param_iter_new</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, </span>
+<span>  <span class="co"># or rep(param_iter_new, times = 3), depending on how you'd like to organize the data</span></span>
+<span>  <span class="kw">function</span><span class="op">(</span><span class="va">pars</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span></span>
+<span>      what <span class="op">=</span> <span class="va">simulateConsumerResource</span>,</span>
+<span>      args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/modifyList.html" class="external-link">modifyList</a></span><span class="op">(</span><span class="va">crm_params</span>, val <span class="op">=</span> <span class="va">pars</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">CRMSimus_single_param_multiple_instances_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">param_iter2_new</span>, each <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,</span>
+<span>  <span class="kw">function</span><span class="op">(</span><span class="va">pars</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span></span>
+<span>      what <span class="op">=</span> <span class="va">simulateConsumerResource</span>,</span>
+<span>      args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/modifyList.html" class="external-link">modifyList</a></span><span class="op">(</span><span class="va">crm_params</span>, val <span class="op">=</span> <span class="va">pars</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>It is also possible to incorporate phylogenetic tree information into
+<code>TreeSummarizedExperiment</code> objects. For further details,
+see:</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">TreeSummarizedExperiment</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="st">"TreeSummarizedExperiment-constructor"</span>, package <span class="op">=</span> <span class="va">TreeSummarizedExperiment</span><span class="op">)</span></span></code></pre></div>
-</div>
 </div>
 <div class="section level3">
 <h3 id="related-work">Related work<a class="anchor" aria-label="anchor" href="#related-work"></a>
 </h3>
 <ul>
 <li>
-<a href="https://github.com/OSS-Lab/micodymora" class="external-link">micodymora</a> Python package for microbiome simulation</li>
+<a href="https://github.com/OSS-Lab/micodymora" class="external-link">micodymora</a>
+Python package for microbiome simulation</li>
 </ul>
 </div>
 </div>
 <div class="section level2">
 <h2 id="session-info">Session info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.2.1 (2022-06-23)</span></span>
+<pre><code><span><span class="co">## R Under development (unstable) (2022-12-21 r83491)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
 <span><span class="co">## Running under: Ubuntu 22.04.1 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
-<span><span class="co">## BLAS:   /home/xxx/bin/R-4.2.1/lib/libRblas.so</span></span>
-<span><span class="co">## LAPACK: /home/xxx/bin/R-4.2.1/lib/libRlapack.so</span></span>
+<span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
+<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so;  LAPACK version 3.10.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## locale:</span></span>
 <span><span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
@@ -264,84 +368,86 @@
 <span><span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
 <span><span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></span>
 <span><span class="co">## </span></span>
+<span><span class="co">## time zone: UTC</span></span>
+<span><span class="co">## tzcode source: system (glibc)</span></span>
+<span><span class="co">## </span></span>
 <span><span class="co">## attached base packages:</span></span>
 <span><span class="co">## [1] stats4    stats     graphics  grDevices utils     datasets  methods  </span></span>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] miaViz_1.5.1                   ggraph_2.0.6                  </span></span>
-<span><span class="co">##  [3] ggplot2_3.3.6                  mia_1.5.5                     </span></span>
-<span><span class="co">##  [5] MultiAssayExperiment_1.22.0    miaSim_1.3.6                  </span></span>
-<span><span class="co">##  [7] TreeSummarizedExperiment_2.4.0 Biostrings_2.64.0             </span></span>
-<span><span class="co">##  [9] XVector_0.36.0                 SingleCellExperiment_1.18.0   </span></span>
-<span><span class="co">## [11] SummarizedExperiment_1.26.1    Biobase_2.56.0                </span></span>
-<span><span class="co">## [13] GenomicRanges_1.48.0           GenomeInfoDb_1.32.3           </span></span>
-<span><span class="co">## [15] IRanges_2.30.0                 S4Vectors_0.34.0              </span></span>
-<span><span class="co">## [17] BiocGenerics_0.42.0            MatrixGenerics_1.8.1          </span></span>
-<span><span class="co">## [19] matrixStats_0.62.0             BiocStyle_2.24.0              </span></span>
+<span><span class="co">##  [1] miaViz_1.7.1                   ggraph_2.1.0                  </span></span>
+<span><span class="co">##  [3] ggplot2_3.4.0                  mia_1.7.4                     </span></span>
+<span><span class="co">##  [5] MultiAssayExperiment_1.25.5    TreeSummarizedExperiment_2.1.4</span></span>
+<span><span class="co">##  [7] Biostrings_2.67.0              XVector_0.39.0                </span></span>
+<span><span class="co">##  [9] SingleCellExperiment_1.21.0    SummarizedExperiment_1.29.1   </span></span>
+<span><span class="co">## [11] Biobase_2.59.0                 GenomicRanges_1.51.4          </span></span>
+<span><span class="co">## [13] GenomeInfoDb_1.35.8            IRanges_2.33.0                </span></span>
+<span><span class="co">## [15] S4Vectors_0.37.3               BiocGenerics_0.45.0           </span></span>
+<span><span class="co">## [17] MatrixGenerics_1.11.0          matrixStats_0.63.0            </span></span>
+<span><span class="co">## [19] miaSim_1.5.0                   BiocStyle_2.27.0              </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##   [1] systemfonts_1.0.4           plyr_1.8.7                 </span></span>
-<span><span class="co">##   [3] igraph_1.3.4                lazyeval_0.2.2             </span></span>
-<span><span class="co">##   [5] splines_4.2.1               BiocParallel_1.30.3        </span></span>
-<span><span class="co">##   [7] scater_1.24.0               digest_0.6.29              </span></span>
-<span><span class="co">##   [9] yulab.utils_0.0.5           htmltools_0.5.3            </span></span>
-<span><span class="co">##  [11] viridis_0.6.2               fansi_1.0.3                </span></span>
-<span><span class="co">##  [13] magrittr_2.0.3              memoise_2.0.1              </span></span>
-<span><span class="co">##  [15] ScaledMatrix_1.4.0          cluster_2.1.3              </span></span>
-<span><span class="co">##  [17] DECIPHER_2.24.0             graphlayouts_0.8.1         </span></span>
-<span><span class="co">##  [19] pkgdown_2.0.6               colorspace_2.0-3           </span></span>
-<span><span class="co">##  [21] blob_1.2.3                  ggrepel_0.9.1              </span></span>
-<span><span class="co">##  [23] textshaping_0.3.6           xfun_0.32                  </span></span>
-<span><span class="co">##  [25] dplyr_1.0.9                 crayon_1.5.1               </span></span>
-<span><span class="co">##  [27] RCurl_1.98-1.8              jsonlite_1.8.0             </span></span>
-<span><span class="co">##  [29] ape_5.6-2                   glue_1.6.2                 </span></span>
-<span><span class="co">##  [31] polyclip_1.10-0             gtable_0.3.0               </span></span>
-<span><span class="co">##  [33] zlibbioc_1.42.0             DelayedArray_0.22.0        </span></span>
-<span><span class="co">##  [35] BiocSingular_1.12.0         scales_1.2.0               </span></span>
-<span><span class="co">##  [37] DBI_1.1.3                   Rcpp_1.0.9                 </span></span>
-<span><span class="co">##  [39] viridisLite_0.4.0           decontam_1.16.0            </span></span>
-<span><span class="co">##  [41] gridGraphics_0.5-1          tidytree_0.3.9             </span></span>
-<span><span class="co">##  [43] bit_4.0.4                   rsvd_1.0.5                 </span></span>
-<span><span class="co">##  [45] deSolve_1.33                ellipsis_0.3.2             </span></span>
-<span><span class="co">##  [47] pkgconfig_2.0.3             farver_2.1.1               </span></span>
-<span><span class="co">##  [49] scuttle_1.6.2               sass_0.4.2                 </span></span>
-<span><span class="co">##  [51] utf8_1.2.2                  ggplotify_0.1.0            </span></span>
-<span><span class="co">##  [53] tidyselect_1.1.2            rlang_1.0.4                </span></span>
-<span><span class="co">##  [55] reshape2_1.4.4              munsell_0.5.0              </span></span>
-<span><span class="co">##  [57] tools_4.2.1                 cachem_1.0.6               </span></span>
-<span><span class="co">##  [59] cli_3.3.0.9000              DirichletMultinomial_1.38.0</span></span>
-<span><span class="co">##  [61] generics_0.1.3              RSQLite_2.2.15             </span></span>
-<span><span class="co">##  [63] evaluate_0.16               stringr_1.4.0              </span></span>
-<span><span class="co">##  [65] fastmap_1.1.0               yaml_2.3.5                 </span></span>
-<span><span class="co">##  [67] ragg_1.2.2                  ggtree_3.4.1               </span></span>
-<span><span class="co">##  [69] knitr_1.39                  bit64_4.0.5                </span></span>
-<span><span class="co">##  [71] fs_1.5.2                    tidygraph_1.2.1            </span></span>
-<span><span class="co">##  [73] purrr_0.3.4                 nlme_3.1-159               </span></span>
-<span><span class="co">##  [75] sparseMatrixStats_1.8.0     poweRlaw_0.70.6            </span></span>
-<span><span class="co">##  [77] aplot_0.1.6                 pracma_2.3.8               </span></span>
-<span><span class="co">##  [79] compiler_4.2.1              beeswarm_0.4.0             </span></span>
-<span><span class="co">##  [81] treeio_1.20.1               tibble_3.1.8               </span></span>
-<span><span class="co">##  [83] tweenr_1.0.2                bslib_0.4.0                </span></span>
-<span><span class="co">##  [85] stringi_1.7.8               highr_0.9                  </span></span>
-<span><span class="co">##  [87] desc_1.4.1                  lattice_0.20-45            </span></span>
-<span><span class="co">##  [89] Matrix_1.4-1                vegan_2.6-2                </span></span>
-<span><span class="co">##  [91] permute_0.9-7               vctrs_0.4.1                </span></span>
-<span><span class="co">##  [93] pillar_1.8.0                lifecycle_1.0.1            </span></span>
-<span><span class="co">##  [95] BiocManager_1.30.18         jquerylib_0.1.4            </span></span>
-<span><span class="co">##  [97] BiocNeighbors_1.14.0        bitops_1.0-7               </span></span>
-<span><span class="co">##  [99] irlba_2.3.5                 patchwork_1.1.1            </span></span>
-<span><span class="co">## [101] R6_2.5.1                    bookdown_0.28              </span></span>
-<span><span class="co">## [103] gridExtra_2.3               vipor_0.4.5                </span></span>
-<span><span class="co">## [105] codetools_0.2-18            MASS_7.3-58.1              </span></span>
-<span><span class="co">## [107] assertthat_0.2.1            rprojroot_2.0.3            </span></span>
-<span><span class="co">## [109] withr_2.5.0                 GenomeInfoDbData_1.2.8     </span></span>
-<span><span class="co">## [111] mgcv_1.8-40                 parallel_4.2.1             </span></span>
-<span><span class="co">## [113] ggfun_0.0.6                 grid_4.2.1                 </span></span>
-<span><span class="co">## [115] beachmat_2.12.0             tidyr_1.2.0                </span></span>
-<span><span class="co">## [117] rmarkdown_2.14.3            DelayedMatrixStats_1.18.0  </span></span>
-<span><span class="co">## [119] ggnewscale_0.4.7            ggforce_0.3.3              </span></span>
-<span><span class="co">## [121] ggbeeswarm_0.6.0</span></span></code></pre>
+<span><span class="co">##   [1] jsonlite_1.8.4              magrittr_2.0.3             </span></span>
+<span><span class="co">##   [3] ggbeeswarm_0.7.1            farver_2.1.1               </span></span>
+<span><span class="co">##   [5] rmarkdown_2.19              fs_1.5.2                   </span></span>
+<span><span class="co">##   [7] zlibbioc_1.45.0             ragg_1.2.4                 </span></span>
+<span><span class="co">##   [9] vctrs_0.5.1                 memoise_2.0.1              </span></span>
+<span><span class="co">##  [11] DelayedMatrixStats_1.21.0   RCurl_1.98-1.9             </span></span>
+<span><span class="co">##  [13] ggtree_3.7.1                htmltools_0.5.4            </span></span>
+<span><span class="co">##  [15] BiocNeighbors_1.17.1        deSolve_1.34               </span></span>
+<span><span class="co">##  [17] gridGraphics_0.5-1          sass_0.4.4                 </span></span>
+<span><span class="co">##  [19] pracma_2.4.2                bslib_0.4.2                </span></span>
+<span><span class="co">##  [21] desc_1.4.2                  plyr_1.8.8                 </span></span>
+<span><span class="co">##  [23] DECIPHER_2.27.0             cachem_1.0.6               </span></span>
+<span><span class="co">##  [25] igraph_1.3.5                lifecycle_1.0.3            </span></span>
+<span><span class="co">##  [27] pkgconfig_2.0.3             rsvd_1.0.5                 </span></span>
+<span><span class="co">##  [29] Matrix_1.5-3                R6_2.5.1                   </span></span>
+<span><span class="co">##  [31] fastmap_1.1.0               GenomeInfoDbData_1.2.9     </span></span>
+<span><span class="co">##  [33] aplot_0.1.9                 digest_0.6.31              </span></span>
+<span><span class="co">##  [35] ggnewscale_0.4.8            colorspace_2.0-3           </span></span>
+<span><span class="co">##  [37] patchwork_1.1.2             rprojroot_2.0.3            </span></span>
+<span><span class="co">##  [39] scater_1.27.2               irlba_2.3.5.1              </span></span>
+<span><span class="co">##  [41] textshaping_0.3.6           RSQLite_2.2.20             </span></span>
+<span><span class="co">##  [43] vegan_2.6-5                 beachmat_2.15.0            </span></span>
+<span><span class="co">##  [45] fansi_1.0.3                 polyclip_1.10-4            </span></span>
+<span><span class="co">##  [47] mgcv_1.8-41                 compiler_4.3.0             </span></span>
+<span><span class="co">##  [49] bit64_4.0.5                 withr_2.5.0                </span></span>
+<span><span class="co">##  [51] BiocParallel_1.33.9         viridis_0.6.2              </span></span>
+<span><span class="co">##  [53] DBI_1.1.3                   ggforce_0.4.1              </span></span>
+<span><span class="co">##  [55] MASS_7.3-58.1               poweRlaw_0.70.6            </span></span>
+<span><span class="co">##  [57] DelayedArray_0.25.0         permute_0.9-7              </span></span>
+<span><span class="co">##  [59] tools_4.3.0                 vipor_0.4.5                </span></span>
+<span><span class="co">##  [61] beeswarm_0.4.0              ape_5.6-2                  </span></span>
+<span><span class="co">##  [63] glue_1.6.2                  nlme_3.1-161               </span></span>
+<span><span class="co">##  [65] grid_4.3.0                  cluster_2.1.4              </span></span>
+<span><span class="co">##  [67] reshape2_1.4.4              generics_0.1.3             </span></span>
+<span><span class="co">##  [69] gtable_0.3.1                tidyr_1.2.1                </span></span>
+<span><span class="co">##  [71] BiocSingular_1.15.0         tidygraph_1.2.2            </span></span>
+<span><span class="co">##  [73] ScaledMatrix_1.7.0          utf8_1.2.2                 </span></span>
+<span><span class="co">##  [75] ggrepel_0.9.2               pillar_1.8.1               </span></span>
+<span><span class="co">##  [77] stringr_1.5.0               yulab.utils_0.0.6          </span></span>
+<span><span class="co">##  [79] splines_4.3.0               dplyr_1.0.10               </span></span>
+<span><span class="co">##  [81] tweenr_2.0.2                treeio_1.23.0              </span></span>
+<span><span class="co">##  [83] lattice_0.20-45             bit_4.0.5                  </span></span>
+<span><span class="co">##  [85] tidyselect_1.2.0            DirichletMultinomial_1.41.0</span></span>
+<span><span class="co">##  [87] scuttle_1.9.3               knitr_1.41                 </span></span>
+<span><span class="co">##  [89] gridExtra_2.3               bookdown_0.31              </span></span>
+<span><span class="co">##  [91] xfun_0.36                   graphlayouts_0.8.4         </span></span>
+<span><span class="co">##  [93] stringi_1.7.8               ggfun_0.0.9                </span></span>
+<span><span class="co">##  [95] lazyeval_0.2.2              yaml_2.3.6                 </span></span>
+<span><span class="co">##  [97] evaluate_0.19               codetools_0.2-18           </span></span>
+<span><span class="co">##  [99] tibble_3.1.8                BiocManager_1.30.19        </span></span>
+<span><span class="co">## [101] ggplotify_0.1.0             cli_3.5.0                  </span></span>
+<span><span class="co">## [103] systemfonts_1.0.4           munsell_0.5.0              </span></span>
+<span><span class="co">## [105] jquerylib_0.1.4             Rcpp_1.0.9                 </span></span>
+<span><span class="co">## [107] parallel_4.3.0              ellipsis_0.3.2             </span></span>
+<span><span class="co">## [109] pkgdown_2.0.7               assertthat_0.2.1           </span></span>
+<span><span class="co">## [111] blob_1.2.3                  sparseMatrixStats_1.11.0   </span></span>
+<span><span class="co">## [113] bitops_1.0-7                decontam_1.19.0            </span></span>
+<span><span class="co">## [115] viridisLite_0.4.1           tidytree_0.4.2             </span></span>
+<span><span class="co">## [117] scales_1.2.1                purrr_1.0.0                </span></span>
+<span><span class="co">## [119] crayon_1.5.2                rlang_1.0.6</span></span></code></pre>
 </div>
   </div>
 
@@ -362,7 +468,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
