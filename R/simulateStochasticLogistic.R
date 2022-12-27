@@ -43,7 +43,7 @@
 #'     stochastic = FALSE, death_rates = rep(0, 5)
 #' )
 #'
-#' miaViz::plotSeries(ExampleLogistic_SE, x = "time")
+#' miaViz::plotSeries(ExampleLogistic, x = "time")
 #'
 #' # Adding a death rate
 #' set.seed(42)
@@ -97,7 +97,7 @@
 #'
 #' ExampleLogistic_SE <- mia::transformCounts(ExampleLogistic, method = "relabundance")
 #' miaViz::plotSeries(ExampleLogistic, x = "time")
-#' miaViz::plotSeries(ExampleLogistic, x = "time", assay_name = "relabundance")
+#' miaViz::plotSeries(ExampleLogistic, x = "time")
 #'
 #' @return \code{simulateStochasticLogistic} returns a TreeSummarizedExperiment
 #' class object

@@ -169,7 +169,7 @@ ExampleCR <- simulateConsumerResource(
 miaViz::plotSeries(ExampleCR, x = "time")
 # convert to relative abundance
 ExampleCR <- mia::transformCounts(ExampleCR, method = "relabundance")
-miaViz::plotSeries(ExampleCR, x = "time", assay_name = "relabundance")
+miaViz::plotSeries(ExampleCR, x = "time")
 
 # example to get relative abundance and relative proportion of resources
 n_species <- 2

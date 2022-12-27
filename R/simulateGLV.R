@@ -24,6 +24,9 @@
 #' @return
 #' \code{simulateGLV} returns a TreeSummarizedExperiment class object
 #'
+#' @importFrom TreeSummarizedExperiment TreeSummarizedExperiment
+#' @importFrom S4Vectors DataFrame
+#'
 #' @examples
 #'
 #' # generate a random interaction matrix
