@@ -50,6 +50,12 @@ BiocManager::install(version='devel')
 BiocManager::install("miaSim")
 ```
 
+### miaSimShiny
+
+miaSim is accompanied by [miaSimShiny](https://github.com/gaoyu19920914/miaSimShiny), which allows users to explore the parameter space of their models in real-time in an intuitive graphical interface.
+
+You can experiment with miaSimShiny in an [interactive online application](https://gaoyu.shinyapps.io/shiny_rep/).
+
 ### Contributions and acknowledgments
 
 You can find us online from [Gitter](https://gitter.im/microbiome/miaverse).

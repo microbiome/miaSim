@@ -5,8 +5,9 @@ test_that("simulateHubbell", {
         t_end = 100
     )
 
-    expect_type(ExampleHubbell$matrix, "double")
-    expect_equal(dim(ExampleHubbell$matrix), c(100, 11))
+    expect_s4_class(ExampleHubbell, "TreeSummarizedExperiment")
+    expect_type(ExampleHubbell@assays@data@listData[["counts"]], "double")
+    expect_equal(dim(ExampleHubbell@assays@data@listData[["counts"]]), c(8,100))
 
     expect_error(Error1 <- simulateHubbell(
         n_species = 3.4, M = 7.9,

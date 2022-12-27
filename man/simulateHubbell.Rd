@@ -42,8 +42,8 @@ returned with the abundances as proportions (\code{norm = TRUE}) or
 the raw counts (default: \code{norm = FALSE})}
 }
 \value{
-\code{simulateHubbell} returns an abundance matrix with
-species abundance as rows and time points as columns
+\code{simulateHubbell} returns a TreeSummarizedExperiment class
+object
 }
 \description{
 Neutral species abundances simulation according to the Hubbell model.
@@ -59,7 +59,4 @@ x <- simulateHubbell(
 Rosindell, James et al. "The unified neutral theory of
 biodiversity and biogeography at age ten." Trends in ecology & evolution
 vol. 26,7 (2011).
-}
-\seealso{
-\code{\link[miaSim:convertToSE]{convertToSE}}
 }

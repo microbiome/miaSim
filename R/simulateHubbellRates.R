@@ -18,28 +18,17 @@
 #' (default: \code{growth_rates = NULL})
 #' @template man_mod
 #'
-#' @seealso
-#' \code{\link[miaSim:convertToSE]{convertToSE}}
-#'
 #' @examples
 #' set.seed(42)
 #' ExampleHubbellRates <- simulateHubbellRates(n_species = 5)
-#' ExampleHubbellRates_SE <- TreeSummarizedExperiment(
-#'     assays = list(counts = t(ExampleHubbellRates$matrix[, 1:5])),
-#'     colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
-#'     metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates) == "matrix")]
-#' )
-#' miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+#'
+#' miaViz::plotSeries(ExampleHubbellRates, x = "time")
 #'
 #' # no migration, all stochastic birth and death
 #' set.seed(42)
 #' ExampleHubbellRates <- simulateHubbellRates(n_species = 5, migration_p = 0)
-#' ExampleHubbellRates_SE <- TreeSummarizedExperiment(
-#'     assays = list(counts = t(ExampleHubbellRates$matrix[, 1:5])),
-#'     colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
-#'     metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates) == "matrix")]
-#' )
-#' miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+#'
+#' miaViz::plotSeries(ExampleHubbellRates, x = "time")
 #'
 #' # all migration, no stochastic birth and death
 #' set.seed(42)
@@ -50,12 +39,8 @@
 #'     t_end = 20,
 #'     t_store = 200
 #' )
-#' ExampleHubbellRates_SE <- TreeSummarizedExperiment(
-#'     assays = list(counts = t(ExampleHubbellRates$matrix[, 1:5])),
-#'     colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
-#'     metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates) == "matrix")]
-#' )
-#' miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+#'
+#' miaViz::plotSeries(ExampleHubbellRates, x = "time")
 #'
 #' # all migration, no stochastic birth and death, but with measurement errors
 #' set.seed(42)
@@ -67,12 +52,8 @@
 #'     t_store = 200,
 #'     error_variance = 100
 #' )
-#' ExampleHubbellRates_SE <- TreeSummarizedExperiment(
-#'     assays = list(counts = t(ExampleHubbellRates$matrix[, 1:5])),
-#'     colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
-#'     metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates) == "matrix")]
-#' )
-#' miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+#'
+#' miaViz::plotSeries(ExampleHubbellRates, x = "time")
 #'
 #' # model with specified inputs
 #' set.seed(42)
@@ -85,16 +66,11 @@
 #'     k_events = 5,
 #'     growth_rates = c(1.1, 1.05, 1, 0.95, 0.9)
 #' )
-#' ExampleHubbellRates_SE <- TreeSummarizedExperiment(
-#'     assays = list(counts = t(ExampleHubbellRates$matrix[, 1:5])),
-#'     colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
-#'     metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates) == "matrix")]
-#' )
-#' miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
 #'
-#' @return \code{simulateHubbellRates} returns a list of initial states,
-#' parameters of the model, including a matrix with species abundance as rows
-#' and time points as columns.
+#' miaViz::plotSeries(ExampleHubbellRates, x = "time")
+#'
+#' @return \code{simulateHubbellRates} returns a TreeSummarizedExperiment class
+#' object
 #'
 #' @docType methods
 #' @aliases simulateHubbellRates-numeric
@@ -216,13 +192,13 @@ simulateHubbellRates <- function(n_species = NULL,
 
     out_matrix <- cbind(out_matrix, time = t_dyn$t_sys[t_dyn$t_index])
 
-    out_list <- list(
-        matrix = out_matrix,
-        community = community,
-        x0 = x0,
-        metacommunity_probability = metacommunity_probability,
-        error_variance = error_variance,
-        growth_rates = growth_rates
-    )
-    return(out_list)
+    TreeSE <- TreeSummarizedExperiment(
+        assays = list(counts = t(out_matrix[, 1:n_species])),
+        colData = DataFrame(time = out_matrix[, "time"]),
+        metadata = list(x0 = x0,
+                        metacommunity_probability = metacommunity_probability,
+                        error_variance = error_variance,
+                        growth_rates = growth_rates))
+
+    return(TreeSE)
 }

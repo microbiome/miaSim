@@ -48,8 +48,7 @@ in each generation) (default: \code{norm = FALSE})}
 \item{...}{additional parameters, see \code{\link{utils}} to know more.}
 }
 \value{
-\code{simulateRicker} returns an abundance matrix with species abundance
-as rows and time points as columns
+\code{simulateRicker} returns a TreeSummarizedExperiment class object
 }
 \description{
 The Ricker model is a discrete version of the generalized
@@ -65,7 +64,4 @@ x0 <- simulateRicker(n_species = 10, A, t_end = 100)
 Fisher & Mehta (2014). Identifying Keystone Species in the Human
 Gut Microbiome from Metagenomic Timeseries using Sparse Linear Regression.
 PLoS One 9:e102451
-}
-\seealso{
-\code{\link[miaSim:convertToSE]{convertToSE}}
 }

@@ -66,9 +66,8 @@ modeled time length of the community.
 \item{...}{additional parameters, see \code{\link{utils}} to know more.}
 }
 \value{
-\code{simulateHubbellRates} returns a list of initial states,
-parameters of the model, including a matrix with species abundance as rows
-and time points as columns.
+\code{simulateHubbellRates} returns a TreeSummarizedExperiment class
+object
 }
 \description{
 Neutral species abundances simulation according to the Hubbell model. This
@@ -80,22 +79,14 @@ time effect is considered to determine the next event.
 \examples{
 set.seed(42)
 ExampleHubbellRates <- simulateHubbellRates(n_species = 5)
-ExampleHubbellRates_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleHubbellRates$matrix[, 1:5])),
-    colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
-    metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates) == "matrix")]
-)
-miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+
+miaViz::plotSeries(ExampleHubbellRates, x = "time")
 
 # no migration, all stochastic birth and death
 set.seed(42)
 ExampleHubbellRates <- simulateHubbellRates(n_species = 5, migration_p = 0)
-ExampleHubbellRates_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleHubbellRates$matrix[, 1:5])),
-    colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
-    metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates) == "matrix")]
-)
-miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+
+miaViz::plotSeries(ExampleHubbellRates, x = "time")
 
 # all migration, no stochastic birth and death
 set.seed(42)
@@ -106,12 +97,8 @@ ExampleHubbellRates <- simulateHubbellRates(
     t_end = 20,
     t_store = 200
 )
-ExampleHubbellRates_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleHubbellRates$matrix[, 1:5])),
-    colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
-    metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates) == "matrix")]
-)
-miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+
+miaViz::plotSeries(ExampleHubbellRates, x = "time")
 
 # all migration, no stochastic birth and death, but with measurement errors
 set.seed(42)
@@ -123,12 +110,8 @@ ExampleHubbellRates <- simulateHubbellRates(
     t_store = 200,
     error_variance = 100
 )
-ExampleHubbellRates_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleHubbellRates$matrix[, 1:5])),
-    colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
-    metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates) == "matrix")]
-)
-miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+
+miaViz::plotSeries(ExampleHubbellRates, x = "time")
 
 # model with specified inputs
 set.seed(42)
@@ -141,19 +124,12 @@ ExampleHubbellRates <- simulateHubbellRates(
     k_events = 5,
     growth_rates = c(1.1, 1.05, 1, 0.95, 0.9)
 )
-ExampleHubbellRates_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleHubbellRates$matrix[, 1:5])),
-    colData = DataFrame(time = ExampleHubbellRates$matrix[, "time"]),
-    metadata = ExampleHubbellRates[-which(names(ExampleHubbellRates) == "matrix")]
-)
-miaViz::plotSeries(ExampleHubbellRates_SE, x = "time")
+
+miaViz::plotSeries(ExampleHubbellRates, x = "time")
 
 }
 \references{
 Rosindell, James et al. "The unified neutral theory of
 biodiversity and biogeography at age ten." Trends in ecology & evolution
 vol. 26,7 (2011).
-}
-\seealso{
-\code{\link[miaSim:convertToSE]{convertToSE}}
 }
