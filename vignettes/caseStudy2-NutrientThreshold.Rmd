@@ -25,26 +25,9 @@ knitr::opts_chunk$set(
   warning = FALSE)
 ```
 
-# Introduction
+# Case study with miaSim: Nutrient concentration threshold
 
-`miaSim` implements tools for microbiome data simulation based on different ecological modeling assumptions. These can be used to simulate species abundance matrices, including time series. For a detailed function documentation, see the [function reference page](https://microbiome.github.io/miaSim/reference/index.html)
-
-Install the Bioconductor release version with
-
-```{r install-bioc, eval=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-```
-
-Load the library
-
-```{r load, eval=TRUE}
-library(miaSim)
-```
-
-# Case study 2: Nutrient concentration threshold
-
-(Reference: [Available energy fluxes drive a transition in the diversity, stability, and functional structure of microbial communities](https://doi.org/10.1371/journal.pcbi.1006793))
+Reference: [Available energy fluxes drive a transition in the diversity, stability, and functional structure of microbial communities](https://doi.org/10.1371/journal.pcbi.1006793).
 
 The aim of this case study is to design and demonstrate the existence of nutrient concentration threshold which limits the beta-diversity of communities.
 
@@ -56,11 +39,9 @@ To fulfill this aim, we designed a gradient of environments, as well as a gradie
 library(ggplot2)
 library(vegan)
 library(reshape2)
-library(umap)
 library(miaSim)
 library(philentropy)
 library(cluster)
-
 ```
 
 (This batch of simulations is time-consuming. To reduce the calculation burden, we decreased the numbers of environments, resources, and communities from the original 10 to 5, and made other minor modifications.)
@@ -118,6 +99,8 @@ density.community <- 0.8
 set.seed(42)
 community.initial.df <- gradient.df.generator(n_row = n.community, n_col = n_species, density_row = density.community, max_gradient = 0.7, error_interval = 0.1)
 dist.community.initial.df <- vegdist(community.initial.df, method = "bray")
+
+community.initial.tse <- TreeSummarizedExperiment(assays=SimpleList(abundances=t(as.matrix(community.initial.df))))
 ```
 
 ## load plotting functions
@@ -197,42 +180,13 @@ makeHeatmap <-function(matrix.A,
     }
     fig
 }
-makeUMAP <- function(matrix, n_neighbors=10, min_dist=0.1, gradient=NULL, gradient_title = 'gradient', group=NULL, group2=NULL){
-    custom.config = umap.defaults
-    custom.config$n_neighbors = n_neighbors
-    custom.config$min_dist = min_dist
-
-    df <- as.data.frame(umap(matrix,config = custom.config)$layout)
-    df$gradient <- gradient
-
-    if (is.null(gradient)){
-        df$gradient <- 1
-
-    }
-    colnames(df) = c('UMAP_2', 'UMAP_1', gradient_title)
-    if (is.null(group)){
-        ggplot(df, aes_string('UMAP_2', 'UMAP_1', color=gradient_title)) +
-            geom_point() +
-            scale_color_gradient(low="blue", high="red")
-    } else {
-        if (is.null(group2)){
-            ggplot(df, aes_string('UMAP_2', 'UMAP_1', color=gradient_title)) +
-                geom_point(aes(color = group)) + theme_bw()
-        } else {
-            ggplot(df, aes_string('UMAP_2', 'UMAP_1', color=gradient_title)) +
-                geom_point(aes(color = group, shape = group2)) + theme_bw()
-        }
-    }
-}
 
 makeHeatmap(as.matrix(dist.community.initial.df),
             title = "dissimilarity matrix",
             x.label = "community.1",
             y.label = "community.2")
-makeUMAP(matrix = community.initial.df,
-         n_neighbors = 5,
-         group = factor(seq_len(n.community)),
-         gradient_title = "community")
+
+# We skip plotting of the initial community UMAP; overly simple case.
 ```
 
 ## initialize shared parameters
@@ -322,51 +276,71 @@ In this step, plot result is stored in umap_CRM_gradient_plot, and this is visua
 concentration <- as.factor(rep(resourceConcentration, each = n.medium*n.community))
 medium <- as.factor(rep(seq_len(n.medium), each = n.community ,times = length(resourceConcentration) ))
 community <- as.factor(rep(seq_len(n.community), times = length(resourceConcentration)*n.medium))
+# makeUMAP(basisComposition, group = medium, group2 = concentration, gradient_title = 'Medium')
 
-#plot the result in a UMAP space
-makeUMAP(basisComposition, group = medium, group2 = concentration, gradient_title = 'Medium')
-umap_CRM_gradient <- umap(basisComposition_prop)
-# umap_CRM_gradient <- umap(basisComposition)
-umap_CRM_coor <- as.data.frame(umap_CRM_gradient$layout)
-colnames(umap_CRM_coor) <- c("UMAP_1", "UMAP_2")
-umap_CRM_coor <- cbind(umap_CRM_coor, concentration, medium, community)
-umap_CRM_gradient_plot <- ggplot(umap_CRM_coor,
-                                 aes(UMAP_1, UMAP_2,
-                                     # alpha = concentration,
-                                     color = medium,
-                                     shape = community)) +
-    geom_point() +
-    # scale_shape_manual(values = c(0, 1, 2, 5, 6, 8, 15, 16, 17, 18)) +
-    scale_shape_manual(values = seq(0, n.community -1 ,1)) +
-    scale_alpha_manual(values = seq(0.25, 1, 0.75/(length(resourceConcentration)-1))) +
-    theme_bw()
+# Visualize with UMAP 
 
+## Provide the community data as TreeSE object
+library(scater)
+tse <- TreeSummarizedExperiment(
+                    assays=SimpleList(abundances=t(as.matrix(basisComposition))),
+		    colData=DataFrame(Medium=medium,
+		                      Concentration=concentration,
+				      Community=community
+				      )
+		    )
+## Add UMAP
+tse <- runUMAP(tse, name = "UMAP", exprs_values = "abundances")
+## Plot UMAP
+plotReducedDim(tse, "UMAP", colour_by="Medium", shape_by="Concentration")
+
+# Same for compositional abundance data
+library(mia)
+## -- add relative abundances;
+tse <- transformSamples(tse, assay_name="abundances", method="relabundance")
+tse <- runUMAP(tse, name = "UMAP_compositional", exprs_values = "relabundance")
+plotReducedDim(tse, "UMAP_compositional", colour_by="Medium", shape_by="Concentration")
+# Replaces earlier: umap_CRM_gradient <- umap(basisComposition_prop)
+
+# Finally with communities
+umap_CRM_gradient_plot <- plotReducedDim(tse, "UMAP_compositional", colour_by="Medium", shape_by="Community", size_by="Concentration")
 ```
 
 ## visualization of results
 
-In this part, different visualization of results demonstrate (in various facets) the gradual change of communities' beta diversity.
-The first figure indicates that the initial community composition is more important than the combinations of initial available resources.
+In this part, different visualization of results demonstrate (in
+various facets) the gradual change of communities' beta diversity.
+The first figure indicates that the initial community composition is
+more important than the combinations of initial available resources.
 
-The first sub-figure in the second figure demonstrates that in an oligotrophic (less available nutrients) environment, communities won't change much in a given time, whilst the last two sub-figures resemble each other, implying that the nutrient is no longer the limiting factor of the beta-diversity of the community. This pattern is further displayed in the following "curve plot".
+The first sub-figure in the second figure demonstrates that in an
+oligotrophic (less available nutrients) environment, communities won't
+change much in a given time, whilst the last two sub-figures resemble
+each other, implying that the nutrient is no longer the limiting
+factor of the beta-diversity of the community. This pattern is further
+displayed in the following "curve plot".
 
-In the third figure, the second and the fourth community always stays more similar, despite their initial dissimilarity, indicating that they might belong to one community type. This can be validated by input 20 or even 50 as n.community in this case study: communities turns into clusters in each sub-figures.
-```{r}
+In the third figure, the second and the th community always stays more
+similar, despite their initial dissimilarity, indicating that they
+might belong to one community type. This can be validated by input 20
+or even 50 as n.community in this case study: communities turns into
+clusters in each sub-figures.
+
+```{r umapplots}
+# FIXME: the visual output can be polished later.
 print(umap_CRM_gradient_plot)
-
-print(umap_CRM_gradient_plot + facet_grid(concentration ~ ., labeller = label_both))
-
-print(umap_CRM_gradient_plot + facet_grid(medium ~ concentration, labeller = label_both))
-
-print(umap_CRM_gradient_plot + facet_grid(community ~ concentration, labeller = label_both))
-
-print(umap_CRM_gradient_plot + facet_grid(community ~ medium, labeller = label_both))
-
+umap_CRM_gradient_plot + facet_grid(size_by ~ ., labeller = label_both)
+umap_CRM_gradient_plot + facet_grid(colour_by ~ size_by, labeller = label_both)
+umap_CRM_gradient_plot + facet_grid(shape_by ~ size_by, labeller = label_both)
+umap_CRM_gradient_plot + facet_grid(shape_by ~ colour_by, labeller = label_both)
 ```
 
 ## "saturation curve" of average beta-diversity between communities with community 1
 
-In this part, we'd like to demonstrate that the average distance from other communities to community 1 will reach to a threshold of nutrients, after which the average distance won't increase along with the total concentration of nutrients.
+In this part, we'd like to demonstrate that the average distance from
+other communities to community 1 will reach to a threshold of
+nutrients, after which the average distance won't increase along with
+the total concentration of nutrients.
 
 To do so, we first define a function calculating the mean distance to the first community.
 
@@ -383,18 +357,21 @@ average_distance <- function(df, res_conc_type, com_type, method = "euclidean"){
     # print(distances)
     return(mean(distances))
 }
-# average_distance(umap_CRM_coor, 1, 2)
 ```
 
-## constructing dataframe to save results
+## UMAP distance saturation analysis
 
-```{r df}
+This shows how distance saturations could be calculated. Not evaluated currently.
+
+```{r df, eval=FALSE}
 distance_saturation_data <- data.frame(concentration = integer(),
                                        community = integer(),
                                        average_distance = numeric())
 
-for (res_conc_type in unique(umap_CRM_coor$concentration)){
-    for (com_type in unique(umap_CRM_coor$community)){
+#umap_CRM_coor <- cbind(umap_CRM_coor, concentration, medium, community)
+umap_CRM_coor <- data.frame(reducedDim(tse), colData(tse)) # cbind(umap_CRM_coor, concentration, medium, community)
+for (res_conc_type in unique(concentration)){
+    for (com_type in unique(community)){
         ave_dist <- average_distance(umap_CRM_coor, res_conc_type, com_type)
         distance_saturation_data[nrow(distance_saturation_data)+1,] <-
             c(res_conc_type, com_type, ave_dist)
@@ -410,7 +387,8 @@ p <- ggplot(distance_saturation_data,
                                  aes(concentration, average_distance,
                                      color = community,
                                      group = community)) +
-    geom_line() + geom_point() +
+    geom_line() +
+    geom_point() +
     scale_shape_manual(values = c(0, 1, 2, 5, 6, 8, 15, 16, 17, 18)) +
     labs(x = "resource concentration",
          y = "average distance between communities in UMAP") +

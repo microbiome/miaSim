@@ -25,26 +25,10 @@ knitr::opts_chunk$set(
   warning = FALSE)
 ```
 
-# Introduction
 
-`miaSim` implements tools for microbiome data simulation based on different ecological modeling assumptions. These can be used to simulate species abundance matrices, including time series. For a detailed function documentation, see the [function reference page](https://microbiome.github.io/miaSim/reference/index.html)
+# Case study with miaSim: Strongly interacting species (SIS) explaining community types
 
-Install the Bioconductor release version with
-
-```{r install-bioc, eval=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-```
-
-Load the library
-
-```{r load, eval=TRUE}
-library(miaSim)
-```
-
-# Case study 1: Strongly interacting species (SIS) explaining community types
-
-(Reference: [On the Origins and Control of Community Types in the Human Microbiome](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004688))
+Reference: [On the Origins and Control of Community Types in the Human Microbiome](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004688)
 
 The aim of this case study is to recalculate this [Figure 2](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004688#pcbi-1004688-g002) which demonstrates the occurrence of SIS and the clustering results of communities.
 
@@ -65,7 +49,6 @@ library(ape)
 library(dplyr)
 library(philentropy)
 library(cluster)
-library(umap)
 library(miaSim)
 ```
 
