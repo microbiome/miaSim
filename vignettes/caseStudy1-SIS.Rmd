@@ -61,11 +61,10 @@ library(colourvalues)
 library(GGally)
 library(network)
 library(sna)
+library(ape)
 library(dplyr)
 library(philentropy)
 library(cluster)
-library(ape)
-library(intergraph)
 library(umap)
 library(miaSim)
 ```
@@ -150,8 +149,8 @@ for (row in seq_len(nrow(params))) {
   )
   g[[row]] <- graph_from_adjacency_matrix(A[[row]], weighted = TRUE, diag = FALSE)
   print(paste("max edge weight =", max(E(g[[row]])$weight)))
-  rev_viridis <- get_palette("viridis")[rev(seq_len(nrow(get_palette("viridis")))), ]
-  E(g[[row]])$color <- head(colour_values(c(abs(E(g[[row]])$weight), 0), palette = rev_viridis, alpha = 0, include_alpha = TRUE), -1)
+  E(g[[row]])$color <- head(colour_values(c(abs(E(g[[row]])$weight), 0), alpha = 0, include_alpha = TRUE), -1)
+
   g_plot[[row]] <- ggnet2(
     net = g[[row]],
     mode = "circle",
@@ -159,7 +158,7 @@ for (row in seq_len(nrow(params))) {
     node.size = 1,
     edge.color = "color", edge.alpha = 0.25
   ) + 
-    ggtitle(paste("alpha =", params$alpha[[row]])) + 
+    labs(title=paste("alpha =", params$alpha[[row]])) + 
     theme(plot.title = element_text(hjust = 0.5))
 
   print(g_plot[[row]])

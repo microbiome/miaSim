@@ -59,7 +59,6 @@ library(reshape2)
 library(umap)
 library(miaSim)
 library(philentropy)
-library(ape)
 library(cluster)
 
 ```
