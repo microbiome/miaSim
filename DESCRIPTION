@@ -35,8 +35,9 @@ Imports:
     deSolve,
     stats,
     poweRlaw,
-    S4Vectors,
-    MatrixGenerics
+    MatrixGenerics,
+    TreeSummarizedExperiment,
+    S4Vectors
 Suggests:
     ape,
     cluster,

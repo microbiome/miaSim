@@ -77,7 +77,7 @@ jobs:
           echo ".libPaths('/__w/_temp/Library')" > ~/.Rprofile
 
       ## Most of these steps are the same as the ones in
-      ## https://github.com/r-lib/actions/blob/master/examples/check-standard.yaml
+      ## https://github.com/r-lib/actions/blob/main/examples/check-standard.yaml
       ## If they update their steps, we will also need to update ours.
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -155,7 +155,7 @@ jobs:
         run: |
           BiocManager::install(version = "devel", ask = FALSE)
         shell: Rscript {0}
-    
+
       - name: Install dependencies
         run: |
           ## Try installing the package dependencies in steps. First the local

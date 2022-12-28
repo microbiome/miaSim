@@ -57,7 +57,7 @@ returned with the abundances as proportions (\code{norm = TRUE})
 or the raw counts (default: \code{norm = FALSE})}
 }
 \value{
-\code{simulateSOI} returns a result list containing an abundance matrix
+\code{simulateSOI} returns a TreeSummarizedExperiment class object
 }
 \description{
 Generate time-series with The Self-Organised Instability (SOI) model.
@@ -72,7 +72,4 @@ x <- simulateSOI(
     k_events = 5, x0 = NULL, t_end = 150, norm = TRUE
 )
 
-}
-\seealso{
-\code{\link[miaSim:convertToSE]{convertToSE}}
 }

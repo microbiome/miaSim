@@ -4,8 +4,9 @@ test_that("simulateSOI", {
         alpha = 1.2
     ), k_events = 5, x0 = NULL, t_end = 150, norm = TRUE)
 
-    expect_type(SOI$matrix, "double")
-    expect_equal(dim(SOI$matrix), c(150, 11))
+    expect_s4_class(SOI, "TreeSummarizedExperiment")
+    expect_type(SOI@assays@data@listData[["counts"]], "double")
+    expect_equal(dim(SOI@assays@data@listData[["counts"]]), c(10, 150))
 
     # check if(length(x0) == n_species+1)
     SOI2 <- simulateSOI(n_species = 10, carrying_capacity = 1000, A = powerlawA(

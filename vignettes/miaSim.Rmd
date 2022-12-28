@@ -2,7 +2,7 @@
 title: "miaSim: Microbiome Data Simulation"
 author:
 - name: Yagmur Simsek
-  email: yagmur.simsek@hsrw.org
+  email: yagmur.simsek@fu-berlin.de
 - name: Yu Gao
   email: gaoyu19920914@gmail.com
 - name: Emma Gheysen
@@ -134,40 +134,22 @@ The consumer resource model requires the use of the `randomE` function, which re
 ```{r}
 crmodel <- simulateConsumerResource(n_species = 2,n_resources = 4, E = randomE(n_species = 2, n_resources = 4))
 
-# visualize the simulated dynamics
-Consumer_plot <- matplot(crmodel$matrix[,c(1,2)], type = "l")
 ```
 
 ## Data containers
 
-The abundance matrices can be converted into `TreeSummarizedExperiment`
+The output of simulation functions are `TreeSummarizedExperiment`
 object. This provides access to a broad range of
 tools for microbiome analysis that support this format (see
 [microbiome.github.io](http://microbiome.github.io)). More examples on
 `TreeSummarizedExperiment` object manipulation and analysis can be found
 at [OMA Online Manual](https://microbiome.github.io/OMA).
 
-This example shows how to generate taxonomic abundance data, including
-sample metadata, and convert this into into `TreeSummarizedExperiment`.
-
 ```{r}
 A_normal <- powerlawA(n_species = 4, alpha = 3)
 
 glvmodel <- simulateGLV(n_species = 4, A = A_normal, t_start = 0, 
     t_store = 1000, stochastic = FALSE, norm = FALSE)
-
-# rownames(glvmodel) <- c(paste("Species", rownames(glvmodel), sep = "_"))
-# colnames(glvmodel) <- c(paste("Sample", seq_len(ncol(glvmodel)), sep = "_"))
-
-rownames(glvmodel$matrix) <- c(paste("Sample", seq_len(nrow(glvmodel$matrix)), sep = "_"))
-df <- DataFrame(sampleID = rownames(glvmodel$matrix),
-            Time = seq(1, 1000, 1),
-            SubjectID = rep(1:4, 250),
-            row.names = rownames(glvmodel$matrix))
-
-GLV_TSE <- TreeSummarizedExperiment(
-    assays = list(assay = t(glvmodel$matrix[,1:4])),
-    colData = df)
 ```
 
 The community simulations result in abundance matrix that can be stored in
@@ -181,13 +163,9 @@ hubbellmodelRates <- simulateHubbellRates(x0 = c(0,5,10),
     migration_p = 0.1, metacommunity_probability = NULL, k_events = 1, 
     growth_rates = NULL, norm = FALSE, t_end=1000)
 
-Hubbell_TSE <- TreeSummarizedExperiment(
-    assays = list(counts = t(hubbellmodelRates$matrix[,1:3])),
-    colData = S4Vectors::DataFrame(time = hubbellmodelRates$matrix[,"time"]),
-    metadata = hubbellmodelRates[which(names(hubbellmodelRates) != "matrix")])
 ```
 
-A broad range of functions are available in other packages to explore data in the `SummarizedExperiment` format (see e.g. microbiome.github.io).
+A broad range of functions are available in other packages to explore data in the `TreeSummarizedExperiment` format (see e.g. microbiome.github.io).
 
 For instance, to plot population density we can use the `miaViz` package:
 
@@ -202,8 +180,8 @@ BiocManager::install("miaViz")
 ```{r}
 library(miaViz)
 
-HubbellDensityPlot <- plotAbundanceDensity(Hubbell_TSE, assay_name = "counts")
-HubbellLinePlot <- plotSeries(Hubbell_TSE, x = "time")
+HubbellDensityPlot <- plotAbundanceDensity(hubbellmodel)
+HubbellLinePlot <- plotSeries(hubbellmodel, x = "time")
 ```
 
 ### Auxiliary functions
@@ -215,6 +193,102 @@ Time <- simulationTimes(t_start = 0, t_end = 100, t_step = 0.5,
                            t_store = 100)
 #  Time$t_sys contains all time points, and Time$t_index stores the selected index for time points to store. Therefore, Time$t_sys[Time$t_index] returns the selected time points. Note that the tail would be trimmed when the interval between start and end cannot be divided exactly by step length with no remainder.
 Time$t_sys[Time$t_index]
+```
+
+## Generating multiple simulations at once
+
+```{r}
+crm_params <- list(
+    n_species = 10,
+    n_resources = 5,
+    E = randomE(
+        n_species = 10, n_resources = 5,
+        mean_consumption = 1, mean_production = 3
+    ),
+    x0 = rep(0.001, 10),
+    resources = rep(1000, 5),
+    monod_constant = matrix(rbeta(10 * 5, 10, 10), nrow = 10, ncol = 5),
+    inflow_rate = .5,
+    outflow_rate = .5,
+    migration_p = 0,
+    stochastic = TRUE,
+    t_start = 0,
+    t_end = 20,
+    t_store = 100,
+    growth_rates = rep(2, 10),
+    norm = FALSE
+)
+
+###  restructure the parameter list
+param_iter_new <-replicate(8, list(list(x0 = runif(n = 10, min = 0.01, max = 0.02))))
+
+CRMSimus_single_param_new <- list()
+CRMSimus_single_param_new <- lapply(
+  param_iter_new,
+  function(pars){
+    do.call(
+      what = simulateConsumerResource,
+      args = modifyList(crm_params, val = pars)
+    )
+  }
+)
+```
+
+
+```{r}
+## 2. demo to iterate combinations of parameters e.g. 9 different x0 and 9 different growth_rates
+param_iter2_new <- replicate(9, list(list(x0 = runif(n = 10, min = 0.01, max = 0.02),
+                                          growth_rates = runif(n=10, min = 0.5, max = 1))))
+
+CRMSimus_double_param_new <- list()
+CRMSimus_double_param_new <- lapply(
+  param_iter2_new,
+  function(pars){
+    do.call(
+      what = simulateConsumerResource,
+      args = modifyList(crm_params, val = pars)
+    )
+  }
+)
+```
+
+
+```{r}
+## 3 demo multiple instances
+CRMsimus_multiple_instances_new <- lapply(
+  seq_len(5),
+  function(pars){
+    do.call(
+      what = simulateConsumerResource,
+      args = crm_params
+    )
+  }
+)
+```
+
+
+```{r}
+## 4&5 demo to iterate multiple instances
+CRMSimus_single_param_multiple_instances_new <- lapply(
+  rep(param_iter_new, each = 3), 
+  # or rep(param_iter_new, times = 3), depending on how you'd like to organize the data
+  function(pars){
+    do.call(
+      what = simulateConsumerResource,
+      args = modifyList(crm_params, val = pars)
+    )
+  }
+)
+
+CRMSimus_single_param_multiple_instances_new <- lapply(
+  rep(param_iter2_new, each = 4),
+  function(pars){
+    do.call(
+      what = simulateConsumerResource,
+      args = modifyList(crm_params, val = pars)
+    )
+  }
+)
 ```
 
 It is also possible to incorporate phylogenetic tree information into
