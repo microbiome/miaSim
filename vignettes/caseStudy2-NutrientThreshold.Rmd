@@ -1,18 +1,6 @@
 ---
 title: "caseStudy2-NutrientThreshold"
-author:
-- name: Yu Gao
-  email: gaoyu19920914@gmail.com
-- name: Daniel Rios Garza
-  email: danielrios.garza@kuleuven.be
-- name: Karoline Faust
-  email: karoline.faust@kuleuven.be
-- name: Yagmur Simsek
-  email: yagmur.simsek@hsrw.org
-- name: Emma Gheysen
-  email: emma.gheysen@student.kuleuven.be
-- name: Leo Lahti
-  email: leo.lahti@iki.fi
+author: "The miaSim package authors."
 date: "`r Sys.Date()`"
 package: miaSim
 output: 
@@ -64,7 +52,7 @@ To fulfill this aim, we designed a gradient of environments, as well as a gradie
 
 ## Load dependencies
 
-```{r load, eval=TRUE}
+```{r deps, eval=TRUE}
 library(ggplot2)
 library(vegan)
 library(reshape2)
