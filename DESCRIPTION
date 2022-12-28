@@ -39,8 +39,6 @@ Imports:
     TreeSummarizedExperiment,
     S4Vectors
 Suggests:
-    umap,    
-    colourvalues,
     vegan,
     rmarkdown,
     knitr,
