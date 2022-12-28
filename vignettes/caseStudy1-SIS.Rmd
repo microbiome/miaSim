@@ -72,8 +72,7 @@ library(miaSim)
 
 ## Define a function to generate power-law distribution
 
-```{r}
-
+```{r rpower}
 rpower <- function(n, alpha, norm = FALSE) {
   u <- runif(n, min = 0, max = 1 - .Machine$double.eps^0.5)
   power <- (1 - u)^(1 / (1 - alpha))
@@ -87,8 +86,7 @@ rpower <- function(n, alpha, norm = FALSE) {
 
 ## Load parameters used by Gibson et al.
 
-```{r}
-
+```{r gibs}
 params <- data.frame(
   alpha = c(7, 3, 2, 1.6, 1.01),
   t_end = c(20, 10, 5, 2, 1),
@@ -100,7 +98,7 @@ n_species <- 100
 
 ## create variables to store results
 
-```{r}
+```{r store}
 H <- list()
 df <- list()
 plot_hist <- list()
@@ -109,15 +107,13 @@ interactions_custom <- list()
 A <- list()
 g <- list()
 g_plot <- list()
-
 local_species_pool <- list()
 local_A <- list()
-
 ```
 
 ## generate constants and plot different distributions
 
-```{r, warning=FALSE}
+```{r misc, warning=FALSE}
 set.seed(42)
 for (row in seq_len(nrow(params))) {
   # for each power-law distribution
@@ -168,16 +164,12 @@ for (row in seq_len(nrow(params))) {
     local_species_pool[[row]][[local_community]] <- sample(x = 100, size = 80)
     local_A[[row]][[local_community]] <- A[[row]][local_species_pool[[row]][[local_community]], local_species_pool[[row]][[local_community]]]
   }
-  # save histogram and network plots ####
-  # ggsave(paste0("hist", params$alpha[row], ".pdf"), plot = plot_hist[[row]], dpi = 300, width = 6, height = 6, units = "cm")
-  # ggsave(paste0("net", params$alpha[row], ".pdf"), plot = g_plot[[row]], dpi = 300, width = 6, height = 6, units = "cm")
 }
-
 ```
 
 ## identify SIS using H[[row]]
 
-```{r}
+```{r sis}
 SIS <- list()
 group_sis <- list()
 for (row in seq_len(nrow(params))) {
@@ -202,7 +194,7 @@ Different scenarios are implemented by overwriting the default random growth rat
 
 ## prepare result lists and scenarios
 
-```{r}
+```{r glv}
 simulation_GLV <- list()
 otu_table <- list()
 jsd <- list()
@@ -220,14 +212,12 @@ growthRates <- vector(mode = "list", length = 4)
 growthRates[[1]] <- rep(1, 80)
 growthRates[[2]] <- NULL
 # growthRates for scenario 3 and 4 are assigned in the following loop
-
 customPalette <- c("#d95319", "#0072bd", "#edb120", "#7e2f8e")
-
 ```
 
 In this case study, we only focus on the first scenario. (To explore more, simply remove the first line, then put the code in a for loop like `for (scenario in seq_along(scenarios)) {...}` .)
 
-```{r}
+```{r scenario}
   scenario <- 1
   print(paste0("scenario: ", scenarios[scenario]))
 
@@ -322,7 +312,7 @@ In this case study, we only focus on the first scenario. (To explore more, simpl
 
 If we compare the previou PCoA results with this PCoA results rendered by with/without SIS, we can find that in last figures (alpha = 1.6 and alpha=1.01, where there's one SIS), the community types are clustered in the same way as they are rendered with/without SIS, indicating that the occurrence of SIS can influence the community types.
 
-```{r}
+```{r pcoa}
 pcoa_plot_sis <- list()
 for (row in seq_len(nrow(params))) {
   pcoa_plot_sis[[row]] <- ggplot(as.data.frame(PCoA_coord[[1]][[row]]), aes(x = PCo1, y = PCo2)) +
@@ -330,8 +320,6 @@ for (row in seq_len(nrow(params))) {
     ggtitle(paste("alpha =", params$alpha[[row]])) +
     theme_bw() + 
     theme(plot.title = element_text(hjust = 0.5))
-  print(pcoa_plot_sis[[row]])
-
-  # ggsave(paste0("pcoa_validation_", params$alpha[row], ".pdf"), plot = pcoa_plot_sis[[row]], dpi = 300, width = 6, height = 6, units = "cm")
+  print(pcoa_plot_sis[[row]]) # pcoa_validation_ plots
 }
 ```

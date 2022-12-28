@@ -56,8 +56,7 @@ In the original experiment, value of OD600 is selected as y-axis to represent th
 
 ## Load dependencies
 
-```{r}
-
+```{r deps}
 library(ggplot2)
 library(miaSim)
 library(vegan)
@@ -65,21 +64,17 @@ library(ggplot2)
 library(reshape2)
 ```
 
-## Set random seed
+## Set random seed and number of repeats
 
-```{r}
+```{r seed}
 set.seed(42)
-```
-
-## Set number of repeats
-
-```{r}
 n_rep <- 50
 ```
 
+
 ## initial the output dataframes to store data
 
-```{r}
+```{r initialize}
 
 result_df <- data.frame(
     n_species = integer(),
@@ -104,7 +99,7 @@ sorensen_df <- data.frame(
 
 this function generates a data frame, where each row is arranged in an increasing dissimilarity to the first row.
 
-```{r}
+```{r funcs}
 gradient_df_generator <- function(n_row, n_col, density_row, max_gradient, error_interval){
   list_initial <- list()
   dissimilarity.gradient <- seq(from = 0, to = max_gradient, length.out = n_row)
@@ -127,17 +122,20 @@ gradient_df_generator <- function(n_row, n_col, density_row, max_gradient, error
       }
     }
   }
-  dataframe_to_return <- as.data.frame(t(matrix(unlist(list_initial), ncol = n_row)))
-  return(dataframe_to_return)
+
+  # Return
+  as.data.frame(t(matrix(unlist(list_initial), ncol = n_row)))
+
 }
 ```
 
-## Load parameters used by Pacheco et al., and initialized the community data frame
+## Load parameters
+
+Load parameters used by Pacheco et al., and initialized the community data frame
 
 Note that in this step, the value range of theta has been extended.
 
-```{r}
-
+```{r initialize2}
 n_species_types <- c(13, 3, 4)
 theta_types <- c(1, 0.75, 0.5, 0.25, 0.1, 0.05)
 n_resources_types <- c(1,2,4,8,16,32)
@@ -155,7 +153,7 @@ community.initial.df <- as.list(
 
 ## loop for different combinations of (number of species X theta X number of repetations X number of resources)
 
-```{r}
+```{r loop}
 for (n_species in n_species_types){
     for (theta in theta_types) {
         sorensen <- c()
@@ -215,8 +213,7 @@ for (n_species in n_species_types){
 
 ```
 
-```{r}
-
+```{r visualize}
 p_fig2_result_df <- ggplot(result_df, aes(x = n_resources, y = value, group = n_resources)) +
     geom_boxplot(outlier.shape = NA) +
     geom_jitter(alpha = 0.2, width = 0.2) +
