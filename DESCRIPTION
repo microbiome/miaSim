@@ -12,19 +12,19 @@ Authors@R:
               email = "emma.gheysen@student.kuleuven.be"),
        person(given = "Daniel Rios", family = "Garza", role = c("aut"),
               email = "danielrios.garza@kuleuven.be"),
-       person(given = "Leo", family = "Lahti", role = c("aut"),
-              email = "leo.lahti@iki.fi",
-              comment = c(ORCID = "0000-0001-5537-637X")),
       person(given = "Tuomas", family = "Borman", role = c("aut"),
              email = "tuomas.v.borman@utu.fi",
-             comment = c(ORCID = "0000-0002-8563-8884"))      
+             comment = c(ORCID = "0000-0002-8563-8884")),
+       person(given = "Leo", family = "Lahti", role = c("aut"),
+              email = "leo.lahti@iki.fi",
+              comment = c(ORCID = "0000-0001-5537-637X"))
 	      )
 Title: Microbiome Data Simulation
 Description:
     Microbiome time series simulation with generalized Lotka-Volterra model,
     Self-Organized Instability (SOI), and other models. Hubbell's Neutral model
     is used to determine the abundance matrix. The resulting abundance matrix
-    is applied to SummarizedExperiment or TreeSummarizedExperiment objects.
+    is applied to (Tree)SummarizedExperiment objects.
 License: Artistic-2.0 | file LICENSE
 biocViews: Microbiome, Software, Sequencing, DNASeq, ATACSeq, Coverage, Network
 Encoding: UTF-8
@@ -38,6 +38,20 @@ Imports:
     S4Vectors,
     MatrixGenerics
 Suggests:
+    ape,
+    cluster,
+    colourvalues,
+    dplyr,
+    GGally,
+    ggplot2,
+    igraph,
+    intergraph,
+    network,
+    philentropy,
+    reshape2,
+    sna,
+    umap,
+    vegan,
     rmarkdown,
     knitr,
     BiocStyle,
