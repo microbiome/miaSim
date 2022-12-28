@@ -67,7 +67,6 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-
       ## Set the R library to the directory matching the
       ## R packages cache step further below when running on Docker (Linux).
       - name: Set R Library home on Linux
@@ -124,8 +123,8 @@ jobs:
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
-          sudo apt-get install -y libcurl4-openssl-dev libglpk-dev
-
+          sudo apt-get install -y libglpk-dev
+  
       - name: Install macOS system dependencies
         if: matrix.config.os == 'macOS-latest'
         run: |
@@ -163,12 +162,12 @@ jobs:
           ## https://stat.ethz.ch/pipermail/bioc-devel/2020-April/016675.html
           ## https://github.com/r-lib/remotes/issues/296
           ## Ideally, all dependencies should get installed in the first pass.
-
-          BiocManager::install("vegandevs/vegan")
+          # BiocManager::install("vegandevs/vegan")
+          BiocManager::install("vegan")  
           BiocManager::install("fionarhuang/TreeSummarizedExperiment")
           BiocManager::install("microbiome/mia")
           BiocManager::install("microbiome/miaViz")
-          remotes::install_github("microbiome/miaTime")
+          # remotes::install_github("microbiome/miaTime")
 
           # rspm is out of date
           install.packages("matrixStats", repos = "https://cran.rstudio.com/")

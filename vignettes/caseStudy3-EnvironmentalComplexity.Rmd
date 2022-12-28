@@ -1,0 +1,229 @@
+---
+title: "Case study: Environmental complexity"
+author: "The miaSim package authors."
+date: "`r Sys.Date()`"
+package: miaSim
+output: 
+  BiocStyle::html_document:
+    fig_height: 7
+    fig_width: 10
+    toc: yes
+    toc_depth: 2
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{caseStudy3-EnvironmentalComplexity}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(
+  cache = FALSE,
+  fig.width = 9,
+  message = FALSE,
+  warning = FALSE)
+```
+
+# Introduction
+
+`miaSim` implements tools for microbiome data simulation based on different ecological modeling assumptions. These can be used to simulate species abundance matrices, including time series. For a detailed function documentation, see the [function reference page](https://microbiome.github.io/miaSim/reference/index.html)
+
+Install the Bioconductor release version with
+
+```{r install-bioc, eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+```
+
+Load the library
+
+```{r load, eval=TRUE}
+library(miaSim)
+```
+
+# Case study 3: Environmental complexity impacts on different communities
+
+(Reference: [Non-additive microbial community responses to environmental complexity](https://doi.org/10.1038/s41467-021-22426-3))
+
+The aim of this case study is to recalculate the patterns shown in the existing publication in the above reference. More specifically, the left part of this Figure 2. [![Figure 2](https://media.springernature.com/full/springer-static/image/art%253A10.1038%252Fs41467-021-22426-3/MediaObjects/41467_2021_22426_Fig2_HTML.png?as=webp)](https://www.nature.com/articles/s41467-021-22426-3#Fig2)
+
+In this case study, consumer-resource model was used. The number of species in 3 distinct communities varied so that communities are named after the number of species (i.e. com13, com3, and com4).
+
+For each community, a floor of different numbers of carbon resources (nutrients) is set from 1, 2, 4, 8, 16, to 32. For demo purposes we include here a smaller number of cases.
+
+In the original experiment, value of OD600 is selected as y-axis to represent the growth yield. In our simulations, however, the total number of organisms(number of all individuals) is used to reflect the growth yield.
+
+## Load dependencies
+
+```{r deps}
+library(ggplot2)
+library(miaSim)
+library(vegan)
+library(ggplot2)
+library(reshape2)
+```
+
+## Set random seed and number of repeats
+
+```{r seed}
+set.seed(42)
+# n_rep <- 50 # Full (and slow) example
+n_rep <- 5 # Speed up demo example
+```
+
+
+## initial the output dataframes to store data
+
+```{r initialize}
+result_df <- data.frame(
+    n_species = integer(),
+    theta = numeric(),
+    i = integer(),
+    n_resources = integer(),
+    value = numeric()
+)
+result_df2 <- data.frame(
+  matrix(NA, nrow = 0, ncol = 13, dimnames = list(NULL, paste0("sp", seq_len(13))))
+)
+sorensen_df <- data.frame(
+    n_species = integer(),
+    theta = numeric(),
+    rho_mean = numeric(),
+    rho_sd = numeric()
+)
+```
+
+## generating function
+
+this function generates a data frame, where each row is arranged in an increasing dissimilarity to the first row.
+
+```{r funcs}
+gradient_df_generator <- function(n_row, n_col, density_row, max_gradient, error_interval){
+  list_initial <- list()
+  dissimilarity.gradient <- seq(from = 0, to = max_gradient, length.out = n_row)
+  for (i in seq_len(n_row)){
+    print(i)
+    if (i == 1){
+      row_temp <- rbeta(n_col, 1, n_col)
+      col_to_remove <- sample(x = seq_len(n_col), size = n_col-n_col*density_row)
+      row_temp[col_to_remove] <- 0
+      list_initial[[i]] <- row_temp
+    } else {
+      while (length(list_initial) < i) {
+        row_temp <- rbeta(n_col, 1, n_col)
+        col_to_remove <- sample(x = seq_len(n_col), size = n_col-n_col*density_row)
+        row_temp[col_to_remove] <- 0
+        diff_temp <- abs(vegdist(rbind(list_initial[[1]], row_temp), method = "bray") - dissimilarity.gradient[i])
+        if (diff_temp < error_interval) {
+          list_initial[[i]] <- row_temp
+        }
+      }
+    }
+  }
+
+  # Return
+  as.data.frame(t(matrix(unlist(list_initial), ncol = n_row)))
+
+}
+```
+
+## Load parameters
+
+Load parameters used by Pacheco et al., and initialized the community data frame
+
+Note that in this step, the value range of theta has been extended.
+
+```{r initialize2}
+# Full example
+#n_species_types <- c(13, 3, 4)
+#theta_types <- c(1, 0.75, 0.5, 0.25, 0.1, 0.05)
+#n_resources_types <- c(1,2,4,8,16,32)
+
+# Speeding up the example by reducing the number of combinations
+n_species_types <- c(3, 4)
+theta_types <- c(1, 0.5)
+n_resources_types <- c(1,2)
+
+community.initial.df <- as.list(
+  lapply(n_species_types, 
+         gradient_df_generator, 
+         n_row = n_rep, 
+         density_row = 1,
+         max_gradient = 0.7,
+         error_interval = 0.15)
+)
+```
+
+## Loop over different combinations of (number of species X theta X number of repetations X number of resources)
+
+```{r loop, eval=FALSE}
+for (n_species in n_species_types){
+    for (theta in theta_types) {
+        sorensen <- c()
+        for (i in seq_len(n_rep)){
+            for (n_resources in n_resources_types) {
+                ### generate E ####
+                Etest <- randomE(n_species = n_species,
+                                 n_resources = n_resources,
+                                 mean_consumption = theta*n_resources,
+                                 exact = TRUE)
+
+                ### calculate rho ####
+                if (n_resources == max(n_resources_types)){
+                    Etest_pos <- Etest
+                    Etest_pos[Etest_pos<0] <- 0
+                    for (j in seq_len(n_species - 1)){
+                        for (k in 2:n_species){
+                            sorensen <- c(sorensen,
+                                          sum(apply(Etest_pos[c(j,k),], 2, min)))
+                        }
+                    }
+                }
+
+                if (n_resources > 1){
+                    Priority <- t(apply(matrix(sample(n_species * n_resources), nrow = n_species), 1, order))
+                    Priority <- (Etest > 0) * Priority
+                } else {
+                    Priority <- NULL
+                }
+
+                print(paste0("n_species=",n_species, " theta=",theta, " i=", i, " n_resources=", n_resources))
+                x0temp <- as.numeric(community.initial.df[[match(n_species, n_species_types)]][i,])
+                x0temp <- 10*x0temp/sum(x0temp)
+                CRMtest <- simulateConsumerResource(n_species = n_species,
+                                                    n_resources = n_resources,
+                                                    x0 = x0temp, #rep(10, n_species),
+                                                    resources = rep(100, n_resources),
+                                                    E = Etest,
+                                                    # trophic_priority = Priority,
+                                                    stochastic = TRUE,
+                                                    t_end = 1000,
+                                                    t_step = 1,
+                                                    t_store = 1000)
+                CRMspecies <- getCommunity(CRMtest)
+                CRMspeciesTotal <- sum(CRMspecies)
+                result_df[nrow(result_df)+1,] <- c(n_species, theta, i, n_resources, CRMspeciesTotal)
+                result_df2[nrow(result_df2)+1,] <- c(CRMspecies, rep(NA, 13-length(CRMspecies)))
+
+            }
+        }
+        rho_mean <- mean(sorensen)
+        rho_sd <- var(sorensen)
+        sorensen_df[nrow(sorensen_df)+1, ] <- c(n_species, theta, rho_mean, rho_sd)
+    }
+}
+
+```
+
+```{r visualize, eval=FALSE}
+p <- ggplot(result_df, aes(x = n_resources, y = value, group = n_resources)) +
+    geom_boxplot(outlier.shape = NA) +
+    geom_jitter(alpha = 0.2, width = 0.2) +
+    facet_grid(. ~ factor(n_species, levels = n_species_types)) +
+    theme_bw() +
+    scale_x_continuous(trans = "log2", breaks = n_resources_types) +
+    labs(x = "number of resources",
+         y = "growth yield (number of individuals)")
+print(p)
+```

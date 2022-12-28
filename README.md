@@ -14,7 +14,7 @@
 
 <!-- badges: end -->
 
-This R package can be used to simulate (longitudinal) data for the
+This R/Bioconductor package can be used to simulate (longitudinal) data for the
 benchmarking and analysis of quantitative models of microbial
 communities. The package is part of
 [miaverse](microbiome.github.io), and is based on the
@@ -52,9 +52,11 @@ BiocManager::install("miaSim")
 
 ### miaSimShiny
 
-miaSim is accompanied by [miaSimShiny](https://github.com/gaoyu19920914/miaSimShiny), which allows users to explore the parameter space of their models in real-time in an intuitive graphical interface.
+The accompanying [miaSimShiny](https://github.com/gaoyu19920914/miaSimShiny) package
+allows users to explore the parameter space of their models in
+real-time in an intuitive graphical interface.
 
-You can experiment with miaSimShiny in an [interactive online application](https://gaoyu.shinyapps.io/shiny_rep/).
+You can experiment with miaSimShiny [online](https://gaoyu.shinyapps.io/shiny_rep/).
 
 ### Contributions and acknowledgments
 
@@ -70,7 +72,7 @@ We are grateful to all
 [contributors](https://github.com/microbiome/miaSim/graphs/contributors),
 and Emma Gheysen and Karoline Faust for developing the
 [microsimR](https://github.com/gheysenemma/microsimR) package that the
-miaSim package converts to the SummarizedExperiment universe. This
+miaSim package converts to the TreeSummarizedExperiment universe. This
 project is part of [miaverse](microbiome.github.io).
 
 **Kindly cite this work**. For citation details, see R command

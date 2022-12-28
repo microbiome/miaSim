@@ -1,4 +1,6 @@
 inst/extras
+*.html
+*.R
 *~
 *.Rproj.user
 *.Rproj
@@ -6,3 +8,4 @@ inst/extras
 *.Ruserdata
 .Rproj.user
 
+inst/doc
