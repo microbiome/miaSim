@@ -1,8 +1,8 @@
 test_that("simulateStochasticLogistic", {
     # check simulateStochasticLogistic with 5 species and default inputs
     ExampleLogistic <- simulateStochasticLogistic(n_species = 5)
-    expect_type(ExampleLogistic$matrix, "double")
-    expect_equal(dim(ExampleLogistic$matrix), c(1000, 6))
+    expect_s4_class(ExampleLogistic, "TreeSummarizedExperiment")
+    expect_equal(dim(ExampleLogistic@assays@data@listData[["counts"]]), c(5, 1000))
 
     # check simulateStochasticLogistic with custom inputs
     ExampleLogistic2 <- simulateStochasticLogistic(
@@ -11,8 +11,8 @@ test_that("simulateStochasticLogistic", {
         t_start = 0, t_end = 1500, t_step = 0.01,
         t_store = 1200, stochastic = TRUE
     )
-    expect_type(ExampleLogistic2, "list")
-    expect_equal(dim(t(ExampleLogistic2$matrix)), c(3, 1200))
+    expect_s4_class(ExampleLogistic2, "TreeSummarizedExperiment")
+    expect_equal(dim(ExampleLogistic2@assays@data@listData[["counts"]]), c(2, 1200))
 
     # check simulateStochasticLogistic with errors in inputs
     expect_error(ErrorLogistic1 <- simulateStochasticLogistic(n_species = 4.1))

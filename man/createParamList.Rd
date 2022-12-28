@@ -15,12 +15,11 @@ createParamList(input_param, n_repeat, replace_by_zero = FALSE)
 0 using internal function \code{.replaceByZero}.}
 }
 \value{
-A list of parameters which is ready as input of param_iter for
-\code{generateSimulations}.
+A list of parameters.
 }
 \description{
 This function is intended to generate a list of parameters such as initial
-community, to prepare the parameter param_iter in \code{generateSimulations}.
+community.
 }
 \examples{
 paramx0 <- createParamList(input_param = rep(99, 10), n_repeat = 10, replace_by_zero = TRUE)

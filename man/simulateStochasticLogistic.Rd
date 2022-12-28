@@ -112,9 +112,8 @@ modeled time length of the community.
 \item{...}{additional parameters, see \code{\link{utils}} to know more.}
 }
 \value{
-\code{simulateStochasticLogistic} returns a list of community dynamic
-matrix(species abundance as rows and time points as columns) and its
-inputs(including metacommunity_probability and migration_p)
+\code{simulateStochasticLogistic} returns a TreeSummarizedExperiment
+class object
 }
 \description{
 Simulates time series with the (stochastic) logistic model
@@ -132,7 +131,6 @@ The number of species will be set to 0 if the dead species abundances
 surpass the alive species abundances.
 }
 \examples{
-
 # Example of logistic model without stochasticity, death rates, or external
 # disturbances
 set.seed(42)
@@ -140,12 +138,8 @@ ExampleLogistic <- simulateStochasticLogistic(
     n_species = 5,
     stochastic = FALSE, death_rates = rep(0, 5)
 )
-ExampleLogistic_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleLogistic$matrix[, 1:5])),
-    colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
-    metadata = ExampleLogistic[-which(names(ExampleLogistic) == "matrix")]
-)
-miaViz::plotSeries(ExampleLogistic_SE, x = "time")
+
+miaViz::plotSeries(ExampleLogistic, x = "time")
 
 # Adding a death rate
 set.seed(42)
@@ -153,22 +147,14 @@ ExampleLogistic <- simulateStochasticLogistic(
     n_species = 5,
     stochastic = FALSE, death_rates = rep(0.01, 5)
 )
-ExampleLogistic_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleLogistic$matrix[, 1:5])),
-    colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
-    metadata = ExampleLogistic[-which(names(ExampleLogistic) == "matrix")]
-)
-miaViz::plotSeries(ExampleLogistic_SE, x = "time")
+
+miaViz::plotSeries(ExampleLogistic, x = "time")
 
 # Example of stochastic logistic model
 set.seed(42)
 ExampleLogistic <- simulateStochasticLogistic(n_species = 5)
-ExampleLogistic_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleLogistic$matrix[, 1:5])),
-    colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
-    metadata = ExampleLogistic[-which(names(ExampleLogistic) == "matrix")]
-)
-miaViz::plotSeries(ExampleLogistic_SE, x = "time")
+
+miaViz::plotSeries(ExampleLogistic, x = "time")
 
 # Example of stochastic logistic model with measurement error
 set.seed(42)
@@ -176,12 +162,8 @@ ExampleLogistic <- simulateStochasticLogistic(
     n_species = 5,
     error_variance = 1000
 )
-ExampleLogistic_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleLogistic$matrix[, 1:5])),
-    colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
-    metadata = ExampleLogistic[-which(names(ExampleLogistic) == "matrix")]
-)
-miaViz::plotSeries(ExampleLogistic_SE, x = "time")
+
+miaViz::plotSeries(ExampleLogistic, x = "time")
 
 # example with all the initial parameters defined by the user
 set.seed(42)
@@ -208,16 +190,9 @@ ExampleLogistic <- simulateStochasticLogistic(
     t_start = 0, t_step = 0.01,
     t_store = 1500
 )
-ExampleLogistic_SE <- TreeSummarizedExperiment(
-    assays = list(counts = t(ExampleLogistic$matrix[, 1:2])),
-    colData = DataFrame(time = ExampleLogistic$matrix[, "time"]),
-    metadata = ExampleLogistic[-which(names(ExampleLogistic) == "matrix")]
-)
-ExampleLogistic_SE <- mia::transformCounts(ExampleLogistic_SE, method = "relabundance")
-miaViz::plotSeries(ExampleLogistic_SE, x = "time")
-miaViz::plotSeries(ExampleLogistic_SE, x = "time", assay_name = "relabundance")
 
-}
-\seealso{
-\code{\link[miaSim:convertToSE]{convertToSE}}
+ExampleLogistic_SE <- mia::transformCounts(ExampleLogistic, method = "relabundance")
+miaViz::plotSeries(ExampleLogistic, x = "time")
+miaViz::plotSeries(ExampleLogistic, x = "time")
+
 }
