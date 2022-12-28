@@ -73,6 +73,8 @@ library(miaSim)
 ## Define a function to generate power-law distribution
 
 ```{r rpower}
+# FIXME: probably R already has some function for this; use that to simplify the code and
+# avoid unnecessary duplication
 rpower <- function(n, alpha, norm = FALSE) {
   u <- runif(n, min = 0, max = 1 - .Machine$double.eps^0.5)
   power <- (1 - u)^(1 / (1 - alpha))
@@ -94,6 +96,11 @@ params <- data.frame(
 )
 set.seed(42)
 n_species <- 100
+
+# Define local communities;
+# we use here a smaller number in order to speed up demo calculations
+# local_communities <- seq_len(100) # Too slow!    
+local_communities <- c(1, 5, 10, 20) # Faster 
 ```
 
 ## create variables to store results
@@ -154,13 +161,13 @@ for (row in seq_len(nrow(params))) {
   ) + 
     ggtitle(paste("alpha =", params$alpha[[row]])) + 
     theme(plot.title = element_text(hjust = 0.5))
-  # g_plot[[row]]
+
   print(g_plot[[row]])
 
   local_species_pool[[row]] <- list()
   local_A[[row]] <- list()
 
-  for (local_community in seq_len(100)) {
+  for (local_community in local_communities) {
     local_species_pool[[row]][[local_community]] <- sample(x = 100, size = 80)
     local_A[[row]][[local_community]] <- A[[row]][local_species_pool[[row]][[local_community]], local_species_pool[[row]][[local_community]]]
   }
@@ -175,7 +182,7 @@ group_sis <- list()
 for (row in seq_len(nrow(params))) {
   SIS[[row]] <- head(order(H[[row]], decreasing = TRUE), 1)
   group_sis[[row]] <- list()
-  for (local_community in seq_len(100)) {
+  for (local_community in local_communities) {
     if (paste0("sp", SIS[[row]]) %in% rownames(local_A[[row]][[local_community]])) {
       group_sis[[row]][[local_community]] <- "with SIS"
     } else {
@@ -215,7 +222,16 @@ growthRates[[2]] <- NULL
 customPalette <- c("#d95319", "#0072bd", "#edb120", "#7e2f8e")
 ```
 
-In this case study, we only focus on the first scenario. (To explore more, simply remove the first line, then put the code in a for loop like `for (scenario in seq_along(scenarios)) {...}` .)
+In this case study, we only focus on the first scenario.
+
+This example uses a smaller number of local communities for faster
+computations but the code can be easily adapted to vary the numbers.
+
+In order to run over several scenarios, you can replace `scenario <-
+1` with a for loop like `for (scenario in seq_along(scenarios))
+{...}`.
+
+
 
 ```{r scenario}
   scenario <- 1
@@ -240,8 +256,9 @@ In this case study, we only focus on the first scenario. (To explore more, simpl
     colnames(otu_table[[scenario]][[row]]) <- paste0("sp", 1:100)
     dfs_to_bind[[scenario]] <- list()
 
-    #### overwrite growth rates ####
-    for (local_community in seq_len(100)) {
+    #### overwrite growth rates ####    
+    # for (local_community in local_communities) { 
+    for (local_community in local_communities) {   
       if (scenario == 3) {
         growthRates[[scenario]] <- 9.9 * local_species_pool[[row]][[local_community]] == SIS[[row]] + 0.1
       }
@@ -280,7 +297,8 @@ In this case study, we only focus on the first scenario. (To explore more, simpl
     PAM[[scenario]][[row]] <- pam(PCoA[[scenario]][[row]]$vectors, k = 2)
     SI[[scenario]][[row]] <- PAM[[scenario]][[row]]$silinfo$avg.width
 
-    for (k in 3:10) {
+    # Too slow, let us limit k to 2..3 in the example (earlier 3:10)
+    for (k in 2:3) {
       PAMtemp <- pam(PCoA[[scenario]][[row]]$vectors, k = k)
       if (PAMtemp$silinfo$avg.width > SI[[scenario]][[row]]) {
         SI[[scenario]][[row]] <- PAMtemp$silinfo$avg.width
@@ -293,16 +311,19 @@ In this case study, we only focus on the first scenario. (To explore more, simpl
 
     dataframe_pcoa <- as.data.frame(PCoA_coord[[scenario]][[row]])
     dataframe_pcoa$group <- groups[[scenario]][[row]]
-    pcoa_plot[[scenario]][[row]] <- ggplot(
+    p <- ggplot(
       dataframe_pcoa,
       aes(x = PCo1, y = PCo2, color = group)
     ) +
-      ggtitle(paste("scenario", scenario, scenarios[scenario], ";", "alpha =", params$alpha[[row]])) +
+      labs(title = paste("scenario", scenario, scenarios[scenario], ";", "alpha =", params$alpha[[row]])) +
       geom_point() +
-      # coord_fixed(xlim = c(-1, 1), ylim = c(-1, 1)) +
       theme_bw() +
       scale_color_manual(values = customPalette) +
       theme(legend.position = "none", plot.title = element_text(hjust = 0.5))
+      
+    # Store the plot
+    pcoa_plot[[scenario]][[row]] <- p
+    # Show the plot
     print(pcoa_plot[[scenario]][[row]])
   }
 
@@ -316,8 +337,8 @@ If we compare the previou PCoA results with this PCoA results rendered by with/w
 pcoa_plot_sis <- list()
 for (row in seq_len(nrow(params))) {
   pcoa_plot_sis[[row]] <- ggplot(as.data.frame(PCoA_coord[[1]][[row]]), aes(x = PCo1, y = PCo2)) +
-    geom_point(aes(color = group_sis[[row]])) +
-    ggtitle(paste("alpha =", params$alpha[[row]])) +
+    geom_point(aes(colour = group_sis[[row]])) +
+    labs(title=paste("alpha =", params$alpha[[row]])) +
     theme_bw() + 
     theme(plot.title = element_text(hjust = 0.5))
   print(pcoa_plot_sis[[row]]) # pcoa_validation_ plots
