@@ -49,6 +49,7 @@ Suggests:
     philentropy,
     reshape2,
     sna,
+    colourvalues,    
     vegan,
     rmarkdown,
     knitr,
