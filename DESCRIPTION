@@ -39,6 +39,16 @@ Imports:
     TreeSummarizedExperiment,
     S4Vectors
 Suggests:
+    ape,
+    cluster,
+    dplyr,
+    GGally,
+    ggplot2,
+    igraph,
+    network,
+    philentropy,
+    reshape2,
+    sna,
     vegan,
     rmarkdown,
     knitr,
