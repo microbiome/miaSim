@@ -221,7 +221,7 @@ resource.initial.df <- gradient.df.generator(n_row = n.medium, n_col = n_resourc
 
 ## test one run
 
-```{r test}
+```{r test, eval=FALSE}
 crmExample <- simulateConsumerResource(
     n_species = n_species,
     n_resources = n_resources,

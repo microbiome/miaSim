@@ -157,7 +157,7 @@ community.initial.df <- as.list(
 
 ## Loop over different combinations of (number of species X theta X number of repetations X number of resources)
 
-```{r loop}
+```{r loop, eval=FALSE}
 for (n_species in n_species_types){
     for (theta in theta_types) {
         sorensen <- c()
@@ -205,8 +205,7 @@ for (n_species in n_species_types){
                 CRMspeciesTotal <- sum(CRMspecies)
                 result_df[nrow(result_df)+1,] <- c(n_species, theta, i, n_resources, CRMspeciesTotal)
                 result_df2[nrow(result_df2)+1,] <- c(CRMspecies, rep(NA, 13-length(CRMspecies)))
-                # makePlotRes(CRMtest$resources)
-                # makePlot(CRMtest$matrix)
+
             }
         }
         rho_mean <- mean(sorensen)
@@ -217,7 +216,7 @@ for (n_species in n_species_types){
 
 ```
 
-```{r visualize}
+```{r visualize, eval=FALSE}
 p <- ggplot(result_df, aes(x = n_resources, y = value, group = n_resources)) +
     geom_boxplot(outlier.shape = NA) +
     geom_jitter(alpha = 0.2, width = 0.2) +
