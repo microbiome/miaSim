@@ -1,5 +1,5 @@
 ---
-title: "caseStudy2-NutrientThreshold"
+title: "Case study: Nutrient thresholds"
 author: "The miaSim package authors."
 date: "`r Sys.Date()`"
 package: miaSim

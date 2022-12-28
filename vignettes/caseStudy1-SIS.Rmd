@@ -1,5 +1,5 @@
 ---
-title: "caseStudy1-SIS"
+title: "Case study: SIS"
 author: "The miaSim package authors."
 date: "`r Sys.Date()`"
 package: miaSim
