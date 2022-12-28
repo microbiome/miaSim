@@ -67,6 +67,11 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10' 
+      - run: python my_script.py
 
       ## Set the R library to the directory matching the
       ## R packages cache step further below when running on Docker (Linux).
@@ -125,7 +130,8 @@ jobs:
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
           sudo apt-get install -y libcurl4-openssl-dev libglpk-dev
-          sudo apt-get install -y 2to3 python2-minimal python2 dh-python python-is-python3
+          # sudo apt-get install -y 2to3 python2-minimal python2 dh-python python-is-python3
+          sudo apt install python-is-python3 python3-git
 
       - name: Install macOS system dependencies
         if: matrix.config.os == 'macOS-latest'
