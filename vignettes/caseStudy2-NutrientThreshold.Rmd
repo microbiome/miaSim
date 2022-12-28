@@ -243,7 +243,7 @@ makePlotRes(crmExample$resources)
 
 In this step, the final relative abundance table is basisComposition_prop
 
-```{r gen2}
+```{r gen2, eval=FALSE}
 set.seed(42)
 community.simulation <- list()
 counter_i <- 1
@@ -272,7 +272,7 @@ basisComposition_prop <- basisComposition / rowSums(basisComposition)
 
 In this step, plot result is stored in umap_CRM_gradient_plot, and this is visualized in different facets.
 
-```{r umap}
+```{r umap, eval=FALSE}
 concentration <- as.factor(rep(resourceConcentration, each = n.medium*n.community))
 medium <- as.factor(rep(seq_len(n.medium), each = n.community ,times = length(resourceConcentration) ))
 community <- as.factor(rep(seq_len(n.community), times = length(resourceConcentration)*n.medium))
@@ -326,7 +326,7 @@ might belong to one community type. This can be validated by input 20
 or even 50 as n.community in this case study: communities turns into
 clusters in each sub-figures.
 
-```{r umapplots}
+```{r umapplots, eval=FALSE}
 # FIXME: the visual output can be polished later.
 print(umap_CRM_gradient_plot)
 umap_CRM_gradient_plot + facet_grid(size_by ~ ., labeller = label_both)
@@ -346,7 +346,7 @@ To do so, we first define a function calculating the mean distance to the first 
 
 ## construct a function taking umap_CRM_coor as df and return the mean distance
 
-```{r misc}
+```{r misc, eval=FALSE}
 average_distance <- function(df, res_conc_type, com_type, method = "euclidean"){
     sub_df <- df[df$concentration == res_conc_type & df$community == com_type,]
     combines <- combn(sub_df$medium, 2)
