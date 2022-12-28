@@ -38,6 +38,17 @@ Imports:
     MatrixGenerics,
     TreeSummarizedExperiment,
     S4Vectors
+Suggests:
+    umap,    
+    colourvalues,
+    vegan,
+    rmarkdown,
+    knitr,
+    BiocStyle,
+    testthat,
+    mia,
+    miaViz
+
 URL: https://github.com/microbiome/miaSim
 BugReports: https://github.com/microbiome/miaSim/issues
 Roxygen: list(markdown = TRUE)
