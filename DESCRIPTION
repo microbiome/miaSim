@@ -38,26 +38,6 @@ Imports:
     MatrixGenerics,
     TreeSummarizedExperiment,
     S4Vectors
-Suggests:
-    ape,
-    cluster,
-    dplyr,
-    GGally,
-    ggplot2,
-    igraph,
-    network,
-    philentropy,
-    colourvalues,
-    reshape2,
-    sna,
-    umap,
-    vegan,
-    rmarkdown,
-    knitr,
-    BiocStyle,
-    testthat,
-    mia,
-    miaViz
 URL: https://github.com/microbiome/miaSim
 BugReports: https://github.com/microbiome/miaSim/issues
 Roxygen: list(markdown = TRUE)
