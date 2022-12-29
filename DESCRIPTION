@@ -1,6 +1,6 @@
 Package: miaSim
 Type: Package
-Version: 1.5.1
+Version: 1.5.2
 Authors@R:
      c(person(given = "Yagmur", family = "Simsek", role = c("cre", "aut"),
               email = "yagmur.simsek.98@gmail.com"),
@@ -30,13 +30,13 @@ biocViews: Microbiome, Software, Sequencing, DNASeq, ATACSeq, Coverage, Network
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 Depends:
-    TreeSummarizedExperiment
+    TreeSummarizedExperiment    
 Imports:
+    SummarizedExperiment,
     deSolve,
     stats,
     poweRlaw,
     MatrixGenerics,
-    TreeSummarizedExperiment,
     S4Vectors
 Suggests:
     ape,

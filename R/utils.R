@@ -157,7 +157,7 @@ eventTimes <- function(t_events = NULL, t_duration = NULL,
 #' @return A list of same dimension as input_list, but with 0 at specific
 #' positions in the elements of the list.
 #'
-.replaceByZero <- function(input_list) { # crm_params_iter$x0 as input_list
+.replaceByZero <- function(input_list) { # params_iter$x0 as input_list
     if (!all(length(input_list) == unlist(unique(lapply(input_list, length))))) {
         stop("Length of input_list doesn't match length of element in it.")
     }
@@ -166,6 +166,7 @@ eventTimes <- function(t_events = NULL, t_duration = NULL,
     }
     return(input_list)
 }
+
 #' Create a list of parameter.
 #'
 #' This function is intended to generate a list of parameters such as initial
@@ -186,3 +187,259 @@ createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE) {
     if (replace_by_zero) res_list <- .replaceByZero(res_list)
     return(res_list)
 }
+
+
+#' Get the interspecies interaction matrix A using leave-one-out method
+#'
+#' generate matrix A from the comparisons between simulations with one absent
+#' species and a simulation with complete species (leave-one-out)
+#'
+#' @param simulations A list of simulation(s) with complete species
+#' @param simulations2 A list of simulation(s), each with one absent
+#' species
+#' @param n_instances Integer: number of instances to generate
+#' (default: \code{n_instances = 1})
+#' @param t_end Numeric: end time of the simulation. If not identical with t_end
+#' in params_list, then it will overwrite t_end in each simulation
+#' (default: \code{t_end = 1000})
+#' @param scale_off_diagonal Numeric: scale of the off-diagonal elements
+#' compared to the diagonal. Same to the parameter in function `randomA`.
+#' (default: \code{scale_off_diagonal = 0.1})
+#' @param diagonal Values defining the strength of self-interactions. Input can
+#' be a number (will be applied to all species) or a vector of length n_species.
+#' Positive self-interaction values lead to exponential growth. Same to the
+#' parameter in function `randomA`.
+#' (default: \code{diagonal = -0.5})
+#' @param connectance Numeric frequency of inter-species interactions.
+#' i.e. proportion of non-zero off-diagonal terms. Should be in the interval
+#'  0 <= connectance <= 1. Same to the parameter in function `randomA`.
+#' (default: \code{connectance = 0.2})
+#' @examples
+#' # example of generateSimulations
+#' # FIXME: reduce computational load by lowering the number of species and timesteps in the demo
+#' params <- list(
+#'     n_species = 10,
+#'     n_resources = 5,
+#'     E = randomE(
+#'         n_species = 10, n_resources = 5,
+#'         mean_consumption = 1, mean_production = 3
+#'     ),
+#'     x0 = rep(0.001, 10),
+#'     resources = rep(1000, 5),
+#'     monod_constant = matrix(rbeta(10 * 5, 10, 10), nrow = 10, ncol = 5),
+#'     inflow_rate = .5,
+#'     outflow_rate = .5,
+#'     migration_p = 0,
+#'     stochastic = TRUE,
+#'     t_start = 0,
+#'     t_end = 20,
+#'     t_store = 100,
+#'     growth_rates = runif(10),
+#'     norm = FALSE
+#' )
+#'
+#' # Recommended standard way to generate a set of n simulations (n=2 here) from a given model
+#' simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
+#' # Visualize the model for the first instance
+#' # miaViz::plotSeries(simulations[[1]], "time")
+#'
+#' # List state for each community (instance) at its last time point;
+#' # this results in instances x species matrix; means and variances per species can be computed col-wise
+#' communities <-  t(sapply(simulations, function (x) {assay(x, "counts")[, which.max(x$time)]}))
+#'
+#' # Some more advanced examples for hardcore users:
+#' 
+#' # test leave-one-out in CRM
+#' .replaceByZero <- function(input_list) { # params_iter$x0 as input_list
+#'     if (!all(length(input_list) == unlist(unique(lapply(input_list, length))))) {
+#'         stop("Length of input_list doesn't match length of element in it.")
+#'     }
+#'     for (i in seq_along(input_list)) {
+#'         input_list[[i]][[i]] <- 0
+#'     }
+#'     return(input_list)
+#' }
+#' createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE) {
+#'     res_list <- vector(mode = "list", length = n_repeat)
+#'     for (i in seq_len(n_repeat)) {
+#'         res_list[[i]] <- input_param
+#'     }
+#'     if (replace_by_zero) res_list <- .replaceByZero(res_list)
+#'     return(res_list)
+#' }
+#'
+#' # Test overwrite params
+#' paramx0 <- createParamList(input_param = rep(0.001, 10), n_repeat = 10, replace_by_zero = TRUE)
+#' paramresources <- createParamList(input_param = rep(1000, 5), n_repeat = 10)
+#' params_iter <- list(x0 = paramx0, resources = paramresources)
+#' simulations2 <- generateSimulations(
+#'     model = "simulateConsumerResource",
+#'     params_list = params, param_iter = params_iter, n_instances = 1, t_end = 20
+#' )
+#'
+#' estimatedA <- estimateAFromSimulations(simulations, simulations2, n_instances = 1,
+#'     scale_off_diagonal = 1, diagonal = -0.5, connectance = 0.2
+#' ) / 1000
+#'
+#' # Using these parameters with a specified simulator
+#' m <- simulateGLV(n_species = 10, x0 = params$x0,
+#'     A = estimatedA, growth_rates = params$growth_rates, t_end = 20, t_store = 100)
+#' # miaViz::plotSeries(m, "time") # Plotting 
+#' 
+#' @return a matrix A with dimensions (n_species x n_species) where n_species
+#' equals to the number of elements in simulations2
+#' @importFrom SummarizedExperiment assay
+#' @export
+estimateAFromSimulations <- function(simulations,
+    simulations2,
+    n_instances = 1,
+    t_end = NULL,
+    scale_off_diagonal = 0.1,
+    diagonal = -0.5,
+    connectance = 0.2) {
+
+    # Use last time point if t_end is not given
+    if (is.null(t_end)) {t_end <- which.max(simulations[[1]]$time)}
+
+    # simulations_means should be a vector of n_species length, indicating the original average simulation result
+    # simulations should be generated using generateSimulations with param_iter = NULL
+    simulations_means <- t(as.matrix(rowMeans(sapply(simulations, function (x) {assay(x, "counts")[, which.max(x$time)]}))))
+
+    # simulations_compare_means should be a dataframe with a dimension of n_species X n_species
+    # and each row indicates the result of simulation with one species absent
+    simulations2_matrix <- t(sapply(simulations2, function (x) {assay(x, "counts")[, which.max(x$time)]}))
+
+    simulations_compare_means <- matrix(
+        data = NA,
+        nrow =  nrow(simulations2_matrix) / n_instances,
+        ncol =  ncol(simulations2_matrix)
+    )
+    
+    colnames(simulations_compare_means) <- colnames(simulations2_matrix)
+    for (i in seq_len(nrow(simulations_compare_means))) {
+        simulations_compare_means[i, ] <- simulations2_matrix[(i - 1) * n_instances + seq_len(n_instances), ]
+    }
+    if (nrow(simulations_compare_means) != length(simulations_means)) {
+        stop("Number of simulations to compare should be equal to the numbers of species!")
+    }
+
+    # normalize and substitute
+    simulations_compare_means_norm <- simulations_compare_means / rowSums(simulations_compare_means)
+    simulations_effect <- simulations_compare_means_norm
+    for (i in seq_len(nrow(simulations_compare_means_norm))) {
+        simulations_means_i <- simulations_means
+        simulations_means_i[1, i] <- 0
+        simulations_means_norm_i <- simulations_means_i / rowSums(simulations_means_i)
+        simulations_effect[i, ] <- simulations_compare_means_norm[i, ] - simulations_means_norm_i
+    }
+
+    matrixA <- as.matrix(simulations_effect) * scale_off_diagonal
+    value_threshold <- sort(abs(matrixA))[max(1, length(as.vector(matrixA)) * (1 - connectance))]
+    matrixA <- matrixA * (abs(matrixA) >= value_threshold)
+    diag(matrixA) <- diagonal
+    return(matrixA)
+}
+
+
+#' Generate multiple simulations and store them in a list
+#'
+#' This function is useful when generating simulations with different parameters
+#' or simulating multiple instances to evaluate stochasticity therein.
+#'
+#' @param model Character: name of the model to use, must be one of
+#' "simulateConsumerResource", "simulateGLV", "simulateHubbellRates", and
+#' "simulateStochasticLogistic"
+#' @param params_list List: a list containing all parameters used in the
+#' aforementionned called model
+#' @param param_iter List of parameters to overwrite in different simulations.
+#' If NULL, then simulate different instances using the same set of parameters.
+#' (default: \code{param_iter = NULL})
+#' @param n_instances Integer: number of instances to generate
+#' (default: \code{n_instances = 1})
+#' @param t_end Numeric: end time of the simulation. If not identical with t_end
+#' in params_list, then it will overwrite t_end in each simulation
+#' (default: \code{t_end = 1000})
+#' @return A list containing multiple simulating results
+#' @examples
+#'
+#' params <- list(
+#'     n_species = 10,
+#'     n_resources = 5,
+#'     E = randomE(
+#'         n_species = 10, n_resources = 5,
+#'         mean_consumption = 1, mean_production = 3
+#'     ),
+#'     x0 = rep(0.001, 10),
+#'     resources = rep(1000, 5),
+#'     monod_constant = matrix(rbeta(10 * 5, 10, 10), nrow = 10, ncol = 5),
+#'     inflow_rate = .5,
+#'     outflow_rate = .5,
+#'     migration_p = 0,
+#'     stochastic = TRUE,
+#'     t_start = 0,
+#'     t_end = 20,
+#'     t_store = 100,
+#'     growth_rates = runif(10),
+#'     norm = FALSE
+#' )
+#'
+#' # Recommended standard way to generate a set of n simulations (n=2 here) from a given model
+#' simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
+#'
+#' # For more complex setups with param_iter and n_instances > 1 one could use this, use with caution:
+#' simulations <- generateSimulations(model = "simulateConsumerResource",
+#'     params_list = params, param_iter = NULL, n_instances = 1)
+#'
+#' @export
+generateSimulations <- function(model,
+    params_list,
+    param_iter = NULL,
+    n_instances = 1,
+    t_end = 1000) {
+    simulations <- list()
+    if (params_list$t_end != t_end) {
+        warning("t_end in the variable list not equals to t_end")
+        params_list$t_end <- t_end
+    }
+    if (is.null(param_iter)) {
+        for (i in seq_len(n_instances)) {
+            # print(paste(i, "of", n_instances,"instances in one set of params."))
+            simulation <- do.call(model, params_list)
+            # simulation$matrix[,colnames(simulation$model)!= "time"]
+            simulations[[length(simulations) + 1]] <- simulation
+        }
+        return(simulations)
+    } else {
+        if (!all(names(param_iter) %in% names(params_list))) {
+            stop(
+                "not recognized parameter(s) :",
+                names(param_iter)[!names(param_iter) %in% names(params_list)]
+            )
+        }
+        if (length(unique(unlist(lapply(param_iter, length)))) > 1) {
+            stop("parameters in list param_iter are not of the same length.")
+        }
+
+        simulations_full <- list()
+        for (i in seq_along(param_iter[[1]])) {
+            # print(paste(i, "of", length(param_iter[[1]]), "sets of params."))
+            params_list_local <- utils::modifyList(
+                params_list,
+                lapply(param_iter, "[[", i)
+            )
+            simulations_local <- generateSimulations(
+                model,
+                params_list_local,
+                param_iter = NULL,
+                n_instances = n_instances,
+                t_end = t_end
+            )
+            simulations_full <- append(simulations_full, simulations_local)
+        }
+        return(simulations_full)
+    }
+}
+
+
+
+
