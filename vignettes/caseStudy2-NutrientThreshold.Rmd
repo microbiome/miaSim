@@ -396,9 +396,6 @@ p <- ggplot(distance_saturation_data,
     theme_bw()
 
 print(p)
-
-# Could be saved with:
-# ggsave(paste0("CRMgradient_distance_curve_mod.pdf"), plot = p, dpi = 300, width = 12, height = 10, units = "cm", scale = 2)
 ```
 
 
