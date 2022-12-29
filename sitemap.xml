@@ -43,7 +43,13 @@
     <loc>/reference/dot-replaceByZero.html</loc>
   </url>
   <url>
+    <loc>/reference/estimateAFromSimulations.html</loc>
+  </url>
+  <url>
     <loc>/reference/eventTimes.html</loc>
+  </url>
+  <url>
+    <loc>/reference/generateSimulations.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
