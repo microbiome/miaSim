@@ -6,7 +6,8 @@ test_that("simulateHubbellRates", {
     )
 
     expect_s4_class(HubbellWTime, "TreeSummarizedExperiment")
-    expect_equal(dim(HubbellWTime@assays@data@listData[["counts"]]), c(3, 1000))
+    #expect_equal(dim(HubbellWTime@assays@data@listData[["counts"]]), c(3, 1000))
+    expect_equal(dim(HubbellWTime), c(3, 1000))    
 
     # check errors in inputs
     expect_error(Error1 <- simulateHubbellRates(x0 = -1))
