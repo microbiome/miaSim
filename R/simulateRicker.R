@@ -31,7 +31,7 @@
 #'
 #' @examples
 #' A <- powerlawA(10, alpha = 1.01)
-#' x0 <- simulateRicker(n_species = 10, A, t_end = 100)
+#' tse <- simulateRicker(n_species = 10, A, t_end = 100)
 #'
 #' @importFrom stats rlnorm rgamma
 #' @importFrom MatrixGenerics colSums2
@@ -49,7 +49,7 @@ simulateRicker <- function(n_species,
     if (is.null(names_species)) {
         names_species <- paste0("sp", seq_len(n_species))
     }
-    t_dyn <- simulationTimes(t_end = t_end, ...)
+    t_dyn <- .simulationTimes(t_end = t_end, ...)
 
     if (length(x0) != n_species) {
         stop("x0 needs to have n_species entries.")

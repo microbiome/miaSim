@@ -38,40 +38,28 @@
 #' # Example of logistic model without stochasticity, death rates, or external
 #' # disturbances
 #' set.seed(42)
-#' ExampleLogistic <- simulateStochasticLogistic(
+#' tse <- simulateStochasticLogistic(
 #'     n_species = 5,
 #'     stochastic = FALSE, death_rates = rep(0, 5)
 #' )
 #'
-#' miaViz::plotSeries(ExampleLogistic, x = "time")
-#'
 #' # Adding a death rate
 #' set.seed(42)
-#' ExampleLogistic <- simulateStochasticLogistic(
+#' tse_1 <- simulateStochasticLogistic(
 #'     n_species = 5,
 #'     stochastic = FALSE, death_rates = rep(0.01, 5)
 #' )
 #'
-#' miaViz::plotSeries(ExampleLogistic, x = "time")
-#'
-#' # Example of stochastic logistic model
-#' set.seed(42)
-#' ExampleLogistic <- simulateStochasticLogistic(n_species = 5)
-#'
-#' miaViz::plotSeries(ExampleLogistic, x = "time")
-#'
 #' # Example of stochastic logistic model with measurement error
 #' set.seed(42)
-#' ExampleLogistic <- simulateStochasticLogistic(
+#' tse_2 <- simulateStochasticLogistic(
 #'     n_species = 5,
 #'     error_variance = 1000
 #' )
 #'
-#' miaViz::plotSeries(ExampleLogistic, x = "time")
-#'
 #' # example with all the initial parameters defined by the user
 #' set.seed(42)
-#' ExampleLogistic <- simulateStochasticLogistic(
+#' tse_3 <- simulateStochasticLogistic(
 #'     n_species = 2,
 #'     names_species = c("species1", "species2"),
 #'     growth_rates = c(0.2, 0.1),
@@ -94,10 +82,6 @@
 #'     t_start = 0, t_step = 0.01,
 #'     t_store = 1500
 #' )
-#'
-#' ExampleLogistic_SE <- mia::transformCounts(ExampleLogistic, method = "relabundance")
-#' miaViz::plotSeries(ExampleLogistic, x = "time")
-#' miaViz::plotSeries(ExampleLogistic, x = "time")
 #'
 #' @return \code{simulateStochasticLogistic} returns a TreeSummarizedExperiment
 #' class object

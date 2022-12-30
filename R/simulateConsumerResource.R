@@ -46,34 +46,20 @@
 #' @examples
 #' n_species <- 2
 #' n_resources <- 4
-#' ExampleCR <- simulateConsumerResource(
+#' tse <- simulateConsumerResource(
 #'     n_species = n_species,
 #'     n_resources = n_resources
 #' )
 #'
-#' miaViz::plotSeries(ExampleCR, x = "time")
-#' # convert to relative abundance
-#' ExampleCR <- mia::transformCounts(ExampleCR, method = "relabundance")
-#' miaViz::plotSeries(ExampleCR, x = "time")
-#'
-#' # example to get relative abundance and relative proportion of resources
-#' n_species <- 2
-#' n_resources <- 4
-#' ExampleCR <- simulateConsumerResource(
-#'     n_species = n_species,
-#'     n_resources = n_resources, norm = TRUE
-#' )
-#'
 #' # example with user-defined values (names_species, names_resources, E, x0,
 #' # resources, growth_rates, error_variance, t_end, t_step)
-#' n_species <- 4
-#' n_resources <- 6
+#'
 #' ExampleE <- randomE(
 #'     n_species = n_species, n_resources = n_resources,
 #'     mean_consumption = 3, mean_production = 1, maintenance = 0.4
 #' )
 #' ExampleResources <- rep(100, n_resources)
-#' ExampleCR <- simulateConsumerResource(
+#' tse_1 <- simulateConsumerResource(
 #'     n_species = n_species,
 #'     n_resources = n_resources, names_species = letters[1:n_species],
 #'     names_resources = paste0("res", LETTERS[1:n_resources]), E = ExampleE,
@@ -83,8 +69,6 @@
 #'     t_end = 5000,
 #'     t_step = 1
 #' )
-#'
-#' miaViz::plotSeries(ExampleCR, x = "time")
 #'
 #' # example with trophic levels
 #' n_species <- 10
@@ -100,7 +84,7 @@
 #' )
 #'
 #' ExampleResources <- c(rep(500, 5), rep(200, 5), rep(50, 5))
-#' ExampleCR <- simulateConsumerResource(
+#' tse_2 <- simulateConsumerResource(
 #'     n_species = n_species,
 #'     n_resources = n_resources,
 #'     names_species = letters[1:n_species],
@@ -114,8 +98,6 @@
 #'     # error_variance = 0.001,
 #'     t_end = 5000, t_step = 1
 #' )
-#'
-#' miaViz::plotSeries(ExampleCR, x = "time")
 #'
 #' # example with trophic priority
 #' n_species <- 4
@@ -135,15 +117,13 @@
 #' # make sure that for non-consumables resources for each species,
 #' # the priority is 0 (smaller than any given priority)
 #' ExampleTrophicPriority <- (ExampleE > 0) * ExampleTrophicPriority
-#' ExampleCR <- simulateConsumerResource(
+#' tse_3 <- simulateConsumerResource(
 #'     n_species = n_species,
 #'     n_resources = n_resources,
 #'     E = ExampleE,
 #'     trophic_priority = ExampleTrophicPriority,
 #'     t_end = 2000
 #' )
-#'
-#' miaViz::plotSeries(ExampleCR, x = "time")
 #'
 #' @return an TreeSummarizedExperiment class object
 #'
@@ -175,10 +155,10 @@ simulateConsumerResource <- function(n_species, n_resources,
     outflow_rate = 0,
     volume = 1000,
     ...) {
-    t_dyn <- simulationTimes(t_end = t_end, ...)
+    t_dyn <- .simulationTimes(t_end = t_end, ...)
 
     # calculate the time points influenced by the disturbances
-    tEvent <- eventTimes(
+    tEvent <- .eventTimes(
         t_events = t_external_events,
         t_duration = t_external_durations,
         t_end = t_end,
@@ -220,7 +200,7 @@ simulateConsumerResource <- function(n_species, n_resources,
         ), nrow = n_species)
     }
     if (is.null(metacommunity_probability)) {
-        metacommunity_probability <- rdirichlet(1, alpha = rep(1, n_species))
+        metacommunity_probability <- .rdirichlet(1, alpha = rep(1, n_species))
     }
 
     # normalize metacommunity_probability

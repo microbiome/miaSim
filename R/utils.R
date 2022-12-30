@@ -12,18 +12,18 @@
 #'
 #' @return lists containing simulation times (t_sys) and the indices to keep.
 #' @examples
-#' Time <- simulationTimes(
+#' Time <- .simulationTimes(
 #'     t_start = 0, t_end = 100, t_step = 0.5,
 #'     t_store = 100
 #' )
-#' DefaultTime <- simulationTimes(t_end = 1000)
+#' DefaultTime <- .simulationTimes(t_end = 1000)
 #'
 #' @importFrom stats cov
 #' @importFrom stats rbinom
 #'
 #' @keywords internal
 #' @export
-simulationTimes <- function(t_start = 0, t_end = 1000,
+.simulationTimes <- function(t_start = 0, t_end = 1000,
     t_step = 0.1, t_store = 1000) {
     t_total <- t_end - t_start
     t_sys <- seq(t_start, t_end, by = t_step)
@@ -52,7 +52,7 @@ simulationTimes <- function(t_start = 0, t_end = 1000,
 #' dirichletExample <- rdirichlet(1, c(1, 2, 3))
 #'
 #' @export
-rdirichlet <- function(n, alpha) {
+.rdirichlet <- function(n, alpha) {
     l <- length(alpha)
     x <- matrix(rgamma(l * n, alpha), ncol = l, byrow = TRUE)
     sm <- x %*% rep(1, l)
@@ -67,7 +67,7 @@ rdirichlet <- function(n, alpha) {
 #' t_start, t_step, and t_store.
 #' @return A vector of time points in the simulation
 #' @examples
-#' tEvent <- eventTimes(
+#' tEvent <- .eventTimes(
 #'     t_events = c(10, 50, 100),
 #'     t_duration = c(1, 2, 3),
 #'     t_end = 100,
@@ -75,9 +75,9 @@ rdirichlet <- function(n, alpha) {
 #'     t_step = 1
 #' )
 #' @export
-eventTimes <- function(t_events = NULL, t_duration = NULL,
+.eventTimes <- function(t_events = NULL, t_duration = NULL,
     t_end = 1000, ...) {
-    tdyn <- simulationTimes(t_end = t_end, ...)
+    tdyn <- .simulationTimes(t_end = t_end, ...)
     t_result <- c()
     for (i in seq(length(t_events))) {
         p1 <- tdyn$t_sys[(tdyn$t_sys >= t_events[i]) &
@@ -179,7 +179,7 @@ eventTimes <- function(t_events = NULL, t_duration = NULL,
 #' @examples
 #' paramx0 <- createParamList(input_param = rep(99, 10), n_repeat = 10, replace_by_zero = TRUE)
 #' @export
-createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE) {
+.createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE) {
     res_list <- vector(mode = "list", length = n_repeat)
     for (i in seq_len(n_repeat)) {
         res_list[[i]] <- input_param
@@ -187,7 +187,6 @@ createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE) {
     if (replace_by_zero) res_list <- .replaceByZero(res_list)
     return(res_list)
 }
-
 
 #' Get the interspecies interaction matrix A using leave-one-out method
 #'
@@ -214,83 +213,12 @@ createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE) {
 #' i.e. proportion of non-zero off-diagonal terms. Should be in the interval
 #'  0 <= connectance <= 1. Same to the parameter in function `randomA`.
 #' (default: \code{connectance = 0.2})
-#' @examples
-#' # example of generateSimulations
-#' # FIXME: reduce computational load by lowering the number of species and timesteps in the demo
-#' params <- list(
-#'     n_species = 10,
-#'     n_resources = 5,
-#'     E = randomE(
-#'         n_species = 10, n_resources = 5,
-#'         mean_consumption = 1, mean_production = 3
-#'     ),
-#'     x0 = rep(0.001, 10),
-#'     resources = rep(1000, 5),
-#'     monod_constant = matrix(rbeta(10 * 5, 10, 10), nrow = 10, ncol = 5),
-#'     inflow_rate = .5,
-#'     outflow_rate = .5,
-#'     migration_p = 0,
-#'     stochastic = TRUE,
-#'     t_start = 0,
-#'     t_end = 20,
-#'     t_store = 100,
-#'     growth_rates = runif(10),
-#'     norm = FALSE
-#' )
-#'
-#' # Recommended standard way to generate a set of n simulations (n=2 here) from a given model
-#' simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
-#' # Visualize the model for the first instance
-#' # miaViz::plotSeries(simulations[[1]], "time")
-#'
-#' # List state for each community (instance) at its last time point;
-#' # this results in instances x species matrix; means and variances per species can be computed col-wise
-#' communities <-  t(sapply(simulations, function (x) {assay(x, "counts")[, which.max(x$time)]}))
-#'
-#' # Some more advanced examples for hardcore users:
-#' 
-#' # test leave-one-out in CRM
-#' .replaceByZero <- function(input_list) { # params_iter$x0 as input_list
-#'     if (!all(length(input_list) == unlist(unique(lapply(input_list, length))))) {
-#'         stop("Length of input_list doesn't match length of element in it.")
-#'     }
-#'     for (i in seq_along(input_list)) {
-#'         input_list[[i]][[i]] <- 0
-#'     }
-#'     return(input_list)
-#' }
-#' createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE) {
-#'     res_list <- vector(mode = "list", length = n_repeat)
-#'     for (i in seq_len(n_repeat)) {
-#'         res_list[[i]] <- input_param
-#'     }
-#'     if (replace_by_zero) res_list <- .replaceByZero(res_list)
-#'     return(res_list)
-#' }
-#'
-#' # Test overwrite params
-#' paramx0 <- createParamList(input_param = rep(0.001, 10), n_repeat = 10, replace_by_zero = TRUE)
-#' paramresources <- createParamList(input_param = rep(1000, 5), n_repeat = 10)
-#' params_iter <- list(x0 = paramx0, resources = paramresources)
-#' simulations2 <- generateSimulations(
-#'     model = "simulateConsumerResource",
-#'     params_list = params, param_iter = params_iter, n_instances = 1, t_end = 20
-#' )
-#'
-#' estimatedA <- estimateAFromSimulations(simulations, simulations2, n_instances = 1,
-#'     scale_off_diagonal = 1, diagonal = -0.5, connectance = 0.2
-#' ) / 1000
-#'
-#' # Using these parameters with a specified simulator
-#' m <- simulateGLV(n_species = 10, x0 = params$x0,
-#'     A = estimatedA, growth_rates = params$growth_rates, t_end = 20, t_store = 100)
-#' # miaViz::plotSeries(m, "time") # Plotting 
-#' 
+
 #' @return a matrix A with dimensions (n_species x n_species) where n_species
 #' equals to the number of elements in simulations2
 #' @importFrom SummarizedExperiment assay
 #' @export
-estimateAFromSimulations <- function(simulations,
+.estimateAFromSimulations <- function(simulations,
     simulations2,
     n_instances = 1,
     t_end = NULL,
@@ -314,7 +242,7 @@ estimateAFromSimulations <- function(simulations,
         nrow =  nrow(simulations2_matrix) / n_instances,
         ncol =  ncol(simulations2_matrix)
     )
-    
+
     colnames(simulations_compare_means) <- colnames(simulations2_matrix)
     for (i in seq_len(nrow(simulations_compare_means))) {
         simulations_compare_means[i, ] <- simulations2_matrix[(i - 1) * n_instances + seq_len(n_instances), ]
@@ -387,11 +315,11 @@ estimateAFromSimulations <- function(simulations,
 #' simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
 #'
 #' # For more complex setups with param_iter and n_instances > 1 one could use this, use with caution:
-#' simulations <- generateSimulations(model = "simulateConsumerResource",
+#' simulations <- .generateSimulations(model = "simulateConsumerResource",
 #'     params_list = params, param_iter = NULL, n_instances = 1)
 #'
 #' @export
-generateSimulations <- function(model,
+.generateSimulations <- function(model,
     params_list,
     param_iter = NULL,
     n_instances = 1,
@@ -427,7 +355,7 @@ generateSimulations <- function(model,
                 params_list,
                 lapply(param_iter, "[[", i)
             )
-            simulations_local <- generateSimulations(
+            simulations_local <- .generateSimulations(
                 model,
                 params_list_local,
                 param_iter = NULL,
