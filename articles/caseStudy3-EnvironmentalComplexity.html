@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">miaSim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.4</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
                         <h4 data-toc-skip class="author">The miaSim
 package authors.</h4>
             
-            <h4 data-toc-skip class="date">2022-12-29</h4>
+            <h4 data-toc-skip class="date">2023-02-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/HEAD/vignettes/caseStudy3-EnvironmentalComplexity.Rmd" class="external-link"><code>vignettes/caseStudy3-EnvironmentalComplexity.Rmd</code></a></small>
       <div class="hidden name"><code>caseStudy3-EnvironmentalComplexity.Rmd</code></div>
@@ -237,7 +237,8 @@ extended.</p>
 number of repetations X number of resources)<a class="anchor" aria-label="anchor" href="#loop-over-different-combinations-of-number-of-species-x-theta-x-number-of-repetations-x-number-of-resources"></a>
 </h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">n_species</span> <span class="kw">in</span> <span class="va">n_species_types</span><span class="op">)</span><span class="op">{</span></span>
+<code class="sourceCode R"><span><span class="va">n_species_types</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">n_species</span> <span class="kw">in</span> <span class="va">n_species_types</span><span class="op">)</span><span class="op">{</span></span>
 <span>    <span class="kw">for</span> <span class="op">(</span><span class="va">theta</span> <span class="kw">in</span> <span class="va">theta_types</span><span class="op">)</span> <span class="op">{</span></span>
 <span>        <span class="va">sorensen</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>        <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">n_rep</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
@@ -280,7 +281,7 @@ number of repetations X number of resources)<a class="anchor" aria-label="anchor
 <span>                                                    t_end <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>                                                    t_step <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>                                                    t_store <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
-<span>                <span class="va">CRMspecies</span> <span class="op">&lt;-</span> <span class="fu">getCommunity</span><span class="op">(</span><span class="va">CRMtest</span><span class="op">)</span></span>
+<span>                <span class="va">CRMspecies</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">CRMtest</span>, <span class="st">"counts"</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">CRMtest</span><span class="op">)</span><span class="op">]</span> <span class="co"># last time point; was getCommunity(CRMtest)</span></span>
 <span>                <span class="va">CRMspeciesTotal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">CRMspecies</span><span class="op">)</span></span>
 <span>                <span class="va">result_df</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">result_df</span><span class="op">)</span><span class="op">+</span><span class="fl">1</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">n_species</span>, <span class="va">theta</span>, <span class="va">i</span>, <span class="va">n_resources</span>, <span class="va">CRMspeciesTotal</span><span class="op">)</span></span>
 <span>                <span class="va">result_df2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">result_df2</span><span class="op">)</span><span class="op">+</span><span class="fl">1</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">CRMspecies</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">13</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">CRMspecies</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -293,7 +294,8 @@ number of repetations X number of resources)<a class="anchor" aria-label="anchor
 <span>    <span class="op">}</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">result_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">n_resources</span>, y <span class="op">=</span> <span class="va">value</span>, group <span class="op">=</span> <span class="va">n_resources</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="va">n_species_types</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">result_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">n_resources</span>, y <span class="op">=</span> <span class="va">value</span>, group <span class="op">=</span> <span class="va">n_resources</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span>outlier.shape <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.2</span>, width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="va">.</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">n_species</span>, levels <span class="op">=</span> <span class="va">n_species_types</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
