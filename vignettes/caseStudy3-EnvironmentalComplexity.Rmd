@@ -158,7 +158,8 @@ community.initial.df <- as.list(
 
 ## Loop over different combinations of (number of species X theta X number of repetations X number of resources)
 
-```{r loop, eval=FALSE}
+```{r loop}
+n_species_types <- c(3, 4)
 for (n_species in n_species_types){
     for (theta in theta_types) {
         sorensen <- c()
@@ -202,7 +203,7 @@ for (n_species in n_species_types){
                                                     t_end = 1000,
                                                     t_step = 1,
                                                     t_store = 1000)
-                CRMspecies <- getCommunity(CRMtest)
+                CRMspecies <- assay(CRMtest, "counts")[, ncol(CRMtest)] # last time point; was getCommunity(CRMtest)
                 CRMspeciesTotal <- sum(CRMspecies)
                 result_df[nrow(result_df)+1,] <- c(n_species, theta, i, n_resources, CRMspeciesTotal)
                 result_df2[nrow(result_df2)+1,] <- c(CRMspecies, rep(NA, 13-length(CRMspecies)))
@@ -217,7 +218,8 @@ for (n_species in n_species_types){
 
 ```
 
-```{r visualize, eval=FALSE}
+```{r visualize}
+n_species_types <- c(3, 4)
 p <- ggplot(result_df, aes(x = n_resources, y = value, group = n_resources)) +
     geom_boxplot(outlier.shape = NA) +
     geom_jitter(alpha = 0.2, width = 0.2) +
