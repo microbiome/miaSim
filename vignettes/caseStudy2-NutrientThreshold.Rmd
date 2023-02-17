@@ -315,7 +315,7 @@ plotReducedDim(tse, "UMAP", colour_by="Medium", shape_by="Concentration")
 # Same for compositional abundance data
 library(mia)
 ## -- add relative abundances;
-tse <- transformSamples(tse, assay_name="abundances", method="relabundance")
+tse <- transformSamples(tse, assay.type="abundances", method="relabundance")
 tse <- runUMAP(tse, name = "UMAP_compositional", exprs_values = "relabundance")
 plotReducedDim(tse, "UMAP_compositional", colour_by="Medium", shape_by="Concentration")
 # Finally with communities
