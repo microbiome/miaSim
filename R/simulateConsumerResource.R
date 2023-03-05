@@ -59,10 +59,10 @@
 #'     mean_consumption = 3, mean_production = 1, maintenance = 0.4
 #' )
 #' ExampleResources <- rep(100, n_resources)
-#' tse_1 <- simulateConsumerResource(
+#' tse1 <- simulateConsumerResource(
 #'     n_species = n_species,
-#'     n_resources = n_resources, names_species = letters[1:n_species],
-#'     names_resources = paste0("res", LETTERS[1:n_resources]), E = ExampleE,
+#'     n_resources = n_resources, names_species = letters[seq_len(n_species)],
+#'     names_resources = paste0("res", LETTERS[seq_len(n_resources)]), E = ExampleE,
 #'     x0 = rep(0.001, n_species), resources = ExampleResources,
 #'     growth_rates = runif(n_species),
 #'     error_variance = 0.01,
@@ -84,7 +84,7 @@
 #' )
 #'
 #' ExampleResources <- c(rep(500, 5), rep(200, 5), rep(50, 5))
-#' tse_2 <- simulateConsumerResource(
+#' tse2 <- simulateConsumerResource(
 #'     n_species = n_species,
 #'     n_resources = n_resources,
 #'     names_species = letters[1:n_species],
@@ -117,7 +117,7 @@
 #' # make sure that for non-consumables resources for each species,
 #' # the priority is 0 (smaller than any given priority)
 #' ExampleTrophicPriority <- (ExampleE > 0) * ExampleTrophicPriority
-#' tse_3 <- simulateConsumerResource(
+#' tse3 <- simulateConsumerResource(
 #'     n_species = n_species,
 #'     n_resources = n_resources,
 #'     E = ExampleE,

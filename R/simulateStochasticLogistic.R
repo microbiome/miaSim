@@ -45,21 +45,21 @@
 #'
 #' # Adding a death rate
 #' set.seed(42)
-#' tse_1 <- simulateStochasticLogistic(
+#' tse1 <- simulateStochasticLogistic(
 #'     n_species = 5,
 #'     stochastic = FALSE, death_rates = rep(0.01, 5)
 #' )
 #'
 #' # Example of stochastic logistic model with measurement error
 #' set.seed(42)
-#' tse_2 <- simulateStochasticLogistic(
+#' tse2 <- simulateStochasticLogistic(
 #'     n_species = 5,
 #'     error_variance = 1000
 #' )
 #'
 #' # example with all the initial parameters defined by the user
 #' set.seed(42)
-#' tse_3 <- simulateStochasticLogistic(
+#' tse3 <- simulateStochasticLogistic(
 #'     n_species = 2,
 #'     names_species = c("species1", "species2"),
 #'     growth_rates = c(0.2, 0.1),
@@ -74,7 +74,7 @@
 #'     t_external_events = c(100, 200, 300),
 #'     t_external_durations = c(0.1, 0.2, 0.3),
 #'     migration_p = 0.01,
-#'     metacommunity_probability = miaSim::rdirichlet(1, alpha = rep(1, 2)),
+#'     metacommunity_probability = miaSim::.rdirichlet(1, alpha = rep(1, 2)),
 #'     stochastic = TRUE,
 #'     error_variance = 0,
 #'     norm = FALSE, # TRUE,
@@ -147,11 +147,11 @@ simulateStochasticLogistic <- function(n_species,
         x0 <- runif(n = n_species, min = 0.1, max = 10)
     }
     if (is.null(metacommunity_probability)) {
-        metacommunity_probability <- rdirichlet(1, alpha = rep(1, n_species))
+        metacommunity_probability <- .rdirichlet(1, alpha = rep(1, n_species))
     }
 
     # select the time points to simulate and to store
-    t_dyn <- simulationTimes(t_end = t_end, ...)
+    t_dyn <- .simulationTimes(t_end = t_end, ...)
 
     # continuous or episodic perturbation
     perturb <- function(t, y, parms) {
@@ -182,7 +182,7 @@ simulateStochasticLogistic <- function(n_species,
         })
     }
 
-    tEvent <- eventTimes(
+    tEvent <- .eventTimes(
         t_events = t_external_events,
         t_duration = t_external_durations,
         t_end = t_end, ...

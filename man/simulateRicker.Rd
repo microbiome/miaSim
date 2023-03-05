@@ -57,7 +57,7 @@ in PLoS ONE 2014.
 }
 \examples{
 A <- powerlawA(10, alpha = 1.01)
-x0 <- simulateRicker(n_species = 10, A, t_end = 100)
+tse <- simulateRicker(n_species = 10, A, t_end = 100)
 
 }
 \references{

@@ -44,14 +44,14 @@
 #'
 #' # run the model with no pertubation nor migration
 #' set.seed(42)
-#' tse_1 <- simulateGLV(
+#' tse1 <- simulateGLV(
 #'     n_species = 4, A = ExampleA, stochastic = FALSE,
 #'     sigma_migration = 0
 #' )
 #'
 #' # run the model with no pertubation nor migration but with measurement error
 #' set.seed(42)
-#' tse_2 <- simulateGLV(
+#' tse2 <- simulateGLV(
 #'     n_species = 4, A = ExampleA, stochastic = FALSE,
 #'     error_variance = 0.001, sigma_migration = 0
 #' )

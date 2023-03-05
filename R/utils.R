@@ -49,7 +49,7 @@
 #' @return a vector containing the Dirichlet density
 #'
 #' @examples
-#' dirichletExample <- rdirichlet(1, c(1, 2, 3))
+#' dirichletExample <- .rdirichlet(1, c(1, 2, 3))
 #'
 #' @export
 .rdirichlet <- function(n, alpha) {
@@ -165,27 +165,6 @@
         input_list[[i]][[i]] <- 0
     }
     return(input_list)
-}
-
-#' Create a list of parameter.
-#'
-#' This function is intended to generate a list of parameters such as initial
-#' community.
-#' @param input_param Vector: the input parameter for a simulation.
-#' @param n_repeat Integer: the number to repeat the parameter.
-#' @param replace_by_zero Boolean: whether to replace certain elements in result with
-#' 0 using internal function `.replaceByZero`.
-#' @return A list of parameters.
-#' @examples
-#' paramx0 <- createParamList(input_param = rep(99, 10), n_repeat = 10, replace_by_zero = TRUE)
-#' @export
-.createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE) {
-    res_list <- vector(mode = "list", length = n_repeat)
-    for (i in seq_len(n_repeat)) {
-        res_list[[i]] <- input_param
-    }
-    if (replace_by_zero) res_list <- .replaceByZero(res_list)
-    return(res_list)
 }
 
 #' Get the interspecies interaction matrix A using leave-one-out method
@@ -314,9 +293,6 @@
 #' # Recommended standard way to generate a set of n simulations (n=2 here) from a given model
 #' simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
 #'
-#' # For more complex setups with param_iter and n_instances > 1 one could use this, use with caution:
-#' simulations <- .generateSimulations(model = "simulateConsumerResource",
-#'     params_list = params, param_iter = NULL, n_instances = 1)
 #'
 #' @export
 .generateSimulations <- function(model,

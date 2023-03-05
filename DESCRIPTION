@@ -46,17 +46,17 @@ Suggests:
     ggplot2,
     igraph,
     network,
-    philentropy,
     reshape2,
     sna,
-    colourvalues,    
     vegan,
     rmarkdown,
     knitr,
     BiocStyle,
     testthat,
     mia,
-    miaViz
+    miaViz,
+    colourvalues,
+    philentropy
 URL: https://github.com/microbiome/miaSim
 BugReports: https://github.com/microbiome/miaSim/issues
 Roxygen: list(markdown = TRUE)

@@ -77,7 +77,7 @@ microbial population dynamics and interaction.
 glvmodel <- simulateGLV(n_species = 4, A = A_normal, t_start = 0, 
     t_store = 100, t_end=100, stochastic = FALSE, norm = FALSE)
 
-miaViz::plotSeries(glvmodel, x = "time")
+miaViz::plotSeries(glvmodel, "time")
 
 ```
 
@@ -107,7 +107,7 @@ hubbellmodelRates <- simulateHubbellRates(x0 = c(0,5,10),
     migration_p = 0.1, metacommunity_probability = NULL, k_events = 1, 
     growth_rates = NULL, norm = FALSE, t_end=100)
 
-miaViz::plotSeries(hubbellmodelRates, x = "time")
+miaViz::plotSeries(hubbellmodelRates, "time")
 ```
 
 ### Self-Organised Instability (SOI)
@@ -140,12 +140,12 @@ function, which returns a matrix containing the production rates and
 consumption rates of each species. The resulting matrix is used as a
 determination of resource consumption efficiency.
 
-```{r crmodel, eval=FALSE}
+```{r, eval=FALSE}
 crmodel <- simulateConsumerResource(n_species = 2,
              n_resources = 4,
 	     E = randomE(n_species = 2, n_resources = 4))
 
-miaViz::plotSeries(crmodel, x = "time")
+miaViz::plotSeries(crmodel, "time")
 
 # example to get relative abundance and relative proportion of resources
 #'norm = TRUE' can be added as a parameter.
@@ -153,21 +153,21 @@ miaViz::plotSeries(crmodel, x = "time")
 # convert to relative abundance
 ExampleCR <- mia::transformCounts(crmodel, method = "relabundance")
 
-miaViz::plotSeries(ExampleCR, x = "time")
+miaViz::plotSeries(ExampleCR, "time")
 ```
 
 
 ```{r crmodel, eval=FALSE}
 #Recommended standard way to generate a set of n simulations (n=2 here) from a given model
-n_simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
+simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
 
 # Visualize the model for the first instance
-miaViz::plotSeries(n_simulations[[1]], "time")
+miaViz::plotSeries(simulations[[1]], "time")
 
 # List state for each community (instance) at its last time point;
 # this results in instances x species matrix; means and variances per species can be computed col-wise
 
-communities <-  t(sapply(n_simulations, function (x) {assay(x, "counts")[, which.max(x$time)]}))
+communities <-  t(sapply(simulations, function (x) {assay(x, "counts")[, which.max(x$time)]}))
 
 # Some more advanced examples for hardcore users:
  
@@ -187,8 +187,7 @@ communities <-  t(sapply(n_simulations, function (x) {assay(x, "counts")[, which
      for (i in seq_len(n_repeat)) {
          res_list[[i]] <- input_param
      }
-     if (replace_by_zero) res_list <- .replaceByZero(res_list)
-     return(res_list)
+res_list <- lapply(seq_len(n_repeat), function (i) {input_param})
  }
 ```
 
@@ -217,16 +216,21 @@ params <- list(
     norm = FALSE
 )
 # Test overwrite params
- paramx0 <- .createParamList(input_param = rep(0.001, 10), n_repeat = 10, 
+.createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE) {
+  res_list <- unname(as.list(data.frame(t(matrix(rep(input_param, n_repeat), nrow = n_repeat)))))
+}
+
+paramx0 <- .createParamList(input_param = rep(0.001, 10), n_repeat = 10, 
                             replace_by_zero = TRUE)
 paramresources <- .createParamList(input_param = rep(1000, 5), n_repeat = 10)
 params_iter <- list(x0 = paramx0, resources = paramresources)
-n_simulations_2 <- .generateSimulations(
+simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
+simulations_2 <- .generateSimulations(
     model = "simulateConsumerResource",
     params_list = params, param_iter = params_iter, n_instances = 1, t_end = 20
 )
 
-estimatedA <- .estimateAFromSimulations(n_simulations, n_simulations_2, n_instances = 1,
+estimatedA <- .estimateAFromSimulations(simulations, simulations_2, n_instances = 1,
     scale_off_diagonal = 1, diagonal = -0.5, connectance = 0.2
 ) / 1000
 # Using these parameters with a specified simulator

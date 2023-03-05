@@ -22,15 +22,15 @@
 #' set.seed(42)
 #' tse <- simulateHubbellRates(n_species = 5)
 #'
-#' miaViz::plotSeries(ExampleHubbellRates, x = "time")
+#' miaViz::plotSeries(tse, x = "time")
 #'
 #' # no migration, all stochastic birth and death
 #' set.seed(42)
-#' tse_1 <- simulateHubbellRates(n_species = 5, migration_p = 0)
+#' tse1 <- simulateHubbellRates(n_species = 5, migration_p = 0)
 #'
 #' # all migration, no stochastic birth and death
 #' set.seed(42)
-#' tse_2 <- simulateHubbellRates(
+#' tse2 <- simulateHubbellRates(
 #'     n_species = 5,
 #'     migration_p = 1,
 #'     metacommunity_probability = c(0.1, 0.15, 0.2, 0.25, 0.3),
@@ -40,7 +40,7 @@
 #'
 #' # all migration, no stochastic birth and death, but with measurement errors
 #' set.seed(42)
-#' tse_3 <- simulateHubbellRates(
+#' tse3 <- simulateHubbellRates(
 #'     n_species = 5,
 #'     migration_p = 1,
 #'     metacommunity_probability = c(0.1, 0.15, 0.2, 0.25, 0.3),
@@ -51,7 +51,7 @@
 #'
 #' # model with specified inputs
 #' set.seed(42)
-#' tse_3 <- simulateHubbellRates(
+#' tse4 <- simulateHubbellRates(
 #'     n_species = 5,
 #'     migration_p = 0.1,
 #'     metacommunity_probability = c(0.1, 0.15, 0.2, 0.25, 0.3),

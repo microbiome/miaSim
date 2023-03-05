@@ -78,19 +78,17 @@ time effect is considered to determine the next event.
 }
 \examples{
 set.seed(42)
-ExampleHubbellRates <- simulateHubbellRates(n_species = 5)
+tse <- simulateHubbellRates(n_species = 5)
 
-miaViz::plotSeries(ExampleHubbellRates, x = "time")
+miaViz::plotSeries(tse, x = "time")
 
 # no migration, all stochastic birth and death
 set.seed(42)
-ExampleHubbellRates <- simulateHubbellRates(n_species = 5, migration_p = 0)
-
-miaViz::plotSeries(ExampleHubbellRates, x = "time")
+tse1 <- simulateHubbellRates(n_species = 5, migration_p = 0)
 
 # all migration, no stochastic birth and death
 set.seed(42)
-ExampleHubbellRates <- simulateHubbellRates(
+tse2 <- simulateHubbellRates(
     n_species = 5,
     migration_p = 1,
     metacommunity_probability = c(0.1, 0.15, 0.2, 0.25, 0.3),
@@ -98,11 +96,9 @@ ExampleHubbellRates <- simulateHubbellRates(
     t_store = 200
 )
 
-miaViz::plotSeries(ExampleHubbellRates, x = "time")
-
 # all migration, no stochastic birth and death, but with measurement errors
 set.seed(42)
-ExampleHubbellRates <- simulateHubbellRates(
+tse3 <- simulateHubbellRates(
     n_species = 5,
     migration_p = 1,
     metacommunity_probability = c(0.1, 0.15, 0.2, 0.25, 0.3),
@@ -111,11 +107,9 @@ ExampleHubbellRates <- simulateHubbellRates(
     error_variance = 100
 )
 
-miaViz::plotSeries(ExampleHubbellRates, x = "time")
-
 # model with specified inputs
 set.seed(42)
-ExampleHubbellRates <- simulateHubbellRates(
+tse4 <- simulateHubbellRates(
     n_species = 5,
     migration_p = 0.1,
     metacommunity_probability = c(0.1, 0.15, 0.2, 0.25, 0.3),
@@ -124,8 +118,6 @@ ExampleHubbellRates <- simulateHubbellRates(
     k_events = 5,
     growth_rates = c(1.1, 1.05, 1, 0.95, 0.9)
 )
-
-miaViz::plotSeries(ExampleHubbellRates, x = "time")
 
 }
 \references{
