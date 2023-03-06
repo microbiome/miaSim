@@ -77,6 +77,8 @@ microbial population dynamics and interaction.
 glvmodel <- simulateGLV(n_species = 4, A = A_normal, t_start = 0, 
     t_store = 100, t_end=100, stochastic = FALSE, norm = FALSE)
 
+miaViz::plotSeries(glvmodel, "time")
+
 ```
 
 ### Ricker model
@@ -104,6 +106,8 @@ One can also simulate parameters for the Hubbell model.
 hubbellmodelRates <- simulateHubbellRates(x0 = c(0,5,10),
     migration_p = 0.1, metacommunity_probability = NULL, k_events = 1, 
     growth_rates = NULL, norm = FALSE, t_end=100)
+
+miaViz::plotSeries(hubbellmodelRates, "time")
 ```
 
 ### Self-Organised Instability (SOI)
@@ -123,6 +127,10 @@ in community.
 
 ```{r logistic, eval=FALSE}
 logisticmodel <- simulateStochasticLogistic(n_species = 5)
+
+miaViz::plotSeries(logisticmodel, x = "time")
+
+model_transformed <- mia::transformCounts(logisticmodel, method = "relabundance")
 ```
 
 ### Consumer-resource model
@@ -132,17 +140,112 @@ function, which returns a matrix containing the production rates and
 consumption rates of each species. The resulting matrix is used as a
 determination of resource consumption efficiency.
 
-```{r crmodel, eval=FALSE}
+```{r, eval=FALSE}
 crmodel <- simulateConsumerResource(n_species = 2,
              n_resources = 4,
 	     E = randomE(n_species = 2, n_resources = 4))
 
+miaViz::plotSeries(crmodel, "time")
+
+# example to get relative abundance and relative proportion of resources
+#'norm = TRUE' can be added as a parameter.
+
+# convert to relative abundance
+ExampleCR <- mia::transformCounts(crmodel, method = "relabundance")
+
+miaViz::plotSeries(ExampleCR, "time")
+```
+
+
+```{r crmodel, eval=FALSE}
+#Recommended standard way to generate a set of n simulations (n=2 here) from a given model
+simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
+
+# Visualize the model for the first instance
+miaViz::plotSeries(simulations[[1]], "time")
+
+# List state for each community (instance) at its last time point;
+# this results in instances x species matrix; means and variances per species can be computed col-wise
+
+communities <-  t(sapply(simulations, function (x) {assay(x, "counts")[, which.max(x$time)]}))
+
+# Some more advanced examples for hardcore users:
+ 
+# test leave-one-out in CRM
+.replaceByZero <- function(input_list) { # params_iter$x0 as input_list
+     if (!all(length(input_list) == unlist(unique(lapply(input_list, length))))) {
+         stop("Length of input_list doesn't match length of element in it.")
+     }
+     for (i in seq_along(input_list)) {
+         input_list[[i]][[i]] <- 0
+     }
+     return(input_list)
+ }
+
+.createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE) {
+     res_list <- vector(mode = "list", length = n_repeat)
+     for (i in seq_len(n_repeat)) {
+         res_list[[i]] <- input_param
+     }
+res_list <- lapply(seq_len(n_repeat), function (i) {input_param})
+ }
+```
+
+```{r}
+
+# example of generateSimulations
+# FIXME: reduce computational load by lowering the number of species and timesteps in the demo
+params <- list(
+    n_species = 10,
+    n_resources = 5,
+    E = randomE(
+        n_species = 10, n_resources = 5,
+        mean_consumption = 1, mean_production = 3
+    ),
+    x0 = rep(0.001, 10),
+    resources = rep(1000, 5),
+    monod_constant = matrix(rbeta(10 * 5, 10, 10), nrow = 10, ncol = 5),
+    inflow_rate = .5,
+    outflow_rate = .5,
+    migration_p = 0,
+    stochastic = TRUE,
+    t_start = 0,
+    t_end = 20,
+    t_store = 100,
+    growth_rates = runif(10),
+    norm = FALSE
+)
+# Test overwrite params
+.createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE) {
+  res_list <- unname(as.list(data.frame(t(matrix(rep(input_param, n_repeat), nrow = n_repeat)))))
+}
+
+paramx0 <- .createParamList(input_param = rep(0.001, 10), n_repeat = 10, 
+                            replace_by_zero = TRUE)
+paramresources <- .createParamList(input_param = rep(1000, 5), n_repeat = 10)
+params_iter <- list(x0 = paramx0, resources = paramresources)
+simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
+simulations_2 <- .generateSimulations(
+    model = "simulateConsumerResource",
+    params_list = params, param_iter = params_iter, n_instances = 1, t_end = 20
+)
+
+estimatedA <- .estimateAFromSimulations(simulations, simulations_2, n_instances = 1,
+    scale_off_diagonal = 1, diagonal = -0.5, connectance = 0.2
+) / 1000
+# Using these parameters with a specified simulator
+m <- simulateGLV(n_species = 10, x0 = params$x0,
+        A = estimatedA, growth_rates = params$growth_rates, t_end = 20, t_store = 100)
+
+miaViz::plotSeries(m, "time") # Plotting
 ```
 
 ## Data containers
 
-The simulation functions output a `TreeSummarizedExperiment` [@TreeSE]
-object. This provides access to a broad range of tools for microbiome
+The simulation functions gives `TreeSummarizedExperiment` [@TreeSE]
+object. 
+
+This provides access to a broad range of tools for microbiome
 analysis that support this format (see
 [microbiome.github.io](http://microbiome.github.io)). More examples on
 can be found at [OMA Online
@@ -153,12 +256,6 @@ trees, can be added as necessary.
 
 For instance, we can use the `miaViz` R/Bioconductor package to
 visualize the microbial community time series.
-
-```{r visu}
-library(miaViz)
-miaViz::plotSeries(hubbellmodel, "time")
-```
-
 
 
 ## Related work

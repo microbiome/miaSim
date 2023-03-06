@@ -36,7 +36,7 @@
 #' # Generate interaction matrix
 #' A <- miaSim::powerlawA(10, alpha = 1.2)
 #' # Simulate data from the SOI model
-#' x <- simulateSOI(
+#' tse <- simulateSOI(
 #'     n_species = 10, carrying_capacity = 1000, A = A,
 #'     k_events = 5, x0 = NULL, t_end = 150, norm = TRUE
 #' )

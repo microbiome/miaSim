@@ -161,45 +161,29 @@ Simulates time series with the consumer-resource model
 \examples{
 n_species <- 2
 n_resources <- 4
-ExampleCR <- simulateConsumerResource(
+tse <- simulateConsumerResource(
     n_species = n_species,
     n_resources = n_resources
 )
 
-miaViz::plotSeries(ExampleCR, x = "time")
-# convert to relative abundance
-ExampleCR <- mia::transformCounts(ExampleCR, method = "relabundance")
-miaViz::plotSeries(ExampleCR, x = "time")
-
-# example to get relative abundance and relative proportion of resources
-n_species <- 2
-n_resources <- 4
-ExampleCR <- simulateConsumerResource(
-    n_species = n_species,
-    n_resources = n_resources, norm = TRUE
-)
-
 # example with user-defined values (names_species, names_resources, E, x0,
 # resources, growth_rates, error_variance, t_end, t_step)
-n_species <- 4
-n_resources <- 6
+
 ExampleE <- randomE(
     n_species = n_species, n_resources = n_resources,
     mean_consumption = 3, mean_production = 1, maintenance = 0.4
 )
 ExampleResources <- rep(100, n_resources)
-ExampleCR <- simulateConsumerResource(
+tse1 <- simulateConsumerResource(
     n_species = n_species,
-    n_resources = n_resources, names_species = letters[1:n_species],
-    names_resources = paste0("res", LETTERS[1:n_resources]), E = ExampleE,
+    n_resources = n_resources, names_species = letters[seq_len(n_species)],
+    names_resources = paste0("res", LETTERS[seq_len(n_resources)]), E = ExampleE,
     x0 = rep(0.001, n_species), resources = ExampleResources,
     growth_rates = runif(n_species),
     error_variance = 0.01,
     t_end = 5000,
     t_step = 1
 )
-
-miaViz::plotSeries(ExampleCR, x = "time")
 
 # example with trophic levels
 n_species <- 10
@@ -215,7 +199,7 @@ ExampleEfficiencyMatrix <- randomE(
 )
 
 ExampleResources <- c(rep(500, 5), rep(200, 5), rep(50, 5))
-ExampleCR <- simulateConsumerResource(
+tse2 <- simulateConsumerResource(
     n_species = n_species,
     n_resources = n_resources,
     names_species = letters[1:n_species],
@@ -229,8 +213,6 @@ ExampleCR <- simulateConsumerResource(
     # error_variance = 0.001,
     t_end = 5000, t_step = 1
 )
-
-miaViz::plotSeries(ExampleCR, x = "time")
 
 # example with trophic priority
 n_species <- 4
@@ -250,14 +232,12 @@ ExampleTrophicPriority <- t(apply(
 # make sure that for non-consumables resources for each species,
 # the priority is 0 (smaller than any given priority)
 ExampleTrophicPriority <- (ExampleE > 0) * ExampleTrophicPriority
-ExampleCR <- simulateConsumerResource(
+tse3 <- simulateConsumerResource(
     n_species = n_species,
     n_resources = n_resources,
     E = ExampleE,
     trophic_priority = ExampleTrophicPriority,
     t_end = 2000
 )
-
-miaViz::plotSeries(ExampleCR, x = "time")
 
 }

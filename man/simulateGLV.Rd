@@ -123,9 +123,7 @@ A is the interaction matrix and b is the vector of growth rates.
 ExampleA <- randomA(n_species = 4, diagonal = -1)
 
 # run the model with default values (only stochastic migration considered)
-ExampleGLV <- simulateGLV(n_species = 4, A = ExampleA)
-# visualize the result
-miaViz::plotSeries(ExampleGLV, x = "time")
+tse <- simulateGLV(n_species = 4, A = ExampleA)
 
 # run the model with two external disturbances at time points 240 and 480
 # with durations equal to 1 (10 time steps when t_step by default is 0.1).
@@ -133,25 +131,19 @@ ExampleGLV <- simulateGLV(
     n_species = 4, A = ExampleA,
     t_external_events = c(0, 240, 480), t_external_durations = c(0, 1, 1)
 )
-# visualize the result
-miaViz::plotSeries(ExampleGLV, x = "time")
 
 # run the model with no pertubation nor migration
 set.seed(42)
-ExampleGLV <- simulateGLV(
+tse1 <- simulateGLV(
     n_species = 4, A = ExampleA, stochastic = FALSE,
     sigma_migration = 0
 )
-# visualize the result
-miaViz::plotSeries(ExampleGLV, x = "time")
 
 # run the model with no pertubation nor migration but with measurement error
 set.seed(42)
-ExampleGLV <- simulateGLV(
+tse2 <- simulateGLV(
     n_species = 4, A = ExampleA, stochastic = FALSE,
     error_variance = 0.001, sigma_migration = 0
 )
-# visualize the result
-miaViz::plotSeries(ExampleGLV, x = "time")
 
 }

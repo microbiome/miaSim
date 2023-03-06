@@ -5,6 +5,8 @@
 \title{Replace one element with zero in a list.}
 \usage{
 .replaceByZero(input_list)
+
+.replaceByZero(input_list)
 }
 \arguments{
 \item{input_list}{A list containing m elements, and lengths of each element
@@ -13,8 +15,16 @@ must be m, too.}
 \value{
 A list of same dimension as input_list, but with 0 at specific
 positions in the elements of the list.
+
+A list of same dimension as input_list, but with 0 at specific
+positions in the elements of the list.
 }
 \description{
+If the list contains m elements, then lengths of each element must be m, too.
+This function is intended to generate a list of x0 (the initial community)
+with one missing species, to prepare the parameter simulations_compare in
+\code{estimateAFromSimulations}.
+
 If the list contains m elements, then lengths of each element must be m, too.
 This function is intended to generate a list of x0 (the initial community)
 with one missing species, to prepare the parameter simulations_compare in
