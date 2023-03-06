@@ -231,14 +231,7 @@ A is the interaction matrix and b is the vector of growth rates.</p>
 <span class="r-in"><span><span class="va">ExampleA</span> <span class="op">&lt;-</span> <span class="fu"><a href="randomA.html">randomA</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">4</span>, diagonal <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># run the model with default values (only stochastic migration considered)</span></span></span>
-<span class="r-in"><span><span class="va">ExampleGLV</span> <span class="op">&lt;-</span> <span class="fu">simulateGLV</span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">4</span>, A <span class="op">=</span> <span class="va">ExampleA</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># visualize the result</span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleGLV</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt img"><img src="simulateGLV-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="va">tse</span> <span class="op">&lt;-</span> <span class="fu">simulateGLV</span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">4</span>, A <span class="op">=</span> <span class="va">ExampleA</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># run the model with two external disturbances at time points 240 and 480</span></span></span>
 <span class="r-in"><span><span class="co"># with durations equal to 1 (10 time steps when t_step by default is 0.1).</span></span></span>
@@ -246,41 +239,20 @@ A is the interaction matrix and b is the vector of growth rates.</p>
 <span class="r-in"><span>    n_species <span class="op">=</span> <span class="fl">4</span>, A <span class="op">=</span> <span class="va">ExampleA</span>,</span></span>
 <span class="r-in"><span>    t_external_events <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">240</span>, <span class="fl">480</span><span class="op">)</span>, t_external_durations <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># visualize the result</span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleGLV</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt img"><img src="simulateGLV-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># run the model with no pertubation nor migration</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ExampleGLV</span> <span class="op">&lt;-</span> <span class="fu">simulateGLV</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">tse1</span> <span class="op">&lt;-</span> <span class="fu">simulateGLV</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    n_species <span class="op">=</span> <span class="fl">4</span>, A <span class="op">=</span> <span class="va">ExampleA</span>, stochastic <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>    sigma_migration <span class="op">=</span> <span class="fl">0</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># visualize the result</span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleGLV</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt img"><img src="simulateGLV-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># run the model with no pertubation nor migration but with measurement error</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ExampleGLV</span> <span class="op">&lt;-</span> <span class="fu">simulateGLV</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">tse2</span> <span class="op">&lt;-</span> <span class="fu">simulateGLV</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    n_species <span class="op">=</span> <span class="fl">4</span>, A <span class="op">=</span> <span class="va">ExampleA</span>, stochastic <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>    error_variance <span class="op">=</span> <span class="fl">0.001</span>, sigma_migration <span class="op">=</span> <span class="fl">0</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># visualize the result</span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleGLV</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt img"><img src="simulateGLV-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

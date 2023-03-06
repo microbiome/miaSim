@@ -88,7 +88,7 @@
                         <h4 data-toc-skip class="author">The miaSim
 package authors.</h4>
             
-            <h4 data-toc-skip class="date">2023-02-17</h4>
+            <h4 data-toc-skip class="date">2023-03-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/HEAD/vignettes/caseStudy2-NutrientThreshold.Rmd" class="external-link"><code>vignettes/caseStudy2-NutrientThreshold.Rmd</code></a></small>
       <div class="hidden name"><code>caseStudy2-NutrientThreshold.Rmd</code></div>
@@ -335,7 +335,7 @@ equivalents.</p>
 <span>        <span class="va">paramx0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">community.initial.df</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>        <span class="va">crm_param_iter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x0 <span class="op">=</span> <span class="va">paramx0</span><span class="op">)</span></span>
 <span>        <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"resConc"</span>, <span class="va">resConc</span>, <span class="st">"medium"</span>, <span class="va">medium</span><span class="op">)</span><span class="op">)</span></span>
-<span>        <span class="va">crmMoments</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generateSimulations.html">generateSimulations</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"simulateConsumerResource"</span>,</span>
+<span>        <span class="va">crmMoments</span> <span class="op">&lt;-</span> <span class="fu">generateSimulations</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"simulateConsumerResource"</span>,</span>
 <span>                                          params_list <span class="op">=</span> <span class="va">crm_params</span>,</span>
 <span>                                          param_iter <span class="op">=</span> <span class="va">crm_param_iter</span>,</span>
 <span>                                          n_instances <span class="op">=</span> <span class="va">n.instances</span>,</span>

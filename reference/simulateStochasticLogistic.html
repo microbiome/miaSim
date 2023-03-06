@@ -244,64 +244,28 @@ surpass the alive species abundances.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example of logistic model without stochasticity, death rates, or external</span></span></span>
 <span class="r-in"><span><span class="co"># disturbances</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ExampleLogistic</span> <span class="op">&lt;-</span> <span class="fu">simulateStochasticLogistic</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">tse</span> <span class="op">&lt;-</span> <span class="fu">simulateStochasticLogistic</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    n_species <span class="op">=</span> <span class="fl">5</span>,</span></span>
 <span class="r-in"><span>    stochastic <span class="op">=</span> <span class="cn">FALSE</span>, death_rates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleLogistic</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt img"><img src="simulateStochasticLogistic-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Adding a death rate</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ExampleLogistic</span> <span class="op">&lt;-</span> <span class="fu">simulateStochasticLogistic</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">tse1</span> <span class="op">&lt;-</span> <span class="fu">simulateStochasticLogistic</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    n_species <span class="op">=</span> <span class="fl">5</span>,</span></span>
 <span class="r-in"><span>    stochastic <span class="op">=</span> <span class="cn">FALSE</span>, death_rates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleLogistic</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt img"><img src="simulateStochasticLogistic-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example of stochastic logistic model</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ExampleLogistic</span> <span class="op">&lt;-</span> <span class="fu">simulateStochasticLogistic</span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleLogistic</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt img"><img src="simulateStochasticLogistic-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example of stochastic logistic model with measurement error</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ExampleLogistic</span> <span class="op">&lt;-</span> <span class="fu">simulateStochasticLogistic</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">tse2</span> <span class="op">&lt;-</span> <span class="fu">simulateStochasticLogistic</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    n_species <span class="op">=</span> <span class="fl">5</span>,</span></span>
 <span class="r-in"><span>    error_variance <span class="op">=</span> <span class="fl">1000</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleLogistic</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt img"><img src="simulateStochasticLogistic-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># example with all the initial parameters defined by the user</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ExampleLogistic</span> <span class="op">&lt;-</span> <span class="fu">simulateStochasticLogistic</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">tse3</span> <span class="op">&lt;-</span> <span class="fu">simulateStochasticLogistic</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    n_species <span class="op">=</span> <span class="fl">2</span>,</span></span>
 <span class="r-in"><span>    names_species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"species1"</span>, <span class="st">"species2"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    growth_rates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.1</span><span class="op">)</span>,</span></span>
@@ -316,7 +280,7 @@ surpass the alive species abundances.</p>
 <span class="r-in"><span>    t_external_events <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">300</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    t_external_durations <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    migration_p <span class="op">=</span> <span class="fl">0.01</span>,</span></span>
-<span class="r-in"><span>    metacommunity_probability <span class="op">=</span> <span class="fu">miaSim</span><span class="fu">::</span><span class="fu"><a href="rdirichlet.html">rdirichlet</a></span><span class="op">(</span><span class="fl">1</span>, alpha <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    metacommunity_probability <span class="op">=</span> <span class="fu">miaSim</span><span class="fu">::</span><span class="fu"><a href="dot-rdirichlet.html">.rdirichlet</a></span><span class="op">(</span><span class="fl">1</span>, alpha <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    stochastic <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>    error_variance <span class="op">=</span> <span class="fl">0</span>,</span></span>
 <span class="r-in"><span>    norm <span class="op">=</span> <span class="cn">FALSE</span>, <span class="co"># TRUE,</span></span></span>
@@ -324,17 +288,6 @@ surpass the alive species abundances.</p>
 <span class="r-in"><span>    t_start <span class="op">=</span> <span class="fl">0</span>, t_step <span class="op">=</span> <span class="fl">0.01</span>,</span></span>
 <span class="r-in"><span>    t_store <span class="op">=</span> <span class="fl">1500</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">ExampleLogistic_SE</span> <span class="op">&lt;-</span> <span class="fu">mia</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mia/man/transformCounts.html" class="external-link">transformCounts</a></span><span class="op">(</span><span class="va">ExampleLogistic</span>, method <span class="op">=</span> <span class="st">"relabundance"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>input data contains negative entries: result may be non-sense</span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleLogistic</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt img"><img src="simulateStochasticLogistic-5.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleLogistic</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt img"><img src="simulateStochasticLogistic-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

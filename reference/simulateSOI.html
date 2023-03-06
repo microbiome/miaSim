@@ -157,7 +157,7 @@ or the raw counts (default: <code>norm = FALSE</code>)</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Generate interaction matrix</span></span></span>
 <span class="r-in"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu">miaSim</span><span class="fu">::</span><span class="fu"><a href="powerlawA.html">powerlawA</a></span><span class="op">(</span><span class="fl">10</span>, alpha <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Simulate data from the SOI model</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">simulateSOI</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">tse</span> <span class="op">&lt;-</span> <span class="fu">simulateSOI</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    n_species <span class="op">=</span> <span class="fl">10</span>, carrying_capacity <span class="op">=</span> <span class="fl">1000</span>, A <span class="op">=</span> <span class="va">A</span>,</span></span>
 <span class="r-in"><span>    k_events <span class="op">=</span> <span class="fl">5</span>, x0 <span class="op">=</span> <span class="cn">NULL</span>, t_end <span class="op">=</span> <span class="fl">150</span>, norm <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>

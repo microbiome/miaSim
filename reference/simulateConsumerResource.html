@@ -284,56 +284,29 @@ not 0.
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">n_species</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
 <span class="r-in"><span><span class="va">n_resources</span> <span class="op">&lt;-</span> <span class="fl">4</span></span></span>
-<span class="r-in"><span><span class="va">ExampleCR</span> <span class="op">&lt;-</span> <span class="fu">simulateConsumerResource</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">tse</span> <span class="op">&lt;-</span> <span class="fu">simulateConsumerResource</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    n_species <span class="op">=</span> <span class="va">n_species</span>,</span></span>
 <span class="r-in"><span>    n_resources <span class="op">=</span> <span class="va">n_resources</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleCR</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt img"><img src="simulateConsumerResource-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="co"># convert to relative abundance</span></span></span>
-<span class="r-in"><span><span class="va">ExampleCR</span> <span class="op">&lt;-</span> <span class="fu">mia</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mia/man/transformCounts.html" class="external-link">transformCounts</a></span><span class="op">(</span><span class="va">ExampleCR</span>, method <span class="op">=</span> <span class="st">"relabundance"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleCR</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt img"><img src="simulateConsumerResource-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># example to get relative abundance and relative proportion of resources</span></span></span>
-<span class="r-in"><span><span class="va">n_species</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
-<span class="r-in"><span><span class="va">n_resources</span> <span class="op">&lt;-</span> <span class="fl">4</span></span></span>
-<span class="r-in"><span><span class="va">ExampleCR</span> <span class="op">&lt;-</span> <span class="fu">simulateConsumerResource</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    n_species <span class="op">=</span> <span class="va">n_species</span>,</span></span>
-<span class="r-in"><span>    n_resources <span class="op">=</span> <span class="va">n_resources</span>, norm <span class="op">=</span> <span class="cn">TRUE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># example with user-defined values (names_species, names_resources, E, x0,</span></span></span>
 <span class="r-in"><span><span class="co"># resources, growth_rates, error_variance, t_end, t_step)</span></span></span>
-<span class="r-in"><span><span class="va">n_species</span> <span class="op">&lt;-</span> <span class="fl">4</span></span></span>
-<span class="r-in"><span><span class="va">n_resources</span> <span class="op">&lt;-</span> <span class="fl">6</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">ExampleE</span> <span class="op">&lt;-</span> <span class="fu"><a href="randomE.html">randomE</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    n_species <span class="op">=</span> <span class="va">n_species</span>, n_resources <span class="op">=</span> <span class="va">n_resources</span>,</span></span>
 <span class="r-in"><span>    mean_consumption <span class="op">=</span> <span class="fl">3</span>, mean_production <span class="op">=</span> <span class="fl">1</span>, maintenance <span class="op">=</span> <span class="fl">0.4</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">ExampleResources</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">100</span>, <span class="va">n_resources</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ExampleCR</span> <span class="op">&lt;-</span> <span class="fu">simulateConsumerResource</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">tse1</span> <span class="op">&lt;-</span> <span class="fu">simulateConsumerResource</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    n_species <span class="op">=</span> <span class="va">n_species</span>,</span></span>
-<span class="r-in"><span>    n_resources <span class="op">=</span> <span class="va">n_resources</span>, names_species <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n_species</span><span class="op">]</span>,</span></span>
-<span class="r-in"><span>    names_resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"res"</span>, <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n_resources</span><span class="op">]</span><span class="op">)</span>, E <span class="op">=</span> <span class="va">ExampleE</span>,</span></span>
+<span class="r-in"><span>    n_resources <span class="op">=</span> <span class="va">n_resources</span>, names_species <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">n_species</span><span class="op">)</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>    names_resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"res"</span>, <span class="va">LETTERS</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">n_resources</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, E <span class="op">=</span> <span class="va">ExampleE</span>,</span></span>
 <span class="r-in"><span>    x0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.001</span>, <span class="va">n_species</span><span class="op">)</span>, resources <span class="op">=</span> <span class="va">ExampleResources</span>,</span></span>
 <span class="r-in"><span>    growth_rates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n_species</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    error_variance <span class="op">=</span> <span class="fl">0.01</span>,</span></span>
 <span class="r-in"><span>    t_end <span class="op">=</span> <span class="fl">5000</span>,</span></span>
 <span class="r-in"><span>    t_step <span class="op">=</span> <span class="fl">1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleCR</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt img"><img src="simulateConsumerResource-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># example with trophic levels</span></span></span>
 <span class="r-in"><span><span class="va">n_species</span> <span class="op">&lt;-</span> <span class="fl">10</span></span></span>
@@ -349,7 +322,7 @@ not 0.
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">ExampleResources</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">500</span>, <span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">200</span>, <span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ExampleCR</span> <span class="op">&lt;-</span> <span class="fu">simulateConsumerResource</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">tse2</span> <span class="op">&lt;-</span> <span class="fu">simulateConsumerResource</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    n_species <span class="op">=</span> <span class="va">n_species</span>,</span></span>
 <span class="r-in"><span>    n_resources <span class="op">=</span> <span class="va">n_resources</span>,</span></span>
 <span class="r-in"><span>    names_species <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n_species</span><span class="op">]</span>,</span></span>
@@ -363,19 +336,6 @@ not 0.
 <span class="r-in"><span>    <span class="co"># error_variance = 0.001,</span></span></span>
 <span class="r-in"><span>    t_end <span class="op">=</span> <span class="fl">5000</span>, t_step <span class="op">=</span> <span class="fl">1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleCR</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt img"><img src="simulateConsumerResource-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># example with trophic priority</span></span></span>
 <span class="r-in"><span><span class="va">n_species</span> <span class="op">&lt;-</span> <span class="fl">4</span></span></span>
@@ -395,20 +355,13 @@ not 0.
 <span class="r-in"><span><span class="co"># make sure that for non-consumables resources for each species,</span></span></span>
 <span class="r-in"><span><span class="co"># the priority is 0 (smaller than any given priority)</span></span></span>
 <span class="r-in"><span><span class="va">ExampleTrophicPriority</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">ExampleE</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">*</span> <span class="va">ExampleTrophicPriority</span></span></span>
-<span class="r-in"><span><span class="va">ExampleCR</span> <span class="op">&lt;-</span> <span class="fu">simulateConsumerResource</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">tse3</span> <span class="op">&lt;-</span> <span class="fu">simulateConsumerResource</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    n_species <span class="op">=</span> <span class="va">n_species</span>,</span></span>
 <span class="r-in"><span>    n_resources <span class="op">=</span> <span class="va">n_resources</span>,</span></span>
 <span class="r-in"><span>    E <span class="op">=</span> <span class="va">ExampleE</span>,</span></span>
 <span class="r-in"><span>    trophic_priority <span class="op">=</span> <span class="va">ExampleTrophicPriority</span>,</span></span>
 <span class="r-in"><span>    t_end <span class="op">=</span> <span class="fl">2000</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">ExampleCR</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-plt img"><img src="simulateConsumerResource-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

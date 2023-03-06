@@ -28,10 +28,16 @@
     <loc>/index.html</loc>
   </url>
   <url>
-    <loc>/reference/createParamList.html</loc>
+    <loc>/reference/dot-applyInterType.html</loc>
   </url>
   <url>
-    <loc>/reference/dot-applyInterType.html</loc>
+    <loc>/reference/dot-estimateAFromSimulations.html</loc>
+  </url>
+  <url>
+    <loc>/reference/dot-eventTimes.html</loc>
+  </url>
+  <url>
+    <loc>/reference/dot-generateSimulations.html</loc>
   </url>
   <url>
     <loc>/reference/dot-getInteractions.html</loc>
@@ -40,16 +46,13 @@
     <loc>/reference/dot-isPosInt.html</loc>
   </url>
   <url>
+    <loc>/reference/dot-rdirichlet.html</loc>
+  </url>
+  <url>
     <loc>/reference/dot-replaceByZero.html</loc>
   </url>
   <url>
-    <loc>/reference/estimateAFromSimulations.html</loc>
-  </url>
-  <url>
-    <loc>/reference/eventTimes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/generateSimulations.html</loc>
+    <loc>/reference/dot-simulationTimes.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
@@ -62,9 +65,6 @@
   </url>
   <url>
     <loc>/reference/randomE.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rdirichlet.html</loc>
   </url>
   <url>
     <loc>/reference/simulateConsumerResource.html</loc>
@@ -86,8 +86,5 @@
   </url>
   <url>
     <loc>/reference/simulateStochasticLogistic.html</loc>
-  </url>
-  <url>
-    <loc>/reference/simulationTimes.html</loc>
   </url>
 </urlset>
