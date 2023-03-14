@@ -381,7 +381,7 @@ average_distance <- function(df, res_conc_type, com_type, method = "euclidean"){
 
 ## UMAP distance saturation analysis
 
-This shows how distance saturations could be calculated. Not evaluated
+This shows how distance saturation could be calculated. Not evaluated
 currently.
 
 ```{r df, eval=FALSE}

@@ -3,7 +3,7 @@
 #'
 #' @param t_start Numeric scalar indicating the initial time of the simulation.
 #' (default: \code{t_start = 0})
-#' @param t_end Numeric scalar indicating the final time of the dimulation
+#' @param t_end Numeric scalar indicating the final time of the simulation
 #' (default: \code{t_end = 1000})
 #' @param t_step Numeric scalar indicating the interval between simulation steps
 #' (default: \code{t_step = 0.1})
@@ -60,7 +60,7 @@
 }
 
 #' generate a vector of times when events is happening
-#' @param t_events,t_duration Numeric: vector of starting time and durations of
+#' @param t_events,t_duration Numeric: vector of starting time and duration of
 #' the events
 #' @param t_end Numeric: end time of the simulation
 #' @param ... : additional parameters to pass to simulationTimes, including
