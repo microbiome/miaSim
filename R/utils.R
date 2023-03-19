@@ -331,7 +331,7 @@ generateSimulations <- function(model,
                 params_list,
                 lapply(param_iter, "[[", i)
             )
-            simulations_local <- .generateSimulations(
+            simulations_local <- generateSimulations(
                 model,
                 params_list_local,
                 param_iter = NULL,
