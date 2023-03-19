@@ -259,29 +259,29 @@ crmExample <- simulateConsumerResource(
 ## In this step, the final relative abundance table is basisComposition_prop
 
 set.seed(42)
-community.simulation <- list()
-counter_i <- 1
 resourceConcentration <- 10^seq(0,4,1) # 1 to 10000
 n.medium <- 5
-for (resConc in resourceConcentration) {
-    for (medium in seq_len(n.medium)){
+
+# make use of parallel computing provided by package `foreach`
+library(foreach)
+library(doParallel)
+cl <- makeCluster(max(detectCores()/2, 1))
+registerDoParallel(cl)
+basisComposition <- foreach(resConc = resourceConcentration, .combine = rbind) %:% 
+    foreach(medium = seq_len(n.medium), .combine = rbind, .packages = "miaSim") %dopar% {
         crm_params$resources <- as.numeric(resource.initial.df[medium,]*resConc)
         paramx0 <- as.list(as.data.frame(t(community.initial.df)))
         crm_param_iter <- list(x0 = paramx0)
         print(paste("resConc", resConc, "medium", medium))
-        crmMoments <- generateSimulations(model = "simulateConsumerResource",
-                                          params_list = crm_params,
-                                          param_iter = crm_param_iter,
-                                          n_instances = n.instances,
-                                          t_end = 50)
+        crmMoments <- .generateSimulations(model = "simulateConsumerResource",
+                                           params_list = crm_params,
+                                           param_iter = crm_param_iter,
+                                           n_instances = n.instances,
+                                           t_end = 50)
         # pick community composition at the last time point		  
-        community.simulation[[counter_i]] <- as.data.frame(do.call(rbind, lapply(crmMoments, function (x) {assay(x, "counts")[, ncol(x)]})))
-
-        counter_i <- counter_i + 1
+        as.data.frame(do.call(rbind, lapply(crmMoments, function (x) {assay(x, "counts")[, ncol(x)]})))
     }
-}
-basisComposition <- do.call(rbind.data.frame, community.simulation)
-rm(counter_i, community.simulation)
+stopCluster(cl)
 basisComposition_prop <- basisComposition / rowSums(basisComposition)
 
 
@@ -417,7 +417,3 @@ p <- ggplot(distance_saturation_data,
 
 print(p)
 ```
-
-
-
-
