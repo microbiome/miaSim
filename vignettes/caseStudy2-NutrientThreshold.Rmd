@@ -51,6 +51,7 @@ as a gradient of communities.
 library(ggplot2)
 library(vegan)
 library(reshape2)
+library(mia)
 library(miaSim)
 library(philentropy)
 library(cluster)
