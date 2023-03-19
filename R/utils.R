@@ -295,7 +295,7 @@
 #'
 #'
 #' @export
-.generateSimulations <- function(model,
+generateSimulations <- function(model,
     params_list,
     param_iter = NULL,
     n_instances = 1,
