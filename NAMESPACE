@@ -2,9 +2,9 @@
 
 export(.estimateAFromSimulations)
 export(.eventTimes)
-export(.generateSimulations)
 export(.rdirichlet)
 export(.simulationTimes)
+export(generateSimulations)
 export(powerlawA)
 export(randomA)
 export(randomE)

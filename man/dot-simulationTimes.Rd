@@ -11,7 +11,7 @@ in simulation functions.}
 \item{t_start}{Numeric scalar indicating the initial time of the simulation.
 (default: \code{t_start = 0})}
 
-\item{t_end}{Numeric scalar indicating the final time of the dimulation
+\item{t_end}{Numeric scalar indicating the final time of the simulation
 (default: \code{t_end = 1000})}
 
 \item{t_step}{Numeric scalar indicating the interval between simulation steps
