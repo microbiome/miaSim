@@ -12,8 +12,6 @@ output:
     number_sections: true
     dev: png
     type: cairo
-  pdf_document:
-    dev: cairo_pdf  # yay Cairo output
 vignette: >
   %\VignetteIndexEntry{caseStudy2-NutrientThreshold}
   %\VignetteEngine{knitr::rmarkdown}
@@ -29,7 +27,7 @@ knitr::opts_chunk$set(
   eval=TRUE,
   warning = FALSE)
 knitr::opts_knit$set(global.par = TRUE)
-knitr::opts_chunk$set(dev = "cairo_pdf")
+# knitr::opts_chunk$set(dev = "cairo_pdf")
 ```
 
 # Case study with miaSim: Nutrient concentration threshold
