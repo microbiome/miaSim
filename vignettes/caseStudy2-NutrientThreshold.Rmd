@@ -10,6 +10,10 @@ output:
     toc: yes
     toc_depth: 2
     number_sections: true
+    dev: png
+    type: cairo
+  pdf_document:
+    dev: cairo_pdf  # yay Cairo output
 vignette: >
   %\VignetteIndexEntry{caseStudy2-NutrientThreshold}
   %\VignetteEngine{knitr::rmarkdown}
@@ -22,10 +26,10 @@ knitr::opts_chunk$set(
   cache = FALSE,
   fig.width = 9,
   message = FALSE,
-  eval=FALSE,
+  eval=TRUE,
   warning = FALSE)
-
 knitr::opts_knit$set(global.par = TRUE)
+knitr::opts_chunk$set(dev = "cairo_pdf")
 ```
 
 # Case study with miaSim: Nutrient concentration threshold
@@ -50,6 +54,10 @@ library(reshape2)
 library(miaSim)
 library(philentropy)
 library(cluster)
+
+# Load auxiliary functions from:
+# https://github.com/microbiome/miaSim/blob/main/vignettes/funcs.R
+source("funcs.R") 
 ```
 
 This batch of simulations is time-consuming. To reduce the calculation
@@ -72,143 +80,35 @@ t_store <- 50
 n.instances <- 1 # no stochastic process: no need to repeat
 ```
 
-## Generating function
 
-This function generates a data frame, where each row is arranged in an
-increasing dissimilarity to the first row.
+## Initialization 
 
-```{r funcs}
-gradient.df.generator <- function(n_row, n_col, density_row, max_gradient, error_interval){
-    list_initial <- list()
-    dissimilarity.gradient <- seq(from = 0, to = max_gradient, length.out = n_row)
-    for (i in seq_len(n_row)){
-        print(i)
-        if (i == 1){
-            row_temp <- rbeta(n_col, 1, 1/n_col)
-            col_to_remove <- sample(x = seq_len(n_col), size = n_col-n_col*density_row)
-            row_temp[col_to_remove] <- 0
-            list_initial[[i]] <- row_temp
-        } else {
-            while (length(list_initial) < i) {
-                row_temp <- rbeta(n_col, 1, 1/n_col)
-                col_to_remove <- sample(x = seq_len(n_col), size = n_col-n_col*density_row)
-                row_temp[col_to_remove] <- 0
-                diff_temp <- abs(vegdist(rbind(list_initial[[1]], row_temp), method = "bray") - dissimilarity.gradient[i])
-                if (diff_temp < error_interval) {
-                    list_initial[[i]] <- row_temp
-                }
-            }
-        }
-    }
-    dataframe_to_return <- as.data.frame(t(matrix(unlist(list_initial), ncol = n_row)))
-    return(dataframe_to_return)
-}
-```
-
-## generate communities
+Generate communities.
 
 ```{r gen}
 n.community <- 5 # you can also try 20 or even 50.
 density.community <- 0.8
 set.seed(42)
+# Check the Rmd source file for gradient.df.generator function source code:
+# https://github.com/microbiome/miaSim/blob/main/vignettes/caseStudy2-NutrientThreshold.Rmd
 community.initial.df <- gradient.df.generator(n_row = n.community,
                                               n_col = n_species,
                                               density_row = density.community,
 					      max_gradient = 0.7,
 					      error_interval = 0.1)
 dist.community.initial.df <- vegdist(community.initial.df, method = "bray")
+
+# Create TreeSummarizedExperiment object for the initial community
 community.initial.tse <- TreeSummarizedExperiment(assays=SimpleList(abundances=t(as.matrix(community.initial.df))))
-```
 
-## Load plotting functions
-
-These will be replaced soon by the TreeSummarizedExperiment equivalents.
-
-```{r plots}
-makePlot <- function(out_matrix, title = "abundance of species by time", obj = "species", y.label = "x.t"){
-    df <- as.data.frame(out_matrix)
-    dft <-  melt(df, id="time")
-    names(dft)[2] = obj
-    names(dft)[3] = y.label
-    lgd = ncol(df)<= 20
-    ggplot(dft, aes_string(names(dft)[1], names(dft)[3], col = names(dft)[2])) +
-        geom_line(show.legend = lgd, lwd=0.5) +
-        ggtitle(title) +
-        theme_linedraw() +
-        theme(plot.title = element_text(hjust = 0.5, size = 14))
-}
-makePlotRes <- function(out_matrix, title = "quantity of compounds by time"){
-    df <- as.data.frame(out_matrix)
-    dft <-  melt(df, id="time")
-    names(dft)[2] = "resources"
-    names(dft)[3] = "S.t"
-    lgd = ncol(df)<= 20
-    ggplot(dft, aes(time, S.t, col = resources)) +
-        geom_line(show.legend = lgd, lwd=0.5) +
-        ggtitle(title) +
-        theme_linedraw() +
-        theme(plot.title = element_text(hjust = 0.5, size = 14))
-}
-makeHeatmap <-function(matrix.A,
-                       title = "Consumption/production matrix",
-                       y.label = 'resources',
-                       x.label = 'species',
-                       midpoint_color = NULL,
-                       lowColor = "red",
-                       midColor = "white",
-                       highColor = "blue"){
-    df <- melt(t(matrix.A))
-    if (is.null(midpoint_color)) {
-        midpoint_color <- 0
-    }
-    names(df)<- c("x", "y", "strength")
-    df$y <- factor(df$y, levels=rev(unique(sort(df$y))))
-    fig <- ggplot(df, aes(x,y,fill=strength)) + geom_tile() + coord_equal() +
-        theme(axis.title = element_blank()) +
-        scale_fill_gradient2('strength', low = lowColor,
-	    mid = midColor, high = highColor, midpoint = midpoint_color)+
-        theme_void() + ggtitle(title)
-
-    if (ncol(matrix.A)<=10 & nrow(matrix.A)<=10){
-        fig <- fig + geom_text(aes(label = round(strength, 2)))
-    } else if (ncol(matrix.A)<=15 & nrow(matrix.A)<=15){
-        fig <- fig + geom_text(aes(label = round(strength, 1)))
-    } else {
-        fig <- fig
-    }
-
-    fig <- fig + labs(x = x.label, y = y.label)+
-        theme_linedraw() +
-        theme(plot.title = element_text(hjust = 0.5, size = 14),
-	      axis.text.x = element_text(
-            angle = 90))
-
-    if (nrow(matrix.A) >= 20){
-        # too many species
-        fig <- fig + theme(
-            axis.title.y=element_blank(),
-            axis.text.y=element_blank(),
-            axis.ticks.y=element_blank(),
-        )
-    }
-    if (ncol(matrix.A) >= 20){
-        # too many resources
-        fig <- fig + theme(
-            axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank()
-        )
-    }
-    fig
-}
-
+# Visualze dissimilarities for the initial community
 makeHeatmap(as.matrix(dist.community.initial.df),
             title = "dissimilarity matrix",
             x.label = "community.1",
             y.label = "community.2")
 ```
 
-## initialize shared parameters
+Initialize shared parameters.
 
 ```{r crm}
 crm_params <- list(
@@ -228,7 +128,8 @@ crm_params <- list(
     norm=FALSE)
 ```
 
-## Generate resource gradients
+
+Generate resource gradients.
 
 ```{r grads}
 resourceConcentration <- 10^seq(0,4,1) # 1 to 10000
@@ -236,14 +137,26 @@ n.medium <- 5
 density.medium <- 0.8
 n_species <- 5
 set.seed(42)
+
 resource.initial.df <- gradient.df.generator(n_row = n.medium,
     n_col = n_resources, density_row = density.medium,
     max_gradient = 0.7, error_interval = 0.1)
+```
+
+
+## Simulations
+
+
+
+```{r grads2}
+# Pick the initial community
+initial.community <- assay(community.initial.tse, "abundances")
+
 crmExample <- simulateConsumerResource(
     n_species = n_species,
     n_resources = n_resources,
     E = E,
-    x0 = as.numeric(community.initial.df[1,]),
+    x0 = as.numeric(initial.community[,1]), # First sample from the initial community
     resources = as.numeric(resourceConcentration[3]*resource.initial.df[1,]),
     growth_rates = growth_rates,
     monod_constant = monod_constant,
@@ -252,11 +165,36 @@ crmExample <- simulateConsumerResource(
     t_step = 1,
     t_store = 50,
     norm = FALSE)
-#makePlot(crmExample$matrix)
-#makePlotRes(crmExample$resources)
 
-## Generate simulations and store the final community in community.simulation
-## In this step, the final relative abundance table is basisComposition_prop
+#makePlot(crmExample$matrix)
+tsem <- meltAssay(crmExample, assay.type = "counts", add_col_data = "time")
+p <- ggplot(tsem, aes(x=time, y=counts, color = FeatureID)) +
+        geom_line(show.legend = TRUE, lwd=0.5) +
+        labs(title="Species abundances by time") +
+        theme_linedraw() +
+        theme(plot.title = element_text(hjust = 0.5, size = 14))
+print(p)
+
+
+#makePlotRes(crmExample$resources)
+df <- as.data.frame(metadata(crmExample)$resources)
+df$time <- colData(crmExample)$time
+dft <-  melt(df, id="time")
+names(dft) <- c("time", "resources", "S.t")
+p <- ggplot(dft, aes(x=time, y=S.t, col = resources)) +
+        geom_line(show.legend = TRUE, lwd=0.5) +
+        labs(title="Quantity of compounds by time") +
+        theme_linedraw() +
+        theme(plot.title = element_text(hjust = 0.5, size = 14))
+```
+
+
+
+
+
+```{r grads3}
+# Generate simulations and store the final community in community.simulation
+# Here the final relative abundance table is basisComposition_prop.
 
 set.seed(42)
 resourceConcentration <- 10^seq(0,4,1) # 1 to 10000
@@ -273,7 +211,7 @@ basisComposition <- foreach(resConc = resourceConcentration, .combine = rbind) %
         paramx0 <- as.list(as.data.frame(t(community.initial.df)))
         crm_param_iter <- list(x0 = paramx0)
         print(paste("resConc", resConc, "medium", medium))
-        crmMoments <- .generateSimulations(model = "simulateConsumerResource",
+        crmMoments <- generateSimulations(model = "simulateConsumerResource",
                                            params_list = crm_params,
                                            param_iter = crm_param_iter,
                                            n_instances = n.instances,
@@ -283,12 +221,17 @@ basisComposition <- foreach(resConc = resourceConcentration, .combine = rbind) %
     }
 stopCluster(cl)
 basisComposition_prop <- basisComposition / rowSums(basisComposition)
+```
+
+
 
 
 ## Make UMAP plots
-## In this step, plot result is stored in umap_CRM_gradient_plot, and
-##   this is visualized in different facets.
 
+In this step, plot result is stored in umap_CRM_gradient_plot, and
+this is visualized in different facets.
+
+```{r umap}
 resourceConcentration <- 10^seq(0,4,1) # 1 to 10000
 n.medium <- 5
 n.community <- 5
@@ -309,12 +252,13 @@ tse <- TreeSummarizedExperiment(
 		    )
 ## Add UMAP
 tse <- runUMAP(tse, name = "UMAP", exprs_values = "abundances")
+
 ## Plot UMAP
 plotReducedDim(tse, "UMAP", colour_by="Medium", shape_by="Concentration")
 
 # Same for compositional abundance data
 library(mia)
-## -- add relative abundances;
+## add relative abundances;
 tse <- transformSamples(tse, assay.type="abundances", method="relabundance")
 tse <- runUMAP(tse, name = "UMAP_compositional", exprs_values = "relabundance")
 plotReducedDim(tse, "UMAP_compositional", colour_by="Medium", shape_by="Concentration")
@@ -322,6 +266,7 @@ plotReducedDim(tse, "UMAP_compositional", colour_by="Medium", shape_by="Concentr
 umap_CRM_gradient_plot <<- plotReducedDim(tse, "UMAP_compositional",
    colour_by="Medium", shape_by="Community", size_by="Concentration")
 ```
+
 
 ## Visualization of the results
 
@@ -343,7 +288,7 @@ might belong to one community type. This can be validated by input 20
 or even 50 as n.community in this case study: communities turns into
 clusters in each sub-figures.
 
-```{r umapplots, eval=FALSE}
+```{r umapplots, eval=TRUE}
 # FIXME: the visual output can be polished later.
 print(umap_CRM_gradient_plot)
 umap_CRM_gradient_plot + facet_grid(size_by ~ ., labeller = label_both)
@@ -352,68 +297,4 @@ umap_CRM_gradient_plot + facet_grid(shape_by ~ size_by, labeller = label_both)
 umap_CRM_gradient_plot + facet_grid(shape_by ~ colour_by, labeller = label_both)
 ```
 
-## Saturation curve 
 
-Saturation curve of average beta-diversity between communities with
-community 1.
-
-In this part, we demonstrate that the average distance from
-other communities to community 1 will reach to a threshold of
-nutrients, after which the average distance won't increase along with
-the total concentration of nutrients.
-
-Let us first define a function calculating the mean distance to the
-first community.
-
-## construct a function taking umap_CRM_coor as df and return the mean distance
-
-```{r misc, eval=FALSE}
-average_distance <- function(df, res_conc_type, com_type, method = "euclidean"){
-    sub_df <- df[df$concentration == res_conc_type & df$community == com_type,]
-    combines <- combn(sub_df$medium, 2)
-    distances <- NULL
-    for (i in seq_len(ncol(combines))) {
-        distances[i] <- dist(sub_df[combines[,i], c(1, 2)])
-    }
-    return(mean(distances))
-}
-```
-
-## UMAP distance saturation analysis
-
-This shows how distance saturation could be calculated. Not evaluated
-currently.
-
-```{r df, eval=FALSE}
-distance_saturation_data <- data.frame(concentration = integer(),
-                                       community = integer(),
-                                       average_distance = numeric())
-
-#umap_CRM_coor <- cbind(umap_CRM_coor, concentration, medium, community)
-umap_CRM_coor <- data.frame(reducedDim(tse), colData(tse)) # cbind(umap_CRM_coor, concentration, medium, community)
-for (res_conc_type in unique(concentration)){
-    for (com_type in unique(community)){
-        ave_dist <- average_distance(umap_CRM_coor, res_conc_type, com_type)
-        distance_saturation_data[nrow(distance_saturation_data)+1,] <-
-            c(res_conc_type, com_type, ave_dist)
-    }
-}
-# View(distance_saturation_data)
-distance_saturation_data$average_distance <- as.numeric(distance_saturation_data$average_distance)
-distance_saturation_data$concentration <- as.factor(distance_saturation_data$concentration)
-distance_saturation_data$community <- as.factor(distance_saturation_data$community)
-
-# distance_saturation_data_plot
-p <- ggplot(distance_saturation_data,
-                                 aes(concentration, average_distance,
-                                     color = community,
-                                     group = community)) +
-    geom_line() +
-    geom_point() +
-    scale_shape_manual(values = c(0, 1, 2, 5, 6, 8, 15, 16, 17, 18)) +
-    labs(x = "Resource concentration",
-         y = "Average distance between communities in UMAP") +
-    theme_bw()
-
-print(p)
-```
