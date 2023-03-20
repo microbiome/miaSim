@@ -225,7 +225,7 @@ paramx0 <- .createParamList(input_param = rep(0.001, 10), n_repeat = 10,
 paramresources <- .createParamList(input_param = rep(1000, 5), n_repeat = 10)
 params_iter <- list(x0 = paramx0, resources = paramresources)
 simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
-simulations_2 <- .generateSimulations(
+simulations_2 <- generateSimulations(
     model = "simulateConsumerResource",
     params_list = params, param_iter = params_iter, n_instances = 1, t_end = 20
 )

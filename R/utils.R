@@ -295,7 +295,7 @@
 #'
 #'
 #' @export
-.generateSimulations <- function(model,
+generateSimulations <- function(model,
     params_list,
     param_iter = NULL,
     n_instances = 1,
@@ -331,7 +331,7 @@
                 params_list,
                 lapply(param_iter, "[[", i)
             )
-            simulations_local <- .generateSimulations(
+            simulations_local <- generateSimulations(
                 model,
                 params_list_local,
                 param_iter = NULL,
