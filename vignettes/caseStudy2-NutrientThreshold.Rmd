@@ -196,7 +196,7 @@ p <- ggplot(dft, aes(x=time, y=S.t, col = resources)) +
 # Here the final relative abundance table is basisComposition_prop.
 
 set.seed(42)
-resourceConcentration <- 10^seq(0,4,1) # 1 to 10000
+resourceConcentration <- 10^seq(0,4, 1) # 1 to 10000
 n.medium <- 5
 
 # make use of parallel computing provided by package `foreach`
