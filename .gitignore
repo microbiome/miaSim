@@ -1,5 +1,4 @@
 inst/extras
-*.html
 *.R
 *~
 *.Rproj.user
@@ -7,6 +6,5 @@ inst/extras
 *.Rhistory
 *.Ruserdata
 .Rproj.user
-
 inst/doc
 
