@@ -7,4 +7,6 @@ inst/extras
 *.Ruserdata
 .Rproj.user
 inst/doc
+vignettes/miaSim.html
+vignettes/phyloseq/*.html
 
