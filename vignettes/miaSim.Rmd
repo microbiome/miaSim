@@ -1,18 +1,6 @@
 ---
 title: "miaSim: Microbiome Data Simulation"
-author:
-- name: Yagmur Simsek
-  email: yagmur.simsek@hsrw.org
-- name: Yu Gao
-  email: gaoyu19920914@gmail.com
-- name: Emma Gheysen
-  email: emma.gheysen@student.kuleuven.be
-- name: Daniel Rios Garza
-  email: danielrios.garza@kuleuven.be
-- name: Karoline Faust
-  email: karoline.faust@kuleuven.be  
-- name: Leo Lahti
-  email: leo.lahti@iki.fi  
+author: "miaSim authors"
 date: "`r Sys.Date()`"
 package: miaSim
 output: 
@@ -38,7 +26,6 @@ knitr::opts_chunk$set(cache = FALSE,
 
 # Introduction
 
-
 `miaSim` implements tools for microbiome data simulation based on
 varying ecological modeling assumptions. These can be used to simulate
 species abundance matrices, including time series. Detailed function
@@ -49,18 +36,34 @@ TreeSummarizedExperiment data container. For more information on
 operating with this data format in microbial ecology, see the [online tutorial](https://microbiome.github.io/OMA).
 
 
-Install the Bioconductor release version with
+## Installation
+
+The stable Bioconductor release version can be installed as follows.
 
 ```{r install-bioc, eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
+if (!requireNamespace("miaSim", quietly = TRUE))    
+    BiocManager::install("miaSim")
 ```
+
+The experimental Bioconductor devel version can be installed as follows.
+
+```
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+# The following initializes usage of Bioc devel
+BiocManager::install(version='devel')
+BiocManager::install("miaSim")
+```
+
 
 Load the library
 
 ```{r load, eval=TRUE}
 library(miaSim)
 ```
+
 
 ## Examples
 
@@ -74,14 +77,15 @@ different distributional assumptions.
 
 Generate interactions from normal distribution:
 
-```{r}
+```{r Anormal}
 A_normal <- powerlawA(n_species = 4, alpha = 3)
 ```
 
 Generate interactions from uniform distribution:
 
-```{r}
-A_uniform <- randomA(n_species = 10, diagonal = -0.4,
+```{r Auniform}
+A_uniform <- randomA(n_species = 10,
+	     	     diagonal = -0.4,
                      connectance = 0.5,
 		     interactions = runif(n = 10^2, min = -0.8, max = 0.8))
 ```
@@ -92,7 +96,7 @@ A_uniform <- randomA(n_species = 10, diagonal = -0.4,
 Ricker model is a discrete version of the gLV:
 
 ```{r ricker}
-rickermodel <- simulateRicker(n_species=4, A = A_normal, t_end=100, norm = FALSE)
+tse_ricker <- simulateRicker(n_species=4, A = A_normal, t_end=100, norm = FALSE)
 ```
 
 The number of species specified in the interaction matrix must be the
@@ -106,8 +110,12 @@ births and deaths but no interactions. Losses become replaced by
 migration or birth.
 
 ```{r}
-tse_hubbell <- simulateHubbell(n_species = 8, M = 10, carrying_capacity = 1000,
-                                k_events = 50, migration_p = 0.02, t_end = 100)
+tse_hubbell <- simulateHubbell(n_species = 8,
+                               M = 10,
+			       carrying_capacity = 1000,
+                               k_events = 50,
+			       migration_p = 0.02,
+			       t_end = 100)
 ```
 
 One can also simulate parameters for the Hubbell model.
@@ -147,7 +155,9 @@ resource consumption efficiency.
 
 ```{r cr}
 # Consumer-resource model as a TreeSE object
-tse_crm <- simulateConsumerResource(n_species = 2,n_resources = 4, E = randomE(n_species = 2, n_resources = 4))
+tse_crm <- simulateConsumerResource(n_species = 2,
+                                    n_resources = 4,
+                                    E = randomE(n_species = 2, n_resources = 4))
 ```
 
 You could visualize the simulated dynamics using tools from the [miaTime](https://microbiome.github.io/miaTime/) package.
@@ -159,8 +169,12 @@ The generalized Lotka-Volterra simulation model generates time-series assuming
 microbial population dynamics and interaction.
 
 ```{r glv}
-tse_glv <- simulateGLV(n_species = 4, A = A_normal, t_start = 0, 
-    t_store = 1000, stochastic = FALSE, norm = FALSE)
+tse_glv <- simulateGLV(n_species = 4,
+                       A = A_normal,
+		       t_start = 0, 
+                       t_store = 1000,
+		       stochastic = FALSE,
+		       norm = FALSE)
 
 ```
 

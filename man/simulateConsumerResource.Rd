@@ -156,7 +156,7 @@ not 0.
 an TreeSummarizedExperiment class object
 }
 \description{
-Simulates time series with the consumer-resource model
+Simulates time series with the consumer-resource model.
 }
 \examples{
 n_species <- 2

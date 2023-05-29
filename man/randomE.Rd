@@ -69,7 +69,7 @@ and each row represents a species.
 }
 \description{
 Generate random efficiency matrix for consumer resource model from Dirichlet
-distribution. Positive efficiencies indicate the consumption of resources,
+distribution, where positive efficiencies indicate the consumption of resources,
 whilst negatives indicate that the species would produce the resource.
 }
 \examples{
