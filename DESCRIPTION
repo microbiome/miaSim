@@ -1,6 +1,6 @@
 Package: miaSim
 Type: Package
-Version: 1.5.6
+Version: 1.7.1
 Authors@R:
      c(person(given = "Yagmur", family = "Simsek", role = c("cre", "aut"),
               email = "yagmur.simsek.98@gmail.com"),
