@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="index.html">miaSim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,11 +52,9 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/TreeSummarizedExperiment/caseStudy1-SIS.html">Case study: SIS</a>
-    <a class="dropdown-item" href="articles/TreeSummarizedExperiment/caseStudy2-NutrientThreshold.html">Case study: Nutrient thresholds</a>
-    <a class="dropdown-item" href="articles/phyloseq/caseStudy1-SIS.html">caseStudy1-SIS</a>
-    <a class="dropdown-item" href="articles/phyloseq/caseStudy2-NutrientThreshold.html">caseStudy2-NutrientThreshold</a>
-    <a class="dropdown-item" href="articles/phyloseq/caseStudy3-EnvironmentalComplexity.html">caseStudy3-EnvironmentalComplexity</a>
+    <a class="dropdown-item" href="articles/phyloseq/caseStudy1-SIS.html">caseStudy1-SIS-phyloseq</a>
+    <a class="dropdown-item" href="articles/phyloseq/caseStudy2-NutrientThreshold.html">caseStudy2-NutrientThreshold-phyloseq</a>
+    <a class="dropdown-item" href="articles/phyloseq/caseStudy3-EnvironmentalComplexity.html">caseStudy3-EnvComplexity-phyloseq</a>
   </div>
 </li>
       </ul>
@@ -83,27 +81,12 @@
 </h1></div>
 <!-- badges: start -->
 <p><a href="https://github.com/microbiome/miaSim/actions" class="external-link"><img src="https://github.com/microbiome/miaSim/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a> <!-- badges: end --></p>
-<p>This R/Bioconductor package can be used to simulate (longitudinal) data for the benchmarking and analysis of quantitative models of microbial communities. The package is based on the <code>(Tree)SummarizedExperiment</code> data container.</p>
-<p>The package <a href="https://microbiome.github.io/miaSim/" class="external-link">website</a> provides further tutorials and references for the <a href="https://microbiome.github.io/miaSim/reference/index.html" class="external-link">implemented models</a>, which include Hubbell’s neutral model, the generalized Lotka-Volterra model, and the self-organised instability model.</p>
 <div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+<h2 id="miasim">miaSim<a class="anchor" aria-label="anchor" href="#miasim"></a>
 </h2>
-<div class="section level3">
-<h3 id="bioc-release">Bioc-release<a class="anchor" aria-label="anchor" href="#bioc-release"></a>
-</h3>
-<pre><code><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
-<span>    <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"miaSim"</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="section level3">
-<h3 id="bioc-devel">Bioc-devel<a class="anchor" aria-label="anchor" href="#bioc-devel"></a>
-</h3>
-<pre><code><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
-<span><span class="co"># The following initializes usage of Bioc devel</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span>version<span class="op">=</span><span class="st">'devel'</span><span class="op">)</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"miaSim"</span><span class="op">)</span></span></code></pre>
-</div>
+<p>This miaSim R/Bioconductor package can be used to simulate (longitudinal) data for the benchmarking and analysis of quantitative models of microbial communities.</p>
+<p>For installation and use, see the <a href="https://microbiome.github.io/miaSim/articles/miaSim.html" class="external-link">Getting started</a> page.</p>
+<p>The package <a href="https://microbiome.github.io/miaSim/" class="external-link">homepage</a> provides further tutorials and references for the <a href="https://microbiome.github.io/miaSim/reference/index.html" class="external-link">implemented models</a>, which include Hubbell’s neutral model, the generalized Lotka-Volterra model, and the self-organised instability model. The package is based on the <code>(Tree)SummarizedExperiment</code> data container.</p>
 <div class="section level3">
 <h3 id="miasimshiny">miaSimShiny<a class="anchor" aria-label="anchor" href="#miasimshiny"></a>
 </h3>
@@ -115,19 +98,21 @@
 </h3>
 <p>You can find us online from <a href="https://gitter.im/microbiome/miaverse" class="external-link">Gitter</a>.</p>
 <p>Contributions are very welcome through issues and pull requests at the <a href="https://github.com/microbiome/miaSim" class="external-link">development site</a>. We follow a git flow kind of approach. Development version should be done against the <code>main</code> branch and then merged to <code>release</code> for release. (<a href="https://guides.github.com/introduction/flow/" class="external-link uri">https://guides.github.com/introduction/flow/</a>)</p>
-<p>We are grateful to all <a href="https://github.com/microbiome/miaSim/graphs/contributors" class="external-link">contributors</a>, and Emma Gheysen and Karoline Faust for developing the <a href="https://github.com/gheysenemma/microsimR" class="external-link">microsimR</a> package that the miaSim package converts to the SummarizedExperiment universe. This project is part of <a href="microbiome.github.io">miaverse</a>.</p>
+<p>We are grateful to all <a href="https://github.com/microbiome/miaSim/graphs/contributors" class="external-link">contributors</a>.</p>
 </div>
 <div class="section level3">
 <h3 id="citing-the-package">Citing the package<a class="anchor" aria-label="anchor" href="#citing-the-package"></a>
 </h3>
-<p><strong>Kindly cite this work</strong>. For citation details, see R command list(title = “miaSim R package”, author = list(list(given = “Yagmur”, family = “Simsek”, role = NULL, email = “<a href="mailto:Yagmur.Simsek@hsrw.org" class="email">Yagmur.Simsek@hsrw.org</a>”, comment = NULL), list(given = “Leo”, family = “Lahti”, role = NULL, email = NULL, comment = NULL), list(given = “Daniel”, family = “Garza”, role = NULL, email = NULL, comment = NULL), list(given = “Karoline”, family = “Faust”, role = NULL, email = NULL, comment = NULL)), url = “microbiome.github.io/miaSim”, note = “Version 1.6.0”).</p>
+<p><strong>Kindly cite this work</strong> as follows:</p>
+<p>Gao <em>et al.</em> (2023). Methods in Ecology and Evolution. DOI: <a href="https://doi.org/10.1111/2041-210X.14129" class="external-link">10.1111/2041-210X.14129</a></p>
+<p>For citation details, see R command <code>citation("miaSim")</code>.</p>
 </div>
 </div>
 </div>
 <div class="section level1">
 <h1 id="code-of-conduct">Code of conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
 </h1>
-<p>Please note that the project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the project is released with a <a href="https://bioconductor.github.io/bioc_coc_multilingual/" class="external-link">Bioconductor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 
   </main><aside class="col-md-3"><div class="links">

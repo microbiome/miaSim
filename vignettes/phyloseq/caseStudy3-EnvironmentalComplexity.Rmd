@@ -1,18 +1,6 @@
 ---
-title: "caseStudy3-EnvironmentalComplexity"
-author:
-- name: Yu Gao
-  email: gaoyu19920914@gmail.com
-- name: Daniel Rios Garza
-  email: danielrios.garza@kuleuven.be
-- name: Karoline Faust
-  email: karoline.faust@kuleuven.be
-- name: Yagmur Simsek
-  email: yagmur.simsek@hsrw.org
-- name: Emma Gheysen
-  email: emma.gheysen@student.kuleuven.be
-- name: Leo Lahti
-  email: leo.lahti@iki.fi
+title: "caseStudy3-EnvComplexity-phyloseq"
+author: "miaSim package authors"
 date: "`r Sys.Date()`"
 package: miaSim
 output: 
@@ -39,41 +27,52 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-This document provides the detailed code required to replicate case study 3.
+This document provides the detailed code required to replicate case study 3 discussed in Gao _et al._ (2023). Methods in Ecology and Evolution. DOI:
+[10.1111/2041-210X.14129](https://doi.org/10.1111/2041-210X.14129)
 
-For general instructions and examples on using the miaSim package tools, see the [vignette](https://microbiome.github.io/miaSim/articles/miaSim.html). `miaSim` implements tools for microbiome data simulation based on different ecological modeling assumptions. These can be used to simulate species abundance matrices, including time series. For a detailed function documentation, see the [function reference page](https://microbiome.github.io/miaSim/reference/index.html)
+This replication study has been implemented with phyloseq. The TreeSE
+package has been since then upgraded to use the TreeSE data container.
+
+For general instructions and examples on using the miaSim package
+tools, see the
+[vignette](https://microbiome.github.io/miaSim/articles/miaSim.html). `miaSim`
+implements tools for microbiome data simulation based on different
+ecological modeling assumptions. These can be used to simulate species
+abundance matrices, including time series. For a detailed function
+documentation, see the [function reference
+page](https://microbiome.github.io/miaSim/reference/index.html)
 
 
 
-Install the Bioconductor release version with
-
-```{r install-bioc, eval=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-```
-
-Load the library
-
-```{r load, eval=TRUE}
-library(miaSim)
-```
 
 # Case study 3: Environmental complexity impacts on different communities
 
-(Reference: [Non-additive microbial community responses to environmental complexity](https://doi.org/10.1038/s41467-021-22426-3))
+(Reference: [Non-additive microbial community responses to
+environmental complexity](https://doi.org/10.1038/s41467-021-22426-3))
 
-The aim of this case study is to recalculate the patterns shown in the existing publication in the above reference. More specifically, the left part of this Figure 2. [![Figure 2](https://media.springernature.com/full/springer-static/image/art%253A10.1038%252Fs41467-021-22426-3/MediaObjects/41467_2021_22426_Fig2_HTML.png?as=webp)](https://www.nature.com/articles/s41467-021-22426-3#Fig2)
+The aim of this case study is to recalculate the patterns shown in the
+existing publication in the above reference. More specifically, the
+left part of this Figure 2. [![Figure
+2](https://media.springernature.com/full/springer-static/image/art%253A10.1038%252Fs41467-021-22426-3/MediaObjects/41467_2021_22426_Fig2_HTML.png?as=webp)](https://www.nature.com/articles/s41467-021-22426-3#Fig2)
 
-In this case study, consumer-resource model was used. The number of species in 3 distinct communities varied so that communities are named after the number of species (i.e. com13, com3, and com4).
+In this case study, consumer-resource model was used. The number of
+species in 3 distinct communities varied so that communities are named
+after the number of species (i.e. com13, com3, and com4).
 
-For each community, a floor of different numbers of carbon resources (nutrients) is set from 1, 2, 4, 8, 16, to 32.
+For each community, a floor of different numbers of carbon resources
+(nutrients) is set from 1, 2, 4, 8, 16, to 32.
 
-In the original experiment, value of OD600 is selected as y-axis to represent the growth yield. In our simulations, however, the total number of organisms(number of all individuals) is used to reflect the growth yield.
+In the original experiment, value of OD600 is selected as y-axis to
+represent the growth yield. In our simulations, however, the total
+number of organisms(number of all individuals) is used to reflect the
+growth yield.
 
-## Load dependencies
+
+## Setup
+
+Load dependencies
 
 ```{r}
-
 library(ggplot2)
 library(miaSim)
 library(vegan)
@@ -81,22 +80,21 @@ library(ggplot2)
 library(reshape2)
 ```
 
-## Set random seed
+Set random seed
 
 ```{r}
 set.seed(42)
 ```
 
-## Set number of repeats
+Set number of repeats
 
 ```{r}
 n_rep <- 50
 ```
 
-## initial the output dataframes to store data
+Initial the output dataframes to store data
 
 ```{r}
-
 result_df <- data.frame(
     n_species = integer(),
     theta = numeric(),
@@ -104,9 +102,11 @@ result_df <- data.frame(
     n_resources = integer(),
     value = numeric()
 )
+
 result_df2 <- data.frame(
   matrix(NA, nrow = 0, ncol = 13, dimnames = list(NULL, paste0("sp", seq_len(13))))
 )
+
 sorensen_df <- data.frame(
     n_species = integer(),
     theta = numeric(),
@@ -116,9 +116,8 @@ sorensen_df <- data.frame(
 
 ```
 
-## generating function
-
-this function generates a data frame, where each row is arranged in an increasing dissimilarity to the first row.
+Generating function. This function generates a data frame, where each
+row is arranged in an increasing dissimilarity to the first row.
 
 ```{r}
 gradient_df_generator <- function(n_row, n_col, density_row, max_gradient, error_interval){
@@ -148,12 +147,13 @@ gradient_df_generator <- function(n_row, n_col, density_row, max_gradient, error
 }
 ```
 
-## Load parameters used by Pacheco et al., and initialized the community data frame
 
-Note that in this step, the value range of theta has been extended.
+
+Load parameters used by Pacheco et al., and initialized the community
+data frame. Note that in this step, the value range of theta has been
+extended.
 
 ```{r}
-
 n_species_types <- c(13, 3, 4)
 theta_types <- c(1, 0.75, 0.5, 0.25, 0.1, 0.05)
 n_resources_types <- c(1,2,4,8,16,32)
@@ -166,10 +166,11 @@ community.initial.df <- as.list(
          max_gradient = 0.7,
          error_interval = 0.15)
 )
-
 ```
 
-## loop for different combinations of (number of species X theta X number of repetations X number of resources)
+
+Loop for different combinations of (number of species X theta X number
+of repetations X number of resources)
 
 ```{r, eval=FALSE}
 for (n_species in n_species_types){
@@ -228,7 +229,6 @@ for (n_species in n_species_types){
         sorensen_df[nrow(sorensen_df)+1, ] <- c(n_species, theta, rho_mean, rho_sd)
     }
 }
-
 ```
 
 ```{r, eval=FALSE}

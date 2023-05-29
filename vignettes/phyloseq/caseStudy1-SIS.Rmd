@@ -1,18 +1,6 @@
 ---
-title: "caseStudy1-SIS"
-author:
-- name: Yu Gao
-  email: gaoyu19920914@gmail.com
-- name: Daniel Rios Garza
-  email: danielrios.garza@kuleuven.be
-- name: Karoline Faust
-  email: karoline.faust@kuleuven.be
-- name: Yagmur Simsek
-  email: yagmur.simsek@hsrw.org
-- name: Emma Gheysen
-  email: emma.gheysen@student.kuleuven.be
-- name: Leo Lahti
-  email: leo.lahti@iki.fi
+title: "caseStudy1-SIS-phyloseq"
+author: "miaSim package authors"
 date: "`r Sys.Date()`"
 package: miaSim
 output: 
@@ -39,24 +27,23 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-This document provides the detailed code required to replicate case study 1.
 
-For general instructions and examples on using the miaSim package tools, see the [vignette](https://microbiome.github.io/miaSim/articles/miaSim.html). `miaSim` implements tools for microbiome data simulation based on different ecological modeling assumptions. These can be used to simulate species abundance matrices, including time series. For a detailed function documentation, see the [function reference page](https://microbiome.github.io/miaSim/reference/index.html)
+This document provides the detailed code required to replicate case study 1 discussed in Gao _et al._ (2023). Methods in Ecology and Evolution. DOI:
+[10.1111/2041-210X.14129](https://doi.org/10.1111/2041-210X.14129)
+
+This replication study has been implemented with phyloseq. The TreeSE
+package has been since then upgraded to use the TreeSE data container.
+
+For general instructions and examples on using the miaSim package
+tools, see the
+[vignette](https://microbiome.github.io/miaSim/articles/miaSim.html). `miaSim`
+implements tools for microbiome data simulation based on different
+ecological modeling assumptions. These can be used to simulate species
+abundance matrices, including time series. For a detailed function
+documentation, see the [function reference
+page](https://microbiome.github.io/miaSim/reference/index.html)
 
 
-
-Install the Bioconductor release version with
-
-```{r install-bioc, eval=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-```
-
-Load the library
-
-```{r load, eval=TRUE}
-library(miaSim)
-```
 
 # Case study 1: Strongly interacting species (SIS) explaining community types
 
@@ -68,7 +55,9 @@ In this figure, from left to right, different power-law distributions (defined b
 
 In this case study, we used their same sets of parameters, and acquired the similar results.
 
-## Load dependencies
+## Setup
+
+Let us load dependencies
 
 ```{r loaddeps, eval=TRUE}
 library(ggplot2)
@@ -86,10 +75,9 @@ library(umap)
 library(miaSim)
 ```
 
-## Define a function to generate power-law distribution
+Define a function to generate power-law distribution
 
 ```{r}
-
 rpower <- function(n, alpha, norm = FALSE) {
   u <- runif(n, min = 0, max = 1 - .Machine$double.eps^0.5)
   power <- (1 - u)^(1 / (1 - alpha))
@@ -101,10 +89,9 @@ rpower <- function(n, alpha, norm = FALSE) {
 }
 ```
 
-## Load parameters used by Gibson et al.
+Load parameters used by Gibson et al.
 
 ```{r}
-
 params <- data.frame(
   alpha = c(7, 3, 2, 1.6, 1.01),
   t_end = c(20, 10, 5, 2, 1),
@@ -114,7 +101,8 @@ set.seed(42)
 n_species <- 100
 ```
 
-## create variables to store results
+
+Create variables to store results
 
 ```{r}
 H <- list()
@@ -125,13 +113,11 @@ interactions_custom <- list()
 A <- list()
 g <- list()
 g_plot <- list()
-
 local_species_pool <- list()
 local_A <- list()
-
 ```
 
-## generate constants and plot different distributions
+## Generate constants and plot different distributions
 
 ```{r, warning=FALSE}
 set.seed(42)
@@ -191,7 +177,7 @@ for (row in seq_len(nrow(params))) {
 
 ```
 
-## identify SIS using H[[row]]
+Identify SIS using H[[row]]
 
 ```{r}
 SIS <- list()
@@ -210,13 +196,13 @@ for (row in seq_len(nrow(params))) {
 }
 ```
 
-## simulate GLV models using different growth rates in 4 scenarios
+Simulate GLV models using different growth rates in 4 scenarios
 
 The first scenario is the original one from Gibson et al., and the rest are some explorations (the second scenario is assigning various growth rates to random species; the third scenario is assigning faster growth rate to SIS; and the fourth scenario is assigning faster growth rate to non-SIS).
 
 Different scenarios are implemented by overwriting the default random growth rates in simulation function.
 
-## prepare result lists and scenarios
+Let us prepare result lists and scenarios.
 
 ```{r}
 simulation_GLV <- list()
@@ -241,7 +227,9 @@ customPalette <- c("#d95319", "#0072bd", "#edb120", "#7e2f8e")
 
 ```
 
-In this case study, we only focus on the first scenario. (To explore more, simply remove the first line, then put the code in a for loop like `for (scenario in seq_along(scenarios)) {...}` .)
+In this case study, we only focus on the first scenario. (To explore
+more, simply remove the first line, then put the code in a for loop
+like `for (scenario in seq_along(scenarios)) {...}` .)
 
 ```{r scenarios, eval=FALSE}
   scenario <- 1
@@ -331,12 +319,15 @@ In this case study, we only focus on the first scenario. (To explore more, simpl
       theme(legend.position = "none", plot.title = element_text(hjust = 0.5))
     print(pcoa_plot[[scenario]][[row]])
   }
-
 ```
 
-## validate relationship between cluster and SIS
+Validate relationship between cluster and SIS
 
-If we compare the previou PCoA results with this PCoA results rendered by with/without SIS, we can find that in last figures (alpha = 1.6 and alpha=1.01, where there's one SIS), the community types are clustered in the same way as they are rendered with/without SIS, indicating that the occurrence of SIS can influence the community types.
+If we compare the previous PCoA results with this PCoA results rendered
+by with/without SIS, we can find that in last figures (alpha = 1.6 and
+alpha=1.01, where there's one SIS), the community types are clustered
+in the same way as they are rendered with/without SIS, indicating that
+the occurrence of SIS can influence the community types.
 
 ```{r pcoa, eval=FALSE}
 pcoa_plot_sis <- list()
@@ -350,4 +341,6 @@ for (row in seq_len(nrow(params))) {
 
   # ggsave(paste0("pcoa_validation_", params$alpha[row], ".pdf"), plot = pcoa_plot_sis[[row]], dpi = 300, width = 6, height = 6, units = "cm")
 }
+
+
 ```

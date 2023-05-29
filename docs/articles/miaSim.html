@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">miaSim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,11 +44,9 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/TreeSummarizedExperiment/caseStudy1-SIS.html">Case study: SIS</a>
-    <a class="dropdown-item" href="../articles/TreeSummarizedExperiment/caseStudy2-NutrientThreshold.html">Case study: Nutrient thresholds</a>
-    <a class="dropdown-item" href="../articles/phyloseq/caseStudy1-SIS.html">caseStudy1-SIS</a>
-    <a class="dropdown-item" href="../articles/phyloseq/caseStudy2-NutrientThreshold.html">caseStudy2-NutrientThreshold</a>
-    <a class="dropdown-item" href="../articles/phyloseq/caseStudy3-EnvironmentalComplexity.html">caseStudy3-EnvironmentalComplexity</a>
+    <a class="dropdown-item" href="../articles/phyloseq/caseStudy1-SIS.html">caseStudy1-SIS-phyloseq</a>
+    <a class="dropdown-item" href="../articles/phyloseq/caseStudy2-NutrientThreshold.html">caseStudy2-NutrientThreshold-phyloseq</a>
+    <a class="dropdown-item" href="../articles/phyloseq/caseStudy3-EnvironmentalComplexity.html">caseStudy3-EnvComplexity-phyloseq</a>
   </div>
 </li>
       </ul>
@@ -75,25 +73,8 @@
 <script src="miaSim_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>miaSim: Microbiome Data Simulation</h1>
-                        <h4 data-toc-skip class="author">Yagmur Simsek</h4>
-                  <a class="author_email" href="mailto:#"></a><a href="mailto:yagmur.simsek@hsrw.org" class="email">yagmur.simsek@hsrw.org</a>
-      
-                              <h4 data-toc-skip class="author">Yu Gao</h4>
-                  <a class="author_email" href="mailto:#"></a><a href="mailto:gaoyu19920914@gmail.com" class="email">gaoyu19920914@gmail.com</a>
-      
-                              <h4 data-toc-skip class="author">Emma Gheysen</h4>
-                  <a class="author_email" href="mailto:#"></a><a href="mailto:emma.gheysen@student.kuleuven.be" class="email">emma.gheysen@student.kuleuven.be</a>
-      
-                              <h4 data-toc-skip class="author">Daniel Rios Garza</h4>
-                  <a class="author_email" href="mailto:#"></a><a href="mailto:danielrios.garza@kuleuven.be" class="email">danielrios.garza@kuleuven.be</a>
-      
-                              <h4 data-toc-skip class="author">Karoline Faust</h4>
-                  <a class="author_email" href="mailto:#"></a><a href="mailto:karoline.faust@kuleuven.be" class="email">karoline.faust@kuleuven.be</a>
-      
-                              <h4 data-toc-skip class="author">Leo Lahti</h4>
-                  <a class="author_email" href="mailto:#"></a><a href="mailto:leo.lahti@iki.fi" class="email">leo.lahti@iki.fi</a>
-      
-                  
+                        <h4 data-toc-skip class="author">miaSim authors</h4>
+            
             <h4 data-toc-skip class="date">2023-05-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/HEAD/vignettes/miaSim.Rmd" class="external-link"><code>vignettes/miaSim.Rmd</code></a></small>
@@ -107,13 +88,25 @@
 </h2>
 <p><code>miaSim</code> implements tools for microbiome data simulation based on varying ecological modeling assumptions. These can be used to simulate species abundance matrices, including time series. Detailed function documentation is available at the <a href="https://microbiome.github.io/miaSim/reference/index.html" class="external-link">function reference</a></p>
 <p>The miaSim package supports the R/Bioconductor framework based on the TreeSummarizedExperiment data container. For more information on operating with this data format in microbial ecology, see the <a href="https://microbiome.github.io/OMA" class="external-link">online tutorial</a>.</p>
-<p>Install the Bioconductor release version with</p>
+<div class="section level3">
+<h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h3>
+<p>The stable Bioconductor release version can be installed as follows.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"miaSim"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>    </span>
+<span>    <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"miaSim"</span><span class="op">)</span></span></code></pre></div>
+<p>The experimental Bioconductor devel version can be installed as follows.</p>
+<pre><code><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
+<span><span class="co"># The following initializes usage of Bioc devel</span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span>version<span class="op">=</span><span class="st">'devel'</span><span class="op">)</span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"miaSim"</span><span class="op">)</span></span></code></pre>
 <p>Load the library</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/microbiome/miaSim" class="external-link">miaSim</a></span><span class="op">)</span></span></code></pre></div>
+</div>
 <div class="section level3">
 <h3 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h3>
@@ -122,11 +115,12 @@
 </h4>
 <p>Some of the models rely on interaction matrices that represents interaction heterogeneity between species. The interaction matrix can be generated with different distributional assumptions.</p>
 <p>Generate interactions from normal distribution:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">A_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/powerlawA.html">powerlawA</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">4</span>, alpha <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p>Generate interactions from uniform distribution:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">A_uniform</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomA.html">randomA</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">10</span>, diagonal <span class="op">=</span> <span class="op">-</span><span class="fl">0.4</span>,</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">A_uniform</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomA.html">randomA</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                 diagonal <span class="op">=</span> <span class="op">-</span><span class="fl">0.4</span>,</span>
 <span>                     connectance <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>             interactions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">^</span><span class="fl">2</span>, min <span class="op">=</span> <span class="op">-</span><span class="fl">0.8</span>, max <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -134,19 +128,23 @@
 <h4 id="ricker-model">Ricker model<a class="anchor" aria-label="anchor" href="#ricker-model"></a>
 </h4>
 <p>Ricker model is a discrete version of the gLV:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">rickermodel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateRicker.html">simulateRicker</a></span><span class="op">(</span>n_species<span class="op">=</span><span class="fl">4</span>, A <span class="op">=</span> <span class="va">A_normal</span>, t_end<span class="op">=</span><span class="fl">100</span>, norm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tse_ricker</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateRicker.html">simulateRicker</a></span><span class="op">(</span>n_species<span class="op">=</span><span class="fl">4</span>, A <span class="op">=</span> <span class="va">A_normal</span>, t_end<span class="op">=</span><span class="fl">100</span>, norm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>The number of species specified in the interaction matrix must be the same as the species used in the models.</p>
 </div>
 <div class="section level4">
 <h4 id="hubbell-model">Hubbell model<a class="anchor" aria-label="anchor" href="#hubbell-model"></a>
 </h4>
 <p>Hubbell Neutral simulation model characterizes diversity and relative abundance of species in ecological communities assuming migration, births and deaths but no interactions. Losses become replaced by migration or birth.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tse_hubbell</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateHubbell.html">simulateHubbell</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">8</span>, M <span class="op">=</span> <span class="fl">10</span>, carrying_capacity <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>                                k_events <span class="op">=</span> <span class="fl">50</span>, migration_p <span class="op">=</span> <span class="fl">0.02</span>, t_end <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
-<p>One can also simulate parameters for the Hubbell model.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tse_hubbell</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateHubbell.html">simulateHubbell</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>                               M <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                   carrying_capacity <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>                               k_events <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>                   migration_p <span class="op">=</span> <span class="fl">0.02</span>,</span>
+<span>                   t_end <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
+<p>One can also simulate parameters for the Hubbell model.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">params_hubbell</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateHubbellRates.html">simulateHubbellRates</a></span><span class="op">(</span>x0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">5</span>,<span class="fl">10</span><span class="op">)</span>,</span>
 <span>    migration_p <span class="op">=</span> <span class="fl">0.1</span>, metacommunity_probability <span class="op">=</span> <span class="cn">NULL</span>, k_events <span class="op">=</span> <span class="fl">1</span>, </span>
 <span>    growth_rates <span class="op">=</span> <span class="cn">NULL</span>, norm <span class="op">=</span> <span class="cn">FALSE</span>, t_end<span class="op">=</span><span class="fl">1000</span><span class="op">)</span></span></code></pre></div>
@@ -155,7 +153,7 @@
 <h4 id="self-organised-instability-soi">Self-Organised Instability (SOI)<a class="anchor" aria-label="anchor" href="#self-organised-instability-soi"></a>
 </h4>
 <p>The Self-Organised Instability (SOI) model generates time series for communities and accelerates stochastic simulation.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tse_soi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateSOI.html">simulateSOI</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">4</span>, carrying_capacity <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>                       A <span class="op">=</span> <span class="va">A_normal</span>, k_events<span class="op">=</span><span class="fl">5</span>,</span>
 <span>               x0 <span class="op">=</span> <span class="cn">NULL</span>,t_end <span class="op">=</span> <span class="fl">150</span>, norm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
@@ -164,25 +162,31 @@
 <h4 id="stochastic-logistic-model">Stochastic logistic model<a class="anchor" aria-label="anchor" href="#stochastic-logistic-model"></a>
 </h4>
 <p>Stochastic logistic model is used to determine dead and alive counts in community.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tse_logistic</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateStochasticLogistic.html">simulateStochasticLogistic</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="consumer-resource-model">Consumer-resource model<a class="anchor" aria-label="anchor" href="#consumer-resource-model"></a>
 </h4>
 <p>The consumer resource model requires the <code>randomE</code> function. This returns a matrix containing the production rates and consumption rates of each species. The resulting matrix is used as a determination of resource consumption efficiency.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Consumer-resource model as a TreeSE object</span></span>
-<span><span class="va">tse_crm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateConsumerResource.html">simulateConsumerResource</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">2</span>,n_resources <span class="op">=</span> <span class="fl">4</span>, E <span class="op">=</span> <span class="fu"><a href="../reference/randomE.html">randomE</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">2</span>, n_resources <span class="op">=</span> <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">tse_crm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateConsumerResource.html">simulateConsumerResource</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                                    n_resources <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>                                    E <span class="op">=</span> <span class="fu"><a href="../reference/randomE.html">randomE</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">2</span>, n_resources <span class="op">=</span> <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>You could visualize the simulated dynamics using tools from the <a href="https://microbiome.github.io/miaTime/" class="external-link">miaTime</a> package.</p>
 </div>
 <div class="section level4">
 <h4 id="generalized-lotka-volterra-glv">Generalized Lotka-Volterra (gLV)<a class="anchor" aria-label="anchor" href="#generalized-lotka-volterra-glv"></a>
 </h4>
 <p>The generalized Lotka-Volterra simulation model generates time-series assuming microbial population dynamics and interaction.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tse_glv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateGLV.html">simulateGLV</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">4</span>, A <span class="op">=</span> <span class="va">A_normal</span>, t_start <span class="op">=</span> <span class="fl">0</span>, </span>
-<span>    t_store <span class="op">=</span> <span class="fl">1000</span>, stochastic <span class="op">=</span> <span class="cn">FALSE</span>, norm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tse_glv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulateGLV.html">simulateGLV</a></span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>                       A <span class="op">=</span> <span class="va">A_normal</span>,</span>
+<span>               t_start <span class="op">=</span> <span class="fl">0</span>, </span>
+<span>                       t_store <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>               stochastic <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>               norm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -190,12 +194,12 @@
 </h3>
 <p>The simulated data sets are returned as <code>TreeSummarizedExperiment</code> objects. This provides access to a broad range of tools for microbiome analysis that support this format (see <a href="http://microbiome.github.io" class="external-link">microbiome.github.io</a>). More examples on the object manipulation and analysis can be found at <a href="https://microbiome.github.io/OMA" class="external-link">OMA Online Manual</a>.</p>
 <p>For instance, to plot population density we can use the <code>miaViz</code> package:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">miaViz</span><span class="op">)</span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotAbundanceDensity.html" class="external-link">plotAbundanceDensity</a></span><span class="op">(</span><span class="va">tse_hubbell</span>, assay.type <span class="op">=</span> <span class="st">"counts"</span><span class="op">)</span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">tse_hubbell</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p1</span><span class="op">+</span><span class="va">p2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="miaSim_files/figure-html/unnamed-chunk-8-1.png" width="864"></p>
+<p><img src="miaSim_files/figure-html/unnamed-chunk-6-1.png" width="864"></p>
 </div>
 <div class="section level3">
 <h3 id="case-studies">Case studies<a class="anchor" aria-label="anchor" href="#case-studies"></a>
@@ -214,7 +218,7 @@
 <div class="section level2">
 <h2 id="session-info">Session info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## R version 4.3.0 (2023-04-21)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
@@ -242,7 +246,7 @@
 <span><span class="co">## other attached packages:</span></span>
 <span><span class="co">##  [1] miaViz_1.9.1                   ggraph_2.1.0                  </span></span>
 <span><span class="co">##  [3] ggplot2_3.4.2                  mia_1.9.2                     </span></span>
-<span><span class="co">##  [5] MultiAssayExperiment_1.26.0    miaSim_1.7.1                  </span></span>
+<span><span class="co">##  [5] MultiAssayExperiment_1.26.0    miaSim_1.7.2                  </span></span>
 <span><span class="co">##  [7] TreeSummarizedExperiment_2.8.0 Biostrings_2.68.1             </span></span>
 <span><span class="co">##  [9] XVector_0.40.0                 SingleCellExperiment_1.22.0   </span></span>
 <span><span class="co">## [11] SummarizedExperiment_1.30.1    Biobase_2.60.0                </span></span>
