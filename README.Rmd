@@ -12,8 +12,7 @@
 
 This R/Bioconductor package can be used to simulate (longitudinal) data for the
 benchmarking and analysis of quantitative models of microbial
-communities. The package is part of
-[miaverse](microbiome.github.io), and is based on the
+communities. The package is based on the
 `(Tree)SummarizedExperiment` data container.
 
 The package [website](https://microbiome.github.io/miaSim/) provides
@@ -21,6 +20,8 @@ further tutorials and references for the [implemented
 models](https://microbiome.github.io/miaSim/reference/index.html),
 which include Hubbell's neutral model, the generalized Lotka-Volterra
 model, and the self-organised instability model.
+
+
 
 ## Installation
 
@@ -51,6 +52,7 @@ real-time in an intuitive graphical interface.
 You can experiment with miaSimShiny [online](https://gaoyu.shinyapps.io/shiny_rep/).
 
 
+
 ### Contributions and acknowledgments
 
 You can find us online from [Gitter](https://gitter.im/microbiome/miaverse).
@@ -68,13 +70,16 @@ and Emma Gheysen and Karoline Faust for developing the
 miaSim package converts to the SummarizedExperiment universe. This
 project is part of [miaverse](microbiome.github.io).
 
+### Citing the package
+
 **Kindly cite this work**. For citation details, see R command
   `r citation("miaSim")`.
 
 
 # Code of conduct
 
-Please note that the project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+Please note that the project is released with a [Contributor Code of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
 
 

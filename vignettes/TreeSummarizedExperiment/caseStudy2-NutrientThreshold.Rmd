@@ -189,9 +189,7 @@ p <- ggplot(dft, aes(x=time, y=S.t, col = resources)) +
 
 
 
-
-
-```{r grads3}
+```{r grads3, eval=FALSE}
 # Generate simulations and store the final community in community.simulation
 # Here the final relative abundance table is basisComposition_prop.
 
@@ -210,7 +208,7 @@ basisComposition <- foreach(resConc = resourceConcentration, .combine = rbind) %
         paramx0 <- as.list(as.data.frame(t(community.initial.df)))
         crm_param_iter <- list(x0 = paramx0)
         print(paste("resConc", resConc, "medium", medium))
-        crmMoments <- generateSimulations(model = "simulateConsumerResource",
+        crmMoments <- miaSim::generateSimulations(model = "simulateConsumerResource",
                                            params_list = crm_params,
                                            param_iter = crm_param_iter,
                                            n_instances = n.instances,
@@ -230,7 +228,7 @@ basisComposition_prop <- basisComposition / rowSums(basisComposition)
 In this step, plot result is stored in umap_CRM_gradient_plot, and
 this is visualized in different facets.
 
-```{r umap}
+```{r umap, eval=FALSE}
 resourceConcentration <- 10^seq(0,4,1) # 1 to 10000
 n.medium <- 5
 n.community <- 5
@@ -287,7 +285,7 @@ might belong to one community type. This can be validated by input 20
 or even 50 as n.community in this case study: communities turns into
 clusters in each sub-figures.
 
-```{r umapplots, eval=TRUE}
+```{r umapplots, eval=FALSE}
 # FIXME: the visual output can be polished later.
 print(umap_CRM_gradient_plot)
 umap_CRM_gradient_plot + facet_grid(size_by ~ ., labeller = label_both)
