@@ -1,23 +1,18 @@
-# Microbiome data simulation with miaSim <img src="man/figures/mia_logo.png" align="right" width="120" />
+# Microbiome data simulation with miaSim
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/microbiome/miaSim/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/microbiome/miaSim/actions/workflows/R-CMD-check.yaml)
-[![R-CMD-check-bioc](https://github.com/microbiome/miaSim/actions/workflows/check-bioc.yml/badge.svg)](https://github.com/microbiome/miaSim/actions/workflows/check-bioc.yml)
-[![R-CMD-check-bioc-devel](https://github.com/microbiome/miaSim/actions/workflows/check-bioc-devel.yml/badge.svg)](https://github.com/microbiome/miaSim/actions/workflows/check-bioc-devel.yml)
+
 [![Codecov test coverage](https://codecov.io/gh/microbiome/miaSim/branch/master/graph/badge.svg)](https://codecov.io/gh/microbiome/miaSim?branch=master)
 [![Gitter](https://badges.gitter.im/microbiome/mia.svg)](https://gitter.im/microbiome/miaverse)
-
 [![Watch on GitHub][github-watch-badge]][github-watch]
 [![Star on GitHub][github-star-badge]][github-star]
 
-
-
+[![R-CMD-check](https://github.com/microbiome/miaSim/workflows/R-CMD-check/badge.svg)](https://github.com/microbiome/miaSim/actions)
 <!-- badges: end -->
 
 This R/Bioconductor package can be used to simulate (longitudinal) data for the
 benchmarking and analysis of quantitative models of microbial
-communities. The package is part of
-[miaverse](microbiome.github.io), and is based on the
+communities. The package is based on the
 `(Tree)SummarizedExperiment` data container.
 
 The package [website](https://microbiome.github.io/miaSim/) provides
@@ -27,6 +22,7 @@ which include Hubbell's neutral model, the generalized Lotka-Volterra
 model, and the self-organised instability model.
 
 
+
 ## Installation
 
 ### Bioc-release
@@ -34,8 +30,7 @@ model, and the self-organised instability model.
 ```
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-
-BiocManager::install("miaSim")
+    BiocManager::install("miaSim")
 ```
 
 ### Bioc-devel
@@ -43,10 +38,8 @@ BiocManager::install("miaSim")
 ```
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-
 # The following initializes usage of Bioc devel
 BiocManager::install(version='devel')
-
 BiocManager::install("miaSim")
 ```
 
@@ -58,12 +51,14 @@ real-time in an intuitive graphical interface.
 
 You can experiment with miaSimShiny [online](https://gaoyu.shinyapps.io/shiny_rep/).
 
+
+
 ### Contributions and acknowledgments
 
 You can find us online from [Gitter](https://gitter.im/microbiome/miaverse).
 
 Contributions are very welcome through issues and pull requests at the
-[development site](https://github.com/microbiome/miaSim). We a git
+[development site](https://github.com/microbiome/miaSim). We follow a git
 flow kind of approach. Development version should be done against the
 `main` branch and then merged to `release` for release.
 (https://guides.github.com/introduction/flow/)
@@ -72,16 +67,19 @@ We are grateful to all
 [contributors](https://github.com/microbiome/miaSim/graphs/contributors),
 and Emma Gheysen and Karoline Faust for developing the
 [microsimR](https://github.com/gheysenemma/microsimR) package that the
-miaSim package converts to the TreeSummarizedExperiment universe. This
+miaSim package converts to the SummarizedExperiment universe. This
 project is part of [miaverse](microbiome.github.io).
 
+### Citing the package
+
 **Kindly cite this work**. For citation details, see R command
-  `citation("miaSim")`.
+  list(title = "miaSim R package", author = list(list(given = "Yagmur", family = "Simsek", role = NULL, email = "Yagmur.Simsek@hsrw.org", comment = NULL), list(given = "Leo", family = "Lahti", role = NULL, email = NULL, comment = NULL), list(given = "Daniel", family = "Garza", role = NULL, email = NULL, comment = NULL), list(given = "Karoline", family = "Faust", role = NULL, email = NULL, comment = NULL)), url = "microbiome.github.io/miaSim", note = "Version 1.6.0").
 
 
 # Code of conduct
 
-Please note that the project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+Please note that the project is released with a [Contributor Code of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
 
 
