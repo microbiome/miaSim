@@ -1,21 +1,28 @@
 citHeader("Kindly cite the miaSim R package as follows:")
 
-
 note <- sprintf("Version %s", meta$Version)
 
-citEntry(entry="misc",
-         title = "miaSim R package",
+citEntry(entry="article",
+         title = "miaSim: an R/Bioconductor package to easily simulate microbial community dynamics",
+	 journal = "Methods in Ecology and Evolution",
+	 year = 2023,
+	 doi = "10.1111/2041-210X.14129",
          author = personList(
-	   person(given = "Yagmur", family="Simsek", email = "Yagmur.Simsek@hsrw.org"),
+	   person(given = "Yu", family="Gao"),	 
+	   person(given = "Yağmur", family="Şimşek", email = "Yagmur.Simsek@hsrw.org"),
+	   person(given = "Emma", family="Gheysen"),
+	   person(given = "Tuomas", family="Borman"),
+	   person(given = "Yi", family="Li"),	   	   	   
 	   person(given = "Leo", family="Lahti"),
-	   person(given = "Daniel", family="Garza"),
-	   person(given = "Karoline", family="Faust")
+	   person(given = "Karoline", family="Faust"),
+	   person(given = "Daniel", family="Garza")	   
          ),
 	 url = "microbiome.github.io/miaSim",
 	 note = note,
          textVersion =
-         paste("(C) Yagmur Simsek and Leo Lahti.",
-               "miaSim R package",
+         paste("(C) Yu Gao et al.",
+               "miaSim: an R/Bioconductor package to easily simulate microbial community dynamics.",	 
+	       "Methods in Ecology and Evolution (2023).",
 	       note,
 	       "Package URL: microbiome.github.io/miaSim",
                sep=" ")

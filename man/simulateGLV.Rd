@@ -132,14 +132,14 @@ ExampleGLV <- simulateGLV(
     t_external_events = c(0, 240, 480), t_external_durations = c(0, 1, 1)
 )
 
-# run the model with no pertubation nor migration
+# run the model with no perturbation nor migration
 set.seed(42)
 tse1 <- simulateGLV(
     n_species = 4, A = ExampleA, stochastic = FALSE,
     sigma_migration = 0
 )
 
-# run the model with no pertubation nor migration but with measurement error
+# run the model with no perturbation nor migration but with measurement error
 set.seed(42)
 tse2 <- simulateGLV(
     n_species = 4, A = ExampleA, stochastic = FALSE,

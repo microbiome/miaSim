@@ -85,7 +85,7 @@ the diagonal.
 \code{randomA} returns a matrix A with dimensions (n_species x n_species)
 }
 \description{
-Generate random interaction matrix for Generalized Lotka-Volterra (GLV) model
+Generates a random interaction matrix for Generalized Lotka-Volterra (GLV) model.
 }
 \examples{
 

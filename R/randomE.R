@@ -1,7 +1,7 @@
 #' Generate random efficiency matrix
 #'
 #' Generate random efficiency matrix for consumer resource model from Dirichlet
-#' distribution. Positive efficiencies indicate the consumption of resources,
+#' distribution, where positive efficiencies indicate the consumption of resources,
 #' whilst negatives indicate that the species would produce the resource.
 #'
 #' @template man_spe

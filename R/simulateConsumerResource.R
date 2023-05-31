@@ -1,6 +1,7 @@
 #' Consumer-resource model simulation
 #'
-#' Simulates time series with the consumer-resource model
+#' Simulates time series with the consumer-resource model.
+#'
 #' @template man_spe
 #' @template man_res
 #' @param E matrix: matrix of efficiency. A matrix defining the efficiency of

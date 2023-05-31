@@ -1,6 +1,6 @@
 #' Generate random interaction matrix for GLV model
 #'
-#' Generate random interaction matrix for Generalized Lotka-Volterra (GLV) model
+#' Generates a random interaction matrix for Generalized Lotka-Volterra (GLV) model.
 #'
 #' @template man_spe
 #' @param diagonal Values defining the strength of self-interactions. Input can

@@ -1,6 +1,6 @@
 Package: miaSim
 Type: Package
-Version: 1.6.0
+Version: 1.7.2
 Authors@R:
      c(person(given = "Yagmur", family = "Simsek", role = c("cre", "aut"),
               email = "yagmur.simsek.98@gmail.com"),
@@ -18,7 +18,7 @@ Authors@R:
        person(given = "Leo", family = "Lahti", role = c("aut"),
               email = "leo.lahti@iki.fi",
               comment = c(ORCID = "0000-0001-5537-637X"))
-	      )
+      )
 Title: Microbiome Data Simulation
 Description:
     Microbiome time series simulation with generalized Lotka-Volterra model,
@@ -41,6 +41,8 @@ Imports:
 Suggests:
     ape,
     cluster,
+    foreach,
+    doParallel,
     dplyr,
     GGally,
     ggplot2,

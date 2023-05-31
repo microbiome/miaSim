@@ -1,5 +1,5 @@
 ---
-title: "miaSim: microbial community model simulations"
+title: "miaSim: Microbiome Data Simulation"
 author: "miaSim authors"
 date: "`r Sys.Date()`"
 package: miaSim
@@ -26,21 +26,37 @@ knitr::opts_chunk$set(cache = FALSE,
 
 # Introduction
 
-`miaSim` implements tools for simulating microbial community data
-based on various ecological models. These can be used to simulate
-species abundance matrices, including time series. A detailed
-function documentation can be viewed at the [function reference
-page](https://microbiome.github.io/miaSim/reference/index.html)
+`miaSim` implements tools for microbiome data simulation based on
+varying ecological modeling assumptions. These can be used to simulate
+species abundance matrices, including time series. Detailed function
+documentation is available at the [function reference](https://microbiome.github.io/miaSim/reference/index.html)
+
+The miaSim package supports the R/Bioconductor framework based on the
+TreeSummarizedExperiment data container. For more information on
+operating with this data format in microbial ecology, see the [online tutorial](https://microbiome.github.io/OMA).
 
 
 ## Installation
 
-Install the Bioconductor release version with
+The stable Bioconductor release version can be installed as follows.
 
 ```{r install-bioc, eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
+if (!requireNamespace("miaSim", quietly = TRUE))    
+    BiocManager::install("miaSim")
 ```
+
+The experimental Bioconductor devel version can be installed as follows.
+
+```
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+# The following initializes usage of Bioc devel
+BiocManager::install(version='devel')
+BiocManager::install("miaSim")
+```
+
 
 Load the library
 
@@ -48,7 +64,10 @@ Load the library
 library(miaSim)
 ```
 
+
 ## Examples
+
+
 
 ### Generating species interaction matrices
 
@@ -58,56 +77,53 @@ different distributional assumptions.
 
 Generate interactions from normal distribution:
 
-```{r}
+```{r Anormal}
 A_normal <- powerlawA(n_species = 4, alpha = 3)
 ```
 
 Generate interactions from uniform distribution:
 
-```{r}
-A_uniform <- randomA(n_species = 10, diagonal = -0.4, connectance = 0.5, interactions = runif(n = 10^2, min = -0.8, max = 0.8))
+```{r Auniform}
+A_uniform <- randomA(n_species = 10,
+	     	     diagonal = -0.4,
+                     connectance = 0.5,
+		     interactions = runif(n = 10^2, min = -0.8, max = 0.8))
 ```
 
-### Generalized Lotka-Volterra (gLV)
-
-The generalized Lotka-Volterra simulation model generates time-series assuming
-microbial population dynamics and interaction.
-
-```{r glv}
-glvmodel <- simulateGLV(n_species = 4, A = A_normal, t_start = 0, 
-    t_store = 100, t_end=100, stochastic = FALSE, norm = FALSE)
-
-miaViz::plotSeries(glvmodel, "time")
-
-```
 
 ### Ricker model
 
 Ricker model is a discrete version of the gLV:
 
 ```{r ricker}
-rickermodel <- simulateRicker(n_species=4, A = A_normal, t_end=100, norm = FALSE)
+tse_ricker <- simulateRicker(n_species=4, A = A_normal, t_end=100, norm = FALSE)
 ```
 
-The number of species specified in the interaction matrix must be the same as the species used in the models.
+The number of species specified in the interaction matrix must be the
+same as the species used in the models.
 
 ### Hubbell model
 
-Hubbell Neutral simulation model characterizes diversity and relative abundance of species in ecological communities assuming migration, births and deaths but no interactions. Losses become replaced by migration or birth.
+Hubbell Neutral simulation model characterizes diversity and relative
+abundance of species in ecological communities assuming migration,
+births and deaths but no interactions. Losses become replaced by
+migration or birth.
 
-```{r hubbell}
-hubbellmodel <- simulateHubbell(n_species = 8, M = 10, carrying_capacity = 1000,
-                                k_events = 50, migration_p = 0.02, t_end = 100)
+```{r}
+tse_hubbell <- simulateHubbell(n_species = 8,
+                               M = 10,
+			       carrying_capacity = 1000,
+                               k_events = 50,
+			       migration_p = 0.02,
+			       t_end = 100)
 ```
 
 One can also simulate parameters for the Hubbell model.
 
 ```{r}
-hubbellmodelRates <- simulateHubbellRates(x0 = c(0,5,10),
+params_hubbell <- simulateHubbellRates(x0 = c(0,5,10),
     migration_p = 0.1, metacommunity_probability = NULL, k_events = 1, 
-    growth_rates = NULL, norm = FALSE, t_end=100)
-
-miaViz::plotSeries(hubbellmodelRates, "time")
+    growth_rates = NULL, norm = FALSE, t_end=1000)
 ```
 
 ### Self-Organised Instability (SOI)
@@ -115,9 +131,10 @@ miaViz::plotSeries(hubbellmodelRates, "time")
 The Self-Organised Instability (SOI) model generates time series for
 communities and accelerates stochastic simulation.
 
-```{r soi}
-soimodel <- simulateSOI(n_species = 4, carrying_capacity = 1000,
-              A = A_normal, k_events=5, x0 = NULL, t_end = 150, norm = TRUE)
+```{r}
+tse_soi <- simulateSOI(n_species = 4, carrying_capacity = 1000,
+                       A = A_normal, k_events=5,
+		       x0 = NULL,t_end = 150, norm = TRUE)
 ```
 
 ### Stochastic logistic model
@@ -125,144 +142,75 @@ soimodel <- simulateSOI(n_species = 4, carrying_capacity = 1000,
 Stochastic logistic model is used to determine dead and alive counts
 in community.
 
-```{r logistic, eval=FALSE}
-logisticmodel <- simulateStochasticLogistic(n_species = 5)
-
-miaViz::plotSeries(logisticmodel, x = "time")
-
-model_transformed <- mia::transformCounts(logisticmodel, method = "relabundance")
+```{r}
+tse_logistic <- simulateStochasticLogistic(n_species = 5)
 ```
 
 ### Consumer-resource model
 
-The consumer resource model requires the use of the `randomE`
-function, which returns a matrix containing the production rates and
-consumption rates of each species. The resulting matrix is used as a
-determination of resource consumption efficiency.
+The consumer resource model requires the `randomE` function. This
+returns a matrix containing the production rates and consumption rates
+of each species. The resulting matrix is used as a determination of
+resource consumption efficiency.
 
-```{r, eval=FALSE}
-crmodel <- simulateConsumerResource(n_species = 2,
-             n_resources = 4,
-	     E = randomE(n_species = 2, n_resources = 4))
-
-miaViz::plotSeries(crmodel, "time")
-
-# example to get relative abundance and relative proportion of resources
-#'norm = TRUE' can be added as a parameter.
-
-# convert to relative abundance
-ExampleCR <- mia::transformCounts(crmodel, method = "relabundance")
-
-miaViz::plotSeries(ExampleCR, "time")
+```{r cr}
+# Consumer-resource model as a TreeSE object
+tse_crm <- simulateConsumerResource(n_species = 2,
+                                    n_resources = 4,
+                                    E = randomE(n_species = 2, n_resources = 4))
 ```
 
+You could visualize the simulated dynamics using tools from the [miaTime](https://microbiome.github.io/miaTime/) package.
 
-```{r crmodel, eval=FALSE}
-#Recommended standard way to generate a set of n simulations (n=2 here) from a given model
-simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
 
-# Visualize the model for the first instance
-miaViz::plotSeries(simulations[[1]], "time")
+### Generalized Lotka-Volterra (gLV)
 
-# List state for each community (instance) at its last time point;
-# this results in instances x species matrix; means and variances per species can be computed col-wise
+The generalized Lotka-Volterra simulation model generates time-series assuming
+microbial population dynamics and interaction.
 
-communities <-  t(sapply(simulations, function (x) {assay(x, "counts")[, which.max(x$time)]}))
+```{r glv}
+tse_glv <- simulateGLV(n_species = 4,
+                       A = A_normal,
+		       t_start = 0, 
+                       t_store = 1000,
+		       stochastic = FALSE,
+		       norm = FALSE)
 
-# Some more advanced examples for hardcore users:
- 
-# test leave-one-out in CRM
-.replaceByZero <- function(input_list) { # params_iter$x0 as input_list
-     if (!all(length(input_list) == unlist(unique(lapply(input_list, length))))) {
-         stop("Length of input_list doesn't match length of element in it.")
-     }
-     for (i in seq_along(input_list)) {
-         input_list[[i]][[i]] <- 0
-     }
-     return(input_list)
- }
-
-.createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE) {
-     res_list <- vector(mode = "list", length = n_repeat)
-     for (i in seq_len(n_repeat)) {
-         res_list[[i]] <- input_param
-     }
-res_list <- lapply(seq_len(n_repeat), function (i) {input_param})
- }
 ```
 
-```{r}
-
-# example of generateSimulations
-# FIXME: reduce computational load by lowering the number of species and timesteps in the demo
-params <- list(
-    n_species = 10,
-    n_resources = 5,
-    E = randomE(
-        n_species = 10, n_resources = 5,
-        mean_consumption = 1, mean_production = 3
-    ),
-    x0 = rep(0.001, 10),
-    resources = rep(1000, 5),
-    monod_constant = matrix(rbeta(10 * 5, 10, 10), nrow = 10, ncol = 5),
-    inflow_rate = .5,
-    outflow_rate = .5,
-    migration_p = 0,
-    stochastic = TRUE,
-    t_start = 0,
-    t_end = 20,
-    t_store = 100,
-    growth_rates = runif(10),
-    norm = FALSE
-)
-# Test overwrite params
-.createParamList <- function(input_param, n_repeat, replace_by_zero = FALSE) {
-  res_list <- unname(as.list(data.frame(t(matrix(rep(input_param, n_repeat), nrow = n_repeat)))))
-}
-
-paramx0 <- .createParamList(input_param = rep(0.001, 10), n_repeat = 10, 
-                            replace_by_zero = TRUE)
-paramresources <- .createParamList(input_param = rep(1000, 5), n_repeat = 10)
-params_iter <- list(x0 = paramx0, resources = paramresources)
-simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
-simulations_2 <- .generateSimulations(
-    model = "simulateConsumerResource",
-    params_list = params, param_iter = params_iter, n_instances = 1, t_end = 20
-)
-
-estimatedA <- .estimateAFromSimulations(simulations, simulations_2, n_instances = 1,
-    scale_off_diagonal = 1, diagonal = -0.5, connectance = 0.2
-) / 1000
-# Using these parameters with a specified simulator
-m <- simulateGLV(n_species = 10, x0 = params$x0,
-        A = estimatedA, growth_rates = params$growth_rates, t_end = 20, t_store = 100)
-
-miaViz::plotSeries(m, "time") # Plotting
-```
 
 ## Data containers
 
-The simulation functions gives `TreeSummarizedExperiment` [@TreeSE]
-object. 
-
-This provides access to a broad range of tools for microbiome
+The simulated data sets are returned as `TreeSummarizedExperiment`
+objects. This provides access to a broad range of tools for microbiome
 analysis that support this format (see
 [microbiome.github.io](http://microbiome.github.io)). More examples on
-can be found at [OMA Online
-Manual](https://microbiome.github.io/OMA). Other fields, such as
-rowData containing information about the samples, and colData,
-consisting of sample metadata describing the samples, or phylogenetic
-trees, can be added as necessary.
+the object manipulation and analysis can be found at [OMA Online
+Manual](https://microbiome.github.io/OMA).
 
-For instance, we can use the `miaViz` R/Bioconductor package to
-visualize the microbial community time series.
+For instance, to plot population density we can use the `miaViz` package:
+
+```{r}
+library(miaViz)
+p1 <- plotAbundanceDensity(tse_hubbell, assay.type = "counts")
+p2 <- plotSeries(tse_hubbell, x = "time")
+print(p1+p2)
+```
+
+
+## Case studies 
+
+Source code for replicating the published case studies using the
+miaSim package ([Gao et
+al. 2023](https://doi.org/10.1111/2041-210X.14129)) is available in
+the phyloseq folder (based on the phyloseq data container). Some of
+the original case studies have now been replicated also with
+TreeSummarized, see the TreeSummarizedExperiment folder.
 
 
 ## Related work
 
 - [micodymora](https://github.com/OSS-Lab/micodymora) Python package for microbiome simulation
-
-- [R microbiome analysis package listing](https://microsud.github.io/Tools-Microbiome-Analysis/) by Sudarshan Shetty
 
 # Session info
 

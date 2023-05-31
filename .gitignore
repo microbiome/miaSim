@@ -1,5 +1,4 @@
 inst/extras
-*.html
 *.R
 *~
 *.Rproj.user
@@ -7,5 +6,7 @@ inst/extras
 *.Rhistory
 *.Ruserdata
 .Rproj.user
-
 inst/doc
+vignettes/miaSim.html
+vignettes/phyloseq/*.html
+

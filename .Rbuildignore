@@ -7,3 +7,5 @@
 ^codecov.yml$
 ^README.Rmd$
 man-roxygen
+^_pkgdown\.yml$
+^pkgdown$
