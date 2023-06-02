@@ -7,7 +7,7 @@
 .eventTimes(t_events = NULL, t_duration = NULL, t_end = 1000, ...)
 }
 \arguments{
-\item{t_events, t_duration}{Numeric: vector of starting time and durations of
+\item{t_events, t_duration}{Numeric: vector of starting time and duration of
 the events}
 
 \item{t_end}{Numeric: end time of the simulation}

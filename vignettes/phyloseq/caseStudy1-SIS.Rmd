@@ -1,6 +1,6 @@
 ---
-title: "Case study: SIS"
-author: "The miaSim package authors."
+title: "caseStudy1-SIS-phyloseq"
+author: "miaSim package authors"
 date: "`r Sys.Date()`"
 package: miaSim
 output: 
@@ -22,14 +22,32 @@ knitr::opts_chunk$set(
   cache = FALSE,
   fig.width = 9,
   message = FALSE,
-  eval=FALSE,
   warning = FALSE)
 ```
 
+# Introduction
 
-# Case study with miaSim: Strongly interacting species (SIS) explaining community types
 
-Reference: [On the Origins and Control of Community Types in the Human Microbiome](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004688)
+This document provides the detailed code required to replicate case study 1 discussed in Gao _et al._ (2023). Methods in Ecology and Evolution. DOI:
+[10.1111/2041-210X.14129](https://doi.org/10.1111/2041-210X.14129)
+
+This replication study has been implemented with phyloseq. The TreeSE
+package has been since then upgraded to use the TreeSE data container.
+
+For general instructions and examples on using the miaSim package
+tools, see the
+[vignette](https://microbiome.github.io/miaSim/articles/miaSim.html). `miaSim`
+implements tools for microbiome data simulation based on different
+ecological modeling assumptions. These can be used to simulate species
+abundance matrices, including time series. For a detailed function
+documentation, see the [function reference
+page](https://microbiome.github.io/miaSim/reference/index.html)
+
+
+
+# Case study 1: Strongly interacting species (SIS) explaining community types
+
+(Reference: [On the Origins and Control of Community Types in the Human Microbiome](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004688))
 
 The aim of this case study is to recalculate this [Figure 2](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004688#pcbi-1004688-g002) which demonstrates the occurrence of SIS and the clustering results of communities.
 
@@ -37,27 +55,29 @@ In this figure, from left to right, different power-law distributions (defined b
 
 In this case study, we used their same sets of parameters, and acquired the similar results.
 
-## Load dependencies
+## Setup
 
-```{r deps, eval=TRUE}
+Let us load dependencies
+
+```{r loaddeps, eval=TRUE}
 library(ggplot2)
-# library(igraph)
+library(igraph)
 library(colourvalues)
 library(GGally)
 library(network)
 library(sna)
-library(ape)
 library(dplyr)
 library(philentropy)
 library(cluster)
+library(ape)
+library(intergraph)
+library(umap)
 library(miaSim)
 ```
 
-## Define a function to generate power-law distribution
+Define a function to generate power-law distribution
 
-```{r rpower}
-# FIXME: probably R already has some function for this; use that to simplify the code and
-# avoid unnecessary duplication
+```{r}
 rpower <- function(n, alpha, norm = FALSE) {
   u <- runif(n, min = 0, max = 1 - .Machine$double.eps^0.5)
   power <- (1 - u)^(1 / (1 - alpha))
@@ -69,9 +89,9 @@ rpower <- function(n, alpha, norm = FALSE) {
 }
 ```
 
-## Load parameters used by Gibson et al.
+Load parameters used by Gibson et al.
 
-```{r gibs}
+```{r}
 params <- data.frame(
   alpha = c(7, 3, 2, 1.6, 1.01),
   t_end = c(20, 10, 5, 2, 1),
@@ -79,16 +99,12 @@ params <- data.frame(
 )
 set.seed(42)
 n_species <- 100
-
-# Define local communities;
-# we use here a smaller number in order to speed up demo calculations
-# local_communities <- seq_len(100) # Too slow!    
-local_communities <- c(1, 5, 10, 20) # Faster 
 ```
 
-## create variables to store results
 
-```{r store}
+Create variables to store results
+
+```{r}
 H <- list()
 df <- list()
 plot_hist <- list()
@@ -101,9 +117,9 @@ local_species_pool <- list()
 local_A <- list()
 ```
 
-## generate constants and plot different distributions
+## Generate constants and plot different distributions
 
-```{r misc, warning=FALSE, eval=FALSE}
+```{r, warning=FALSE}
 set.seed(42)
 for (row in seq_len(nrow(params))) {
   # for each power-law distribution
@@ -133,8 +149,8 @@ for (row in seq_len(nrow(params))) {
   )
   g[[row]] <- graph_from_adjacency_matrix(A[[row]], weighted = TRUE, diag = FALSE)
   print(paste("max edge weight =", max(E(g[[row]])$weight)))
-  E(g[[row]])$color <- head(colour_values(c(abs(E(g[[row]])$weight), 0), alpha = 0, include_alpha = TRUE), -1)
-
+  rev_viridis <- get_palette("viridis")[rev(seq_len(nrow(get_palette("viridis")))), ]
+  E(g[[row]])$color <- head(colour_values(c(abs(E(g[[row]])$weight), 0), palette = rev_viridis, alpha = 0, include_alpha = TRUE), -1)
   g_plot[[row]] <- ggnet2(
     net = g[[row]],
     mode = "circle",
@@ -142,30 +158,34 @@ for (row in seq_len(nrow(params))) {
     node.size = 1,
     edge.color = "color", edge.alpha = 0.25
   ) + 
-    labs(title=paste("alpha =", params$alpha[[row]])) + 
+    ggtitle(paste("alpha =", params$alpha[[row]])) + 
     theme(plot.title = element_text(hjust = 0.5))
-
+  # g_plot[[row]]
   print(g_plot[[row]])
 
   local_species_pool[[row]] <- list()
   local_A[[row]] <- list()
 
-  for (local_community in local_communities) {
+  for (local_community in seq_len(100)) {
     local_species_pool[[row]][[local_community]] <- sample(x = 100, size = 80)
     local_A[[row]][[local_community]] <- A[[row]][local_species_pool[[row]][[local_community]], local_species_pool[[row]][[local_community]]]
   }
+  # save histogram and network plots ####
+  # ggsave(paste0("hist", params$alpha[row], ".pdf"), plot = plot_hist[[row]], dpi = 300, width = 6, height = 6, units = "cm")
+  # ggsave(paste0("net", params$alpha[row], ".pdf"), plot = g_plot[[row]], dpi = 300, width = 6, height = 6, units = "cm")
 }
+
 ```
 
-## identify SIS using H[[row]]
+Identify SIS using H[[row]]
 
-```{r sis, eval=FALSE}
+```{r}
 SIS <- list()
 group_sis <- list()
 for (row in seq_len(nrow(params))) {
   SIS[[row]] <- head(order(H[[row]], decreasing = TRUE), 1)
   group_sis[[row]] <- list()
-  for (local_community in local_communities) {
+  for (local_community in seq_len(100)) {
     if (paste0("sp", SIS[[row]]) %in% rownames(local_A[[row]][[local_community]])) {
       group_sis[[row]][[local_community]] <- "with SIS"
     } else {
@@ -176,15 +196,15 @@ for (row in seq_len(nrow(params))) {
 }
 ```
 
-## simulate GLV models using different growth rates in 4 scenarios
+Simulate GLV models using different growth rates in 4 scenarios
 
 The first scenario is the original one from Gibson et al., and the rest are some explorations (the second scenario is assigning various growth rates to random species; the third scenario is assigning faster growth rate to SIS; and the fourth scenario is assigning faster growth rate to non-SIS).
 
 Different scenarios are implemented by overwriting the default random growth rates in simulation function.
 
-## prepare result lists and scenarios
+Let us prepare result lists and scenarios.
 
-```{r glv, eval=FALSE}
+```{r}
 simulation_GLV <- list()
 otu_table <- list()
 jsd <- list()
@@ -202,21 +222,16 @@ growthRates <- vector(mode = "list", length = 4)
 growthRates[[1]] <- rep(1, 80)
 growthRates[[2]] <- NULL
 # growthRates for scenario 3 and 4 are assigned in the following loop
+
 customPalette <- c("#d95319", "#0072bd", "#edb120", "#7e2f8e")
+
 ```
 
-In this case study, we only focus on the first scenario.
+In this case study, we only focus on the first scenario. (To explore
+more, simply remove the first line, then put the code in a for loop
+like `for (scenario in seq_along(scenarios)) {...}` .)
 
-This example uses a smaller number of local communities for faster
-computations but the code can be easily adapted to vary the numbers.
-
-In order to run over several scenarios, you can replace `scenario <-
-1` with a for loop like `for (scenario in seq_along(scenarios))
-{...}`.
-
-
-
-```{r scenario, eval=FALSE}
+```{r scenarios, eval=FALSE}
   scenario <- 1
   print(paste0("scenario: ", scenarios[scenario]))
 
@@ -239,9 +254,8 @@ In order to run over several scenarios, you can replace `scenario <-
     colnames(otu_table[[scenario]][[row]]) <- paste0("sp", 1:100)
     dfs_to_bind[[scenario]] <- list()
 
-    #### overwrite growth rates ####    
-    # for (local_community in local_communities) { 
-    for (local_community in local_communities) {   
+    #### overwrite growth rates ####
+    for (local_community in seq_len(100)) {
       if (scenario == 3) {
         growthRates[[scenario]] <- 9.9 * local_species_pool[[row]][[local_community]] == SIS[[row]] + 0.1
       }
@@ -267,7 +281,7 @@ In order to run over several scenarios, you can replace `scenario <-
 
     ### form otu tables ####
     otu_table[[scenario]][[row]] <- bind_rows(dfs_to_bind[[scenario]])
-    otu_table[[scenario]][[row]] <- subset(otu_table[[scenario]][[row]], select = -time)
+    otu_table[[scenario]][[row]] <- otu_table[[scenario]][[row]][, setdiff(colnames(otu_table[[scenario]][[row]]), "time")] # Remove time column
     otu_table[[scenario]][[row]][is.na(otu_table[[scenario]][[row]])] <- 0
 
     ### calculate jensen-shannon distance and plot PCoA ####
@@ -280,8 +294,7 @@ In order to run over several scenarios, you can replace `scenario <-
     PAM[[scenario]][[row]] <- pam(PCoA[[scenario]][[row]]$vectors, k = 2)
     SI[[scenario]][[row]] <- PAM[[scenario]][[row]]$silinfo$avg.width
 
-    # Too slow, let us limit k to 2..3 in the example (earlier 3:10)
-    for (k in 2:3) {
+    for (k in 3:10) {
       PAMtemp <- pam(PCoA[[scenario]][[row]]$vectors, k = k)
       if (PAMtemp$silinfo$avg.width > SI[[scenario]][[row]]) {
         SI[[scenario]][[row]] <- PAMtemp$silinfo$avg.width
@@ -294,36 +307,40 @@ In order to run over several scenarios, you can replace `scenario <-
 
     dataframe_pcoa <- as.data.frame(PCoA_coord[[scenario]][[row]])
     dataframe_pcoa$group <- groups[[scenario]][[row]]
-    p <- ggplot(
+    pcoa_plot[[scenario]][[row]] <- ggplot(
       dataframe_pcoa,
       aes(x = PCo1, y = PCo2, color = group)
     ) +
-      labs(title = paste("scenario", scenario, scenarios[scenario], ";", "alpha =", params$alpha[[row]])) +
+      ggtitle(paste("scenario", scenario, scenarios[scenario], ";", "alpha =", params$alpha[[row]])) +
       geom_point() +
+      # coord_fixed(xlim = c(-1, 1), ylim = c(-1, 1)) +
       theme_bw() +
       scale_color_manual(values = customPalette) +
       theme(legend.position = "none", plot.title = element_text(hjust = 0.5))
-      
-    # Store the plot
-    pcoa_plot[[scenario]][[row]] <- p
-    # Show the plot
     print(pcoa_plot[[scenario]][[row]])
   }
-
 ```
 
-## validate relationship between cluster and SIS
+Validate relationship between cluster and SIS
 
-If we compare the previou PCoA results with this PCoA results rendered by with/without SIS, we can find that in last figures (alpha = 1.6 and alpha=1.01, where there's one SIS), the community types are clustered in the same way as they are rendered with/without SIS, indicating that the occurrence of SIS can influence the community types.
+If we compare the previous PCoA results with this PCoA results rendered
+by with/without SIS, we can find that in last figures (alpha = 1.6 and
+alpha=1.01, where there's one SIS), the community types are clustered
+in the same way as they are rendered with/without SIS, indicating that
+the occurrence of SIS can influence the community types.
 
 ```{r pcoa, eval=FALSE}
 pcoa_plot_sis <- list()
 for (row in seq_len(nrow(params))) {
   pcoa_plot_sis[[row]] <- ggplot(as.data.frame(PCoA_coord[[1]][[row]]), aes(x = PCo1, y = PCo2)) +
-    geom_point(aes(colour = group_sis[[row]])) +
-    labs(title=paste("alpha =", params$alpha[[row]])) +
+    geom_point(aes(color = group_sis[[row]])) +
+    ggtitle(paste("alpha =", params$alpha[[row]])) +
     theme_bw() + 
     theme(plot.title = element_text(hjust = 0.5))
-  print(pcoa_plot_sis[[row]]) # pcoa_validation_ plots
+  print(pcoa_plot_sis[[row]])
+
+  # ggsave(paste0("pcoa_validation_", params$alpha[row], ".pdf"), plot = pcoa_plot_sis[[row]], dpi = 300, width = 6, height = 6, units = "cm")
 }
+
+
 ```

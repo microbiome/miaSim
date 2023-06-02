@@ -2,7 +2,6 @@
 
 export(.estimateAFromSimulations)
 export(.eventTimes)
-export(.generateSimulations)
 export(.rdirichlet)
 export(.simulationTimes)
 export(powerlawA)
