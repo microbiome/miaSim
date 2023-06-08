@@ -192,7 +192,7 @@ For instance, to plot population density we can use the `miaViz` package:
 
 ```{r}
 library(miaViz)
-p1 <- plotAbundanceDensity(tse_hubbell, assay.type = "counts")
+p1 <- plotAbundanceDensity(tse_hubbell)
 p2 <- plotSeries(tse_hubbell, x = "time")
 print(p1+p2)
 ```
