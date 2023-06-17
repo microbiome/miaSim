@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">miaSim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,14 +40,6 @@
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/phyloseq/caseStudy1-SIS.html">caseStudy1-SIS-phyloseq</a>
-    <a class="dropdown-item" href="../articles/phyloseq/caseStudy2-NutrientThreshold.html">caseStudy2-NutrientThreshold-phyloseq</a>
-    <a class="dropdown-item" href="../articles/phyloseq/caseStudy3-EnvironmentalComplexity.html">caseStudy3-EnvComplexity-phyloseq</a>
-  </div>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -75,7 +67,7 @@
       <img src="" class="logo" alt=""><h1>miaSim: Microbiome Data Simulation</h1>
                         <h4 data-toc-skip class="author">miaSim authors</h4>
             
-            <h4 data-toc-skip class="date">2023-05-29</h4>
+            <h4 data-toc-skip class="date">2023-06-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/HEAD/vignettes/miaSim.Rmd" class="external-link"><code>vignettes/miaSim.Rmd</code></a></small>
       <div class="d-none name"><code>miaSim.Rmd</code></div>
@@ -87,7 +79,7 @@
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p><code>miaSim</code> implements tools for microbiome data simulation based on varying ecological modeling assumptions. These can be used to simulate species abundance matrices, including time series. Detailed function documentation is available at the <a href="https://microbiome.github.io/miaSim/reference/index.html" class="external-link">function reference</a></p>
-<p>The miaSim package supports the R/Bioconductor framework based on the TreeSummarizedExperiment data container. For more information on operating with this data format in microbial ecology, see the <a href="https://microbiome.github.io/OMA" class="external-link">online tutorial</a>.</p>
+<p>The miaSim package supports the R/Bioconductor multi-assay framework. For more information on operating with this data format in microbial ecology, see the <a href="https://microbiome.github.io/OMA" class="external-link">online tutorial</a>.</p>
 <div class="section level3">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h3>
@@ -204,7 +196,7 @@
 <div class="section level3">
 <h3 id="case-studies">Case studies<a class="anchor" aria-label="anchor" href="#case-studies"></a>
 </h3>
-<p>Source code for replicating the published case studies using the miaSim package (<a href="https://doi.org/10.1111/2041-210X.14129" class="external-link">Gao et al. 2023</a>) is available in the phyloseq folder (based on the phyloseq data container). Some of the original case studies have now been replicated also with TreeSummarized, see the TreeSummarizedExperiment folder.</p>
+<p>Source code for replicating the published case studies using the miaSim package (<a href="https://doi.org/10.1111/2041-210X.14129" class="external-link">Gao et al. 2023</a>) is available in the phyloseq folder (based on the phyloseq data container).</p>
 </div>
 <div class="section level3">
 <h3 id="related-work">Related work<a class="anchor" aria-label="anchor" href="#related-work"></a>
@@ -246,7 +238,7 @@
 <span><span class="co">## other attached packages:</span></span>
 <span><span class="co">##  [1] miaViz_1.9.1                   ggraph_2.1.0                  </span></span>
 <span><span class="co">##  [3] ggplot2_3.4.2                  mia_1.9.2                     </span></span>
-<span><span class="co">##  [5] MultiAssayExperiment_1.26.0    miaSim_1.7.2                  </span></span>
+<span><span class="co">##  [5] MultiAssayExperiment_1.26.0    miaSim_1.7.3                  </span></span>
 <span><span class="co">##  [7] TreeSummarizedExperiment_2.8.0 Biostrings_2.68.1             </span></span>
 <span><span class="co">##  [9] XVector_0.40.0                 SingleCellExperiment_1.22.0   </span></span>
 <span><span class="co">## [11] SummarizedExperiment_1.30.1    Biobase_2.60.0                </span></span>

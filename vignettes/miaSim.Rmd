@@ -31,9 +31,10 @@ varying ecological modeling assumptions. These can be used to simulate
 species abundance matrices, including time series. Detailed function
 documentation is available at the [function reference](https://microbiome.github.io/miaSim/reference/index.html)
 
-The miaSim package supports the R/Bioconductor framework based on the
-TreeSummarizedExperiment data container. For more information on
-operating with this data format in microbial ecology, see the [online tutorial](https://microbiome.github.io/OMA).
+The miaSim package supports the R/Bioconductor multi-assay
+framework. For more information on operating with this data format in
+microbial ecology, see the [online
+tutorial](https://microbiome.github.io/OMA).
 
 
 ## Installation
@@ -66,7 +67,6 @@ library(miaSim)
 
 
 ## Examples
-
 
 
 ### Generating species interaction matrices
@@ -203,9 +203,7 @@ print(p1+p2)
 Source code for replicating the published case studies using the
 miaSim package ([Gao et
 al. 2023](https://doi.org/10.1111/2041-210X.14129)) is available in
-the phyloseq folder (based on the phyloseq data container). Some of
-the original case studies have now been replicated also with
-TreeSummarized, see the TreeSummarizedExperiment folder.
+the phyloseq folder (based on the phyloseq data container).
 
 
 ## Related work
