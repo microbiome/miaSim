@@ -203,7 +203,7 @@ print(p1+p2)
 Source code for replicating the published case studies using the
 miaSim package ([Gao et
 al. 2023](https://doi.org/10.1111/2041-210X.14129)) is available in
-the phyloseq folder (based on the phyloseq data container).
+[Github](https://github.com/microbiome/miaSim/tree/main/vignettes/phyloseq) (based on the phyloseq data container).
 
 
 ## Related work
