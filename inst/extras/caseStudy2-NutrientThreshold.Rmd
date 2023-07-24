@@ -83,7 +83,7 @@ Set initial shared parameters
 ```{r}
 n_species <- 5
 n_resources <- 5
-E <- randomE(n_species, n_resources, mean_consumption = 1, mean_production = 3)
+E <- randomE(n_species, n_resources)
 growth_rates <- runif(n_species)
 monod_constant <- matrix(rbeta(n_species*n_resources, 10,10),nrow=n_species, ncol=n_resources)
 t_store <- 50
@@ -261,13 +261,11 @@ crm_params <- list(
     resources = rep(1,n_resources),
     monod_constant = monod_constant,
     migration_p = 0,
-    stochastic = FALSE,
     t_start = 0,
     t_end = 50,
     t_step = 1,
     t_store = t_store,
-    growth_rates = growth_rates,
-    norm=FALSE)
+    growth_rates = growth_rates)
 ```
 
 Generate resource gradients
@@ -282,28 +280,22 @@ resource.initial.df <- gradient.df.generator(n_row = n.medium, n_col = n_resourc
 
 ## test one run
 
-```{r simulateConsumerResource, eval=FALSE}
+```{r simulateConsumerResource, eval=FALSE, include=FALSE}
 crmExample <- simulateConsumerResource(
     n_species = n_species,
     n_resources = n_resources,
-    E = E,
-    x0 = as.numeric(community.initial.df[1,]),
     resources = as.numeric(resourceConcentration[3]*resource.initial.df[1,]),
-    growth_rates = growth_rates,
-    monod_constant = monod_constant,
-    stochastic = FALSE,
     t_end = 50,
     t_step = 1,
-    t_store = 50,
-    norm = FALSE)
-makePlot(crmExample$matrix)
-makePlotRes(crmExample$resources)
+    t_store = 50)
+#makePlot(crmExample$matrix)
+#makePlotRes(crmExample$resources)
 ```
 
 Generate simulations and store the final community in community.simulation. In this step, the final relative abundance table is basisComposition_prop
 
-```{r, eval=FALSE}
-set.seed(42)
+```{r eval=FALSE, include=FALSE}
+'set.seed(42)
 library(miaSim)
 community.simulation <- list()
 counter_i <- 1
@@ -324,7 +316,7 @@ for (resConc in resourceConcentration) {
 }
 basisComposition <- do.call(rbind.data.frame, community.simulation)
 rm(counter_i, community.simulation)
-basisComposition_prop <- basisComposition / rowSums(basisComposition)
+basisComposition_prop <- basisComposition / rowSums(basisComposition)'
 ```
 
 ## Visualization
@@ -340,12 +332,12 @@ medium <- as.factor(rep(seq_len(n.medium), each = n.community ,times = length(re
 community <- as.factor(rep(seq_len(n.community), times = length(resourceConcentration)*n.medium))
 
 #plot the result in a UMAP space
-makeUMAP(basisComposition, group = medium, group2 = concentration, gradient_title = 'Medium')
-umap_CRM_gradient <- umap(basisComposition_prop)
+#makeUMAP(basisComposition, group = medium, group2 = concentration, gradient_title = 'Medium')
+#umap_CRM_gradient <- umap(basisComposition_prop)
 # umap_CRM_gradient <- umap(basisComposition)
-umap_CRM_coor <- as.data.frame(umap_CRM_gradient$layout)
-colnames(umap_CRM_coor) <- c("UMAP_1", "UMAP_2")
-umap_CRM_coor <- cbind(umap_CRM_coor, concentration, medium, community)
+#umap_CRM_coor <- as.data.frame(umap_CRM_gradient$layout)
+#colnames(umap_CRM_coor) <- c("UMAP_1", "UMAP_2")
+'umap_CRM_coor <- cbind(umap_CRM_coor, concentration, medium, community)
 umap_CRM_gradient_plot <- ggplot(umap_CRM_coor,
                                  aes(UMAP_1, UMAP_2,
                                      # alpha = concentration,
@@ -355,7 +347,7 @@ umap_CRM_gradient_plot <- ggplot(umap_CRM_coor,
     # scale_shape_manual(values = c(0, 1, 2, 5, 6, 8, 15, 16, 17, 18)) +
     scale_shape_manual(values = seq(0, n.community -1 ,1)) +
     scale_alpha_manual(values = seq(0.25, 1, 0.75/(length(resourceConcentration)-1))) +
-    theme_bw()
+    theme_bw()'
 ```
 
 
@@ -377,7 +369,7 @@ they might belong to one community type. This can be validated by
 input 20 or even 50 as n.community in this case study: communities
 turns into clusters in each sub-figures.
 
-```{r, eval=FALSE}
+```{r eval=FALSE, include=FALSE}
 print(umap_CRM_gradient_plot)
 
 print(umap_CRM_gradient_plot + facet_grid(concentration ~ ., labeller = label_both))
@@ -424,7 +416,7 @@ average_distance <- function(df, res_conc_type, com_type, method = "euclidean"){
 
 Constructing dataframe to save results
 
-```{r, eval=FALSE}
+```{r eval=FALSE, include=FALSE}
 distance_saturation_data <- data.frame(concentration = integer(),
                                        community = integer(),
                                        average_distance = numeric())
@@ -453,7 +445,7 @@ distance_saturation_data_plot <- ggplot(distance_saturation_data,
 
 Visualize the distance plot
 
-```{r, eval=FALSE}
+```{r eval=FALSE, include=FALSE}
 print(distance_saturation_data_plot)
 # ggsave(paste0("CRMgradient_distance_curve_mod.pdf"), plot = distance_saturation_data_plot , dpi = 300, width = 12, height = 10, units = "cm", scale = 2)
 ```
