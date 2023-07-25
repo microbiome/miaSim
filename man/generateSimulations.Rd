@@ -62,6 +62,6 @@ params <- list(
 )
 
 # Recommended standard way to generate a set of n simulations (n=2 here) from a given model
-simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
+# simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
 
 }

@@ -12,7 +12,7 @@ or simulating multiple instances to evaluate stochasticity therein."><!-- mathja
     
     <a class="navbar-brand me-2" href="../index.html">miaSim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,7 +125,7 @@ in params_list, then it will overwrite t_end in each simulation
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Recommended standard way to generate a set of n simulations (n=2 here) from a given model</span></span></span>
-<span class="r-in"><span><span class="va">simulations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, <span class="kw">function</span> <span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">simulateConsumerResource</span>, <span class="va">params</span><span class="op">)</span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># simulations &lt;- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
