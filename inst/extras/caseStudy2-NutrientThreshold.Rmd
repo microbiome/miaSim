@@ -67,6 +67,103 @@ library(ape)
 library(cluster)
 ```
 
+```{r}
+#' Generate multiple simulations and store them in a list
+#'
+#' This function is useful when generating simulations with different parameters
+#' or simulating multiple instances to evaluate stochasticity therein.
+#'
+#' @param model Character: name of the model to use, must be one of
+#' "simulateConsumerResource", "simulateGLV", "simulateHubbellRates", and
+#' "simulateStochasticLogistic"
+#' @param params_list List: a list containing all parameters used in the
+#' aforementionned called model
+#' @param param_iter List of parameters to overwrite in different simulations.
+#' If NULL, then simulate different instances using the same set of parameters.
+#' (default: \code{param_iter = NULL})
+#' @param n_instances Integer: number of instances to generate
+#' (default: \code{n_instances = 1})
+#' @param t_end Numeric: end time of the simulation. If not identical with t_end
+#' in params_list, then it will overwrite t_end in each simulation
+#' (default: \code{t_end = 1000})
+#' @return A list containing multiple simulating results
+#' @examples
+#'
+#' params <- list(
+#'     n_species = 10,
+#'     n_resources = 5,
+#'     E = randomE(
+#'         n_species = 10, n_resources = 5,
+#'         mean_consumption = 1, mean_production = 3
+#'     ),
+#'     x0 = rep(0.001, 10),
+#'     resources = rep(1000, 5),
+#'     monod_constant = matrix(rbeta(10 * 5, 10, 10), nrow = 10, ncol = 5),
+#'     inflow_rate = .5,
+#'     outflow_rate = .5,
+#'     migration_p = 0,
+#'     stochastic = TRUE,
+#'     t_start = 0,
+#'     t_end = 20,
+#'     t_store = 100,
+#'     growth_rates = runif(10),
+#'     norm = FALSE
+#' )
+#'
+#' # Recommended standard way to generate a set of n simulations (n=2 here) from a given model
+#' # simulations <- lapply(seq_len(2), function (i) {do.call(simulateConsumerResource, params)})
+#'
+#' @export
+generateSimulations <- function(model,
+    params_list,
+    param_iter = NULL,
+    n_instances = 1,
+    t_end = 1000) {
+    simulations <- list()
+    if (params_list$t_end != t_end) {
+        warning("t_end in the variable list not equals to t_end")
+        params_list$t_end <- t_end
+    }
+    if (is.null(param_iter)) {
+        for (i in seq_len(n_instances)) {
+            # print(paste(i, "of", n_instances,"instances in one set of params."))
+            simulation <- do.call(model, params_list)
+            # simulation$matrix[,colnames(simulation$model)!= "time"]
+            simulations[[length(simulations) + 1]] <- simulation
+        }
+        return(simulations)
+    } else {
+        if (!all(names(param_iter) %in% names(params_list))) {
+            stop(
+                "not recognized parameter(s) :",
+                names(param_iter)[!names(param_iter) %in% names(params_list)]
+            )
+        }
+        if (length(unique(unlist(lapply(param_iter, length)))) > 1) {
+            stop("parameters in list param_iter are not of the same length.")
+        }
+
+        simulations_full <- list()
+        for (i in seq_along(param_iter[[1]])) {
+            # print(paste(i, "of", length(param_iter[[1]]), "sets of params."))
+            params_list_local <- utils::modifyList(
+                params_list,
+                lapply(param_iter, "[[", i)
+            )
+            simulations_local <- generateSimulations(
+                model,
+                params_list_local,
+                param_iter = NULL,
+                n_instances = n_instances,
+                t_end = t_end
+            )
+            simulations_full <- append(simulations_full, simulations_local)
+        }
+        return(simulations_full)
+    }
+}
+```
+
 (This batch of simulations is time-consuming. To reduce the
 calculation burden, we decreased the numbers of environments,
 resources, and communities from the original 10 to 5, and made other
