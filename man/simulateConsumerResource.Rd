@@ -166,6 +166,7 @@ tse <- simulateConsumerResource(
     n_resources = n_resources
 )
 
+\dontrun{
 # example with user-defined values (names_species, names_resources, E, x0,
 # resources, growth_rates, error_variance, t_end, t_step)
 
@@ -239,5 +240,6 @@ tse3 <- simulateConsumerResource(
     trophic_priority = ExampleTrophicPriority,
     t_end = 2000
 )
+}
 
 }

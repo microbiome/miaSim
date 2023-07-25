@@ -52,6 +52,7 @@
 #'     n_resources = n_resources
 #' )
 #'
+#' \dontrun{
 #' # example with user-defined values (names_species, names_resources, E, x0,
 #' # resources, growth_rates, error_variance, t_end, t_step)
 #'
@@ -125,6 +126,7 @@
 #'     trophic_priority = ExampleTrophicPriority,
 #'     t_end = 2000
 #' )
+#' }
 #'
 #' @return an TreeSummarizedExperiment class object
 #'
