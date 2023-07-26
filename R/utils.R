@@ -59,9 +59,10 @@ rdirichlet <- function(n, alpha) {
     x / as.vector(sm)
 }
 
-#' generate a vector of times when events is happening
-#' @param t_events,t_duration Numeric: vector of starting time and duration of
-#' the events
+#' Generate a vector of event times
+#'
+#' @param t_events Numeric vector; starting time of the events
+#' @param t_duration Numeric vector; duration of the events
 #' @param t_end Numeric: end time of the simulation
 #' @param ... : additional parameters to pass to simulationTimes, including
 #' t_start, t_step, and t_store.
