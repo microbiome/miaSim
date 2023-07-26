@@ -174,7 +174,7 @@ randomE <- function(n_species,
                 }
             }
             consumption[index_consumption] <- 1
-            irow <- .rdirichlet(1, consumption * consumption_pref * 100)
+            irow <- rdirichlet(1, consumption * consumption_pref * 100)
 
             # calculate production
             production_pref <- trophic_preferences[[j]] * (trophic_preferences[[j]] < 0)
@@ -224,7 +224,7 @@ randomE <- function(n_species,
             }
 
             production[index_production] <- 1
-            prod <- (-1) * (1 - maintenance) * .rdirichlet(1, production)
+            prod <- (-1) * (1 - maintenance) * rdirichlet(1, production)
             irow[index_production] <- prod[index_production]
 
 

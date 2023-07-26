@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{.replaceByZero}
 \alias{.replaceByZero}
-\title{Replace one element with zero in a list.}
+\title{Replace one element with zero in a list}
 \usage{
 .replaceByZero(input_list)
 }

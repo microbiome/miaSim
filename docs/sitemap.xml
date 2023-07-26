@@ -73,7 +73,13 @@
     <loc>/reference/randomE.html</loc>
   </url>
   <url>
+    <loc>/reference/rdirichlet.html</loc>
+  </url>
+  <url>
     <loc>/reference/simulateConsumerResource.html</loc>
+  </url>
+  <url>
+    <loc>/reference/simulateEventTimes.html</loc>
   </url>
   <url>
     <loc>/reference/simulateGLV.html</loc>

@@ -93,7 +93,7 @@ simulateGLV <- function(n_species,
         growth_rates <- runif(n = n_species, min = 0, max = 1)
     }
     if (is.null(metacommunity_probability)) {
-        metacommunity_probability <- .rdirichlet(1, alpha = rep(1, n_species))
+        metacommunity_probability <- rdirichlet(1, alpha = rep(1, n_species))
     }
 
     # normalize metacommunity_probability
@@ -104,7 +104,7 @@ simulateGLV <- function(n_species,
     t_dyn <- .simulationTimes(t_end = t_end, ...)
 
     # calculate the time points influenced by the disturbances
-    tEvent <- .eventTimes(
+    tEvent <- simulateEventTimes(
         t_events = t_external_events,
         t_duration = t_external_durations,
         t_end = t_end,

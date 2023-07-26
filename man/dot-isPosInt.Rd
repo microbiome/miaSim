@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{.isPosInt}
 \alias{.isPosInt}
-\title{check whether a number is a positive integer}
+\title{Check whether a number is a positive integer}
 \usage{
 .isPosInt(x, tol = .Machine$double.eps^0.5)
 }
@@ -15,5 +15,5 @@
 A logical value: whether the number is a positive integer.
 }
 \description{
-check whether a number is a positive integer
+Check whether a number is a positive integer
 }

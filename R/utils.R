@@ -31,7 +31,7 @@
     return(list("t_sys" = t_sys, "t_index" = t_index[seq_len(t_store)]))
 }
 
-#' check whether a number is a positive integer
+#' Check whether a number is a positive integer
 #' @param x Numeric number to test
 #' @param tol Numeric tolerance of detection
 #' @return A logical value: whether the number is a positive integer.
@@ -49,10 +49,10 @@
 #' @return a vector containing the Dirichlet density
 #'
 #' @examples
-#' dirichletExample <- .rdirichlet(1, c(1, 2, 3))
+#' dirichletExample <- rdirichlet(1, c(1, 2, 3))
 #'
 #' @export
-.rdirichlet <- function(n, alpha) {
+rdirichlet <- function(n, alpha) {
     l <- length(alpha)
     x <- matrix(rgamma(l * n, alpha), ncol = l, byrow = TRUE)
     sm <- x %*% rep(1, l)
@@ -67,7 +67,7 @@
 #' t_start, t_step, and t_store.
 #' @return A vector of time points in the simulation
 #' @examples
-#' tEvent <- .eventTimes(
+#' tEvent <- simulateEventTimes(
 #'     t_events = c(10, 50, 100),
 #'     t_duration = c(1, 2, 3),
 #'     t_end = 100,
@@ -75,7 +75,7 @@
 #'     t_step = 1
 #' )
 #' @export
-.eventTimes <- function(t_events = NULL, t_duration = NULL,
+simulateEventTimes <- function(t_events = NULL, t_duration = NULL,
     t_end = 1000, ...) {
     tdyn <- .simulationTimes(t_end = t_end, ...)
     t_result <- c()
@@ -146,7 +146,7 @@
     return(I)
 }
 
-#' Replace one element with zero in a list.
+#' Replace one element with zero in a list
 #'
 #' If the list contains m elements, then lengths of each element must be m, too.
 #' This function is intended to generate a list of x0 (the initial community)
@@ -156,7 +156,6 @@
 #' must be m, too.
 #' @return A list of same dimension as input_list, but with 0 at specific
 #' positions in the elements of the list.
-#'
 .replaceByZero <- function(input_list) { # params_iter$x0 as input_list
     if (!all(length(input_list) == unlist(unique(lapply(input_list, length))))) {
         stop("Length of input_list doesn't match length of element in it.")
@@ -196,7 +195,6 @@
 #' @return a matrix A with dimensions (n_species x n_species) where n_species
 #' equals to the number of elements in simulations2
 #' @importFrom SummarizedExperiment assay
-#' @export
 .estimateAFromSimulations <- function(simulations,
     simulations2,
     n_instances = 1,

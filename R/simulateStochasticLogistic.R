@@ -74,7 +74,7 @@
 #'     t_external_events = c(100, 200, 300),
 #'     t_external_durations = c(0.1, 0.2, 0.3),
 #'     migration_p = 0.01,
-#'     metacommunity_probability = miaSim::.rdirichlet(1, alpha = rep(1, 2)),
+#'     metacommunity_probability = miaSim::rdirichlet(1, alpha = rep(1, 2)),
 #'     stochastic = TRUE,
 #'     error_variance = 0,
 #'     norm = FALSE, # TRUE,
@@ -147,7 +147,7 @@ simulateStochasticLogistic <- function(n_species,
         x0 <- runif(n = n_species, min = 0.1, max = 10)
     }
     if (is.null(metacommunity_probability)) {
-        metacommunity_probability <- .rdirichlet(1, alpha = rep(1, n_species))
+        metacommunity_probability <- rdirichlet(1, alpha = rep(1, n_species))
     }
 
     # select the time points to simulate and to store
@@ -182,7 +182,7 @@ simulateStochasticLogistic <- function(n_species,
         })
     }
 
-    tEvent <- .eventTimes(
+    tEvent <- simulateEventTimes(
         t_events = t_external_events,
         t_duration = t_external_durations,
         t_end = t_end, ...
