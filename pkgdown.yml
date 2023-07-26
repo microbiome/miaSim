@@ -1,10 +1,7 @@
-pandoc: 2.19.2
+pandoc: 3.1.1
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
-  caseStudy1-SIS: caseStudy1-SIS.html
-  caseStudy2-NutrientThreshold: caseStudy2-NutrientThreshold.html
-  caseStudy3-EnvironmentalComplexity: caseStudy3-EnvironmentalComplexity.html
   miaSim: miaSim.html
-last_built: 2023-03-19T08:26Z
+last_built: 2023-07-26T08:12Z
 
