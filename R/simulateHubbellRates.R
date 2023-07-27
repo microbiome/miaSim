@@ -108,7 +108,7 @@ simulateHubbellRates <- function(n_species = NULL,
     }
 
     if (is.null(metacommunity_probability)) {
-        metacommunity_probability <- .rdirichlet(1, alpha = rep(1, n_species))
+        metacommunity_probability <- rdirichlet(1, alpha = rep(1, n_species))
     }
 
     # normalize metacommunity_probability

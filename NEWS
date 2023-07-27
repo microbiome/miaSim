@@ -1,3 +1,10 @@
+# Changes in version 1.7.7 (2023-07-26)
+
+## Minor changes
+
+* Better distinction between internal and exported functions
+* Website polishing; phyloseq files moved to supplements behind link
+
 # Changes in version 1.5.1 (2022-12-28)
 
 ## Major changes

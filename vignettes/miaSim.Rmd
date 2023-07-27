@@ -1,6 +1,5 @@
 ---
 title: "miaSim: Microbiome Data Simulation"
-author: "miaSim authors"
 date: "`r Sys.Date()`"
 package: miaSim
 output: 
@@ -68,8 +67,7 @@ library(miaSim)
 
 ## Examples
 
-
-### Generating species interaction matrices
+### Generate species interaction matrices for the models
 
 Some of the models rely on interaction matrices that represents interaction
 heterogeneity between species. The interaction matrix can be generated with
@@ -90,17 +88,6 @@ A_uniform <- randomA(n_species = 10,
 		     interactions = runif(n = 10^2, min = -0.8, max = 0.8))
 ```
 
-
-### Ricker model
-
-Ricker model is a discrete version of the gLV:
-
-```{r ricker}
-tse_ricker <- simulateRicker(n_species=4, A = A_normal, t_end=100, norm = FALSE)
-```
-
-The number of species specified in the interaction matrix must be the
-same as the species used in the models.
 
 ### Hubbell model
 
@@ -126,6 +113,17 @@ params_hubbell <- simulateHubbellRates(x0 = c(0,5,10),
     growth_rates = NULL, norm = FALSE, t_end=1000)
 ```
 
+
+### Stochastic logistic model
+
+Stochastic logistic model is used to determine dead and alive counts
+in community.
+
+```{r}
+tse_logistic <- simulateStochasticLogistic(n_species = 5)
+```
+
+
 ### Self-Organised Instability (SOI)
 
 The Self-Organised Instability (SOI) model generates time series for
@@ -137,14 +135,6 @@ tse_soi <- simulateSOI(n_species = 4, carrying_capacity = 1000,
 		       x0 = NULL,t_end = 150, norm = TRUE)
 ```
 
-### Stochastic logistic model
-
-Stochastic logistic model is used to determine dead and alive counts
-in community.
-
-```{r}
-tse_logistic <- simulateStochasticLogistic(n_species = 5)
-```
 
 ### Consumer-resource model
 
@@ -175,9 +165,19 @@ tse_glv <- simulateGLV(n_species = 4,
                        t_store = 1000,
 		       stochastic = FALSE,
 		       norm = FALSE)
-
 ```
 
+
+### Ricker model
+
+Ricker model is a discrete version of the gLV:
+
+```{r ricker}
+tse_ricker <- simulateRicker(n_species=4, A = A_normal, t_end=100, norm = FALSE)
+```
+
+The number of species specified in the interaction matrix must be the
+same as the species used in the models.
 
 ## Data containers
 

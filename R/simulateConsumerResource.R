@@ -161,7 +161,7 @@ simulateConsumerResource <- function(n_species, n_resources,
     t_dyn <- .simulationTimes(t_end = t_end, ...)
 
     # calculate the time points influenced by the disturbances
-    tEvent <- .eventTimes(
+    tEvent <- simulateEventTimes(
         t_events = t_external_events,
         t_duration = t_external_durations,
         t_end = t_end,
@@ -203,7 +203,7 @@ simulateConsumerResource <- function(n_species, n_resources,
         ), nrow = n_species)
     }
     if (is.null(metacommunity_probability)) {
-        metacommunity_probability <- .rdirichlet(1, alpha = rep(1, n_species))
+        metacommunity_probability <- rdirichlet(1, alpha = rep(1, n_species))
     }
 
     # normalize metacommunity_probability

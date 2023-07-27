@@ -23,12 +23,19 @@ For installation and use, see the [Getting
 started](https://microbiome.github.io/miaSim/articles/miaSim.html)
 page.
 
-The package [homepage](https://microbiome.github.io/miaSim/) provides
-further tutorials and references for the [implemented
-models](https://microbiome.github.io/miaSim/reference/index.html),
-which include Hubbell's neutral model, the generalized Lotka-Volterra
-model, and the self-organised instability model. The package is based
-on the `(Tree)SummarizedExperiment` data container.
+The package is based on the `(Tree)SummarizedExperiment` data
+container that supports microbiome data analysis. The package
+[homepage](https://microbiome.github.io/miaSim/) provides further
+tutorials and references for the [implemented
+models](https://microbiome.github.io/miaSim/reference/index.html):
+
+* Self-organised instability (SOI)
+* Hubbell's neutral model
+* generalized Lotka-Volterra (gLV)
+* Ricker model (discrete gLV)
+* Stochastic logistic model
+* Consumer-resource model
+
 
 
 
