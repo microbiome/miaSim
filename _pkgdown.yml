@@ -1,4 +1,5 @@
-url: ~
-template:
-  bootstrap: 5
-
+figures:
+  dev: ragg::agg_png
+  dpi: 300
+  fig.width: 10
+  fig.height: 7
