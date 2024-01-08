@@ -164,10 +164,10 @@ jobs:
           ## https://github.com/r-lib/remotes/issues/296
           ## Ideally, all dependencies should get installed in the first pass.
           # BiocManager::install("vegandevs/vegan")
-          BiocManager::install("vegan")  
-          BiocManager::install("fionarhuang/TreeSummarizedExperiment")
-          BiocManager::install("microbiome/mia")
-          BiocManager::install("microbiome/miaViz")
+          # BiocManager::install("vegan")  
+          # BiocManager::install("fionarhuang/TreeSummarizedExperiment")
+          # BiocManager::install("microbiome/mia")
+          # BiocManager::install("microbiome/miaViz")
           # remotes::install_github("microbiome/miaTime")
 
           # rspm is out of date
