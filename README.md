@@ -6,7 +6,6 @@
 [![Gitter](https://badges.gitter.im/microbiome/mia.svg)](https://gitter.im/microbiome/miaverse)
 [![Watch on GitHub][github-watch-badge]][github-watch]
 [![Star on GitHub][github-star-badge]][github-star]
-
 [![R-CMD-check](https://github.com/microbiome/miaSim/workflows/R-CMD-check/badge.svg)](https://github.com/microbiome/miaSim/actions)
 <!-- badges: end -->
 
@@ -15,18 +14,10 @@
 
 ## miaSim
 
-This miaSim R/Bioconductor package can be used to simulate
-(longitudinal) data for the benchmarking and analysis of quantitative
-models of microbial communities.
-
-For installation and use, see the [Getting
-started](https://microbiome.github.io/miaSim/articles/miaSim.html)
-page.
-
-The package is based on the `(Tree)SummarizedExperiment` data
-container that supports microbiome data analysis. The package
-[homepage](https://microbiome.github.io/miaSim/) provides further
-tutorials and references for the [implemented
+This R/Bioconductor package provides tools to simulate (longitudinal)
+time series data from popular models in microbial ecology. The
+[homepage](https://microbiome.github.io/miaSim/) provides tutorials
+and references for the [implemented
 models](https://microbiome.github.io/miaSim/reference/index.html):
 
 * Self-organised instability (SOI)
@@ -36,7 +27,14 @@ models](https://microbiome.github.io/miaSim/reference/index.html):
 * Stochastic logistic model
 * Consumer-resource model
 
+These methods can be used for _in silico_ studies of microbial
+community dynamics or multi-omic or host-microbiome interactions. The
+miaSim package supports the Bioconductor [multi-assay data science
+framework](https://microbiome.github.io/OMA) for multi-omic data
+integration and time series analysis, and utilizes the
+`(Tree)SummarizedExperiment` data container.
 
+[Getting started](https://microbiome.github.io/miaSim/articles/miaSim.html).
 
 
 ### miaSimShiny
@@ -64,6 +62,13 @@ flow kind of approach. Development version should be done against the
 We are grateful to all
 [contributors](https://github.com/microbiome/miaSim/graphs/contributors).
 
+This research has received funding from
+
+  * the Horizon 2020 Programme of the European Union within the [FindingPheno project](https://www.findingpheno.eu/) under grant agreement No 952914.
+  * Research Council of Finland (grant 330887)
+
+
+<img src="man/figures/FindingPheno2.jpg" alt="FindingPheno logo" style="height: 50px"/>
 
 ### Citing the package
 
@@ -75,12 +80,10 @@ Gao _et al._ (2023). Methods in Ecology and Evolution. DOI:
 For citation details, see R command `citation("miaSim")`.
 
 
-# Code of conduct
-
-Please note that the project is released with a [Bioconductor Code of
-Conduct](https://bioconductor.github.io/bioc_coc_multilingual/).
-By contributing to this project, you agree to abide by its terms.
-
+**Code of conduct** Please note that the project is released with a
+[Bioconductor Code of
+Conduct](https://bioconductor.github.io/bioc_coc_multilingual/).  By
+contributing to this project, you agree to abide by its terms.
 
 
 [github-watch-badge]: https://img.shields.io/github/watchers/microbiome/miaSim.svg?style=social
