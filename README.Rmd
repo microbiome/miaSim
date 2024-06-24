@@ -1,4 +1,4 @@
-# Microbiome data simulation with miaSim
+# Microbiome data simulation with miaSim <img src="man/figures/mia_logo.png" align="right" width="120" />
 
 <!-- badges: start -->
 
@@ -8,9 +8,6 @@
 [![Star on GitHub][github-star-badge]][github-star]
 [![R-CMD-check](https://github.com/microbiome/miaSim/workflows/R-CMD-check/badge.svg)](https://github.com/microbiome/miaSim/actions)
 <!-- badges: end -->
-
-
-
 
 ## miaSim
 
