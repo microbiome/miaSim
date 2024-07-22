@@ -1,78 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/miaSim.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dot-applyInterType.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dot-estimateAFromSimulations.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dot-getInteractions.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dot-isPosInt.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dot-replaceByZero.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dot-simulationTimes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/powerlawA.html</loc>
-  </url>
-  <url>
-    <loc>/reference/randomA.html</loc>
-  </url>
-  <url>
-    <loc>/reference/randomE.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rdirichlet.html</loc>
-  </url>
-  <url>
-    <loc>/reference/simulateConsumerResource.html</loc>
-  </url>
-  <url>
-    <loc>/reference/simulateEventTimes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/simulateGLV.html</loc>
-  </url>
-  <url>
-    <loc>/reference/simulateHubbell.html</loc>
-  </url>
-  <url>
-    <loc>/reference/simulateHubbellRates.html</loc>
-  </url>
-  <url>
-    <loc>/reference/simulateRicker.html</loc>
-  </url>
-  <url>
-    <loc>/reference/simulateSOI.html</loc>
-  </url>
-  <url>
-    <loc>/reference/simulateStochasticLogistic.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/miaSim.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/reference/dot-applyInterType.html</loc></url>
+<url><loc>/reference/dot-estimateAFromSimulations.html</loc></url>
+<url><loc>/reference/dot-getInteractions.html</loc></url>
+<url><loc>/reference/dot-isPosInt.html</loc></url>
+<url><loc>/reference/dot-replaceByZero.html</loc></url>
+<url><loc>/reference/dot-simulationTimes.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/powerlawA.html</loc></url>
+<url><loc>/reference/randomA.html</loc></url>
+<url><loc>/reference/randomE.html</loc></url>
+<url><loc>/reference/rdirichlet.html</loc></url>
+<url><loc>/reference/simulateConsumerResource.html</loc></url>
+<url><loc>/reference/simulateEventTimes.html</loc></url>
+<url><loc>/reference/simulateGLV.html</loc></url>
+<url><loc>/reference/simulateHubbell.html</loc></url>
+<url><loc>/reference/simulateHubbellRates.html</loc></url>
+<url><loc>/reference/simulateRicker.html</loc></url>
+<url><loc>/reference/simulateSOI.html</loc></url>
+<url><loc>/reference/simulateStochasticLogistic.html</loc></url>
 </urlset>
+
