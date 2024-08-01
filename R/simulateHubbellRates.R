@@ -7,15 +7,15 @@
 #' time effect is considered to determine the next event.
 #'
 #' @template man_spe
-#' @param x0 Numeric: initial species composition. If NULL,
-#' `rep(100, n_species)` is used.
+#' @param x0 \code{Numeric scalar}. Indicates the initial species 
+#' composition. If \code{NULL}, `rep(100, n_species)` is used.
 #' @template man_mig
-#' @param k_events Integer: number of events to simulate before updating the
-#' sampling distributions.
-#' (default: \code{k_events = 1})
-#' @param growth_rates Numeric: maximum growth rates(mu) of species.
-#' If NULL, `rep(1, n_species)` is used.
-#' (default: \code{growth_rates = NULL})
+#' @param k_events \code{Integer scalar}. Indicates the number of 
+#' events to simulate before updating the sampling distributions.
+#' (Default: \code{1})
+#' @param growth_rates \code{Numeric scalar}. Indicates the maximum 
+#' growth rates(mu) of species. If \code{NULL}, `rep(1, n_species)` is used.
+#' (Default: \code{NULL})
 #' @template man_mod
 #'
 #' @examples

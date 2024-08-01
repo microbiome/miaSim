@@ -1,14 +1,14 @@
 #' Generate simulation times and the indices of time points to return
 #' in simulation functions.
 #'
-#' @param t_start Numeric scalar indicating the initial time of the simulation.
-#' (default: \code{t_start = 0})
-#' @param t_end Numeric scalar indicating the final time of the simulation
-#' (default: \code{t_end = 1000})
-#' @param t_step Numeric scalar indicating the interval between simulation steps
-#' (default: \code{t_step = 0.1})
-#' @param t_store Integer scalar indicating the number of evenly distributed
-#' time points to keep (default: \code{t_store = 100})
+#' @param t_start \code{Numeric scalar}. Indicates the initial time of the simulation.
+#' (Default: \code{0})
+#' @param t_end \code{Numeric scalar}. Indicates the final time of the simulation
+#' (Default: \code{1000})
+#' @param t_step \code{Numeric scalar}. Indicates the interval between simulation steps
+#' (Default: \code{0.1})
+#' @param t_store \code{Integer scalar}. Indicates the number of evenly distributed
+#' time points to keep (Default: \code{100})
 #'
 #' @return lists containing simulation times (t_sys) and the indices to keep.
 #' @examples

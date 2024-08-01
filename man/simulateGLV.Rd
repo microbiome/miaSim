@@ -33,17 +33,17 @@ simulateGLV(
 \code{paste0("sp", seq_len(n_species))} is used.
 (default: \code{names_species = NULL})}
 
-\item{A}{matrix: interaction matrix defining the positive and negative
-interactions between n_species. If NULL, \code{randomA(n_species)} is used.
-(default: \code{A = NULL})}
+\item{A}{\code{Matrix}. Interaction matrix defining the positive and negative
+interactions between n_species. If \code{NULL}, \code{randomA(n_species)} is used.
+(Default: \code{NULL})}
 
-\item{x0}{Numeric: initial abundances of simulated species. If NULL,
-\code{runif(n = n_species, min = 0, max = 1)} is used.
-(default: \code{x0 = NULL})}
+\item{x0}{\code{Numeric scalar}. Indicates the initial abundances of
+simulated species. If \code{NULL}, \code{runif(n = n_species, min = 0, max = 1)}
+is used. (Default: \code{NULL})}
 
-\item{growth_rates}{Numeric: growth rates of simulated species. If NULL,
-\code{runif(n = n_species, min = 0, max = 1)} is used.
-(default: \code{growth_rates = NULL})}
+\item{growth_rates}{\code{Numeric scalar}. Indicates the growth rates
+of simulated species. If \code{NULL}, \code{runif(n = n_species, min = 0, max = 1)}
+is used. (Default: \code{NULL})}
 
 \item{sigma_drift}{Numeric: standard deviation of a normally distributed
 noise applied in each time step (t_step)

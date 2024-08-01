@@ -20,41 +20,38 @@ simulateSOI(
 \arguments{
 \item{n_species}{Integer: number of species}
 
-\item{x0}{a vector of initial community abundances
-If (default: \code{x0 = NULL}), based on migration rates}
+\item{x0}{\code{Numeric scalar}. Specifies initial community abundances
+If \code{NULL}, based on migration rates. (Default: \code{NULL})}
 
 \item{names_species}{Character: names of species. If NULL,
 \code{paste0("sp", seq_len(n_species))} is used.
 (default: \code{names_species = NULL})}
 
-\item{carrying_capacity}{integer community size, number of available sites
-(individuals)}
+\item{carrying_capacity}{\code{Integer scalar}. Indicates community size,
+number of available sites (individuals). (Default: \code{1000})}
 
-\item{A}{matrix: interaction matrix defining the positive and negative
-interactions between n_species. If NULL, \code{powerlawA(n_species)} is used.
-(default: \code{A = NULL})}
+\item{A}{\code{Matrix}. Defines the positive and negative
+interactions between n_species. If \code{NULL}, \code{powerlawA(n_species)} is used.
+(Default: \code{NULL})}
 
-\item{k_events}{integer number of transition events that are allowed to take
-place during one leap. (default: \code{k_events = 5}).
-Higher values reduce runtime, but also accuracy of the simulation.}
+\item{k_events}{\code{Integer scalar}. Indicates the number of transition
+events that are allowed to take place during one leap. Higher values reduce
+runtime, but also accuracy of the simulation. (Default: \code{5}).}
 
-\item{t_end}{Numeric: the end time of the simulation, defining the
-modeled time length of the community.
-(default: \code{t_end = 1000})}
+\item{t_end}{\code{Numeric scalar}. Specifies the end time of the simulation,
+defining the modeled time length of the community. (Default: \code{1000})}
 
-\item{metacommunity_probability}{Numeric: Normalized probability distribution
-of the likelihood that species from the metacommunity can enter the community
-during the simulation. By default, \code{runif(n_species, min = 0.1, max = 0.8)}
-is used.
-(default: \code{metacommunity_probability = runif(n_species, min = 0.1, max = 0.8)})}
+\item{metacommunity_probability}{\code{Numeric scalar}: Indicates the
+normalized probability distribution of the likelihood that species from
+the metacommunity can enter the community during the simulation.
+(Default: \code{runif(n_species, min = 0.1, max = 0.8)})}
 
-\item{death_rates}{Numeric: death rates of each species. By default,
-\code{runif(n_species, min = 0.01, max = 0.08)} is used.
-(default: \code{death_rates = runif(n_species, min = 0.01, max = 0.08)})}
+\item{death_rates}{\code{Numeric scalar}. Indicates the death rates of each species.
+(Default: \code{runif(n_species, min = 0.01, max = 0.08)})}
 
-\item{norm}{logical scalar indicating whether the time series should be
+\item{norm}{\code{Logical scalar}. Whether the time series should be
 returned with the abundances as proportions (\code{norm = TRUE})
-or the raw counts (default: \code{norm = FALSE})}
+or the raw counts. (Default: \code{FALSE})}
 }
 \value{
 \code{simulateSOI} returns a TreeSummarizedExperiment class object
