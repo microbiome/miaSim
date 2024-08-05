@@ -33,7 +33,7 @@ in PLoS ONE 2014."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Generate time series with the Ricker model</h1>
-      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/devel/R/simulateRicker.R" class="external-link"><code>R/simulateRicker.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/harm/R/simulateRicker.R" class="external-link"><code>R/simulateRicker.R</code></a></small>
       <div class="d-none name"><code>simulateRicker.Rd</code></div>
     </div>
 
@@ -78,34 +78,35 @@ in PLoS ONE 2014.</p>
 
 
 <dt id="arg-x-">x0<a class="anchor" aria-label="anchor" href="#arg-x-"></a></dt>
-<dd><p>Numeric: initial abundances of simulated species. If NULL,
-<code>runif(n = n_species, min = 0, max = 1)</code> is used.</p></dd>
+<dd><p><code>Numeric scalar</code>. Indicates the initial abundances
+of simulated species. If <code>NULL</code>, <code>runif(n = n_species, min = 0, max = 1)</code>
+is used.</p></dd>
 
 
 <dt id="arg-carrying-capacities">carrying_capacities<a class="anchor" aria-label="anchor" href="#arg-carrying-capacities"></a></dt>
-<dd><p>numeric carrying capacities. If NULL,
-<code>runif(n = n_species, min = 0, max = 1)</code> is used.</p></dd>
+<dd><p><code>Numeric scalar</code>. Indicates carrying
+capacities. If NULL, <code>runif(n = n_species, min = 0, max = 1)</code> is used.</p></dd>
 
 
 <dt id="arg-error-variance">error_variance<a class="anchor" aria-label="anchor" href="#arg-error-variance"></a></dt>
-<dd><p>Numeric: the variance of measurement error.
-By default it equals to 0, indicating that the result won't contain any
-measurement error. This value should be non-negative.
-(default: <code>error_variance = 0.05</code>)</p></dd>
+<dd><p><code>Numeric scalar</code>. Specifies the variance
+of measurement error. By default it equals to 0, indicating that
+the result won't contain any measurement error. This value should
+be non-negative. (Default: <code>0.05</code>)</p></dd>
 
 
 <dt id="arg-explosion-bound">explosion_bound<a class="anchor" aria-label="anchor" href="#arg-explosion-bound"></a></dt>
-<dd><p>numeric value of boundary for explosion
-(default: <code>explosion_bound = 10^8</code>)</p></dd>
+<dd><p><code>Numeric scalar</code>. Specifies the boundary
+for explosion. (Default: <code>10^8</code>)</p></dd>
 
 
 <dt id="arg-t-end">t_end<a class="anchor" aria-label="anchor" href="#arg-t-end"></a></dt>
-<dd><p>integer number of simulations to be simulated</p></dd>
+<dd><p><code>Integer scalar</code>. Indicates simulations to be simulated</p></dd>
 
 
 <dt id="arg-norm">norm<a class="anchor" aria-label="anchor" href="#arg-norm"></a></dt>
-<dd><p>logical scalar returning normalised abundances (proportions
-in each generation) (default: <code>norm = FALSE</code>)</p></dd>
+<dd><p><code>Logical scalar</code>. Whether normalised abundances (proportions
+in each generation) is returned. (Default: <code>FALSE</code>)</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

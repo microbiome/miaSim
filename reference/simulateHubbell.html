@@ -29,7 +29,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Hubbell's neutral model simulation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/devel/R/simulateHubbell.R" class="external-link"><code>R/simulateHubbell.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/harm/R/simulateHubbell.R" class="external-link"><code>R/simulateHubbell.R</code></a></small>
       <div class="d-none name"><code>simulateHubbell.Rd</code></div>
     </div>
 
@@ -56,44 +56,47 @@
 
 
 <dl><dt id="arg-n-species">n_species<a class="anchor" aria-label="anchor" href="#arg-n-species"></a></dt>
-<dd><p>integer amount of different species initially
-in the local community</p></dd>
+<dd><p><code>Integer scalar</code>. Specifies the amount of
+different species initially in the local community.</p></dd>
 
 
 <dt id="arg-m">M<a class="anchor" aria-label="anchor" href="#arg-m"></a></dt>
-<dd><p>integer amount of different species in the metacommunity,
-including those of the local community</p></dd>
+<dd><p><code>Integer scalar</code>. Specifies the amount of different
+species in the metacommunity, including those of the local community</p></dd>
 
 
 <dt id="arg-carrying-capacity">carrying_capacity<a class="anchor" aria-label="anchor" href="#arg-carrying-capacity"></a></dt>
-<dd><p>integer value of fixed amount of individuals in the local community
-(default: <code>carrying_capacity = 1000</code>)</p></dd>
+<dd><p><code>Integer scalar</code>. Indicates the fixed
+amount of individuals in the local community. (Default: <code>1000</code>)</p></dd>
 
 
 <dt id="arg-k-events">k_events<a class="anchor" aria-label="anchor" href="#arg-k-events"></a></dt>
-<dd><p>integer value of fixed amount of deaths of local community
-individuals in each generation (default: <code>k_events = 10</code>)</p></dd>
+<dd><p><code>Inteer scalar</code>. Indicates the fixed amount of
+deaths of local community individuals in each generation (Default: <code>10</code>)</p></dd>
 
 
 <dt id="arg-migration-p">migration_p<a class="anchor" aria-label="anchor" href="#arg-migration-p"></a></dt>
-<dd><p>numeric immigration rate: the probability that a death in the local
-community is replaced by a migrant of the metacommunity rather than by
-the birth of a local community member (default: <code>migration_p = 0.02</code>)</p></dd>
+<dd><p><code>Numeric scalar</code>. The immigration rate; specifies
+the probability that a death in the local community is replaced by a
+migrant of the metacommunity rather than by the birth of a local
+community member (Default: <code>0.02</code>)</p></dd>
 
 
 <dt id="arg-t-skip">t_skip<a class="anchor" aria-label="anchor" href="#arg-t-skip"></a></dt>
-<dd><p>integer number of generations that should not be included
-in the outputted species abundance matrix. (default: <code>t_skip = 0</code>)</p></dd>
+<dd><p><code>Integer scalar</code>. Indicates the number of generations
+that should not be included in the outputted species abundance matrix.
+(Default: <code>0</code>)</p></dd>
 
 
 <dt id="arg-t-end">t_end<a class="anchor" aria-label="anchor" href="#arg-t-end"></a></dt>
-<dd><p>integer number of simulations to be simulated</p></dd>
+<dd><p><code>Integer scalar</code>. Indicates the number of simulations
+to be simulated</p></dd>
 
 
 <dt id="arg-norm">norm<a class="anchor" aria-label="anchor" href="#arg-norm"></a></dt>
-<dd><p>logical scalar choosing whether the time series should be
+<dd><p><code>Logical scalar</code>. Whether the time series should be
 returned with the abundances as proportions (<code>norm = TRUE</code>) or
-the raw counts (default: <code>norm = FALSE</code>)</p></dd>
+the raw counts. (Default: <code>FALSE</code>)</p></dd>
 
 </dl></div>
     <div class="section level2">

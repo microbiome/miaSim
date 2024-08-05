@@ -29,7 +29,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Generalized Lotka-Volterra (gLV) simulation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/devel/R/simulateGLV.R" class="external-link"><code>R/simulateGLV.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/harm/R/simulateGLV.R" class="external-link"><code>R/simulateGLV.R</code></a></small>
       <div class="d-none name"><code>simulateGLV.Rd</code></div>
     </div>
 
@@ -77,21 +77,21 @@
 
 
 <dt id="arg-a">A<a class="anchor" aria-label="anchor" href="#arg-a"></a></dt>
-<dd><p>matrix: interaction matrix defining the positive and negative
-interactions between n_species. If NULL, <code>randomA(n_species)</code> is used.
-(default: <code>A = NULL</code>)</p></dd>
+<dd><p><code>Matrix</code>. Interaction matrix defining the positive and negative
+interactions between n_species. If <code>NULL</code>, <code>randomA(n_species)</code> is used.
+(Default: <code>NULL</code>)</p></dd>
 
 
 <dt id="arg-x-">x0<a class="anchor" aria-label="anchor" href="#arg-x-"></a></dt>
-<dd><p>Numeric: initial abundances of simulated species. If NULL,
-<code>runif(n = n_species, min = 0, max = 1)</code> is used.
-(default: <code>x0 = NULL</code>)</p></dd>
+<dd><p><code>Numeric scalar</code>. Indicates the initial abundances of
+simulated species. If <code>NULL</code>, <code>runif(n = n_species, min = 0, max = 1)</code>
+is used. (Default: <code>NULL</code>)</p></dd>
 
 
 <dt id="arg-growth-rates">growth_rates<a class="anchor" aria-label="anchor" href="#arg-growth-rates"></a></dt>
-<dd><p>Numeric: growth rates of simulated species. If NULL,
-<code>runif(n = n_species, min = 0, max = 1)</code> is used.
-(default: <code>growth_rates = NULL</code>)</p></dd>
+<dd><p><code>Numeric scalar</code>. Indicates the growth rates
+of simulated species. If <code>NULL</code>, <code>runif(n = n_species, min = 0, max = 1)</code>
+is used. (Default: <code>NULL</code>)</p></dd>
 
 
 <dt id="arg-sigma-drift">sigma_drift<a class="anchor" aria-label="anchor" href="#arg-sigma-drift"></a></dt>

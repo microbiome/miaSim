@@ -41,7 +41,7 @@ by the parameter d."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Interaction matrix with Power-Law network adjacency matrix</h1>
-      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/devel/R/powerlawA.R" class="external-link"><code>R/powerlawA.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/harm/R/powerlawA.R" class="external-link"><code>R/powerlawA.R</code></a></small>
       <div class="d-none name"><code>powerlawA.Rd</code></div>
     </div>
 
@@ -65,36 +65,36 @@ by the parameter d.</p>
 
 
 <dl><dt id="arg-n-species">n_species<a class="anchor" aria-label="anchor" href="#arg-n-species"></a></dt>
-<dd><p>integer number of species</p></dd>
+<dd><p><code>Integer scalar</code>. Indicates the number of species.</p></dd>
 
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
-<dd><p>numeric power-law distribution parameter. Should be &gt; 1.
-(default: <code>alpha = 3.0</code>) Larger values will give lower interaction
+<dd><p><code>Numeric scalar</code>. Specifies the power-law distribution.
+Should be &gt; 1. Larger values will give lower interaction
 strength heterogeneity, whereas values closer to 1 give strong heterogeneity
 in interaction strengths between the species. In other words, values of alpha
-close to 1 will give Strongly Interacting Species (SIS).</p></dd>
+close to 1 will give Strongly Interacting Species (SIS). (Default: <code>3.0</code>)</p></dd>
 
 
 <dt id="arg-stdev">stdev<a class="anchor" aria-label="anchor" href="#arg-stdev"></a></dt>
-<dd><p>numeric standard deviation parameter of the normal
+<dd><p><code>Numeric scalar</code>. Specifies the standard deviation of the normal
 distribution with mean 0 from which the elements of the nominal interspecific
-interaction matrix N are drawn. (default: <code>stdev = 1</code>)</p></dd>
+interaction matrix N are drawn. (Default: <code>1</code>)</p></dd>
 
 
 <dt id="arg-s">s<a class="anchor" aria-label="anchor" href="#arg-s"></a></dt>
-<dd><p>numeric scaling parameter with which the final global
-interaction matrix A is multiplied. (default: <code>s = 0.1</code>)</p></dd>
+<dd><p><code>Numeric scalar</code>. Specifies the scaling with which the final global
+interaction matrix A is multiplied. (Default: <code>0.1</code>)</p></dd>
 
 
 <dt id="arg-d">d<a class="anchor" aria-label="anchor" href="#arg-d"></a></dt>
-<dd><p>numeric diagonal values, indicating self-interactions (use
-negative values for stability). (default: <code>s = 1.0</code>)</p></dd>
+<dd><p><code>Numeric scalar</code>. Diagonal values, indicating self-interactions (use
+negative values for stability). (Default: <code>1.0</code>)</p></dd>
 
 
 <dt id="arg-symmetric">symmetric<a class="anchor" aria-label="anchor" href="#arg-symmetric"></a></dt>
-<dd><p>logical scalar returning a symmetric interaction matrix
-(default: <code>symmetric=FALSE</code>)</p></dd>
+<dd><p><code>Logical scalar</code>. Whether a symmetric interaction matrix
+is returned. (Default: <code>FALSE</code>)</p></dd>
 
 </dl></div>
     <div class="section level2">

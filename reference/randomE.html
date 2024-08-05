@@ -33,7 +33,7 @@ whilst negatives indicate that the species would produce the resource."></head><
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Generate random efficiency matrix</h1>
-      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/devel/R/randomE.R" class="external-link"><code>R/randomE.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/harm/R/randomE.R" class="external-link"><code>R/randomE.R</code></a></small>
       <div class="d-none name"><code>randomE.Rd</code></div>
     </div>
 
@@ -83,49 +83,48 @@ whilst negatives indicate that the species would produce the resource.</p>
 
 
 <dt id="arg-mean-consumption">mean_consumption<a class="anchor" aria-label="anchor" href="#arg-mean-consumption"></a></dt>
-<dd><p>Numeric: mean number of resources consumed by each
-species drawn from a poisson distribution
-(default: <code>mean_consumption = n_resources/4</code>)</p></dd>
+<dd><p><code>Numeric scalar</code>. Specifies the mean number
+of resources consumed by each species drawn from a poisson distribution
+(Default: <code>n_resources/4</code>)</p></dd>
 
 
 <dt id="arg-mean-production">mean_production<a class="anchor" aria-label="anchor" href="#arg-mean-production"></a></dt>
-<dd><p>Numeric: mean number of resources produced by each
-species drawn from a poisson distribution
-(default: <code>mean_production = n_resources/6</code>)</p></dd>
+<dd><p><code>Numeric scalar</code>. Specifies the mean number
+of resources produced by each species drawn from a poisson distribution
+(Default: <code>n_resources/6</code>)</p></dd>
 
 
 <dt id="arg-maintenance">maintenance<a class="anchor" aria-label="anchor" href="#arg-maintenance"></a></dt>
-<dd><p>Numeric: proportion of resources that cannot be converted
-into products
-between 0~1 the proportion of resources used
-to maintain the living of microorganisms. 0 means all the resources will be
-used for the reproduction of microorganisms, and 1 means all the resources
-would be used to maintain the living of organisms and no resources would be
-left for their growth(reproduction).
-(default: <code>maintenance = 0.5</code>)</p></dd>
+<dd><p><code>Numeric scalar</code>. Specifies the proportion of
+resources that cannot be converted into products between 0~1 the
+proportion of resources used to maintain the living of microorganisms.
+0 means all the resources will be used for the reproduction of
+microorganisms, and 1 means all the resources would be used to maintain
+the living of organisms and no resources would be left for their
+growth(reproduction). (Default: <code>0.5</code>)</p></dd>
 
 
 <dt id="arg-trophic-levels">trophic_levels<a class="anchor" aria-label="anchor" href="#arg-trophic-levels"></a></dt>
-<dd><p>Integer: number of species in microbial trophic levels.
-If NULL, by default, microbial trophic levels would not be considered.
-(default: <code>trophic_levels = NULL</code>)</p></dd>
+<dd><p><code>Integer scalar</code>. Indicates the number of
+species in microbial trophic levels. If NULL, by default, microbial
+trophic levels would not be considered. (Default: <code>NULL</code>)</p></dd>
 
 
 <dt id="arg-trophic-preferences">trophic_preferences<a class="anchor" aria-label="anchor" href="#arg-trophic-preferences"></a></dt>
-<dd><p>List: preferred resources and productions of each
-trophic level. Positive values indicate the consumption of resources,
-whilst negatives indicate that the species would produce the resource.</p></dd>
+<dd><p><code>List</code>. Indicates the preferred resources
+and productions of each trophic level. Positive values indicate the
+consumption of resources, whilst negatives indicate that the species
+would produce the resource. (Default: <code>NULL</code>)</p></dd>
 
 
 <dt id="arg-exact">exact<a class="anchor" aria-label="anchor" href="#arg-exact"></a></dt>
-<dd><p>Logical: whether to set the number of consumption/production to
-be exact as mean_consumption/mean_production or to set them using a Poisson
-distribution.
-(default: <code>exact = FALSE</code>)
+<dd><p><code>Logical scalar</code>. Whether to set the number of
+consumption/production to be exact as mean_consumption/mean_production
+or to set them using a Poisson distribution. (Default: <code>FALSE</code>)
 If <code>length(trophic_preferences)</code> is smaller than <code>length(trophic_levels)</code>,
 then NULL values would be appended to lower trophic levels.
 If NULL, by default, the consumption preference will be defined randomly.
-(default: <code>trophic_preferences = NULL</code>)</p></dd>
+(Default: <code>trophic_preferences = NULL</code>)</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -29,7 +29,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Consumer-resource model simulation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/devel/R/simulateConsumerResource.R" class="external-link"><code>R/simulateConsumerResource.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/harm/R/simulateConsumerResource.R" class="external-link"><code>R/simulateConsumerResource.R</code></a></small>
       <div class="d-none name"><code>simulateConsumerResource.Rd</code></div>
     </div>
 
@@ -95,44 +95,41 @@
 
 
 <dt id="arg-e">E<a class="anchor" aria-label="anchor" href="#arg-e"></a></dt>
-<dd><p>matrix: matrix of efficiency. A matrix defining the efficiency of
-resource-to-biomass conversion (positive values) and the relative conversion
-of metabolic by-products (negative values). If NULL,
+<dd><p><code>Matrix</code>. Defines the efficiency of resource-to-biomass
+conversion (positive values) and the relative conversion
+of metabolic by-products (negative values). If <code>NULL</code>,
 <code>randomE(n_species, n_resources)</code> is used.
-(default: <code>E = NULL</code>)</p></dd>
+(Default: <code>NULL</code>)</p></dd>
 
 
 <dt id="arg-x-">x0<a class="anchor" aria-label="anchor" href="#arg-x-"></a></dt>
-<dd><p>Numeric: initial abundances of simulated species. If NULL,
-<code>runif(n = n_species, min = 0.1, max = 10)</code> is used.
-(default: <code>x0 = NULL</code>)</p></dd>
+<dd><p><code>Numeric scalar</code>. Specifies the initial abundances of
+simulated species. If <code>NULL</code>, <code>runif(n = n_species, min = 0.1, max = 10)</code>
+is used. (Default: <code>NULL</code>)</p></dd>
 
 
 <dt id="arg-resources">resources<a class="anchor" aria-label="anchor" href="#arg-resources"></a></dt>
-<dd><p>Numeric: initial concentrations of resources. If NULL,
-<code>runif(n = n_resources, min = 1, max = 100)</code> is used.
-(default: <code>resources = NULL</code>)</p></dd>
+<dd><p><code>Numeric scalar</code>. Specifies the initial
+concentrations of resources. If <code>NULL</code>, <code>runif(n = n_resources,  min = 1, max = 100)</code> is used. (Default: <code>NULL</code>)</p></dd>
 
 
 <dt id="arg-resources-dilution">resources_dilution<a class="anchor" aria-label="anchor" href="#arg-resources-dilution"></a></dt>
-<dd><p>Numeric: concentrations of resources in the
-continuous inflow (applicable when inflow_rate &gt; 0). If NULL,
-<code>resources</code> is used.
-(default: <code>resources_dilution = NULL</code>)</p></dd>
+<dd><p><code>Numeric scalar</code>. Specifies the
+concentrations of resources in the continuous inflow
+(applicable when inflow_rate &gt; 0). If <code>NULL</code>, <code>resources</code> is used.
+(Default: <code>NULL</code>)</p></dd>
 
 
 <dt id="arg-growth-rates">growth_rates<a class="anchor" aria-label="anchor" href="#arg-growth-rates"></a></dt>
-<dd><p>Numeric: vector of maximum growth rates(mu) of species.
-If NULL, <code>rep(1, n_species)</code> is used.
-(default: <code>growth_rates = NULL</code>)</p></dd>
+<dd><p><code>Numeric vector</code>. Specifies the maximum
+growth rates(mu) of species. If <code>NULL</code>, <code>rep(1, n_species)</code> is used.
+(Default: <code>NULL</code>)</p></dd>
 
 
 <dt id="arg-monod-constant">monod_constant<a class="anchor" aria-label="anchor" href="#arg-monod-constant"></a></dt>
-<dd><p>matrix: the constant of additive monod growth of
-n_species consuming n_resources. If NULL,
-<code>matrix(rgamma(n = n_species*n_resources, shape = 50*max(resources), rate = 1), nrow = n_species)</code>
-is used.
-(default: <code>monod_constant = NULL</code>)</p></dd>
+<dd><p><code>Matrix</code>. Specifies the constant of
+additive monod growth of n_species consuming n_resources. If <code>NULL</code>,
+<code>matrix(rgamma(n = n_species*n_resources, shape = 50*max(resources),  rate = 1), nrow = n_species)</code> is used. (Default: <code>NULL</code>)</p></dd>
 
 
 <dt id="arg-sigma-drift">sigma_drift<a class="anchor" aria-label="anchor" href="#arg-sigma-drift"></a></dt>
@@ -220,25 +217,30 @@ modeled time length of the community.
 
 
 <dt id="arg-trophic-priority">trophic_priority<a class="anchor" aria-label="anchor" href="#arg-trophic-priority"></a></dt>
-<dd><p>Matrix: a matrix defining the orders of resources to
-be consumed by each species. If NULL, by default, this feature won't be
+<dd><p><code>Matrix</code>. Defines the orders of resources to
+be consumed by each species. If <code>NULL</code>, by default, this feature won't be
 turned on, and species will consume all resources simultaneously to grow.
 The dimension should be identical to matrix E.
-(default: <code>trophic_priority = NULL</code>)</p></dd>
+(Default: <code>NULL</code>)</p></dd>
 
 
-<dt id="arg-inflow-rate-outflow-rate">inflow_rate, outflow_rate<a class="anchor" aria-label="anchor" href="#arg-inflow-rate-outflow-rate"></a></dt>
-<dd><p>Numeric: the inflow and outflow rate of a
-culture process. By default, inflow_rate and outflow_rate are 0, indicating a
-batch culture process. By setting them equally larger than 0, we can simulate
-a continuous culture(e.g. chemostat).</p></dd>
+<dt id="arg-inflow-rate-">inflow_rate, <a class="anchor" aria-label="anchor" href="#arg-inflow-rate-"></a></dt>
+<dd><p>outflow_rate <code>Numeric scalar</code>. The inflow
+of a culture process. By default, inflow_rate and is 0, indicating a batch
+culture process. When larger than 0, we can simulate a continuous
+culture(e.g. chemostat).</p></dd>
+
+
+<dt id="arg-outflow-rate">outflow_rate<a class="anchor" aria-label="anchor" href="#arg-outflow-rate"></a></dt>
+<dd><p><code>Numeric scalar</code>. outflow rate of a culture process
+By default, outflow_rate is 0, indicating a batch culture process. When larger
+than 0, we can simulate a continuous culture(e.g. chemostat).</p></dd>
 
 
 <dt id="arg-volume">volume<a class="anchor" aria-label="anchor" href="#arg-volume"></a></dt>
-<dd><p>Numeric: the volume of the continuous cultivation. This
-parameter is important for simulations where inflow_rate or outflow_rate are
-not 0.
-(default: <code>volume = 1000</code>)</p></dd>
+<dd><p><code>Numeric scalar</code>. Indicates the volume of the continuous
+cultivation. This parameter is important for simulations where inflow_rate
+or outflow_rate are not 0. (Default: <code>1000</code>)</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
