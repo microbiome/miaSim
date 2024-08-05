@@ -26,24 +26,25 @@ simulateRicker(
 \code{paste0("sp", seq_len(n_species))} is used.
 (default: \code{names_species = NULL})}
 
-\item{x0}{Numeric: initial abundances of simulated species. If NULL,
-\code{runif(n = n_species, min = 0, max = 1)} is used.}
+\item{x0}{\code{Numeric scalar}. Indicates the initial abundances
+of simulated species. If \code{NULL}, \code{runif(n = n_species, min = 0, max = 1)}
+is used.}
 
-\item{carrying_capacities}{numeric carrying capacities. If NULL,
-\code{runif(n = n_species, min = 0, max = 1)} is used.}
+\item{carrying_capacities}{\code{Numeric scalar}. Indicates carrying
+capacities. If NULL, \code{runif(n = n_species, min = 0, max = 1)} is used.}
 
-\item{error_variance}{Numeric: the variance of measurement error.
-By default it equals to 0, indicating that the result won't contain any
-measurement error. This value should be non-negative.
-(default: \code{error_variance = 0.05})}
+\item{error_variance}{\code{Numeric scalar}. Specifies the variance
+of measurement error. By default it equals to 0, indicating that
+the result won't contain any measurement error. This value should
+be non-negative. (Default: \code{0.05})}
 
-\item{explosion_bound}{numeric value of boundary for explosion
-(default: \code{explosion_bound = 10^8})}
+\item{explosion_bound}{\code{Numeric scalar}. Specifies the boundary
+for explosion. (Default: \code{10^8})}
 
-\item{t_end}{integer number of simulations to be simulated}
+\item{t_end}{\code{Integer scalar}. Indicates simulations to be simulated}
 
-\item{norm}{logical scalar returning normalised abundances (proportions
-in each generation) (default: \code{norm = FALSE})}
+\item{norm}{\code{Logical scalar}. Whether normalised abundances (proportions
+in each generation) is returned. (Default: \code{FALSE})}
 
 \item{...}{additional parameters, see \code{\link{utils}} to know more.}
 }

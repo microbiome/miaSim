@@ -4,45 +4,46 @@
 #'
 #' @template man_spe
 #' @template man_res
-#' @param E matrix: matrix of efficiency. A matrix defining the efficiency of
-#' resource-to-biomass conversion (positive values) and the relative conversion
-#' of metabolic by-products (negative values). If NULL,
+#' @param E \code{Matrix}. Defines the efficiency of resource-to-biomass 
+#' conversion (positive values) and the relative conversion
+#' of metabolic by-products (negative values). If \code{NULL},
 #' `randomE(n_species, n_resources)` is used.
-#' (default: \code{E = NULL})
-#' @param x0 Numeric: initial abundances of simulated species. If NULL,
-#' `runif(n = n_species, min = 0.1, max = 10)` is used.
-#' (default: \code{x0 = NULL})
-#' @param resources Numeric: initial concentrations of resources. If NULL,
-#' `runif(n = n_resources, min = 1, max = 100)` is used.
-#' (default: \code{resources = NULL})
-#' @param resources_dilution Numeric: concentrations of resources in the
-#' continuous inflow (applicable when inflow_rate > 0). If NULL,
-#' `resources` is used.
-#' (default: \code{resources_dilution = NULL})
-#' @param growth_rates Numeric: vector of maximum growth rates(mu) of species.
-#' If NULL, `rep(1, n_species)` is used.
-#' (default: \code{growth_rates = NULL})
-#' @param monod_constant matrix: the constant of additive monod growth of
-#' n_species consuming n_resources. If NULL,
-#' `matrix(rgamma(n = n_species*n_resources, shape = 50*max(resources), rate = 1), nrow = n_species)`
-#' is used.
-#' (default: \code{monod_constant = NULL})
+#' (Default: \code{NULL})
+#' @param x0 \code{Numeric scalar}. Specifies the initial abundances of 
+#' simulated species. If \code{NULL}, `runif(n = n_species, min = 0.1, max = 10)` 
+#' is used. (Default: \code{NULL})
+#' @param resources \code{Numeric scalar}. Specifies the initial 
+#' concentrations of resources. If \code{NULL}, `runif(n = n_resources, 
+#' min = 1, max = 100)` is used. (Default: \code{NULL})
+#' @param resources_dilution \code{Numeric scalar}. Specifies the 
+#' concentrations of resources in the continuous inflow 
+#' (applicable when inflow_rate > 0). If \code{NULL}, `resources` is used.
+#' (Default: \code{NULL})
+#' @param growth_rates \code{Numeric vector}. Specifies the maximum 
+#' growth rates(mu) of species. If \code{NULL}, `rep(1, n_species)` is used.
+#' (Default: \code{NULL})
+#' @param monod_constant \code{Matrix}. Specifies the constant of 
+#' additive monod growth of n_species consuming n_resources. If \code{NULL},
+#' `matrix(rgamma(n = n_species*n_resources, shape = 50*max(resources), 
+#' rate = 1), nrow = n_species)` is used. (Default: \code{NULL})
 #' @template man_sto
 #' @template man_mig
 #' @template man_mod
-#' @param trophic_priority Matrix: a matrix defining the orders of resources to
-#' be consumed by each species. If NULL, by default, this feature won't be
+#' @param trophic_priority \code{Matrix}. Defines the orders of resources to
+#' be consumed by each species. If \code{NULL}, by default, this feature won't be
 #' turned on, and species will consume all resources simultaneously to grow.
 #' The dimension should be identical to matrix E.
-#' (default: \code{trophic_priority = NULL})
-#' @param inflow_rate,outflow_rate Numeric: the inflow and outflow rate of a
-#' culture process. By default, inflow_rate and outflow_rate are 0, indicating a
-#' batch culture process. By setting them equally larger than 0, we can simulate
-#' a continuous culture(e.g. chemostat).
-#' @param volume Numeric: the volume of the continuous cultivation. This
-#' parameter is important for simulations where inflow_rate or outflow_rate are
-#' not 0.
-#' (default: \code{volume = 1000})
+#' (Default: \code{NULL})
+#' @param inflow_rate, outflow_rate \code{Numeric scalar}. The inflow 
+#' of a culture process. By default, inflow_rate and is 0, indicating a batch 
+#' culture process. When larger than 0, we can simulate a continuous 
+#' culture(e.g. chemostat).
+#' @param outflow_rate \code{Numeric scalar}. outflow rate of a culture process
+#' By default, outflow_rate is 0, indicating a batch culture process. When larger 
+#' than 0, we can simulate a continuous culture(e.g. chemostat).
+#' @param volume \code{Numeric scalar}. Indicates the volume of the continuous 
+#' cultivation. This parameter is important for simulations where inflow_rate 
+#' or outflow_rate are not 0. (Default: \code{1000})
 #'
 #' @examples
 #' n_species <- 2

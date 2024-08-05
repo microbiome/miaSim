@@ -24,8 +24,8 @@ simulateHubbellRates(
 \arguments{
 \item{n_species}{Integer: number of species}
 
-\item{x0}{Numeric: initial species composition. If NULL,
-\code{rep(100, n_species)} is used.}
+\item{x0}{\code{Numeric scalar}. Indicates the initial species
+composition. If \code{NULL}, \code{rep(100, n_species)} is used.}
 
 \item{names_species}{Character: names of species. If NULL,
 \code{paste0("sp", seq_len(n_species))} is used.
@@ -41,13 +41,13 @@ during the simulation. If NULL, \code{rdirichlet(1, alpha = rep(1,n_species))} i
 used.
 (default: \code{metacommunity_probability = NULL})}
 
-\item{k_events}{Integer: number of events to simulate before updating the
-sampling distributions.
-(default: \code{k_events = 1})}
+\item{k_events}{\code{Integer scalar}. Indicates the number of
+events to simulate before updating the sampling distributions.
+(Default: \code{1})}
 
-\item{growth_rates}{Numeric: maximum growth rates(mu) of species.
-If NULL, \code{rep(1, n_species)} is used.
-(default: \code{growth_rates = NULL})}
+\item{growth_rates}{\code{Numeric scalar}. Indicates the maximum
+growth rates(mu) of species. If \code{NULL}, \code{rep(1, n_species)} is used.
+(Default: \code{NULL})}
 
 \item{error_variance}{Numeric: the variance of measurement error.
 By default it equals to 0, indicating that the result won't contain any

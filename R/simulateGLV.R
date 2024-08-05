@@ -8,15 +8,15 @@
 #' A is the interaction matrix and b is the vector of growth rates.
 #'
 #' @template man_spe
-#' @param A matrix: interaction matrix defining the positive and negative
-#' interactions between n_species. If NULL, `randomA(n_species)` is used.
-#' (default: \code{A = NULL})
-#' @param x0 Numeric: initial abundances of simulated species. If NULL,
-#' `runif(n = n_species, min = 0, max = 1)` is used.
-#' (default: \code{x0 = NULL})
-#' @param growth_rates Numeric: growth rates of simulated species. If NULL,
-#' `runif(n = n_species, min = 0, max = 1)` is used.
-#' (default: \code{growth_rates = NULL})
+#' @param A \code{Matrix}. Interaction matrix defining the positive and negative
+#' interactions between n_species. If \code{NULL}, `randomA(n_species)` is used.
+#' (Default: \code{NULL})
+#' @param x0 \code{Numeric scalar}. Indicates the initial abundances of 
+#' simulated species. If \code{NULL}, `runif(n = n_species, min = 0, max = 1)` 
+#' is used. (Default: \code{NULL})
+#' @param growth_rates \code{Numeric scalar}. Indicates the growth rates 
+#' of simulated species. If \code{NULL}, `runif(n = n_species, min = 0, max = 1)` 
+#' is used. (Default: \code{NULL})
 #' @template man_sto
 #' @template man_mig
 #' @template man_mod

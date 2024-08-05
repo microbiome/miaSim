@@ -47,34 +47,31 @@ simulateConsumerResource(
 \item{names_resources}{Character: names of resources. If NULL,
 \code{paste0("res", seq_len(n_resources))} is used.}
 
-\item{E}{matrix: matrix of efficiency. A matrix defining the efficiency of
-resource-to-biomass conversion (positive values) and the relative conversion
-of metabolic by-products (negative values). If NULL,
+\item{E}{\code{Matrix}. Defines the efficiency of resource-to-biomass
+conversion (positive values) and the relative conversion
+of metabolic by-products (negative values). If \code{NULL},
 \code{randomE(n_species, n_resources)} is used.
-(default: \code{E = NULL})}
+(Default: \code{NULL})}
 
-\item{x0}{Numeric: initial abundances of simulated species. If NULL,
-\code{runif(n = n_species, min = 0.1, max = 10)} is used.
-(default: \code{x0 = NULL})}
+\item{x0}{\code{Numeric scalar}. Specifies the initial abundances of
+simulated species. If \code{NULL}, \code{runif(n = n_species, min = 0.1, max = 10)}
+is used. (Default: \code{NULL})}
 
-\item{resources}{Numeric: initial concentrations of resources. If NULL,
-\code{runif(n = n_resources, min = 1, max = 100)} is used.
-(default: \code{resources = NULL})}
+\item{resources}{\code{Numeric scalar}. Specifies the initial
+concentrations of resources. If \code{NULL}, \code{runif(n = n_resources,  min = 1, max = 100)} is used. (Default: \code{NULL})}
 
-\item{resources_dilution}{Numeric: concentrations of resources in the
-continuous inflow (applicable when inflow_rate > 0). If NULL,
-\code{resources} is used.
-(default: \code{resources_dilution = NULL})}
+\item{resources_dilution}{\code{Numeric scalar}. Specifies the
+concentrations of resources in the continuous inflow
+(applicable when inflow_rate > 0). If \code{NULL}, \code{resources} is used.
+(Default: \code{NULL})}
 
-\item{growth_rates}{Numeric: vector of maximum growth rates(mu) of species.
-If NULL, \code{rep(1, n_species)} is used.
-(default: \code{growth_rates = NULL})}
+\item{growth_rates}{\code{Numeric vector}. Specifies the maximum
+growth rates(mu) of species. If \code{NULL}, \code{rep(1, n_species)} is used.
+(Default: \code{NULL})}
 
-\item{monod_constant}{matrix: the constant of additive monod growth of
-n_species consuming n_resources. If NULL,
-\code{matrix(rgamma(n = n_species*n_resources, shape = 50*max(resources), rate = 1), nrow = n_species)}
-is used.
-(default: \code{monod_constant = NULL})}
+\item{monod_constant}{\code{Matrix}. Specifies the constant of
+additive monod growth of n_species consuming n_resources. If \code{NULL},
+\code{matrix(rgamma(n = n_species*n_resources, shape = 50*max(resources),  rate = 1), nrow = n_species)} is used. (Default: \code{NULL})}
 
 \item{sigma_drift}{Numeric: standard deviation of a normally distributed
 noise applied in each time step (t_step)
@@ -134,21 +131,24 @@ the raw counts (default: \code{norm = FALSE})
 modeled time length of the community.
 (default: \code{t_end = 1000})}
 
-\item{trophic_priority}{Matrix: a matrix defining the orders of resources to
-be consumed by each species. If NULL, by default, this feature won't be
+\item{trophic_priority}{\code{Matrix}. Defines the orders of resources to
+be consumed by each species. If \code{NULL}, by default, this feature won't be
 turned on, and species will consume all resources simultaneously to grow.
 The dimension should be identical to matrix E.
-(default: \code{trophic_priority = NULL})}
+(Default: \code{NULL})}
 
-\item{inflow_rate, outflow_rate}{Numeric: the inflow and outflow rate of a
-culture process. By default, inflow_rate and outflow_rate are 0, indicating a
-batch culture process. By setting them equally larger than 0, we can simulate
-a continuous culture(e.g. chemostat).}
+\item{inflow_rate, }{outflow_rate \code{Numeric scalar}. The inflow
+of a culture process. By default, inflow_rate and is 0, indicating a batch
+culture process. When larger than 0, we can simulate a continuous
+culture(e.g. chemostat).}
 
-\item{volume}{Numeric: the volume of the continuous cultivation. This
-parameter is important for simulations where inflow_rate or outflow_rate are
-not 0.
-(default: \code{volume = 1000})}
+\item{outflow_rate}{\code{Numeric scalar}. outflow rate of a culture process
+By default, outflow_rate is 0, indicating a batch culture process. When larger
+than 0, we can simulate a continuous culture(e.g. chemostat).}
+
+\item{volume}{\code{Numeric scalar}. Indicates the volume of the continuous
+cultivation. This parameter is important for simulations where inflow_rate
+or outflow_rate are not 0. (Default: \code{1000})}
 
 \item{...}{additional parameters, see \code{\link{utils}} to know more.}
 }

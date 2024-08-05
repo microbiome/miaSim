@@ -8,17 +8,17 @@ in simulation functions.}
 .simulationTimes(t_start = 0, t_end = 1000, t_step = 0.1, t_store = 1000)
 }
 \arguments{
-\item{t_start}{Numeric scalar indicating the initial time of the simulation.
-(default: \code{t_start = 0})}
+\item{t_start}{\code{Numeric scalar}. Indicates the initial time of the simulation.
+(Default: \code{0})}
 
-\item{t_end}{Numeric scalar indicating the final time of the simulation
-(default: \code{t_end = 1000})}
+\item{t_end}{\code{Numeric scalar}. Indicates the final time of the simulation
+(Default: \code{1000})}
 
-\item{t_step}{Numeric scalar indicating the interval between simulation steps
-(default: \code{t_step = 0.1})}
+\item{t_step}{\code{Numeric scalar}. Indicates the interval between simulation steps
+(Default: \code{0.1})}
 
-\item{t_store}{Integer scalar indicating the number of evenly distributed
-time points to keep (default: \code{t_store = 100})}
+\item{t_store}{\code{Integer scalar}. Indicates the number of evenly distributed
+time points to keep (Default: \code{100})}
 }
 \value{
 lists containing simulation times (t_sys) and the indices to keep.

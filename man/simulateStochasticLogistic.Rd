@@ -34,22 +34,22 @@ simulateStochasticLogistic(
 \code{paste0("sp", seq_len(n_species))} is used.
 (default: \code{names_species = NULL})}
 
-\item{growth_rates}{Numeric: growth rates of simulated species. If NULL,
-\code{runif(n = n_species, min = 0.1, max = 0.2)} is used.
-(default: \code{growth_rates = NULL})}
+\item{growth_rates}{\code{Numeric scalar}. Specifies the growth rates
+of simulated species. If NULL, \code{runif(n = n_species, min = 0.1, max = 0.2)}
+is used. (Default: \code{NULL})}
 
-\item{carrying_capacities}{Numeric: The max population of species supported
-in the community. If NULL,
+\item{carrying_capacities}{\code{Numeric scalar}. Indicates the max
+population of species supported in the community. If NULL,
 \code{runif(n = n_species, min = 1000, max = 2000)} is used.
-(default: \code{carrying_capacities = NULL})}
+(Default: \code{NULL})}
 
-\item{death_rates}{Numeric: death rates of each species. If NULL,
-\code{runif(n = n_species, min = 0.0005, max = 0.0025)} is used.
-(default: \code{death_rates = NULL})}
+\item{death_rates}{\code{Numeric scalar}. Indicates the death rates
+of each species. If NULL, \code{runif(n = n_species, min = 0.0005, max = 0.0025)}
+is used. (Default: \code{NULL})}
 
-\item{x0}{Numeric: initial abundances of simulated species. If NULL,
-\code{runif(n = n_species, min = 0.1, max = 10)} is used.
-(default: \code{x0 = NULL})}
+\item{x0}{\code{Numeric scalar}. Indicates the initial abundances of simulated
+species. If NULL,  \code{runif(n = n_species, min = 0.1, max = 10)} is used.
+(Default: \code{NULL})}
 
 \item{sigma_drift}{Numeric: standard deviation of a normally distributed
 noise applied in each time step (t_step)
@@ -91,9 +91,9 @@ during the simulation. If NULL, \code{rdirichlet(1, alpha = rep(1,n_species))} i
 used.
 (default: \code{metacommunity_probability = NULL})}
 
-\item{stochastic}{Logical: whether to introduce noise in the simulation.
+\item{stochastic}{\code{Logical scalar}. Whether to introduce noise in the simulation.
 If False, sigma_drift, sigma_epoch, and sigma_external are ignored.
-(default: \code{stochastic = TRUE})}
+(Default: \code{TRUE})}
 
 \item{error_variance}{Numeric: the variance of measurement error.
 By default it equals to 0, indicating that the result won't contain any

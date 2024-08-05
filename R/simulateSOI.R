@@ -4,30 +4,27 @@
 #' Implements a K-leap method for accelerating stochastic simulation.
 #'
 #' @template man_spe
-#' @param x0 a vector of initial community abundances
-#' If (default: \code{x0 = NULL}), based on migration rates
-#' @param carrying_capacity integer community size, number of available sites
-#' (individuals)
-#' @param A matrix: interaction matrix defining the positive and negative
-#' interactions between n_species. If NULL, `powerlawA(n_species)` is used.
-#' (default: \code{A = NULL})
-#' @param k_events integer number of transition events that are allowed to take
-#' place during one leap. (default: \code{k_events = 5}).
-#' Higher values reduce runtime, but also accuracy of the simulation.
-#' @param t_end Numeric: the end time of the simulation, defining the
-#' modeled time length of the community.
-#' (default: \code{t_end = 1000})
-#' @param metacommunity_probability Numeric: Normalized probability distribution
-#' of the likelihood that species from the metacommunity can enter the community
-#' during the simulation. By default, `runif(n_species, min = 0.1, max = 0.8)`
-#' is used.
-#' (default: \code{metacommunity_probability = runif(n_species, min = 0.1, max = 0.8)})
-#' @param death_rates Numeric: death rates of each species. By default,
-#' `runif(n_species, min = 0.01, max = 0.08)` is used.
-#' (default: \code{death_rates = runif(n_species, min = 0.01, max = 0.08)})
-#' @param norm logical scalar indicating whether the time series should be
+#' @param x0 \code{Numeric scalar}. Specifies initial community abundances
+#' If \code{NULL}, based on migration rates. (Default: \code{NULL})
+#' @param carrying_capacity \code{Integer scalar}. Indicates community size, 
+#' number of available sites (individuals). (Default: \code{1000})
+#' @param A \code{Matrix}. Defines the positive and negative
+#' interactions between n_species. If \code{NULL}, `powerlawA(n_species)` is used.
+#' (Default: \code{NULL})
+#' @param k_events \code{Integer scalar}. Indicates the number of transition 
+#' events that are allowed to take place during one leap. Higher values reduce 
+#' runtime, but also accuracy of the simulation. (Default: \code{5}).
+#' @param t_end \code{Numeric scalar}. Specifies the end time of the simulation, 
+#' defining the modeled time length of the community. (Default: \code{1000})
+#' @param metacommunity_probability \code{Numeric scalar}: Indicates the 
+#' normalized probability distribution of the likelihood that species from 
+#' the metacommunity can enter the community during the simulation. 
+#' (Default: \code{runif(n_species, min = 0.1, max = 0.8)})
+#' @param death_rates \code{Numeric scalar}. Indicates the death rates of each species.
+#' (Default: \code{runif(n_species, min = 0.01, max = 0.08)})
+#' @param norm \code{Logical scalar}. Whether the time series should be
 #' returned with the abundances as proportions (\code{norm = TRUE})
-#' or the raw counts (default: \code{norm = FALSE})
+#' or the raw counts. (Default: \code{FALSE})
 #'
 #' @return
 #' \code{simulateSOI} returns a TreeSummarizedExperiment class object

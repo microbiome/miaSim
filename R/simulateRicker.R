@@ -6,21 +6,22 @@
 #'
 #' @template man_spe
 #' @param A interaction matrix
-#' @param x0 Numeric: initial abundances of simulated species. If NULL,
-#' `runif(n = n_species, min = 0, max = 1)` is used.
-#' @param carrying_capacities numeric carrying capacities. If NULL,
-#' `runif(n = n_species, min = 0, max = 1)` is used.
+#' @param x0 \code{Numeric scalar}. Indicates the initial abundances 
+#' of simulated species. If \code{NULL}, `runif(n = n_species, min = 0, max = 1)` 
+#' is used.
+#' @param carrying_capacities \code{Numeric scalar}. Indicates carrying 
+#' capacities. If NULL, `runif(n = n_species, min = 0, max = 1)` is used.
 #' @template man_mod
-#' @param error_variance Numeric: the variance of measurement error.
-#' By default it equals to 0, indicating that the result won't contain any
-#' measurement error. This value should be non-negative.
-#' (default: \code{error_variance = 0.05})
-#' @param explosion_bound numeric value of boundary for explosion
-#' (default: \code{explosion_bound = 10^8})
+#' @param error_variance \code{Numeric scalar}. Specifies the variance 
+#' of measurement error. By default it equals to 0, indicating that 
+#' the result won't contain any measurement error. This value should 
+#' be non-negative. (Default: \code{0.05})
+#' @param explosion_bound \code{Numeric scalar}. Specifies the boundary 
+#' for explosion. (Default: \code{10^8})
 
-#' @param t_end integer number of simulations to be simulated
-#' @param norm logical scalar returning normalised abundances (proportions
-#' in each generation) (default: \code{norm = FALSE})
+#' @param t_end \code{Integer scalar}. Indicates simulations to be simulated
+#' @param norm \code{Logical scalar}. Whether normalised abundances (proportions
+#' in each generation) is returned. (Default: \code{FALSE})
 #'
 #' @return
 #' \code{simulateRicker} returns a TreeSummarizedExperiment class object

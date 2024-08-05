@@ -14,24 +14,24 @@
 #' surpass the alive species abundances.
 #'
 #' @template man_spe
-#' @param growth_rates Numeric: growth rates of simulated species. If NULL,
-#'  `runif(n = n_species, min = 0.1, max = 0.2)` is used.
-#' (default: \code{growth_rates = NULL})
-#' @param carrying_capacities Numeric: The max population of species supported
-#' in the community. If NULL,
+#' @param growth_rates \code{Numeric scalar}. Specifies the growth rates 
+#' of simulated species. If NULL, `runif(n = n_species, min = 0.1, max = 0.2)` 
+#' is used. (Default: \code{NULL})
+#' @param carrying_capacities \code{Numeric scalar}. Indicates the max 
+#' population of species supported in the community. If NULL,
 #' `runif(n = n_species, min = 1000, max = 2000)` is used.
-#' (default: \code{carrying_capacities = NULL})
-#' @param death_rates Numeric: death rates of each species. If NULL,
-#' `runif(n = n_species, min = 0.0005, max = 0.0025)` is used.
-#' (default: \code{death_rates = NULL})
-#' @param x0 Numeric: initial abundances of simulated species. If NULL,
-#' `runif(n = n_species, min = 0.1, max = 10)` is used.
-#' (default: \code{x0 = NULL})
+#' (Default: \code{NULL})
+#' @param death_rates \code{Numeric scalar}. Indicates the death rates 
+#' of each species. If NULL, `runif(n = n_species, min = 0.0005, max = 0.0025)` 
+#' is used. (Default: \code{NULL})
+#' @param x0 \code{Numeric scalar}. Indicates the initial abundances of simulated 
+#' species. If NULL,  `runif(n = n_species, min = 0.1, max = 10)` is used.
+#' (Default: \code{NULL})
 #' @template man_sto
 #' @template man_mig
-#' @param stochastic Logical: whether to introduce noise in the simulation.
+#' @param stochastic \code{Logical scalar}. Whether to introduce noise in the simulation.
 #' If False, sigma_drift, sigma_epoch, and sigma_external are ignored.
-#' (default: \code{stochastic = TRUE})
+#' (Default: \code{TRUE})
 #' @template man_mod
 #'
 #' @examples

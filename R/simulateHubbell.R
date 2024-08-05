@@ -2,23 +2,26 @@
 #'
 #' Neutral species abundances simulation according to the Hubbell model.
 #'
-#' @param n_species integer amount of different species initially
-#' in the local community
-#' @param M integer amount of different species in the metacommunity,
-#' including those of the local community
-#' @param carrying_capacity integer value of fixed amount of individuals in the local community
-#' (default: \code{carrying_capacity = 1000})
-#' @param k_events integer value of fixed amount of deaths of local community
-#' individuals in each generation (default: \code{k_events = 10})
-#' @param migration_p numeric immigration rate: the probability that a death in the local
-#' community is replaced by a migrant of the metacommunity rather than by
-#' the birth of a local community member (default: \code{migration_p = 0.02})
-#' @param t_skip integer number of generations that should not be included
-#' in the outputted species abundance matrix. (default: \code{t_skip = 0})
-#' @param t_end integer number of simulations to be simulated
-#' @param norm logical scalar choosing whether the time series should be
+#' @param n_species \code{Integer scalar}. Specifies the amount of 
+#' different species initially in the local community.
+#' @param M \code{Integer scalar}. Specifies the amount of different 
+#' species in the metacommunity, including those of the local community
+#' @param carrying_capacity \code{Integer scalar}. Indicates the fixed 
+#' amount of individuals in the local community. (Default: \code{1000})
+#' @param k_events \code{Inteer scalar}. Indicates the fixed amount of 
+#' deaths of local community individuals in each generation (Default: \code{10})
+#' @param migration_p \code{Numeric scalar}. The immigration rate; specifies 
+#' the probability that a death in the local community is replaced by a 
+#' migrant of the metacommunity rather than by the birth of a local 
+#' community member (Default: \code{0.02})
+#' @param t_skip \code{Integer scalar}. Indicates the number of generations 
+#' that should not be included in the outputted species abundance matrix. 
+#' (Default: \code{0})
+#' @param t_end \code{Integer scalar}. Indicates the number of simulations 
+#' to be simulated
+#' @param norm \code{Logical scalar}. Whether the time series should be
 #' returned with the abundances as proportions (\code{norm = TRUE}) or
-#' the raw counts (default: \code{norm = FALSE})
+#' the raw counts. (Default: \code{FALSE})
 #'
 #' @examples
 #' tse <- simulateHubbell(
