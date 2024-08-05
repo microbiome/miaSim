@@ -35,9 +35,12 @@
 #' The dimension should be identical to matrix E.
 #' (Default: \code{NULL})
 #' @param inflow_rate, outflow_rate \code{Numeric scalar}. The inflow 
-#' and outflow rate of a culture process. By default, inflow_rate and 
-#' outflow_rate are 0, indicating a batch culture process. By setting them 
-#' equally larger than 0, we can simulate a continuous culture(e.g. chemostat).
+#' of a culture process. By default, inflow_rate and is 0, indicating a batch 
+#' culture process. When larger than 0, we can simulate a continuous 
+#' culture(e.g. chemostat).
+#' @param outflow_rate \code{Numeric scalar}. outflow rate of a culture process
+#' By default, outflow_rate is 0, indicating a batch culture process. When larger 
+#' than 0, we can simulate a continuous culture(e.g. chemostat).
 #' @param volume \code{Numeric scalar}. Indicates the volume of the continuous 
 #' cultivation. This parameter is important for simulations where inflow_rate 
 #' or outflow_rate are not 0. (Default: \code{1000})
