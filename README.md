@@ -6,7 +6,7 @@
 [![Gitter](https://badges.gitter.im/microbiome/mia.svg)](https://gitter.im/microbiome/miaverse)
 [![Watch on GitHub][github-watch-badge]][github-watch]
 [![Star on GitHub][github-star-badge]][github-star]
-[![R-CMD-check](https://github.com/microbiome/miaSim/workflows/R-CMD-check/badge.svg)](https://github.com/microbiome/miaSim/actions)
+[![R-CMD-check](https://github.com/microbiome/miaSim/workflows/rworkflows/badge.svg)](https://github.com/microbiome/miaSim/actions)
 <!-- badges: end -->
 
 ## miaSim
