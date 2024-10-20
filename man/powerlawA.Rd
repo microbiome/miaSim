@@ -7,26 +7,26 @@
 powerlawA(n_species, alpha = 3, stdev = 1, s = 0.1, d = -1, symmetric = FALSE)
 }
 \arguments{
-\item{n_species}{integer number of species}
+\item{n_species}{\code{Integer scalar}. Indicates the number of species.}
 
-\item{alpha}{numeric power-law distribution parameter. Should be > 1.
-(default: \code{alpha = 3.0}) Larger values will give lower interaction
+\item{alpha}{\code{Numeric scalar}. Specifies the power-law distribution.
+Should be > 1. Larger values will give lower interaction
 strength heterogeneity, whereas values closer to 1 give strong heterogeneity
 in interaction strengths between the species. In other words, values of alpha
-close to 1 will give Strongly Interacting Species (SIS).}
+close to 1 will give Strongly Interacting Species (SIS). (Default: \code{3.0})}
 
-\item{stdev}{numeric standard deviation parameter of the normal
+\item{stdev}{\code{Numeric scalar}. Specifies the standard deviation of the normal
 distribution with mean 0 from which the elements of the nominal interspecific
-interaction matrix N are drawn. (default: \code{stdev = 1})}
+interaction matrix N are drawn. (Default: \code{1})}
 
-\item{s}{numeric scaling parameter with which the final global
-interaction matrix A is multiplied. (default: \code{s = 0.1})}
+\item{s}{\code{Numeric scalar}. Specifies the scaling with which the final global
+interaction matrix A is multiplied. (Default: \code{0.1})}
 
-\item{d}{numeric diagonal values, indicating self-interactions (use
-negative values for stability). (default: \code{s = 1.0})}
+\item{d}{\code{Numeric scalar}. Diagonal values, indicating self-interactions (use
+negative values for stability). (Default: \code{1.0})}
 
-\item{symmetric}{logical scalar returning a symmetric interaction matrix
-(default: \code{symmetric=FALSE})}
+\item{symmetric}{\code{Logical scalar}. Whether a symmetric interaction matrix
+is returned. (Default: \code{FALSE})}
 }
 \value{
 The interaction matrix A with dimensions (n_species x n_species)

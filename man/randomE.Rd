@@ -29,39 +29,38 @@ randomE(
 \item{names_resources}{Character: names of resources. If NULL,
 \code{paste0("res", seq_len(n_resources))} is used.}
 
-\item{mean_consumption}{Numeric: mean number of resources consumed by each
-species drawn from a poisson distribution
-(default: \code{mean_consumption = n_resources/4})}
+\item{mean_consumption}{\code{Numeric scalar}. Specifies the mean number
+of resources consumed by each species drawn from a poisson distribution
+(Default: \code{n_resources/4})}
 
-\item{mean_production}{Numeric: mean number of resources produced by each
-species drawn from a poisson distribution
-(default: \code{mean_production = n_resources/6})}
+\item{mean_production}{\code{Numeric scalar}. Specifies the mean number
+of resources produced by each species drawn from a poisson distribution
+(Default: \code{n_resources/6})}
 
-\item{maintenance}{Numeric: proportion of resources that cannot be converted
-into products
-between 0~1 the proportion of resources used
-to maintain the living of microorganisms. 0 means all the resources will be
-used for the reproduction of microorganisms, and 1 means all the resources
-would be used to maintain the living of organisms and no resources would be
-left for their growth(reproduction).
-(default: \code{maintenance = 0.5})}
+\item{maintenance}{\code{Numeric scalar}. Specifies the proportion of
+resources that cannot be converted into products between 0~1 the
+proportion of resources used to maintain the living of microorganisms.
+0 means all the resources will be used for the reproduction of
+microorganisms, and 1 means all the resources would be used to maintain
+the living of organisms and no resources would be left for their
+growth(reproduction). (Default: \code{0.5})}
 
-\item{trophic_levels}{Integer: number of species in microbial trophic levels.
-If NULL, by default, microbial trophic levels would not be considered.
-(default: \code{trophic_levels = NULL})}
+\item{trophic_levels}{\code{Integer scalar}. Indicates the number of
+species in microbial trophic levels. If NULL, by default, microbial
+trophic levels would not be considered. (Default: \code{NULL})}
 
-\item{trophic_preferences}{List: preferred resources and productions of each
-trophic level. Positive values indicate the consumption of resources,
-whilst negatives indicate that the species would produce the resource.}
+\item{trophic_preferences}{\code{List}. Indicates the preferred resources
+and productions of each trophic level. Positive values indicate the
+consumption of resources, whilst negatives indicate that the species
+would produce the resource. (Default: \code{NULL})}
 
-\item{exact}{Logical: whether to set the number of consumption/production to
-be exact as mean_consumption/mean_production or to set them using a Poisson
-distribution.
-(default: \code{exact = FALSE})
+\item{exact}{\code{Logical scalar}. Whether to set the number of
+consumption/production to be exact as mean_consumption/mean_production
+or to set them using a Poisson distribution. (Default: \code{FALSE})
 If \code{length(trophic_preferences)} is smaller than \code{length(trophic_levels)},
 then NULL values would be appended to lower trophic levels.
 If NULL, by default, the consumption preference will be defined randomly.
-(default: \code{trophic_preferences = NULL})}
+(Default: \code{trophic_preferences = NULL})}
 }
 \value{
 \code{randomE} returns a matrix E with dimensions (n_species x n_resources),
