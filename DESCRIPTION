@@ -4,24 +4,19 @@ Version: 1.9.1
 Authors@R:
      c(person(given = "Yagmur", family = "Simsek", role = c("cre", "aut"),
               email = "yagmur.simsek.98@gmail.com"),
-       person(given = "Karoline", family = "Faust", role = c("aut"),
-              email = "karoline.faust@kuleuven.be"),
-       person(given = "Yu", family = "Gao", role = c("aut"),
-              email = "gaoyu19920914@gmail.com"),
-       person(given = "Emma", family = "Gheysen", role = c("aut"),
-              email = "emma.gheysen@student.kuleuven.be"),
-       person(given = "Daniel Rios", family = "Garza", role = c("aut"),
-              email = "danielrios.garza@kuleuven.be"),
-       person(given = "Tuomas", family = "Borman", role = c("aut"),
+       person(given = "Karoline", family = "Faust", role = "aut"),
+       person(given = "Yu", family = "Gao", role = "aut"),
+       person(given = "Emma", family = "Gheysen", role = "aut"),
+       person(given = "Daniel Rios", family = "Garza", role = "aut"),
+       person(given = "Tuomas", family = "Borman", role = "aut",
              email = "tuomas.v.borman@utu.fi",
              comment = c(ORCID = "0000-0002-8563-8884")),
-       person(given = "Leo", family = "Lahti", role = c("aut"),
+       person(given = "Leo", family = "Lahti", role = "aut",
               email = "leo.lahti@iki.fi",
               comment = c(ORCID = "0000-0001-5537-637X")),
-       person(given = "Muluh", family = "Muluh", role=c("ctb")),
-       person(given = "Nitesh", family = "Turaga", role=c("ctb")),
-       person(given = "Akewak", family = "Jeba", role=c("ctb"))
-      )
+       person(given = "Geraldson", family = "Muluh", role = "ctb"),
+       person(given = "Akewak", family = "Jeba", role = "ctb",
+             comment = c(ORCID = "0009-0007-1347-7552")))
 Title: Microbiome Data Simulation
 Description:
     Microbiome time series simulation with generalized Lotka-Volterra model,
