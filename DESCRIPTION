@@ -28,11 +28,9 @@ biocViews: Microbiome, Software, Sequencing, DNASeq, ATACSeq, Coverage, Network
 Encoding: UTF-8
 RoxygenNote: 7.3.2
 Depends:
-    R (>= 4.5.1),
     TreeSummarizedExperiment    
 Imports:
     SummarizedExperiment,
-    SingleCellExperiment,
     deSolve,
     stats,
     poweRlaw,
