@@ -80,7 +80,8 @@ time effect is considered to determine the next event.
 set.seed(42)
 tse <- simulateHubbellRates(n_species = 5)
 
-miaViz::plotSeries(tse, x = "time")
+miaViz::plotSeries(tse, assay.type = "counts", 
+    time.col = "time", colour.by  = "rownames")
 
 # no migration, all stochastic birth and death
 set.seed(42)
