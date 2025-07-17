@@ -2,16 +2,17 @@ name: rworkflows
 'on':
   push:
     branches:
-    - master
-    - main
-    - devel
-    - RELEASE_**
+      - master
+      - main
+      - devel
+      - RELEASE_**
   pull_request:
     branches:
-    - master
-    - main
-    - devel
-    - RELEASE_**
+      - master
+      - main
+      - devel
+      - RELEASE_**
+
 jobs:
   rworkflows:
     permissions: write-all
@@ -19,39 +20,55 @@ jobs:
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
     container: ${{ matrix.config.cont }}
     strategy:
-      fail-fast: ${{ false }}
+      fail-fast: false
       matrix:
         config:
-        - os: ubuntu-latest
-          bioc: devel
-          r: auto
-          cont: ghcr.io/bioconductor/bioconductor_docker:devel
-          rspm: ~
-        - os: macOS-latest
-          bioc: devel
-          r: latest
-          cont: ~
-          rspm: ~
-        - os: windows-latest
-          bioc: devel
-          r: auto
-          cont: ~
-          rspm: ~
+          - os: ubuntu-latest
+            bioc: devel
+            r: auto
+            cont: ghcr.io/bioconductor/bioconductor_docker:devel
+            rspm: ~
+          - os: macOS-latest
+            bioc: devel
+            r: auto
+            cont: ~
+            rspm: ~
+          - os: windows-latest
+            bioc: devel
+            r: auto
+            cont: ~
+            rspm: ~
     steps:
-    - uses: neurogenomics/rworkflows@master
-      with:
-        run_bioccheck: ${{ false }}
-        run_rcmdcheck: ${{ true }}
-        as_cran: ${{ true }}
-        run_vignettes: ${{ true }}
-        has_testthat: ${{ true }}
-        run_covr: ${{ true }}
-        run_pkgdown: ${{ true }}
-        has_runit: ${{ false }}
-        has_latex: ${{ false }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run_docker: ${{ false }}
-        DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-        runner_os: ${{ runner.os }}
-        cache_version: cache-v1
-        docker_registry: ghcr.io
+      - uses: actions/checkout@v4
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+      # Update package repositories to devel
+      - name: Set BiocManager Repos
+        run: |
+          echo 'options(repos = BiocManager::repositories())' >> ~/.Rprofile
+      - name: Install BiocManager
+        run: |
+          Rscript -e "if (!requireNamespace('BiocManager', quietly=TRUE)) install.packages('BiocManager')"
+      # Ensure all Bioconductor and key packages are latest
+      - name: Update Packages
+        run: |
+          Rscript -e "BiocManager::install(ask=FALSE, update=TRUE)"
+      - uses: neurogenomics/rworkflows@master
+        with:
+          run_bioccheck: false
+          run_rcmdcheck: true
+          as_cran: true
+          run_vignettes: true
+          has_testthat: true
+          run_covr: true
+          run_pkgdown: true
+          has_runit: false
+          has_latex: false
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run_docker: false
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+          runner_os: ${{ runner.os }}
+          cache_version: cache-v2
+          docker_registry: ghcr.io
