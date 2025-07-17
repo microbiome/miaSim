@@ -3,6 +3,7 @@ name: rworkflows
   push:
     branches:
       - master
+      - rw
       - main
       - devel
       - RELEASE_**
