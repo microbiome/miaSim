@@ -6,16 +6,12 @@ name: rworkflows
     - main
     - devel
     - RELEASE_**
-    - '*'
-    - '!gh-pages'
   pull_request:
     branches:
     - master
     - main
     - devel
     - RELEASE_**
-    - '*'
-    - '!gh-pages'
 jobs:
   rworkflows:
     permissions: write-all
@@ -27,17 +23,17 @@ jobs:
       matrix:
         config:
         - os: ubuntu-latest
-          bioc: release
+          bioc: devel 
           r: auto
-          cont: ghcr.io/bioconductor/bioconductor_docker:RELEASE_3_21
+          cont: ghcr.io/bioconductor/bioconductor_docker:devel
           rspm: ~
         - os: macOS-latest
-          bioc: release
+          bioc: devel 
           r: auto
           cont: ~
           rspm: ~
         - os: windows-latest
-          bioc: release
+          bioc: devel 
           r: auto
           cont: ~
           rspm: ~
@@ -57,6 +53,6 @@ jobs:
         run_docker: ${{ false }}
         DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
         runner_os: ${{ runner.os }}
-        cache_version: cache-v2
+        cache_version: cache-v1
         docker_registry: ghcr.io
         force_install: ${{ true }}
