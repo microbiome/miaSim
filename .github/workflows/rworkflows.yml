@@ -33,7 +33,7 @@ jobs:
           cont: ~
           rspm: ~
         - os: windows-latest
-          bioc: release
+          bioc: devel
           r: auto
           cont: ~
           rspm: ~
