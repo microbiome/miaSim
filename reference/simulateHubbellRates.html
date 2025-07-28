@@ -15,7 +15,7 @@ time effect is considered to determine the next event."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">miaSim</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.9.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.15.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,7 @@ time effect is considered to determine the next event."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Hubbell's neutral model simulation applied to time series</h1>
-      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/devel/R/simulateHubbellRates.R" class="external-link"><code>R/simulateHubbellRates.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/microbiome/miaSim/blob/gha/R/simulateHubbellRates.R" class="external-link"><code>R/simulateHubbellRates.R</code></a></small>
       <div class="d-none name"><code>simulateHubbellRates.Rd</code></div>
     </div>
 
@@ -152,13 +152,9 @@ vol. 26,7 (2011).</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">tse</span> <span class="op">&lt;-</span> <span class="fu">simulateHubbellRates</span><span class="op">(</span>n_species <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">tse</span>, x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">miaViz</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/miaViz/man/plotSeries.html" class="external-link">plotSeries</a></span><span class="op">(</span><span class="va">tse</span>, assay.type <span class="op">=</span> <span class="st">"counts"</span>, </span></span>
+<span class="r-in"><span>    time.col <span class="op">=</span> <span class="st">"time"</span>, colour.by  <span class="op">=</span> <span class="st">"rownames"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'x' did not have colnames. They are added.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to max; returning -Inf</span>
 <span class="r-plt img"><img src="simulateHubbellRates-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># no migration, all stochastic birth and death</span></span></span>
@@ -209,7 +205,7 @@ vol. 26,7 (2011).</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>

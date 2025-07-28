@@ -1,6 +1,6 @@
-pandoc: 3.6.4
-pkgdown: 2.1.2
+pandoc: 3.7.0.2
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   miaSim: miaSim.html
-last_built: 2025-05-15T19:43Z
+last_built: 2025-07-28T09:27Z
