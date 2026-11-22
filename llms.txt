@@ -1,0 +1,116 @@
+# Microbiome data simulation with miaSim ![](reference/figures/mia_logo.png)
+
+## miaSim
+
+This R/Bioconductor package provides tools to simulate (longitudinal)
+time series data from popular models in microbial ecology. The
+[homepage](https://microbiome.github.io/miaSim/) provides tutorials and
+references for the [implemented
+models](https://microbiome.github.io/miaSim/reference/index.html):
+
+- Self-organised instability (SOI)
+- Hubbell’s neutral model
+- generalized Lotka-Volterra (gLV)
+- Ricker model (discrete gLV)
+- Stochastic logistic model
+- Consumer-resource model
+
+These methods can be used for *in silico* studies of microbial community
+dynamics or multi-omic or host-microbiome interactions. The miaSim
+package supports the Bioconductor [multi-assay data science
+framework](https://microbiome.github.io/OMA) for multi-omic data
+integration and time series analysis, and utilizes the
+`(Tree)SummarizedExperiment` data container.
+
+[Getting
+started](https://microbiome.github.io/miaSim/articles/miaSim.html).
+
+### miaSimShiny
+
+The accompanying
+[miaSimShiny](https://github.com/gaoyu19920914/miaSimShiny) package
+allows users to explore the parameter space of their models in real-time
+in an intuitive graphical interface.
+
+You can experiment with miaSimShiny
+[online](https://gaoyu.shinyapps.io/shiny_rep/).
+
+### Contributions and acknowledgments
+
+You can find us online from
+[Gitter](https://gitter.im/microbiome/miaverse).
+
+Contributions are very welcome through issues and pull requests at the
+[development site](https://github.com/microbiome/miaSim). We follow a
+git flow kind of approach. Development version should be done against
+the `main` branch and then merged to `release` for release.
+(<https://guides.github.com/introduction/flow/>)
+
+We are grateful to all
+[contributors](https://github.com/microbiome/miaSim/graphs/contributors).
+
+This research has received funding from
+
+- the Horizon 2020 Programme of the European Union within the
+  [FindingPheno project](https://www.findingpheno.eu/) under grant
+  agreement No 952914.
+- Research Council of Finland (grant 330887)
+
+![FindingPheno logo](reference/figures/FindingPheno2.jpg)
+
+### Citing the package
+
+**Kindly cite this work** as follows:
+
+Gao *et al.* (2023). Methods in Ecology and Evolution. DOI:
+[10.1111/2041-210X.14129](https://doi.org/10.1111/2041-210X.14129)
+
+For citation details, see R command `citation("miaSim")`.
+
+**Code of conduct** Please note that the project is released with a
+[Bioconductor Code of
+Conduct](https://bioconductor.github.io/bioc_coc_multilingual/). By
+contributing to this project, you agree to abide by its terms.
+
+# Package index
+
+## All functions
+
+- [`.applyInterType()`](dot-applyInterType.md) : Generate pairs of
+  interactions according to interaction types
+- [`.estimateAFromSimulations()`](dot-estimateAFromSimulations.md) : Get
+  the interspecies interaction matrix A using leave-one-out method
+- [`.getInteractions()`](dot-getInteractions.md) : Generate interactions
+  according to five types of interactions and their weights
+- [`.isPosInt()`](dot-isPosInt.md) : Check whether a number is a
+  positive integer
+- [`.replaceByZero()`](dot-replaceByZero.md) : Replace one element with
+  zero in a list
+- [`powerlawA()`](powerlawA.md) : Interaction matrix with Power-Law
+  network adjacency matrix
+- [`randomA()`](randomA.md) : Generate random interaction matrix for GLV
+  model
+- [`randomE()`](randomE.md) : Generate random efficiency matrix
+- [`rdirichlet()`](rdirichlet.md) : Generate dirichlet random deviates
+- [`simulateConsumerResource()`](simulateConsumerResource.md) :
+  Consumer-resource model simulation
+- [`simulateEventTimes()`](simulateEventTimes.md) : Generate a vector of
+  event times
+- [`simulateGLV()`](simulateGLV.md) : Generalized Lotka-Volterra (gLV)
+  simulation
+- [`simulateHubbell()`](simulateHubbell.md) : Hubbell's neutral model
+  simulation
+- [`simulateHubbellRates()`](simulateHubbellRates.md) : Hubbell's
+  neutral model simulation applied to time series
+- [`simulateRicker()`](simulateRicker.md) : Generate time series with
+  the Ricker model
+- [`simulateSOI()`](simulateSOI.md) : Self-Organised Instability model
+  (SOI) simulation
+- [`simulateStochasticLogistic()`](simulateStochasticLogistic.md) :
+  Stochastic Logistic simulation
+
+# Articles
+
+### All vignettes
+
+- [miaSim: Microbiome Data Simulation](miaSim.md):
