@@ -55,6 +55,16 @@ jobs:
       matrix:
         config: ${{ fromJSON(needs.matrix.outputs.config) }}
     steps:
+    # Temporary: ggtree (Bioconductor devel) needs the CRAN packages
+    # treelayout and tidytree (>= 0.4.9), which are newer than the CRAN
+    # snapshot used in the Bioconductor devel container. Without them, ggtree
+    # cannot be installed and the dependency check fails. Install them from
+    # CRAN before the dependencies are installed. Only the container job has
+    # R available at this point. Remove once the snapshot includes them.
+    # Same workaround as in microbiome/mia, miaViz and miaTime.
+    - name: Install treelayout and tidytree from CRAN (temporary)
+      if: ${{ matrix.config.cont != null }}
+      run: Rscript -e 'install.packages(c("treelayout", "tidytree"), repos = "https://cloud.r-project.org")'
     - uses: neurogenomics/rworkflows@master
       with:
         run_bioccheck: ${{ false }}
