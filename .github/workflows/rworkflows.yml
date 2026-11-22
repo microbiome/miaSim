@@ -6,8 +6,14 @@ name: rworkflows
     - main
     - devel
     - RELEASE_**
-    - '*'
-    - '!gh-pages'
+    # Documentation-only pushes (e.g. the batched NEWS updates) need no check.
+    # Not used for pull requests: the required check would then never report,
+    # and the pull request could not be merged.
+    paths-ignore:
+    - NEWS
+    - NEWS.md
+    - '**.md'
+    - .github/ISSUE_TEMPLATE/**
   pull_request:
     branches:
     - master
@@ -16,8 +22,30 @@ name: rworkflows
     - RELEASE_**
     - '*'
     - '!gh-pages'
+# A newer push to the same pull request or branch cancels the older run.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
+  # Pull requests are checked on Linux only (the required check). Pushes,
+  # e.g. merges to devel, are checked on Linux, macOS and Windows.
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      config: ${{ steps.set.outputs.config }}
+    steps:
+    - id: set
+      run: |
+        linux='{"os":"ubuntu-latest","bioc":"devel","r":"auto","cont":"ghcr.io/bioconductor/bioconductor_docker:devel","rspm":null}'
+        mac='{"os":"macOS-latest","bioc":"devel","r":"auto","cont":null,"rspm":null}'
+        win='{"os":"windows-latest","bioc":"devel","r":"auto","cont":null,"rspm":null}'
+        if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+          echo "config=[$linux]" >> "$GITHUB_OUTPUT"
+        else
+          echo "config=[$linux,$mac,$win]" >> "$GITHUB_OUTPUT"
+        fi
   rworkflows:
+    needs: matrix
     permissions: write-all
     runs-on: ${{ matrix.config.os }}
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
@@ -25,22 +53,7 @@ jobs:
     strategy:
       fail-fast: ${{ false }}
       matrix:
-        config:
-        - os: ubuntu-latest
-          bioc: devel
-          r: auto
-          cont: ghcr.io/bioconductor/bioconductor_docker:devel
-          rspm: ~
-        - os: macOS-latest
-          bioc: devel
-          r: auto
-          cont: ~
-          rspm: ~
-        - os: windows-latest
-          bioc: devel
-          r: auto
-          cont: ~
-          rspm: ~
+        config: ${{ fromJSON(needs.matrix.outputs.config) }}
     steps:
     - uses: neurogenomics/rworkflows@master
       with:
@@ -49,7 +62,8 @@ jobs:
         as_cran: ${{ true }}
         run_vignettes: ${{ true }}
         has_testthat: ${{ true }}
-        run_covr: ${{ true }}
+        # Test coverage once, on Linux
+        run_covr: ${{ matrix.config.os == 'ubuntu-latest' }}
         run_pkgdown: ${{ true }}
         has_runit: ${{ false }}
         has_latex: ${{ false }}
